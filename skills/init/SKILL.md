@@ -196,6 +196,13 @@ Created {N} files. {commit hash if committed, or "no git commit"}
 
 ### Next steps
 
-Use /explore if requirements are still taking shape, or go straight
-to /draft to write your first use case.
+Before writing features, fill in the project knowledge the scaffold left blank:
+
+  /explore + /setup  →  Define testing strategy, domain glossary, coding
+                         conventions, and any shared test helpers. /explore
+                         aligns context; /setup writes the files.
+
+When project knowledge is in place:
+
+  /draft  →  Write your first use case.
 ```

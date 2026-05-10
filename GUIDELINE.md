@@ -193,8 +193,18 @@ Promotion rule: remove `drafts/` from the path — that is the only change on me
 ```
 0. Explore (optional — recommended for new or ambiguous requirements)
    → Think through the problem, map existing docs, clarify actors and goals before writing drafts
+   → Also recommended before /setup when project knowledge is ambiguous
    → No required output — it is a thinking aid, not a document step
    → Skill: /explore
+
+0b. Project setup (optional — recommended before /draft on a new project)
+   → Fill in project-level knowledge that has no feature owner: domain glossary,
+     testing strategy, coding conventions, README description, test framework helpers
+   → Reads conversation context (best after /explore) to minimise questions
+   → Can be re-run when project knowledge changes (e.g. switching test frameworks,
+     adding domain terms, updating conventions)
+   → Never writes UC/US documents, never touches src/
+   → Skill: /setup
 
 1. Business analysis
    → Create business-layer UC + US in docs/drafts/use-cases/
@@ -1150,6 +1160,21 @@ Input:  Vague requirement, question, or "I don't know where to start"
 Output: Mapped doc chain, open questions surfaced, design options compared
         → No documents written — thinking aid only
 → Skill: /explore
+```
+
+### Scenario 0b: Fill in project knowledge
+
+```
+Input:  Conversation context (from /explore or direct user request)
+Output: One or more scaffold files updated with real project content:
+          test-strategy.md  (tools, commands, coverage policy)
+          glossary.md       (domain term definitions)
+          CONVENTIONS.md    (project-specific convention sections)
+          README.md         (project description, quick start commands)
+          tests/helpers/ or tests/fixtures/ (shared test utilities, if needed)
+        No UC/US documents. No src/ changes.
+→ Best after /explore — /setup reads conversation context to minimise questions
+→ Skill: /setup
 ```
 
 ### Scenario 1: New requirement — create drafts
