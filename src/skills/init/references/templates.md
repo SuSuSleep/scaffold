@@ -5,7 +5,7 @@ values collected during the interview.
 
 ---
 
-## AGENT.md
+## AGENTS.md
 
 ```markdown
 # {service_name}
@@ -20,6 +20,7 @@ values collected during the interview.
 
 - Read docs/overview/architecture.md to understand current module structure
   and the authoritative directory layout before making any changes
+- Follow coding and documentation standards in CONVENTIONS.md
 - Confirm before editing any "update in place" document
 - Never invent requirements not found in docs/use-cases/ or docs/drafts/
 - Do not create directories not defined in docs/overview/architecture.md
@@ -42,7 +43,7 @@ Follow these steps in order — each skill is self-contained:
 ## CLAUDE.md
 
 ```markdown
-@AGENT.md
+@AGENTS.md
 ```
 
 ---
@@ -123,6 +124,32 @@ quality tests must always be stored separately.
 - Can be freely added, changed, or deleted during refactoring
 - Do not reference US or scenario numbers
 - No documentation update required
+
+### Quality Commands
+
+#### Style — auto-fix (run at end of each implementation batch)
+
+| Label  | Command           | Effect                         |
+| ------ | ----------------- | ------------------------------ |
+| format | {format_command}  | Auto-fixes formatting in-place |
+| lint   | {lint_command}    | Auto-fixes lintable issues     |
+
+#### Correctness — AI fixes on failure (3-attempt rule)
+
+| Label     | Command              | When to run                      |
+| --------- | -------------------- | -------------------------------- |
+| typecheck | {type_command}       | After each implement step        |
+| build     | {build_command}      | Before tests (only if required)  |
+| verify    | {verify_command}     | During development               |
+| behavioral| {behavioral_command} | Behavioral layer only            |
+| coverage  | {coverage_command}   | Before merge                     |
+
+### Config Files
+
+| Tool       | Config file        |
+| ---------- | ------------------ |
+| {linter}   | {linter_config}    |
+| {formatter}| {formatter_config} |
 
 ---
 
@@ -288,10 +315,12 @@ Document patterns here as they emerge.
 
 ## Testing Layers
 
-| Layer          | What it tests             | Tools    |
-| -------------- | ------------------------- | -------- |
-| Behavioral     | US scenario contracts     | {tool}   |
-| Implementation | Internal code quality     | {tool}   |
+| Layer          | What it tests             |
+| -------------- | ------------------------- |
+| Behavioral     | US scenario contracts     |
+| Implementation | Internal code quality     |
+
+See `CONVENTIONS.md` for all quality commands (verify, coverage, lint, format, typecheck).
 
 ## Two Test Layers
 
@@ -319,14 +348,16 @@ Correct response:
 2. Refactor under their protection
 3. Re-plan implementation quality tests
 
-## Test Commands
+## Test Case Structure
 
-| Label      | Command                  | When to use                     |
-| ---------- | ------------------------ | ------------------------------- |
-| verify     | {verify_command}         | Development — confirm all green |
-| behavioral | {behavioral_command}     | Behavioral layer only           |
-| coverage   | {coverage_command}       | Before merge — check threshold  |
-| report     | {report_command}         | CI — machine-readable           |
+One test file per US, placed in `tests/behavioral/{module}/`.
+
+Outer describe block: `US-{id}: {feature name}`
+Inner test case: `[S{n}] {scenario name} → {expected outcome}`
+
+Example output on failure:
+  ✗ US-001: {feature} > [Sn] {scenario} → {expected outcome}
+  → Path to the US doc — Scenario N
 
 ## Test Directories
 

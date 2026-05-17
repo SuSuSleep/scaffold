@@ -56,6 +56,7 @@ ls tests/ 2>/dev/null
 ```
 
 For each relevant file, understand whether this is:
+
 - **First-time fill**: file exists as a template with placeholders
 - **Update**: file has real content that needs partial revision
 - **New file**: file doesn't exist yet (e.g. tests/helpers/)
@@ -80,30 +81,36 @@ conversation to fill it in without guessing?
 ### What each file requires
 
 **`docs/overview/test-strategy.md`**
+
 - Testing tools per layer (e.g. Layer 1 behavioral → pytest)
 - Four commands: verify (all tests), behavioral (Layer 1 only), coverage, CI
 - Coverage threshold and whether CI enforces it
 - Test directory names
 
 **`docs/overview/glossary.md`**
+
 - Domain term + definition pairs
 - At least the terms the user has mentioned
 
 **`CONVENTIONS.md`** (specific section)
+
 - Which section? (code naming, test structure, git conventions)
 - Project-specific rules and real examples using the actual tech stack
 
 **`README.md`**
+
 - Project name and one-paragraph description
 - Quick start commands: install, run, test
 
 **`tests/helpers/` or `tests/fixtures/`**
+
 - What utilities are needed (e.g. mock LLM client, fake database, test fixtures)
 - Function signatures and minimal implementation discussed
 
 ### Result
 
 For each target file, identify:
+
 - Known from conversation: [list]
 - Still missing: [list]
 
@@ -120,12 +127,14 @@ in the conversation. Present grouped questions, not a full questionnaire.
 **Example — test commands unknown but framework is known:**
 
 > "What commands run your tests? I need:
+>
 > - **verify** (all tests, development): ?
 > - **behavioral** (Layer 1 only): ?
 > - **coverage** (with report): ?
 > - **CI** (machine-readable output): ?
 >
 > Suggested defaults for pytest:
+>
 > - verify: `pytest`
 > - behavioral: `pytest tests/behavioral/`
 > - coverage: `pytest --cov`
@@ -173,6 +182,7 @@ from `CONVENTIONS.md`. Keep these files minimal — only the shared
 utilities that `/apply` would actually import when writing feature tests.
 
 When creating any new `tests/` file, also update `test-strategy.md`:
+
 - Add the new directory to the Test Directories table
 - Add a short prose section (e.g. "## Shared Mocks") naming the file and
   what it provides, so future agents know it exists and how to use it

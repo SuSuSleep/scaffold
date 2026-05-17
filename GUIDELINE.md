@@ -101,6 +101,7 @@ tests/       → Centralized — mirrors module structure, consistent with most 
 | Look up API field specs                    | `docs/overview/api-spec.yaml`                     |
 | Look up business term definitions          | `docs/overview/glossary.md`                       |
 | Look up testing tools and strategy         | `docs/overview/test-strategy.md`                  |
+| Look up quality commands (lint, format, test) | `CONVENTIONS.md`                              |
 
 ---
 
@@ -400,6 +401,32 @@ Refactoring signal: if planning implementation quality tests feels difficult
 (too many branches, overly complex conditions), this is a signal that the
 code needs refactoring. Refactor while behavioral tests remain green, then
 re-plan quality tests.
+
+### Quality Commands
+
+#### Style — auto-fix (run at end of each implementation batch)
+
+| Label  | Command           | Effect                         |
+| ------ | ----------------- | ------------------------------ |
+| format | {format_command}  | Auto-fixes formatting in-place |
+| lint   | {lint_command}    | Auto-fixes lintable issues     |
+
+#### Correctness — AI fixes on failure (3-attempt rule)
+
+| Label     | Command              | When to run                      |
+| --------- | -------------------- | -------------------------------- |
+| typecheck | {type_command}       | After each implement step        |
+| build     | {build_command}      | Before tests (only if required)  |
+| verify    | {verify_command}     | During development               |
+| behavioral| {behavioral_command} | Behavioral layer only            |
+| coverage  | {coverage_command}   | Before merge                     |
+
+### Config Files
+
+| Tool       | Config file        |
+| ---------- | ------------------ |
+| {linter}   | {linter_config}    |
+| {formatter}| {formatter_config} |
 
 ---
 
@@ -1064,17 +1091,18 @@ Correct response:
 2. Refactor under their protection
 3. Re-plan implementation quality tests
 
-## Test Commands
+## Test Case Structure
 
-| Label      | Command                                 | When to use                      |
-| ---------- | --------------------------------------- | -------------------------------- |
-| verify     | (e.g. npx jest)                         | Development — confirm all green  |
-| behavioral | (e.g. npx jest tests/behavioral/)       | Behavioral layer only            |
-| coverage   | (e.g. npx jest --coverage)              | Before merge — check threshold   |
-| report     | (e.g. npx jest --ci --json --outputFile=report.json) | CI — machine-readable |
+One test file per US, placed in `tests/behavioral/{module}/`.
 
-Note: the `verify` command is what /apply uses to confirm tests pass. The
-`coverage` command is what a merge check runs before promoting to confirmed.
+Outer describe block: `US-{id}: {feature name}`
+Inner test case: `[S{n}] {scenario name} → {expected outcome}`
+
+Example output on failure:
+  ✗ US-001: {feature} > [Sn] {scenario} → {expected outcome}
+  → Path to the US doc — Scenario N
+
+See `CONVENTIONS.md` for all quality commands (verify, coverage, lint, format, typecheck).
 
 ## Test Directories
 
@@ -1167,7 +1195,8 @@ Output: Mapped doc chain, open questions surfaced, design options compared
 ```
 Input:  Conversation context (from /explore or direct user request)
 Output: One or more scaffold files updated with real project content:
-          test-strategy.md  (tools, commands, coverage policy)
+          test-strategy.md  (tools, test case structure, coverage policy)
+          CONVENTIONS.md    (quality commands: lint, format, typecheck, build, test)
           glossary.md       (domain term definitions)
           CONVENTIONS.md    (project-specific convention sections)
           README.md         (project description, quick start commands)

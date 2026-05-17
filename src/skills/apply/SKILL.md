@@ -48,20 +48,22 @@ Read these files before writing a single line of code:
 2. Each module US file referenced by pending tasks:
    - Look for the module UC/US in `docs/drafts/modules/{module}/use-cases/`
    - If not found there, try `docs/modules/{module}/use-cases/`
-3. `docs/overview/test-strategy.md` if it exists — this tells you which test
-   tools and directories the project uses
+3. `CONVENTIONS.md` — Quality Commands section for all runnable commands (lint,
+   format, typecheck, build, verify, coverage) and Config Files table
+4. `docs/overview/test-strategy.md` if it exists — test tool, test directories,
+   and behavioral test naming conventions (outer block / inner case structure)
 
-### 0c. Discover the test command
+### 0c. Discover quality commands
 
-You need to know how to run tests before you can verify anything.
+You need to know how to run tests and quality tools before you can verify anything.
 
-1. Check `docs/overview/test-strategy.md` — if it names tools (Jest, Vitest,
-   pytest, etc.), use those
+1. Check `CONVENTIONS.md` Quality Commands section — it lists verify, behavioral,
+   coverage, format, lint, typecheck, and build commands
 2. If not there, look for `package.json`, `pyproject.toml`, `Makefile`, or
    similar — infer the test command
 3. If still unclear, ask the user: "What command runs the behavioral tests?"
 
-Announce: "Using change: `{plan-name}`". Note the test command you found.
+Announce: "Using change: `{plan-name}`". Note the commands you found.
 
 ---
 
@@ -84,11 +86,27 @@ Follow `CONVENTIONS.md` for file naming, structure, and style.
   `[proposed]` marker goes into actual file paths — that was the plan's
   notation, not a real path component)
 
-### 1b. Write behavioral tests
+### 1b. Typecheck (if configured)
+
+If `CONVENTIONS.md` defines a `typecheck` command, run it now.
+
+If it fails:
+
+- Read the error output carefully
+- Fix the type errors in the code — type errors mean the code cannot work and
+  must be corrected before behavioral tests can verify behavior
+- Run typecheck again
+- After 3 failed attempts: stop. Leave the checkbox `[ ]` unchecked. Report the
+  error and what was tried. Wait for guidance.
+
+Do not skip this step — unresolved type errors will cause test failures that are
+harder to diagnose.
+
+### 1c. Write behavioral tests
 
 Write or update the behavioral test file for this US.
 
-Rules from CONVENTIONS.md:
+Rules from `CONVENTIONS.md` and `docs/overview/test-strategy.md`:
 
 - One test file per US, placed in `tests/behavioral/{module}/`
 - File named to match the US file (e.g. `us-001-payment-fail.test.ts`)
@@ -99,9 +117,9 @@ Rules from CONVENTIONS.md:
 
 Write tests for all scenarios in this US that belong to this batch's tasks.
 
-### 1c. Run tests — 3-attempt rule
+### 1d. Run tests — 3-attempt rule
 
-Run the test command. If tests pass: continue to 1d.
+Run the test command. If tests pass: continue to 1e.
 
 If tests fail:
 
@@ -115,7 +133,7 @@ unchecked. Report what failed and why. Wait for guidance.
 Do not guess at failures after 3 attempts — the issue may be systemic
 (missing dependency, wrong test setup, interface mismatch with another module).
 
-### 1d. Quality test assessment
+### 1e. Quality test assessment
 
 Before writing quality tests, assess whether they're easy or hard to plan:
 
@@ -141,7 +159,7 @@ Refactoring under behavioral test protection now.
 Refactor the implementation while keeping all behavioral tests green. Then
 re-assess quality tests. Continue — do not stop or ask for permission.
 
-### 1e. Write implementation quality tests
+### 1f. Write implementation quality tests
 
 Write tests in `tests/implementation/{module}/`. These cover:
 
@@ -153,11 +171,11 @@ Write tests in `tests/implementation/{module}/`. These cover:
 These tests do NOT reference US or scenario numbers. They can be freely
 changed during future refactoring. No documentation update required.
 
-Run them. Apply the same 3-attempt rule as in 1c.
+Run them. Apply the same 3-attempt rule as in 1d.
 
-### 1f. Mark done
+### 1g. Mark done
 
-Once implementation + behavioral tests + quality tests all pass:
+Once implementation + typecheck + behavioral tests + quality tests all pass:
 
 Update the plan file: change `- [ ]` to `- [x]` for this task.
 
@@ -205,7 +223,20 @@ is done.
 
 ### 3c. If all green
 
-Mark every Final Batch item `[x]`. Then commit everything before announcing completion.
+Run style tools to clean up formatting before committing:
+
+1. Run the `format` command from `CONVENTIONS.md` — auto-fixes formatting in-place
+2. Run the `lint` command from `CONVENTIONS.md` — auto-fixes lintable issues in-place
+
+These are deterministic auto-fixers. Do not read or respond to their output —
+the tools apply fixes themselves. Include any files they modified in the commit.
+
+If `typecheck` is configured, run it now as a final correctness check. If it
+fails, fix the issues before committing (same 3-attempt rule). Do not commit
+with typecheck errors.
+
+Mark every Final Batch item `[x]`. Then commit everything (including any
+format/lint changes) before announcing completion.
 
 **Stage the files changed by this plan.** The plan's Affected Files section is the authoritative list — use it, not a hardcoded `src/` or `tests/` glob. The implementation may have touched CI/CD configs, infra files, scripts, or other paths outside the typical source tree. Stage each listed path (stripping the `[proposed]` marker if present, since that was just planning notation). Also stage the plan file itself — it now has all `[x]` and represents the completed unit of work.
 
@@ -306,7 +337,7 @@ Which plan's verification surfaced this, which test failed, and why.
 - [ ] (all other scenarios from the original plan)
 ```
 
-3. Announce:
+1. Announce:
 
 ```
 ## Implementation Paused — Final Batch Failed
@@ -333,6 +364,7 @@ Then stop. The fix plan becomes the new unit of work.
 
 Task 1/{total}: US-001 Scenario 1: Valid payment creates a transaction
   → Implementing src/payment-module/payment.service.ts
+  → Typecheck: ✓
   → Writing tests/behavioral/payment-module/us-001-payment.test.ts
   → Tests: ✓ (3/3 passed)
   → Quality tests: ✓
@@ -358,7 +390,9 @@ Batch 1 complete — 2/{total} tasks done.
 - 3-attempt rule: after 3 failures on the same task, stop and report — don't guess
 - Refactoring signal: surface and continue, do not stop
 - Final Batch failure: create fix plan and stop — do not try inline fixes
-- Mark `[x]` only after code + behavioral tests + quality tests all pass
+- Typecheck per batch: run after implement, before behavioral tests — AI reads and fixes failures
+- Style tools (format, lint): run once at Final Batch end — auto-fix only, no AI response
+- Mark `[x]` only after code + typecheck + behavioral tests + quality tests all pass
 - Use `[proposed]` paths from the plan as real paths without the `[proposed]` marker
 - Keep code changes minimal and scoped to each task
 - Stage only the specific paths from the plan's Affected Files — never `git add .` or `git add -A`

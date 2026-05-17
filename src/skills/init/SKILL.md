@@ -1,12 +1,12 @@
 ---
 name: init
 description: >
-  Initialize a new project with the standard documentation scaffold — AGENT.md,
+  Initialize a new project with the standard documentation scaffold — AGENTS.md,
   CLAUDE.md, README.md, CONVENTIONS.md, and the full docs/overview/ structure.
   Use this skill whenever the user starts a new project, says "set up this project",
-  "initialize the docs", "create the scaffold", "set up AGENT.md", "bootstrap this
+  "initialize the docs", "create the scaffold", "set up AGENTS.md", "bootstrap this
   repo", or any phrase suggesting the project has no documentation structure yet.
-  Also triggers when a project has code but no AGENT.md, no docs/ folder, or the
+  Also triggers when a project has code but no AGENTS.md, no docs/ folder, or the
   user asks "where do I start?" on a blank repo. Always run this before /draft on
   any project that doesn't already have docs/overview/architecture.md.
 ---
@@ -28,7 +28,7 @@ writing anything in Step 3.
 Check whether scaffold files already exist:
 
 ```bash
-ls AGENT.md CLAUDE.md README.md CONVENTIONS.md docs/overview/ 2>/dev/null
+ls AGENTS.md CLAUDE.md README.md CONVENTIONS.md docs/overview/ 2>/dev/null
 ```
 
 If any exist, list them and ask: "Some files already exist. Do you want to
@@ -97,13 +97,39 @@ they named. Common defaults:
 | pytest | `pytest` | `pytest tests/behavioral/` | `pytest --cov` | `pytest --tb=short -q` |
 | go test | `go test ./...` | `go test ./tests/behavioral/...` | `go test -cover ./...` | `go test -json ./...` |
 
+### Phase 3b: Quality tooling
+
+Infer linter, formatter, and typecheck defaults from the stack identified in Phase 2.
+Show the proposals and ask for confirmation before accepting:
+
+> **8.** Here are the quality tools I'd suggest for {stack}:
+>
+> **Linting:** {linter} — `{lint_command}` (config: `{linter_config}`)
+> **Formatting:** {formatter} — `{format_command}` (config: `{formatter_config}`)
+> **Typechecking:** `{type_command}` (leave blank if not applicable)
+>
+> Do these look right, or do you want to change anything?
+
+> **9.** Does your project require a build/compilation step before tests can run?
+>   (e.g. Rust: `cargo build`, Java: `mvn compile` — leave blank if not needed)
+
+Stack-aware defaults to propose:
+
+| Stack      | Linter        | Lint command              | Linter config   | Formatter   | Format command      | Formatter config | Typecheck          |
+|------------|---------------|--------------------------|-----------------|-------------|---------------------|------------------|--------------------|
+| TypeScript | ESLint        | `npx eslint src/ --fix`  | `.eslintrc.js`  | Prettier    | `npx prettier --write .` | `.prettierrc` | `npx tsc --noEmit` |
+| Python     | Ruff          | `ruff check . --fix`     | `pyproject.toml`| Ruff format | `ruff format .`     | `pyproject.toml` | `mypy .` (optional)|
+| Go         | golangci-lint | `golangci-lint run`      | `.golangci.yml` | gofmt       | `gofmt -w .`        | (none)           | (built into build) |
+| Rust       | Clippy        | `cargo clippy`           | `.clippy.toml`  | rustfmt     | `cargo fmt`         | `rustfmt.toml`   | (built into build) |
+| Java/Kotlin| Checkstyle    | `mvn checkstyle:check`   | `checkstyle.xml`| Spotless    | `mvn spotless:apply`| `pom.xml`        | (built into build) |
+
 ### Phase 4: API
 
-> **8.** Is this an HTTP service? (yes / no)
+> **10.** Is this an HTTP service? (yes / no)
 
 If yes:
 
-> **9.** What's the API base path? (e.g. /api/v1)
+> **11.** What's the API base path? (e.g. /api/v1)
 
 If no: skip api-spec.yaml.
 
@@ -117,13 +143,13 @@ Print a preview of everything that will be created. Do not write anything yet.
 Init preview
 ──────────────────────────────────────────────────────
 Will create:
-  AGENT.md                      service identity + rules + workflow
-  CLAUDE.md                     @AGENT.md reference only
+  AGENTS.md                     service identity + rules + workflow
+  CLAUDE.md                     @AGENTS.md reference only
   README.md                     navigation guide
-  CONVENTIONS.md                {stack} naming + doc + git rules
+  CONVENTIONS.md                {stack} naming + quality commands + doc + git rules
   docs/overview/
     architecture.md             empty module table, directory structure
-    test-strategy.md            {tool}, {threshold}% coverage threshold
+    test-strategy.md            test case structure + {threshold}% coverage threshold
     api-spec.yaml               OpenAPI stub — base path: {path}    ← only if HTTP
     glossary.md                 empty stub
   docs/drafts/                  (empty)
@@ -144,12 +170,13 @@ Read `references/templates.md` now. It contains all templates.
 
 Write in this order, substituting values from the interview:
 
-1. **AGENT.md** — service name + description + rules + workflow steps
-2. **CLAUDE.md** — single line: `@AGENT.md`
+1. **AGENTS.md** — service name + description + rules + workflow steps
+2. **CLAUDE.md** — single line: `@AGENTS.md`
 3. **README.md** — service name + description + navigation links
-4. **CONVENTIONS.md** — filled naming conventions + doc rules + git rules
+4. **CONVENTIONS.md** — filled naming conventions + quality commands (lint, format,
+   typecheck, build, verify, coverage) + config files table + doc rules + git rules
 5. **docs/overview/architecture.md** — empty module table + directory structure
-6. **docs/overview/test-strategy.md** — test tool + commands + threshold
+6. **docs/overview/test-strategy.md** — test case structure + coverage threshold
 7. **docs/overview/api-spec.yaml** — OpenAPI stub (HTTP projects only)
 8. **docs/overview/glossary.md** — empty stub
 
@@ -166,7 +193,7 @@ mkdir -p docs/drafts docs/use-cases docs/modules docs/adr
 Stage and commit everything:
 
 ```bash
-git add AGENT.md CLAUDE.md README.md CONVENTIONS.md docs/
+git add AGENTS.md CLAUDE.md README.md CONVENTIONS.md docs/
 ```
 
 Commit message:
@@ -175,7 +202,7 @@ Commit message:
 chore: initialize project scaffold
 
 Created:
-  AGENT.md, CLAUDE.md, README.md, CONVENTIONS.md
+  AGENTS.md, CLAUDE.md, README.md, CONVENTIONS.md
   docs/overview/ (architecture, test-strategy, glossary{, api-spec})
   docs/drafts/, docs/use-cases/, docs/modules/, docs/adr/
 ```

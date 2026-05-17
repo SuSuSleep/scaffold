@@ -37,7 +37,7 @@ Before responding to the user's opening question, silently do this:
 
 ### 1. Read the project's navigation context
 
-The system prompt already contains the project's AGENT.md, CLAUDE.md, or any
+The system prompt already contains the project's AGENTS.md, CLAUDE.md, or any
 orientation files that were loaded before this skill ran. **Start there** — these
 files describe the project's doc structure, workflow, and conventions.
 
@@ -57,7 +57,7 @@ CLAUDE.md, unfamiliar scaffold), fall back to breadth-first scanning:
 ```
 1. Read README.md  ← usually has navigation pointers
 2. Glob docs/      ← see what top-level dirs actually exist
-3. Read any guide files found (AGENT.md, GUIDELINE.md, ARCHITECTURE.md, etc.)
+3. Read any guide files found (AGENTS.md, AGENT.md, GUIDELINE.md, ARCHITECTURE.md, etc.)
 4. Infer the structure from what's there — don't assume a fixed layout
 ```
 
@@ -152,7 +152,7 @@ Use the project's actual doc locations (found during orientation) to name where 
 | Architecture or design decision | The project's ADR location |
 | API or interface contract change | The project's API contract file |
 | New task or work item | The project's task/backlog location |
-| Workflow or convention update | AGENT.md, CONVENTIONS.md, or equivalent |
+| Workflow or convention update | AGENTS.md, CONVENTIONS.md, or equivalent |
 
 Offer naturally: *"That feels like an ADR — want me to draft it?"* Then wait. Don't write it unless they say yes.
 
