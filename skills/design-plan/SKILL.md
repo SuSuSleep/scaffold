@@ -1,5 +1,5 @@
 ---
-name: plan
+name: design-plan
 description: >
   Create implementation plans and module-layer UC/US drafts from reviewed
   business-layer drafts. Use this skill whenever the user wants to start

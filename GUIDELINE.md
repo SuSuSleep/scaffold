@@ -223,7 +223,7 @@ Promotion rule: remove `drafts/` from the path — that is the only change on me
    → Add a plan under docs/drafts/plans/
    → Identify which modules are involved
    → Derive module-level UC / US under docs/drafts/modules/{module}/use-cases/
-   → Skill: /plan
+   → Skill: /design-plan
 
 4. For each batch (sequentially):
    a. Implement the feature
@@ -1240,7 +1240,7 @@ Output: Module-level UC + US under docs/drafts/modules/{module}/use-cases/
         + Batches: implement → behavioral tests → quality test planning
           (refactor if signal) → quality tests
         + Final batch: new + existing scenarios of touched modules
-→ Skill: /plan
+→ Skill: /design-plan
 ```
 
 ### Scenario 4: Apply an implementation plan

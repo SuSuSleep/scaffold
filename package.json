@@ -1,0 +1,29 @@
+{
+  "name": "@sususleep/scaffold",
+  "version": "0.1.1",
+  "description": "AI coding agent skills for documentation scaffold workflow — supports Claude Code, Pi-mono, and GitHub Copilot",
+  "bin": {
+    "scaffold": "./bin/install.js"
+  },
+  "files": [
+    "skills/",
+    "bin/"
+  ],
+  "pi.skills": "./skills",
+  "keywords": [
+    "claude-code",
+    "pi-mono",
+    "copilot",
+    "ai-agent",
+    "skills",
+    "scaffold"
+  ],
+  "author": "sususleep",
+  "license": "SEE LICENSE IN LICENSE",
+  "dependencies": {
+    "prompts": "^2.4.2"
+  },
+  "engines": {
+    "node": ">=16"
+  }
+}

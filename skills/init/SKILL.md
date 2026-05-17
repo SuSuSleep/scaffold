@@ -111,7 +111,7 @@ Show the proposals and ask for confirmation before accepting:
 > Do these look right, or do you want to change anything?
 
 > **9.** Does your project require a build/compilation step before tests can run?
->   (e.g. Rust: `cargo build`, Java: `mvn compile` — leave blank if not needed)
+> (e.g. Rust: `cargo build`, Java: `mvn compile` — leave blank if not needed)
 
 Stack-aware defaults to propose:
 

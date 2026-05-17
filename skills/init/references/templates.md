@@ -32,7 +32,7 @@ Follow these steps in order — each skill is self-contained:
   /explore      → think through ambiguous requirements (optional, before drafting)
   /draft        → create business-layer UC/US in docs/drafts/use-cases/
   /review-draft → quality gate before planning
-  /plan         → implementation plan + module-layer docs
+  /design-plan  → implementation plan + module-layer docs
   /apply        → implement code + behavioral + quality tests
   /merge        → promote confirmed docs out of drafts/
   /verify       → three-way alignment check before opening PR
