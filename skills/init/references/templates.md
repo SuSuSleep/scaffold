@@ -412,3 +412,147 @@ Business term definitions for {service_name}.
 
 Add terms here as they emerge from business analysis.
 ```
+
+---
+
+## .gitignore
+
+Stack-specific entries to append to `.gitignore`. Always include the universal
+block. The section header uses today's date and the identified stack.
+
+### Section header (always first)
+
+```
+# ── Added by @sususleep/scaffold — {date} ({stack}) ──
+```
+
+### Universal (always append)
+
+```gitignore
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+
+# Logs
+*.log
+npm-debug.log*
+```
+
+### TypeScript / JavaScript
+
+```gitignore
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Test & coverage
+coverage/
+.nyc_output/
+*.lcov
+
+# Cache
+.eslintcache
+.parcel-cache/
+```
+
+### Python
+
+```gitignore
+# Bytecode
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Distribution
+*.egg-info/
+dist/
+build/
+
+# Environment
+.env
+.env.local
+
+# Test & coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Type checking & linting cache
+.mypy_cache/
+.ruff_cache/
+```
+
+### Go
+
+```gitignore
+# Build output
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Environment
+.env
+.env.local
+
+# Vendor (uncomment if not committing vendor/)
+# vendor/
+```
+
+### Rust
+
+```gitignore
+# Build output
+/target/
+
+# Environment
+.env
+.env.local
+```
+
+### Java / Kotlin
+
+```gitignore
+# Build output
+target/
+build/
+*.class
+*.jar
+*.war
+
+# Gradle
+.gradle/
+gradle-app.setting
+
+# Maven
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# Environment
+.env
+.env.local
+
+# Test & coverage
+.jacoco/
+```

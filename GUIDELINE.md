@@ -192,6 +192,12 @@ Promotion rule: remove `drafts/` from the path — that is the only change on me
 ### Full Workflow
 
 ```
+-1. Initialize (one-time — new projects only)
+   → Create AGENTS.md, CLAUDE.md, README.md, CONVENTIONS.md, docs/overview/
+   → Append stack-specific .gitignore entries
+   → Run once on a blank or undocumented project — before any other skill
+   → Skill: /init
+
 0. Explore (optional — recommended for new or ambiguous requirements)
    → Think through the problem, map existing docs, clarify actors and goals before writing drafts
    → Also recommended before /setup when project knowledge is ambiguous
@@ -1180,6 +1186,20 @@ Any "no" → Code comment or user story note is sufficient
 ---
 
 ## 8. AI Collaboration Workflows
+
+### Scenario -1: Initialize a new project
+
+```
+Input:  Blank or undocumented project repository
+Output: AGENTS.md, CLAUDE.md, README.md, CONVENTIONS.md
+        + docs/overview/ (architecture, test-strategy, glossary, api-spec if HTTP)
+        + Empty: docs/drafts/, docs/use-cases/, docs/modules/, docs/adr/
+        + .gitignore appended with stack-specific entries
+→ Run once before any other skill
+→ Skill: /init
+```
+
+---
 
 ### Scenario 0: Explore an unfamiliar problem or codebase
 

@@ -156,6 +156,7 @@ Will create:
   docs/use-cases/               (empty)
   docs/modules/                 (empty)
   docs/adr/                     (empty)
+  .gitignore                    {stack} entries appended (created if not present)
 
 Proceed? (yes / change something first)
 ```
@@ -180,6 +181,17 @@ Write in this order, substituting values from the interview:
 7. **docs/overview/api-spec.yaml** — OpenAPI stub (HTTP projects only)
 8. **docs/overview/glossary.md** — empty stub
 
+9. **.gitignore** — check if `.gitignore` already exists:
+   - Does not exist → create it with the scaffold section
+   - Already exists → append the scaffold section at the end
+
+   Read the block for `{stack}` from the `.gitignore` templates in
+   `references/templates.md`, plus the universal block. Also include
+   tool-specific cache and output dirs identified in Phase 3 (test tool)
+   and Phase 3b (linter, formatter, coverage).
+
+   Section header: `# ── Added by @sususleep/scaffold — {date} ({stack}) ──`
+
 Create empty directories:
 
 ```bash
@@ -193,7 +205,7 @@ mkdir -p docs/drafts docs/use-cases docs/modules docs/adr
 Stage and commit everything:
 
 ```bash
-git add AGENTS.md CLAUDE.md README.md CONVENTIONS.md docs/
+git add AGENTS.md CLAUDE.md README.md CONVENTIONS.md docs/ .gitignore
 ```
 
 Commit message:
