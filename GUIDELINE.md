@@ -1187,6 +1187,9 @@ Any "no" → Code comment or user story note is sufficient
 
 ## 8. AI Collaboration Workflows
 
+> These scenarios cover **new projects** (greenfield). For existing codebases with no
+> documentation, see [BROWNFIELD.md](BROWNFIELD.md).
+
 ### Scenario -1: Initialize a new project
 
 ```

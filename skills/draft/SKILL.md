@@ -43,9 +43,13 @@ Read everything in the conversation about what is new, changing, or being droppe
 Map the intent to operations:
 
 ```
-New requirement      → CREATE new UC folder + US file(s) + optional ADR draft
-Requirement changes  → UPDATE existing UC/US/ADR files
-Cancelled feature    → DELETE draft folder/files + repair cross-references
+New requirement                   → CREATE new UC folder + US file(s) + optional ADR draft
+Requirement changes draft         → UPDATE existing files in docs/drafts/ directly
+Requirement changes confirmed doc → COPY confirmed doc to docs/drafts/ mirror path + apply changes
+ADR supersession                  → CREATE new ADR draft + SCAN all docs referencing old ADR
+                                     + COPY affected confirmed docs to docs/drafts/
+                                     + SHOW impact report + AWAIT user confirmation
+Cancelled feature                 → DELETE draft folder/files + repair cross-references
 ```
 
 A single invocation can involve all three. Derive the **complete operation set**
@@ -60,21 +64,27 @@ proceeding. Don't guess.
 ## Step 2: Discover related existing docs
 
 Extract keywords from the requirement (business terms, actor names, data entities,
-system names). Search for those keywords across:
+system names). Search in this order — each layer informs the next:
 
-- `docs/drafts/use-cases/` — other in-progress drafts that overlap or would be affected
-- `docs/use-cases/` — confirmed features this requirement relates to or extends
-- `docs/drafts/adr/` and `docs/adr/` — architecture decisions that constrain this requirement
-- `docs/modules/` — modules likely responsible for implementation (skip if absent)
+1. `docs/adr/` and `docs/modules/{module}/adr/` — confirmed decisions that constrain what's possible
+2. `docs/use-cases/` — confirmed business-layer features this requirement relates to or extends
+3. `docs/modules/` — confirmed module-level contracts (skip if absent)
+4. `docs/drafts/` — in-progress work; if a draft and a confirmed doc cover the same UC, the draft is the current working version
+
+**If the requirement supersedes an existing ADR**, scan ALL files across `docs/use-cases/`,
+`docs/modules/`, and `docs/drafts/` for `Related ADR: ADR-{old-id}` references. This is
+your full impact set — every file in that list must be copied to `docs/drafts/` and updated
+before any implementation planning begins.
 
 **What to do with what you find:**
 
-- **Structural impact** (the operation changes something other drafts reference,
-  e.g., a UC-ID is being deleted or renamed): these files must be updated as part
-  of the operation set — add them to Step 6.
-- **Conceptual impact** (the new requirement overlaps with or extends something,
-  but no file structure is broken): flag these in the summary for human review.
-  Don't touch them unless the user directs you to.
+- **Confirmed doc needs updating** (the requirement changes content in `docs/use-cases/`,
+  `docs/modules/`, or a confirmed ADR): add to the copy-to-drafts set (see Step 6) —
+  do not edit confirmed docs directly.
+- **Structural impact** (a UC-ID is being deleted or renamed and other drafts reference it):
+  add affected files to the operation set.
+- **Conceptual impact** (overlap or extension, but no file structure breaks): flag in the
+  summary for human review; don't touch unless the user directs you to.
 
 Also check whether the new UC's "Related Use Cases" section can be populated from
 what you find. Fill in any genuine relationships (prerequisite, follow-up, related,
@@ -199,12 +209,36 @@ Before deleting:
    note that the feature was cancelled
 3. Then delete the folder and all its contents
 
+### Copying a confirmed doc into drafts for update
+
+When a requirement affects a confirmed doc in `docs/use-cases/`, `docs/modules/`, or `docs/adr/`:
+
+**For UC/US documents** — copy to the mirror path under `docs/drafts/`:
+
+- `docs/use-cases/uc-001-checkout/` → `docs/drafts/use-cases/uc-001-checkout/`
+- `docs/modules/payment/use-cases/uc-001-process-payment/` → `docs/drafts/modules/payment/use-cases/uc-001-process-payment/`
+
+Copy all files in the folder. Apply the required changes to the draft copy. Do not edit
+the original confirmed files — they remain the last-released state until `/merge`
+promotes the draft over them.
+
+**For ADR supersession** — do not copy the old ADR file directly. Instead:
+
+1. Create a new ADR draft (`docs/drafts/adr/adr-draft-{new-id}-{name}.md`) with `Status: Proposed`
+2. In its Background section, name the ADR being superseded and explain why the decision is changing
+3. Copy every confirmed UC/US that carries `Related ADR: ADR-{old-id}` to its draft mirror path
+4. In each copied draft, change `Related ADR: ADR-{old-id}` →
+   `Related ADR: TBD (new decision under discussion, see docs/drafts/adr/adr-draft-{new-id}-{name})`
+5. Inline code references (`// see ADR-{old-id}`) in `src/` are **not** updated here —
+   that is handled by `/apply` during implementation
+
 ### Repairing cross-references
 
 After creates, updates, and deletes, scan `docs/drafts/` for stale cross-references
-(pointing to a file you renamed, split, or deleted). Fix them. Don't touch
-references in `docs/use-cases/` — those are confirmed documents and outside this
-skill's scope.
+(pointing to a file you renamed, split, or deleted). Fix them. Do not edit confirmed
+docs in `docs/use-cases/`, `docs/modules/`, or `docs/adr/` directly — if a cross-reference
+in a confirmed doc needs fixing, that doc should first be copied to `docs/drafts/` and
+updated there.
 
 ---
 
@@ -221,6 +255,22 @@ Refs fixed: [cross-references updated — omit section if none were touched]
 May need review:
            [related docs found in Step 2 that weren't edited but might need
             human attention — omit section if nothing was flagged]
+```
+
+When an ADR is being superseded, append this block after the summary above:
+
+```
+ADR cascade
+────────────────────────────────────────────────────────────────
+Superseded:    [ADR-xxx — confirmed path]
+New draft:     [docs/drafts/adr/adr-draft-{new-id}-{name}.md]
+Affected docs: [list every file copied to docs/drafts/ due to this ADR change,
+                with the old ADR reference it carried]
+Code refs:     Inline `// see ADR-{old-id}` in src/ will be updated by /apply — not done here.
+
+⚠ REVIEW REQUIRED — [N] documents are affected by this ADR change.
+  Review docs/drafts/ to confirm the scope and updated content
+  before proceeding to /design-plan.
 ```
 
 ---

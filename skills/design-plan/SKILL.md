@@ -45,7 +45,15 @@ Understand what context is available before writing anything.
 
 4. **Check `docs/drafts/plans/`** — what plan IDs are already in use?
 
-5. **Assess plan-together need** — if multiple UCs are in scope, check:
+5. **Check for ADR supersession** — scan `docs/drafts/adr/` and
+   `docs/drafts/modules/*/adr/` for any ADR draft whose Background section names
+   a superseded confirmed ADR (look for phrases like "supersedes ADR-xxx" or
+   "replaces ADR-xxx"). If found, flag this as an **ADR supersession plan** and
+   note which confirmed ADR is being replaced. This changes how Step 2 and Step 3
+   work — the batches must include implementation rework items, not just new
+   scenario coverage.
+
+6. **Assess plan-together need** — if multiple UCs are in scope, check:
    - Do two or more UCs name the same module in their Implementation Layer Mapping?
    - Does one UC's flow depend on state that only exists after another?
    If yes, they must be planned together; explain why in the "Why These UCs
@@ -121,6 +129,23 @@ For greenfield modules:
 - Propose file paths based on naming conventions (see CONVENTIONS.md)
 - Mark every proposed path with `[proposed]`
 
+### ADR supersession (when flagged in Step 0)
+
+When this plan involves an ADR supersession, the module UC/US translation changes:
+
+- Read the new ADR draft in full before writing any module doc — the decision it
+  describes is the implementation target.
+- In the module UC's **Main Flow**, describe what the module must now do under the
+  new decision (not what it currently does). Be explicit about what changes: e.g.,
+  "validate session token from cookie" instead of "validate JWT from Authorization header".
+- In the module US's **Interface Contract / Expected Behavior**, describe the new
+  interface shape the ADR introduces.
+- Do not document the old approach — the draft reflects the desired future state.
+
+If the module has an existing confirmed UC/US that was copied to `docs/drafts/` as
+part of the ADR cascade (by `/draft`), use it as your baseline — carry forward
+everything that stays the same and update only what the ADR changes.
+
 ### ADR assessment
 
 For each module, run this check:
@@ -176,6 +201,26 @@ The standard per-batch sequence:
 3. Plan implementation quality tests
    → If difficult: refactoring signal
 4. Implement and pass implementation quality tests
+
+### ADR supersession batches (when flagged in Step 0)
+
+When this plan is an ADR supersession plan, affected modules need implementation
+rework, not just new scenario additions. Add a dedicated rework batch **before**
+the scenario-driven batches for each affected module:
+
+```
+### Batch N: ADR rework — {module-name}
+
+Depends on: nothing (this is the foundation other batches build on)
+
+- [ ] Rework {file} to implement {new-ADR-approach} replacing {old-ADR-approach} — see ADR-{new-id}
+  [repeat per Modify: file in this module affected by the ADR change]
+- [ ] Update inline code references: replace `// see ADR-{old-id}` → `// see ADR-{new-id}`
+  in all affected src/ files
+```
+
+The rework batch must come first — behavioral test batches run after the rework, not
+before, since the existing behavioral tests must continue to pass under the new approach.
 
 ### Final batch — integration verification
 

@@ -88,6 +88,16 @@ a module whose `src/` directory didn't exist before this plan? Or does any
 UC reference a new external service not in `architecture.md`? Flag WARN if
 yes — architecture.md will need updating.
 
+**6. ADR supersession** (include only when the plan's Related ADRs contains a new
+ADR that supersedes an existing one — check the new ADR draft's Background section):
+
+- Confirm the old confirmed ADR file still exists at its current path (it will be
+  deleted in Step 2c)
+- Search `docs/drafts/` for any remaining `Related ADR: ADR-{old-id}` references —
+  they should all have been changed to TBD during `/draft`. Report WARN if any remain.
+- Search `src/` for `// see ADR-{old-id}` or `ADR-{old-id}` inline references —
+  they should all have been updated by `/apply`. Report WARN if any remain, PASS if none.
+
 Print the checklist results before proceeding:
 
 ```
@@ -98,6 +108,7 @@ Behavioral tests PASS  (4 files verified)
 API Contract     WARN  POST /payments not found in api-spec.yaml
 TBD references   2 found — will resolve
 New module       SKIP  (no new module detected)
+ADR supersession PASS  (include only when ADR supersession is involved)
 ────────────────────────────────────────
 1 warning — proceeding. Review warnings in final summary.
 ```
@@ -154,6 +165,12 @@ For each ADR listed in the plan's Related ADRs:
 - If at `docs/drafts/modules/{module}/adr/adr-draft-{id}-{name}.md`:
   → Move to `docs/modules/{module}/adr/{id}-{name}.md`
   → Same status update
+
+**If the promoted ADR supersedes an existing confirmed ADR:**
+- Read the new ADR's Background section to identify which ADR it supersedes
+- Delete the old confirmed ADR file (`docs/adr/{old-id}-{name}.md` or
+  `docs/modules/{module}/adr/{old-id}-{name}.md`)
+- Stage this deletion in the same commit as the promotion (Step 4)
 
 ### 2d. Module README
 

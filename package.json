@@ -1,6 +1,6 @@
 {
   "name": "@sususleep/scaffold",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "AI coding agent skills for documentation scaffold workflow — supports Claude Code, Pi-mono, and GitHub Copilot",
   "bin": {
     "scaffold": "./bin/install.js"
