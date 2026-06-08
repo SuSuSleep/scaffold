@@ -31,21 +31,34 @@ checklist that maps directly to those contracts.
 
 Understand what context is available before writing anything.
 
-1. **Scan `docs/drafts/use-cases/`** — which UC folders exist? Read the
-   `use-case.md` for each UC in scope to find the Implementation Layer Mapping.
-   If the user didn't specify which UCs to plan, ask.
+1. **Load schema and rules.**
+   - Read `docs/schema/format.md` if it exists — extract section aliases for
+     `use-case` (especially `implemented-by`, default "Implementation Layer
+     Mapping") and `user-story` (the doc-types created at module layer here).
+     Read the `## use-case Template`, `## user-story Template`, `## API
+     Contract Variants`, and `## plan Template` body sections.
+   - Read `docs/schema/workflow-rules.md` if it exists — extract `id-rules`,
+     `decomposition.plan-together-when-any`, `decomposition.greenfield-modules-need-proposed-marker`,
+     and `adr-triggers`.
+   - If either is absent, use the embedded defaults stated inline below.
 
-2. **Check `docs/modules/`** — which modules already exist as confirmed docs?
+2. **Scan `docs/drafts/use-cases/`** — which UC folders exist? Read each UC's
+   `use-case.md` and find its implemented-by section (alias from format.md, default "Implementation Layer Mapping") to
+   identify which modules are in scope. If the user didn't specify which UCs to
+   plan, ask.
+
+3. **Check `docs/modules/`** — which modules already exist as confirmed docs?
    These are established; you know their structure.
 
-3. **Check `src/`** — run `Glob('src/*/')` to see which module directories
+4. **Check `src/`** — run `Glob('src/*/')` to see which module directories
    exist. Don't read file contents — just establish what's there. Modules with
    a `src/{module}/` directory are **implemented**; those without are
-   **greenfield** and need `[proposed]` markers on file paths.
+   **greenfield**. Per `decomposition.greenfield-modules-need-proposed-marker`
+   (default: true), greenfield modules need `[proposed]` markers on file paths.
 
-4. **Check `docs/drafts/plans/`** — what plan IDs are already in use?
+5. **Check `docs/drafts/plans/`** — what plan IDs are already in use?
 
-5. **Check for ADR supersession** — scan `docs/drafts/adr/` and
+6. **Check for ADR supersession** — scan `docs/drafts/adr/` and
    `docs/drafts/modules/*/adr/` for any ADR draft whose Background section names
    a superseded confirmed ADR (look for phrases like "supersedes ADR-xxx" or
    "replaces ADR-xxx"). If found, flag this as an **ADR supersession plan** and
@@ -53,11 +66,14 @@ Understand what context is available before writing anything.
    work — the batches must include implementation rework items, not just new
    scenario coverage.
 
-6. **Assess plan-together need** — if multiple UCs are in scope, check:
-   - Do two or more UCs name the same module in their Implementation Layer Mapping?
-   - Does one UC's flow depend on state that only exists after another?
-   If yes, they must be planned together; explain why in the "Why These UCs
-   Are Planned Together" section of the plan.
+7. **Assess plan-together need.** Apply `decomposition.plan-together-when-any`
+   from workflow-rules. Default policy: plan multiple UCs together when any apply:
+   - They share a module (`shared-module`)
+   - One depends on state created by another (`ordering-dependency`)
+   - They share a sub-flow (`shared-sub-flow`)
+
+   If yes, explain why in the "Why These UCs Are Planned Together" section of
+   the plan.
 
 Report what you found — established vs. greenfield modules, any ambiguous
 mappings — before writing files.
@@ -66,14 +82,13 @@ mappings — before writing files.
 
 ## Step 1: Assign IDs
 
-IDs must be assigned before writing any file.
+Apply `id-rules` from workflow-rules.md (default: `highest-plus-one`, no gaps,
+independent sequences). Assign all IDs before writing any file:
 
-**Plan ID:** scan `docs/drafts/plans/` for highest `plan-xxx` number → next = highest + 1. Start at `001` if empty.
-
-**Module UC and US IDs:** each module has its own independent sequence.
-For each module: scan both `docs/drafts/modules/{module}/use-cases/` and
-`docs/modules/{module}/use-cases/` for highest existing UC/US IDs. UC and US
-sequences are independent. Do not fill gaps. Assign all IDs now.
+- **Plan ID:** scan `docs/drafts/plans/` for highest `plan-xxx` → next = highest + 1
+- **Module UC and US IDs:** per-module sequences. For each module, scan both
+  `docs/drafts/modules/{module}/use-cases/` and `docs/modules/{module}/use-cases/`
+  for highest existing UC/US IDs. UC and US sequences are independent across modules.
 
 ---
 
@@ -101,6 +116,13 @@ translation is the core intellectual work:
 - The happy path and all exception scenarios
 - Idempotency/retry requirements if the module owns that concern
 
+**What to carry over from the business-layer UC (`use-case.md`):**
+
+- Business rules that this module is responsible for enforcing (authorization,
+  quotas, rate limits) → write into the module UC's `business-rules` section.
+  Only include the rules this module actually enforces; rules enforced by
+  another module belong in that module's UC.
+
 **What belongs only at the business layer (don't repeat at module level):**
 
 - The user actor and user-facing language
@@ -111,10 +133,28 @@ translation is the core intellectual work:
 
 Folder: `docs/drafts/modules/{module}/use-cases/uc-{id}-{kebab-name}/`
 
-Files:
+Files (project and module layers share the same doc-types; layer is determined
+by folder path). Set `schema-version` in each file's
+frontmatter per the "Schema versioning" section in
+`skills/init/references/format.md` (use the project's `docs/schema/format.md`
+version if present; otherwise 0).
 
-- `use-case.md` — use the **Module Use Case template** from `references/templates.md`
-- `us-{id}-{kebab-name}.md` — use the **Module User Story template** from `references/templates.md`
+- `use-case.md` — prepend frontmatter (doc-type `use-case`, schema name and
+  version from `format.md`, sections map from `format.md`'s `use-case.sections`).
+  At module layer: **include** the `serves` section (filled with the link to the
+  business UC); **omit** the `implemented-by` section. Write the body from
+  `docs/schema/format.md`'s `## use-case Template`.
+- `us-{id}-{kebab-name}.md` — prepend frontmatter (doc-type `user-story`,
+  schema info, sections from `format.md`'s `user-story.sections`, plus
+  `api-type` chosen for this module). At module layer: **include** the `serves`
+  section (filled with the link to the business US). Pick the api-type based
+  on the module's interface style (default `function` for modules; use `rest`
+  if the module exposes HTTP endpoints, `event` for event-driven modules,
+  etc.). Use the body from `docs/schema/format.md`'s `## user-story Template`
+  with the matching variant from `## API Contract Variants`.
+
+If `docs/schema/format.md` does not exist in the project, use the shipped
+defaults from `skills/init/references/format.md` (the web-service schema).
 
 ### Code context (established modules only)
 
@@ -138,8 +178,9 @@ When this plan involves an ADR supersession, the module UC/US translation change
 - In the module UC's **Main Flow**, describe what the module must now do under the
   new decision (not what it currently does). Be explicit about what changes: e.g.,
   "validate session token from cookie" instead of "validate JWT from Authorization header".
-- In the module US's **Interface Contract / Expected Behavior**, describe the new
-  interface shape the ADR introduces.
+- In the module US's **api-contract section / Expected Behavior**, describe the new
+  interface shape the ADR introduces. The api-contract section's shape depends
+  on the doc's api-type (see format.md's "API Contract Variants").
 - Do not document the old approach — the draft reflects the desired future state.
 
 If the module has an existing confirmed UC/US that was copied to `docs/drafts/` as
@@ -148,7 +189,8 @@ everything that stays the same and update only what the ADR changes.
 
 ### ADR assessment
 
-For each module, run this check:
+Apply `adr-triggers` from workflow-rules.md. Default policy — for each module,
+run this check:
 
 ```
 □ Does implementing this module UC require a design decision with multiple options?
@@ -162,7 +204,7 @@ If the first two are yes: create a module-level ADR draft in
 If the third is also yes: create a project-level ADR draft in
 `docs/drafts/adr/adr-draft-{id}-{name}.md` instead.
 
-Read `references/templates.md` for the ADR draft template.
+Use the `## adr Template` from `docs/schema/format.md` for the ADR body.
 
 ---
 
@@ -170,7 +212,10 @@ Read `references/templates.md` for the ADR draft template.
 
 File: `docs/drafts/plans/plan-{id}-{kebab-name}.md`
 
-Use the **Implementation Plan template** from `references/templates.md`.
+Prepend frontmatter (doc-type `plan`, schema info, sections map from format.md's
+`plan.sections`). Set `schema-version` per the "Schema versioning" section in
+`skills/init/references/format.md`. Then write the body from
+`docs/schema/format.md`'s `## plan Template`.
 
 ### Goals and scope
 
@@ -257,10 +302,3 @@ Notes:
   [anything the user should know — ambiguous mappings, TBD module
    assignments, decisions worth discussing before implementation]
 ```
-
----
-
-## Reference
-
-Templates for all files written by this skill are in `references/templates.md`.
-Read it when creating module use-case.md, module US, plan, or ADR draft files.

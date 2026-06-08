@@ -22,7 +22,23 @@ Your job is to fill the TBD layer through a focused interview — four phases, o
 
 ---
 
-## Step 0: Find the target module
+## Step 0: Load schema and find the target module
+
+### 0a. Load schema
+
+- Read `docs/schema/format.md` if it exists — note that `use-case` and
+  `user-story` doc-types may use project-specific section aliases. The most
+  reliable source of truth is each individual document's own frontmatter
+  `sections` map (which is what /scan-deep stamped when it created the file).
+- If `docs/schema/format.md` does not exist, fall back to the shipped defaults
+  in `skills/init/references/format.md`.
+
+Throughout this skill, when a step says "write to the X section", look up
+the heading name from the **document's own frontmatter** `sections.X` — never
+hardcode "Story" or "Expected Behavior". The defaults listed inline below
+(e.g. `sections.story` default "Story") are only for context.
+
+### 0b. Find the target module
 
 If the user names a module (e.g. "elicit auth"), use it. Otherwise:
 
@@ -38,11 +54,14 @@ Read the coverage file at `docs/drafts/coverage.md` if present — it may tell y
 
 Read every file under `docs/drafts/modules/{module}/use-cases/`:
 
-- All `use-case.md` files — note the UC names, main flows, error cases, and any TBD fields
-- All `us-*.md` files — note which US files exist, what entry points they cover, and what TBDs remain
+- All `use-case.md` files — read frontmatter `sections` map first, then note
+  the UC names, main flows, error cases, and any TBD fields
+- All `us-*.md` files — read frontmatter `sections` map first, then note
+  which US files exist, what entry points they cover, and what TBDs remain
 
 Take note of:
 
+- The `sections` map from each file (you'll use it in Step 3 to know where to write each answer)
 - How many UCs/US pairs exist (determines whether to ask actor questions per-US or once for the module)
 - What the technical interface looks like (informs better questions — e.g., if a function is clearly called from within the app rather than by a user directly, you can suggest that as the actor)
 - Which exception names are already from code vs still generic
@@ -78,7 +97,9 @@ Ask these two questions together:
 
 **Write Phase 1 answers immediately to files:**
 
-- `Story` → `As a **[Q1 answer]**` and `When **[Q2 answer]**`
+- In each US file, find the heading named by frontmatter `sections.story`
+  (default "Story"). Update its lines:
+  `As a **[Q1 answer]**` and `When **[Q2 answer]**`
 - Remove the hint text in parentheses — write the plain answer
 
 ### Phase 2 — Goal and value (never skip)
@@ -93,8 +114,11 @@ After getting answers, derive the `Expected Behavior` as well: a 2–3 sentence 
 
 **Write Phase 2 answers immediately:**
 
-- `Story` → `I want **[Q3 answer]**` and `So that **[Q4 answer]**`
-- `Expected Behavior` → Replace `TBD (fill in after /elicit)` with the confirmed plain-English description
+- In each US file: under the heading named by `sections.story` (default
+  "Story"), update lines `I want **[Q3 answer]**` and `So that **[Q4 answer]**`.
+- In each US file: under the heading named by `sections.expected-behavior`
+  (default "Expected Behavior"), replace `TBD (fill in after /elicit)` with
+  the confirmed plain-English description.
 
 ### Phase 3 — Flow validation
 
@@ -112,9 +136,12 @@ Show the main flow steps you inferred from the code, then ask:
 
 **Write Phase 3 answers immediately:**
 
-- If Q5 reveals corrections → update the Main Flow steps in `use-case.md`
-- Q6 answer → fill `Business: TBD (what business rules should apply here?)` in `use-case.md`
-  - If no additional rules: write `Business: None — the technical preconditions cover it`
+- If Q5 reveals corrections → in `use-case.md`, update the steps under the
+  heading named by `sections.flow` (default "Main Flow").
+- Q6 answer → in `use-case.md`, replace the placeholder under the heading
+  named by `sections.business-rules` (default "Business Rules") with the
+  rules the user named.
+  - If no additional rules: write `None — the technical preconditions cover it.`
 - If Q5+Q6 suggest a more business-meaningful UC name than the current one: offer to rename it and ask for confirmation before renaming
 
 ### Phase 4 — Exception framing
@@ -127,18 +154,22 @@ List the error cases from the code:
 
 **Write Phase 4 answers:**
 
-- Name the happy path Test Scenario based on Q3 (the user's goal). Rename:
-  `### Scenario 1: TBD (happy path name — fill in after /elicit)` → `### Scenario 1: [goal-based name, e.g. "Valid credentials — access token issued"]`
-- Add a brief characterization after each exception flow in `use-case.md`:
-  - Recoverable errors: append `(recoverable)` to the exception flow line
-  - Dead-end errors: append `(contact support)` to the exception flow line
+- In each US file: under the heading named by `sections.scenarios` (default
+  "Test Scenarios"), name the happy-path scenario based on Q3 (the user's
+  goal). Rename `### Scenario 1: TBD (happy path name — fill in after /elicit)`
+  → `### Scenario 1: [goal-based name, e.g. "Valid credentials — access token issued"]`.
+- In `use-case.md`: under the heading named by `sections.exceptions` (default
+  "Exception Flows"), append a brief characterization to each exception line:
+  - Recoverable errors: append `(recoverable)`
+  - Dead-end errors: append `(contact support)`
 - The Given/When/Then test scenario bodies remain TBD — that level of detail is for later
 
 ---
 
 ## Step 4: TBD references to other modules
 
-After Phase 4, check whether any `Related Use Cases` or `Depends on` lines still say
+After Phase 4, check `use-case.md` under the heading named by `sections.related`
+(default "Related Use Cases") for any lines that still say
 `TBD (depends on {module-name} — will resolve when that module's loop completes)`.
 
 For each one, ask:

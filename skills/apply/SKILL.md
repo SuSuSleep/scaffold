@@ -48,9 +48,12 @@ Read these files before writing a single line of code:
 2. Each module US file referenced by pending tasks:
    - Look for the module UC/US in `docs/drafts/modules/{module}/use-cases/`
    - If not found there, try `docs/modules/{module}/use-cases/`
-3. `CONVENTIONS.md` — Quality Commands section for all runnable commands (lint,
+3. `docs/schema/workflow-rules.md` if it exists — extract `test-conventions`
+   (default: behavioral path pattern `tests/behavioral/{module}/us-{id}-*.test.*`,
+   test cases reference source US scenario, behavioral test count = scenario count)
+4. `CONVENTIONS.md` — Quality Commands section for all runnable commands (lint,
    format, typecheck, build, verify, coverage) and Config Files table
-4. `docs/overview/test-strategy.md` if it exists — test tool, test directories,
+5. `docs/overview/test-strategy.md` if it exists — test tool, test directories,
    and behavioral test naming conventions (outer block / inner case structure)
 
 ### 0c. Discover quality commands
@@ -106,13 +109,16 @@ harder to diagnose.
 
 Write or update the behavioral test file for this US.
 
-Rules from `CONVENTIONS.md` and `docs/overview/test-strategy.md`:
+Rules from `workflow-rules.md` (`test-conventions`) and `docs/overview/test-strategy.md`:
 
-- One test file per US, placed in `tests/behavioral/{module}/`
-- File named to match the US file (e.g. `us-001-payment-fail.test.ts`)
+- File path follows `test-conventions.behavioral-path-pattern` (default:
+  `tests/behavioral/{module}/us-{id}-*.test.*`)
+- Per `test-conventions.test-case-references-source` (default required): every
+  test case must reference its source US ID and scenario number
+- Per `test-conventions.behavioral-count-equals-scenarios` (default true):
+  one test case per US scenario
 - Outer block: `describe "US-{id}: {feature name}"`
 - Each scenario: `it "[S{n}] {scenario name} → {expected outcome}"`
-- Every test references its source US and scenario number
 - Never change an existing behavioral test unless the US scenario itself changed
 
 Write tests for all scenarios in this US that belong to this batch's tasks.
@@ -294,50 +300,17 @@ revealed a design gap. Do NOT keep trying to fix it inline.
 Instead:
 
 1. Leave the failing Final Batch item(s) as `[ ]`
-2. Create a fix plan in `docs/drafts/plans/` using this template:
-
-```markdown
-# Plan-{id}: Fix [description of regression]
-
-## Root Cause
-
-Which plan's verification surfaced this, which test failed, and why.
-
-## Goals
-
-- (Specific fix — maps to the failing scenario)
-
-## Non-Goals
-
-- (What will not change — keeps scope minimal)
-
-## Scope
-
-- US-{id} → Scenario {n}
-
-## Affected Files
-
-- Modify: src/{module}/
-
-## Implementation Batches
-
-### Batch 1: Fix [description]
-
-- [ ] US-{id} Scenario {n}: [scenario name]
-
-### Final Batch: Integration Verification
-
-#### Fixed scenarios
-
-- [ ] US-{id} Scenario {n}: [scenario name]
-
-#### Full regression check
-
-- [ ] US-{id} Scenario {n}: [existing scenario]
-- [ ] (all other scenarios from the original plan)
-```
-
-1. Announce:
+2. Create a fix plan at `docs/drafts/plans/plan-{id}-fix-{kebab-name}.md`.
+   - Body: copy `docs/schema/format.md`'s `## fix-plan Template` verbatim, then
+     fill in placeholders. If the project's `format.md` does not define a
+     `fix-plan` doc-type, fall back to the shipped default in
+     `skills/init/references/format.md`.
+   - Frontmatter: `doc-type: fix-plan`, schema name and version from the
+     project's `format.md` (or `0` if no project schema exists), and the
+     `sections` map from `format.md`'s `fix-plan.sections`.
+   - ID: scan `docs/drafts/plans/` for the highest existing `plan-{n}` ID —
+     next ID is highest + 1, per `id-rules` in `workflow-rules.md`.
+3. Announce:
 
 ```
 ## Implementation Paused — Final Batch Failed

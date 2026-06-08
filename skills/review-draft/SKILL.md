@@ -29,17 +29,28 @@ found, the user should update the drafts and re-run.
 Read the project state so the review can be calibrated to what's actually
 knowable right now.
 
-1. Check `docs/modules/` — does it exist with real content?
-   → Yes: **established project** — validate module names in Implementation Layer Mapping
+1. **Load schema and rules.**
+   - Read `docs/schema/format.md` if it exists — extract `use-case` and
+     `user-story` section aliases so checks can target the right headings
+     (default: actor="Primary Actor", flow="Main Flow", exceptions="Exception Flows",
+     implemented-by="Implementation Layer Mapping", scenarios="Test Scenarios",
+     api-contract="API Contract", story="Story").
+   - Read `docs/schema/workflow-rules.md` if it exists — extract any
+     `gates.review-draft-*` policies that override the default checks below.
+   - Note: each document also carries its own `sections` map in its frontmatter;
+     prefer the document's frontmatter when reading individual files.
+
+2. Check `docs/modules/` — does it exist with real content?
+   → Yes: **established project** — validate module names in the implemented-by section
    → No: **new project** — treat missing/TBD mappings as suggestions, not warnings
 
-2. Check `docs/use-cases/` — are there confirmed UCs?
+3. Check `docs/use-cases/` — are there confirmed UCs?
    → Yes: collect their IDs so cross-references can be validated
    → No: cross-references to other UCs can stay TBD without penalty
 
-3. Check `docs/adr/` — collect any confirmed ADR IDs
+4. Check `docs/adr/` — collect any confirmed ADR IDs
 
-4. Read all UC folders under `docs/drafts/use-cases/` (`uc-{id}-{name}/`). Also note
+5. Read all UC folders under `docs/drafts/use-cases/` (`uc-{id}-{name}/`). Also note
    any ADR draft files under `docs/drafts/adr/`.
 
 If `docs/drafts/use-cases/` is empty or doesn't exist, report that and stop.
@@ -57,29 +68,35 @@ Run all three passes per UC before moving on.
 Is the document well-formed? Are required fields present and filled with real
 content (not template placeholders like `[Business Goal Name]` or `xxx`)?
 
-**use-case.md:**
+Use each document's own `sections` frontmatter map to look up the actual heading
+names. The checks below use the default web-service aliases; substitute the
+project's aliases when present.
+
+**use-case.md** (defaults: actor="Primary Actor", flow="Main Flow",
+exceptions="Exception Flows", implemented-by="Implementation Layer Mapping"):
 
 | Check | New project | Established project |
 |---|---|---|
-| Primary Actor present | BLOCKER if missing | BLOCKER if missing |
+| {actor} section present | BLOCKER if missing | BLOCKER if missing |
 | Preconditions present | BLOCKER if missing | BLOCKER if missing |
-| Main Flow has ≥1 step | BLOCKER if missing | BLOCKER if missing |
-| Exception Flows reference real US files | TBD allowed | WARNING if unresolved |
-| Implementation Layer Mapping filled | SUGGESTION | WARNING if empty |
+| {flow} section has ≥1 step | BLOCKER if missing | BLOCKER if missing |
+| {exceptions} reference real US files | TBD allowed | WARNING if unresolved |
+| {implemented-by} filled | SUGGESTION | WARNING if empty |
 | Module names match `docs/modules/` | N/A | WARNING if unknown module named |
 
-**Each us-{id}-*.md:**
+**Each us-{id}-*.md** (defaults: story="Story", scenarios="Test Scenarios",
+api-contract="API Contract"):
 
 | Check | Severity |
 |---|---|
-| Story — all 4 lines present (As a / When / I want / So that) | BLOCKER |
-| At least one test scenario | BLOCKER |
+| {story} section — all 4 lines present (As a / When / I want / So that) | BLOCKER |
+| At least one scenario in {scenarios} section | BLOCKER |
 | Scenarios use Given / When / Then structure | BLOCKER |
 | At least one happy-path scenario | WARNING |
 | At least one exception or failure scenario | SUGGESTION |
 | "the system SHALL" phrasing in Then clauses | WARNING |
 | Concrete values in Given/When/Then (not vague generics) | WARNING |
-| API Contract has at least an endpoint path | WARNING |
+| {api-contract} has at least an endpoint path (skip if api-type=none) | WARNING |
 
 **What counts as concrete values:** things like `user_id: "abc-123"`, `amount:
 $50.00`, `HTTP 422`. Phrases like "a valid user", "some amount", "certain

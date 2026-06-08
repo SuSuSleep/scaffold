@@ -146,12 +146,15 @@ Will create:
   AGENTS.md                     service identity + rules + workflow
   CLAUDE.md                     @AGENTS.md reference only
   README.md                     navigation guide
-  CONVENTIONS.md                {stack} naming + quality commands + doc + git rules
+  CONVENTIONS.md                {stack} naming + quality commands + git rules
   docs/overview/
     architecture.md             empty module table, directory structure
     test-strategy.md            test case structure + {threshold}% coverage threshold
     api-spec.yaml               OpenAPI stub — base path: {path}    ← only if HTTP
     glossary.md                 empty stub
+  docs/schema/
+    format.md                   document section aliases + templates
+    workflow-rules.md           lifecycle, gates, ADR triggers, PR checklist
   docs/drafts/                  (empty)
   docs/use-cases/               (empty)
   docs/modules/                 (empty)
@@ -175,15 +178,26 @@ Write in this order, substituting values from the interview:
 2. **CLAUDE.md** — single line: `@AGENTS.md`
 3. **README.md** — service name + description + navigation links
 4. **CONVENTIONS.md** — filled naming conventions + quality commands (lint, format,
-   typecheck, build, verify, coverage) + config files table + doc rules + git rules
+   typecheck, build, verify, coverage) + config files table + git rules
 5. **docs/overview/architecture.md** — empty module table + directory structure
 6. **docs/overview/test-strategy.md** — test case structure + coverage threshold
 7. **docs/overview/api-spec.yaml** — OpenAPI stub (HTTP projects only)
 8. **docs/overview/glossary.md** — empty stub
 
-9. **.gitignore** — check if `.gitignore` already exists:
-   - Does not exist → create it with the scaffold section
-   - Already exists → append the scaffold section at the end
+9. **docs/schema/format.md** — copy the file from `references/format.md` verbatim.
+   Do not substitute any placeholders — it is a schema template, not a filled document.
+   This file defines the document section format for this project. Users can edit
+   it later and run `/schema-update` to migrate existing documents.
+
+10. **docs/schema/workflow-rules.md** — copy the file from `references/workflow-rules.md`
+    verbatim. Do not substitute any placeholders. This file defines workflow policy
+    (lifecycle, gates, ADR triggers, PR checklist). Users can edit it later and
+    run `/schema-update` to apply changes consistently.
+
+11. **.gitignore** — check if `.gitignore` already exists:
+
+- Does not exist → create it with the scaffold section
+- Already exists → append the scaffold section at the end
 
    Read the block for `{stack}` from the `.gitignore` templates in
    `references/templates.md`, plus the universal block. Also include
@@ -195,7 +209,7 @@ Write in this order, substituting values from the interview:
 Create empty directories:
 
 ```bash
-mkdir -p docs/drafts docs/use-cases docs/modules docs/adr
+mkdir -p docs/schema docs/drafts docs/use-cases docs/modules docs/adr
 ```
 
 ---

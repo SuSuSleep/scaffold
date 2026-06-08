@@ -22,7 +22,19 @@ automated fixes would hide the root cause rather than surface it.
 
 ---
 
-## Step 0: Identify scope
+## Step 0: Load schema and identify scope
+
+### 0a. Load schema and rules
+
+- Read `docs/schema/format.md` if it exists — extract section aliases for
+  `user-story` (especially `scenarios`, default "Test Scenarios"). The scenario
+  section is what Check 1 counts.
+- Read `docs/schema/workflow-rules.md` if it exists — extract `test-conventions`
+  (default `behavioral-path-pattern: "tests/behavioral/{module}/us-{id}-*.test.*"`,
+  `test-case-references-source: required`, `behavioral-count-equals-scenarios: true`).
+- If either is absent, use the embedded defaults stated inline below.
+
+### 0b. Identify scope
 
 The plan file has been deleted by /merge, so use git to find what changed on this
 branch:
@@ -54,25 +66,26 @@ For every US file in scope, run all four checks before moving to the next US.
 
 ### Check 1: Scenario count (hard)
 
-Read the US file. Count the number of `### Scenario N:` headings — this is the
-declared scenario count.
+Read the US file. Use its frontmatter `sections.scenarios` to know which section
+holds scenarios (default "Test Scenarios"). Count the `### Scenario N:` sub-headings
+inside it — this is the declared scenario count.
 
-Find the corresponding behavioral test file. The naming convention is:
-`tests/behavioral/{module}/us-{id}-{name}.test.*`
+Find the corresponding behavioral test file using `test-conventions.behavioral-path-pattern`
+(default `tests/behavioral/{module}/us-{id}-*.test.*`).
 
 If the test file does not exist: **MISALIGNED** — flag as "no test file found".
 
 If it exists: count the `[S{n}]` blocks (test cases referencing a scenario number).
-The counts must match. If not: **MISALIGNED** — list which scenario numbers are
-missing from the test file.
+Per `test-conventions.behavioral-count-equals-scenarios` (default true), the counts
+must match. If not: **MISALIGNED** — list which scenario numbers are missing.
 
 ---
 
 ### Check 2: Reference correctness (hard)
 
-In the behavioral test file, each test case should reference its source US by ID
-and scenario number — either in the test name or a comment. Look for patterns like:
-`[S1]`, `[S2]`, `US-001`, `Scenario 1`.
+Per `test-conventions.test-case-references-source` (default `required`), each test
+case must reference its source US by ID and scenario number. Look for patterns like:
+`[S1]`, `[S2]`, `US-001`, `Scenario 1` in test name or comment.
 
 For each test case found:
 

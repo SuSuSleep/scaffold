@@ -22,16 +22,42 @@ and deleting UCs, USs, and ADR drafts as needed. A single invocation may do any
 combination of these operations; the skill derives the complete change set from
 context and executes it all.
 
-This skill is self-contained. All templates and rules are embedded below.
+Document section names and templates come from `docs/schema/format.md`.
+Workflow rules (ID assignment, ADR criteria, decomposition rules, lifecycle)
+come from `docs/schema/workflow-rules.md`. This skill describes the methodology;
+those files describe the parameters.
 
 ---
 
 ## Step 0: Orient
 
-1. Scan `docs/drafts/use-cases/` to understand what already exists — folder names,
+1. **Load the document schema.** Check if `docs/schema/format.md` exists.
+   - If yes: read its YAML frontmatter. Extract `schema`, `version`, and the
+     `sections` maps for `use-case` and `user-story`. Read the markdown body
+     for the `## use-case Template` and `## user-story Template` blocks.
+   - If no: use the shipped defaults verbatim from
+     `skills/init/references/format.md` (the web-service schema — the
+     authoritative source for default section names and template bodies).
+     Set the document's `schema-version` per the "Schema versioning" rules in
+     that same file.
+
+   `/draft` creates **project-layer** documents, so when copying the section
+   maps: include `implemented-by` on the use-case, and omit `serves` on both
+   use-case and user-story (those are module-layer sections).
+
+2. **Load workflow rules.** Check if `docs/schema/workflow-rules.md` exists.
+   - If yes: read its YAML frontmatter. Use values from `id-rules`,
+     `adr-triggers`, `decomposition`, `lifecycle`, and `cross-references`
+     wherever this skill references workflow policy below.
+   - If no: use the embedded defaults stated inline in each step (these match
+     the rules shipped with /init).
+
+   Store all loaded values — you will need them in Steps 3–6.
+
+3. Scan `docs/drafts/use-cases/` to understand what already exists — folder names,
    IDs in use, and content of any files that might be relevant to the current change.
-2. If `docs/drafts/use-cases/` doesn't exist, create it (and `docs/drafts/` if needed).
-3. If `docs/modules/` exists, note the module names — you'll use them during
+4. If `docs/drafts/use-cases/` doesn't exist, create it (and `docs/drafts/` if needed).
+5. If `docs/modules/` exists, note the module names — you'll use them during
    discovery.
 
 ---
@@ -94,38 +120,36 @@ shared sub-flow) rather than leaving the template placeholder.
 
 ## Step 3: Assign IDs for new documents
 
-Scan **both** `docs/drafts/use-cases/` and `docs/use-cases/` to find the highest
-existing ID in each sequence — drafts and confirmed docs share the same ID namespace.
-UC and US ID sequences are independent of each other.
+Apply `id-rules` from `workflow-rules.md`. The default policy (web-service):
 
-**Rule**: Find the highest existing ID across both locations → next ID = highest + 1.
-Do not fill gaps. If `uc-001` and `uc-003` exist across both folders, the next UC is `uc-004`.
-If both locations are empty or newly created, start at `001`.
+- `highest + 1` across drafts and confirmed locations (shared namespace)
+- Do not fill gaps — if `uc-001` and `uc-003` exist, next UC is `uc-004`
+- UC, US, ADR, and plan sequences are independent of each other
+- Start at `001` if no existing IDs
+
+Scan **both** `docs/drafts/use-cases/` and `docs/use-cases/` for UC/US sequences.
+Scan `docs/drafts/adr/` for ADR draft sequence.
 
 Assign all IDs for the full operation set **before writing any files**, so a
 single change that creates multiple documents doesn't produce ID conflicts.
-
-ADR drafts have their own independent ID sequence. Find the highest
-`adr-draft-xxx` in `docs/drafts/adr/` and increment from there.
 
 ---
 
 ## Step 4: Decompose into UCs and USs
 
-**One UC per distinct user goal.** A UC is one reason a user would enter the
-system. If a requirement spans two different user goals, create two separate UCs.
+Apply `decomposition` rules from `workflow-rules.md`. Default policy:
 
-**Create multiple USs under one UC when:**
+- **UC rule:** one UC per distinct user goal. If a requirement spans two
+  different user goals, create two separate UCs.
+- **Split a UC into multiple USs** when any of these apply:
+  - Distinct exception paths each need their own contract
+  - Multiple actor perspectives participate in the same goal
+  - The happy path has discrete phases that can independently fail
+    (initiate → confirm → complete)
 
-- The flow has distinct exception paths that each need their own API contract
-- The same goal involves multiple actor perspectives (e.g., buyer and seller both
-  participate in "checkout")
-- The happy path has discrete phases that can independently fail (initiate →
-  confirm → complete)
-
-**Practical rule of thumb**: if you'd write more than one HTTP endpoint, consider
-splitting into multiple USs. If the user's goal changes between those endpoints,
-split into multiple UCs instead.
+**Practical heuristic:** if you'd write more than one independent endpoint /
+command / interface, consider splitting into multiple USs. If the user's goal
+changes between them, split into multiple UCs instead.
 
 **Handling overlapping UCs:**
 
@@ -139,18 +163,21 @@ split into multiple UCs instead.
 
 ## Step 5: Assess whether an ADR draft is needed
 
-For any new requirement or significant change, run this checklist:
+Apply `adr-triggers` from `workflow-rules.md`. Default policy: an ADR draft is
+required when **all** of these are true:
 
 ```
-□ Did we consider multiple implementation options?
-□ Does this decision affect more than one module?
-□ Would a new team member not understand why this was done just by reading the result?
+□ Multiple implementation options were considered
+□ The decision affects more than one module
+□ A new team member couldn't infer the "why" from the result alone
 ```
 
-**All three "yes"** → auto-create an ADR draft. Do not ask — just create it.
-Use `Status: Proposed` and the ADR template in the Reference section below.
+**All conditions met** → auto-create an ADR draft. Do not ask — just create it.
+Use `Status: Proposed` and the ADR template from `docs/schema/format.md` (or
+the embedded default if no schema file exists).
 
-**Any "no"** → skip the ADR. A note in the US's Expected Behavior section is enough.
+**Any condition not met** → skip the ADR. A note in the US's Expected Behavior
+section is enough.
 
 ---
 
@@ -161,13 +188,58 @@ This ensures you don't delete something before you've updated what references it
 
 ### Creating new UC drafts
 
-Folder: `docs/drafts/uc-{id}-{kebab-case-name}/`
+Folder: `docs/drafts/use-cases/uc-{id}-{kebab-case-name}/`
 
 Files to create:
 
-- `use-case.md` — use the **Use Case template** from the Reference section below
-- `us-{id}-{kebab-case-name}.md` for each user story — use the **User Story
-  (Detailed) template** from the Reference section below
+- `use-case.md` — prepend the frontmatter block below, then write the body
+  using the `## use-case Template` from `docs/schema/format.md` (loaded in Step 0)
+- `us-{id}-{kebab-case-name}.md` for each user story — prepend the user-story
+  frontmatter block below, then write the body using the `## user-story Template`
+  from `docs/schema/format.md`
+
+**Frontmatter for `use-case.md`** (use section names loaded in Step 0; /draft
+creates project-layer documents, so include `implemented-by` and omit `serves`):
+
+```yaml
+---
+schema: {schema}
+schema-version: {per Schema versioning rules — see Step 0}
+doc-type: use-case
+id: UC-{id}
+sections:
+  actor: "{actor}"
+  preconditions: "{preconditions}"
+  business-rules: "{business-rules}"
+  postconditions: "{postconditions}"
+  flow: "{flow}"
+  exceptions: "{exceptions}"
+  related: "{related}"
+  implemented-by: "{implemented-by}"
+  required-extra: {required-extra}
+---
+```
+
+**Frontmatter for `us-{id}.md`** (use section names loaded in Step 0; /draft
+creates project-layer documents, so omit `serves`. Set `api-type` to match the
+project's default — usually `rest`):
+
+```yaml
+---
+schema: {schema}
+schema-version: {per Schema versioning rules — see Step 0}
+doc-type: user-story
+id: US-{id}
+api-type: {api-type from format.md, default rest}
+sections:
+  parent-link: "{parent-link}"
+  story: "{story}"
+  expected-behavior: "{expected-behavior}"
+  api-contract: "{api-contract}"
+  scenarios: "{scenarios}"
+  required-extra: {required-extra}
+---
+```
 
 Fill every section you can derive from the requirement. Sections where the
 requirement doesn't provide enough detail can stay as template placeholders —
@@ -182,27 +254,27 @@ a related ADR not yet confirmed), write `TBD` with a note pointing to the draft:
 
 ### Updating existing drafts
 
-Overwrite affected sections directly — drafts always reflect the current state,
+Per `lifecycle.drafts-edit-in-place` from `workflow-rules.md` (default: true):
+overwrite affected sections directly. Drafts always reflect the current state,
 not a history. There is no version tracking inside the file itself; git handles
 history.
 
 **When a UC's goal changes fundamentally**: delete the old `use-case.md` and
 write a new one from the template. Then evaluate each existing US file under that
-UC:
+UC, using the `parent-link` section name from the schema:
 
-- Still aligned with the new goal → keep it, update the `Belongs to:` link if needed
+- Still aligned with the new goal → keep it, update the parent link if needed
 - Partially aligned → update it
 - No longer relevant → delete it and repair any references to it
 
 **When only a US needs updating**: edit the US file directly. If the change adds
-a new exception flow complex enough to need its own API contract, create a new US
+a new exception flow complex enough to need its own contract, create a new US
 file rather than expanding the existing one.
 
 ### Deleting cancelled drafts
 
-Cancelled requirements are deleted immediately — do not keep them.
-
-Before deleting:
+Per `lifecycle.cancelled-drafts` from `workflow-rules.md` (default:
+`delete-immediately`):
 
 1. Scan all other files in `docs/drafts/` for references to the UC/US being deleted
 2. Update those references — remove the reference line, or replace it with a
@@ -211,7 +283,10 @@ Before deleting:
 
 ### Copying a confirmed doc into drafts for update
 
-When a requirement affects a confirmed doc in `docs/use-cases/`, `docs/modules/`, or `docs/adr/`:
+Per `lifecycle.confirmed-docs-editable` from `workflow-rules.md` (default: false):
+confirmed docs in `docs/use-cases/`, `docs/modules/`, or `docs/adr/` are never
+edited directly. When a requirement affects them, copy to the draft mirror path
+first.
 
 **For UC/US documents** — copy to the mirror path under `docs/drafts/`:
 
@@ -291,166 +366,10 @@ lowercase letters, digits, and hyphens only.
 
 ## Reference: Templates
 
-### Use Case template
+Document templates (UC, US, ADR) live in `docs/schema/format.md` under the
+`## use-case Template`, `## user-story Template`, and `## adr Template` body
+sections. Step 0 loads them. Use them verbatim when creating new documents,
+substituting `{id}` and other placeholders.
 
-```markdown
-# UC-001: [Business Goal Name]
-
-## Basic Information
-
-- Primary Actor: (who is trying to accomplish this)
-- Preconditions: (what must be true before entering this flow)
-- Postconditions: (what the system state looks like after the flow completes)
-
-## Main Flow
-
-1.
-2.
-3.
-
-## Exception Flows
-
-- [Scenario description]: → See US-xxx
-
-## Related Use Cases
-
-- Prerequisite: UC-xxx (what must be completed first)
-- Follow-up: UC-xxx (what is triggered after completion)
-- Related: UC-xxx (parallel related features)
-- Shared sub-flow: UC-xxx (a flow referenced by this UC)
-
-## Implementation Layer Mapping
-
-- {module-a} → docs/modules/{module-a}/use-cases/uc-xxx/
-- {module-b} → docs/modules/{module-b}/use-cases/uc-xxx/
-```
-
----
-
-### User Story (Detailed) template
-
-Use this template for all US files inside `docs/drafts/`. It is the
-pre-implementation reference — define the API Contract in full here.
-Incomplete sections are allowed; the document evolves throughout development.
-
-```markdown
-# US-001: [Feature Name]
-
-## Links
-
-- Belongs to: UC-001
-- Related ADR: ADR-xxx (mark as "TBD" if not yet confirmed)
-
-## Story
-
-As a **[actor]**
-When **[context or trigger]**
-I want **[action or capability]**
-So that **[benefit or outcome]**
-
-## Expected Behavior
-
-(Describe the expected behavior of this feature)
-
-## API Contract
-
-### Endpoint
-
-POST /api/v1/[path]
-
-### Request
-
-| Field   | Type   | Required | Rules                                  |
-| ------- | ------ | -------- | -------------------------------------- |
-| field_a | string | Yes      | UUID format                            |
-| field_b | number | Yes      | Greater than 0, up to 2 decimal places |
-| field_c | string | No       | Enum: value_a, value_b                 |
-
-### Response
-
-| Field      | Type   | Description              |
-| ---------- | ------ | ------------------------ |
-| id         | string | UUID                     |
-| status     | string | pending, success, failed |
-| created_at | string | ISO 8601                 |
-
-### Error Codes
-
-| Status | Error Code    | Description             |
-| ------ | ------------- | ----------------------- |
-| 400    | INVALID_FIELD | Field format is invalid |
-| 404    | NOT_FOUND     | Resource does not exist |
-| 422    | DUPLICATE     | Duplicate operation     |
-
-### Notes
-
-- Idempotency: (is this idempotent? how should the caller handle failures?)
-- Other special constraints
-
-## Test Scenarios
-
-### Scenario 1: [Scenario Name]
-
-- **Given**: (precondition — use concrete values)
-- **When**: (action taken)
-- **Then**: the system SHALL (expected result — use concrete values)
-
-### Scenario 2: [Scenario Name]
-
-- **Given**:
-- **When**:
-- **Then**: the system SHALL
-
-### Scenario 3: [Edge Case]
-
-- **Given**:
-- **When**:
-- **Then**: the system SHALL
-```
-
----
-
-### ADR draft template
-
-Use this for `adr-draft-{id}-{name}.md` files in `docs/drafts/`.
-Status must be `Proposed` while in drafts. Move to `docs/adr/` and change status
-to `Adopted` only when the decision is confirmed.
-
-```markdown
-# ADR-001: [Decision Name]
-
-## Status
-
-Proposed (yyyy-mm-dd)
-
-## Background
-
-Why this decision was needed and what problem it addresses.
-(If this overturns a previous approach, explain the context and why reverting is
-not an option.)
-
-## Options Considered
-
-- Option A: pros / cons
-- Option B: pros / cons
-
-## Decision
-
-What was chosen and the core reasoning.
-
-## Impact
-
-### New Capabilities
-
-- [capability-id]: brief description
-
-### Unchanged
-
-- (existing behavior unaffected)
-
-### Affected Files and Documents
-
-- Affected modules:
-- Files to modify:
-- Documents that need updating:
-```
+If `docs/schema/format.md` does not exist, fall back to the templates shipped
+in `skills/init/references/format.md` (the web-service defaults).

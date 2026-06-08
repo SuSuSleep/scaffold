@@ -19,15 +19,26 @@ finishes: files move from `docs/drafts/` to their confirmed homes, US files
 get simplified, module READMEs get updated, and everything goes into one clean
 doc commit.
 
-The promotion rule is simple: remove `drafts/` from the path. That's the only
-structural change. The content changes are the US simplification and README
-append.
+The promotion rule (`lifecycle.promotion-rule` in `workflow-rules.md`, default
+`remove-drafts-prefix`) is simple: remove `drafts/` from the path. That is the
+only structural change. The content changes are the US simplification and
+README append.
 
 ---
 
 ## Step 0: Orient
 
-### 0a. Find the plan
+### 0a. Load schema and rules
+
+- Read `docs/schema/format.md` if it exists — extract section aliases for
+  `user-story` (especially `api-contract` and `scenarios`) and for `use-case`.
+  These tell you which section headings to find when simplifying US files.
+- Read `docs/schema/workflow-rules.md` if it exists — extract `gates` (which
+  conditions block vs warn), `lifecycle` (promotion rule, ADR transitions,
+  supersession behavior), and `cross-references` (TBD handling).
+- If either file is absent, use the embedded defaults stated inline below.
+
+### 0b. Find the plan
 
 If the user named a plan (e.g. "merge plan-002"), use it. Otherwise:
 
@@ -42,9 +53,10 @@ Read the plan file in full. Collect:
 - The **Affected Files** section → which modules are touched
 - The **Related ADRs** section → which ADR drafts to promote
 
-### 0b. Verify all checkboxes are checked
+### 0c. Verify all checkboxes are checked
 
-Count every `- [ ]` item. If any remain unchecked, stop immediately:
+Per `gates.merge-blocks-on: any-unchecked-plan-item`, count every `- [ ]` item.
+If any remain unchecked, stop immediately:
 
 ```
 Merge blocked — {N} tasks are not yet complete:
@@ -60,33 +72,44 @@ Do not proceed past this point until all items are `[x]`.
 
 ## Step 1: Pre-merge checklist
 
-Run each check and report PASS / WARN / SKIP. Only a missing behavioral test
-file is a hard blocker — everything else is a warning you surface but don't
-block on. The goal is to give the user a clear picture before files move.
+Apply `gates.merge-blocks-on` (hard) and `gates.merge-warns-on` (soft) from
+`workflow-rules.md`. Default policy:
 
-**1. UC main flow** — read each `use-case.md` in scope. Does the main flow
-still describe what the implementation actually does? Use your judgment. Report
-PASS if it looks accurate, WARN if something seems stale.
+```
+Hard blocker:  missing-behavioral-test-file
+Warnings:      api-endpoint-missing-from-spec, stale-uc-main-flow,
+               remaining-tbd-references, new-module-not-in-architecture
+```
 
-**2. Behavioral tests** — for each US in scope, check whether a test file
-exists at `tests/behavioral/{module}/us-{id}-*.test.*`. Report PASS or
-BLOCKER (list the missing files). This is the one hard stop — confirming
-docs that have no behavioral verification is a meaningful risk.
+Run each check and report PASS / WARN / SKIP / BLOCKER. The goal is to give
+the user a clear picture before files move.
 
-**3. API Contract vs api-spec** — for each US file in scope, look for a
-`### Endpoint` line in the `## API Contract` section. If found, check whether
-that endpoint path appears in `docs/overview/api-spec.yaml` (or search for
-any `api-spec.yaml` in `docs/`). Report PASS if found, WARN if not found,
-SKIP if no endpoint line exists (non-HTTP project — CLI, IaC, workers, etc.).
+**1. UC main flow** (warn-only) — read each `use-case.md` in scope. Does the
+main flow section (alias from `format.md`, default "Main Flow") still describe
+what the implementation actually does? Use your judgment. Report PASS if it
+looks accurate, WARN if something seems stale.
 
-**4. TBD references** — scan all draft files being promoted for `TBD`
-references. Note which ones point to paths that are now confirmed (so you
-can resolve them in Step 2f). Report how many were found.
+**2. Behavioral tests** (HARD BLOCKER) — for each US in scope, check whether
+a test file exists at the path defined by `test-conventions.behavioral-path-pattern`
+in workflow-rules (default `tests/behavioral/{module}/us-{id}-*.test.*`).
+Report PASS or BLOCKER (list missing files).
 
-**5. New module or dependency** — does the plan's Affected Files section list
-a module whose `src/` directory didn't exist before this plan? Or does any
-UC reference a new external service not in `architecture.md`? Flag WARN if
-yes — architecture.md will need updating.
+**3. API Contract vs api-spec** (warn-only) — for each US file in scope, read
+its `api-type` frontmatter. If `api-type: rest`: find the api-contract section
+(alias from `format.md`, default "API Contract") and its `### Endpoint`
+sub-heading. Check whether that endpoint path appears in
+`docs/overview/api-spec.yaml`. Report PASS if found, WARN if not. For any
+other api-type (`function`, `event`, `cli`, `graphql`, `grpc`, `none`): SKIP
+this check (api-spec.yaml is REST-specific).
+
+**4. TBD references** (warn-only) — scan all draft files being promoted for
+`TBD` strings. Note which ones point to paths that are now confirmed (resolve
+them in Step 2f). Report how many were found.
+
+**5. New module or dependency** (warn-only) — does the plan's Affected Files
+section list a module whose `src/` directory didn't exist before this plan?
+Does any UC reference a new external service not in `architecture.md`? WARN if
+yes.
 
 **6. ADR supersession** (include only when the plan's Related ADRs contains a new
 ADR that supersedes an existing one — check the new ADR draft's Background section):
@@ -126,21 +149,29 @@ editing files in two places.
 
 For each UC in the plan's Scope:
 
-1. Move the entire folder:
+1. Move the entire folder (applies the `lifecycle.promotion-rule`):
    `docs/drafts/use-cases/uc-{id}-{name}/` → `docs/use-cases/uc-{id}-{name}/`
 
-2. For each US file in the moved folder, rewrite the `## API Contract` section:
-   - Find the `### Endpoint` line and extract its value (e.g. `POST /api/v1/payments`)
-   - Replace the entire `## API Contract` section with just:
+2. For each US file in the moved folder, simplify the api-contract section
+   using the section name from its own frontmatter (`sections.api-contract`,
+   default "API Contract"). The summary form depends on the document's
+   `api-type` frontmatter:
 
-     ```
-     ## API Contract
+   | api-type   | Extract                                    | Summary line                                 |
+   |------------|--------------------------------------------|----------------------------------------------|
+   | `rest`     | `### Endpoint` value                       | `- Endpoint: POST /api/v1/payments`          |
+   | `function` | `### Signature` value                      | `- Signature: someFunction(args) → ReturnType` |
+   | `event`    | `### Event Subscribed` value               | `- Event: order.created`                     |
+   | `cli`      | `### Command` value                        | `- Command: tool subcommand [flags]`         |
+   | `graphql`  | `### Operation` value                      | `- Operation: mutation processPayment`       |
+   | `grpc`     | `### Service / RPC` value                  | `- Service: PaymentService.Charge`           |
+   | `none`     | (none — remove section entirely)           | —                                            |
 
-     - Endpoint: POST /api/v1/payments
-     ```
+   Replace the entire api-contract section body with the single summary line.
+   Keep all other sections unchanged.
 
-   - If no `### Endpoint` line exists → remove the `## API Contract` section entirely (non-HTTP project)
-   - Keep everything else in the file unchanged: Links, Story, Expected Behavior, Test Scenarios
+   If the document has no `api-type` in frontmatter (legacy doc), infer it from
+   the section's sub-headings and apply the matching rule.
 
 ### 2b. Module-layer UC/US
 
@@ -149,14 +180,16 @@ For each module in the plan's Affected Files:
 1. Move: `docs/drafts/modules/{module}/use-cases/uc-{id}-{name}/` →
    `docs/modules/{module}/use-cases/uc-{id}-{name}/`
 
-2. For each US file: apply the same API Contract simplification as 2a.
-   Module US files have an `## Interface Contract` section instead — simplify
-   it to just the key interface line (Accept/Emit summary), keeping the
-   scenario structure intact.
+2. For each US file: apply the same simplification rules as 2a. Module US
+   files use the same `user-story` doc-type as project US files;
+   the only difference at the module layer is that the api-type is typically
+   `function` (or `event`/`cli`/etc.) instead of `rest`. The simplification
+   table in 2a covers all api-types.
 
 ### 2c. ADR drafts
 
-For each ADR listed in the plan's Related ADRs:
+Apply `lifecycle.adr-proposed-to-adopted-on-merge` (default: true). For each
+ADR listed in the plan's Related ADRs:
 
 - If at `docs/drafts/adr/adr-draft-{id}-{name}.md`:
   → Move to `docs/adr/{id}-{name}.md`
@@ -166,7 +199,9 @@ For each ADR listed in the plan's Related ADRs:
   → Move to `docs/modules/{module}/adr/{id}-{name}.md`
   → Same status update
 
-**If the promoted ADR supersedes an existing confirmed ADR:**
+**If the promoted ADR supersedes an existing confirmed ADR** (per
+`lifecycle.adr-supersession-deletes-old`, default: true):
+
 - Read the new ADR's Background section to identify which ADR it supersedes
 - Delete the old confirmed ADR file (`docs/adr/{old-id}-{name}.md` or
   `docs/modules/{module}/adr/{old-id}-{name}.md`)
@@ -220,7 +255,9 @@ Only if Step 1 flagged a new module or dependency:
 
 ### 2f. TBD reference patching
 
-In all files just promoted to confirmed locations, find references like:
+Per `cross-references.tbd-resolved-by: verify` (default), TBD references
+should be resolved when their target is now confirmed. In all files just
+promoted, find references like:
 
 ```
 TBD (under discussion, see docs/drafts/adr/adr-draft-001-retry)
@@ -228,7 +265,7 @@ TBD (under discussion, see docs/drafts/adr/adr-draft-001-retry)
 
 If the referenced file was promoted in this merge, update the reference to
 point to the new confirmed path. If the referenced file is still in drafts,
-leave it as TBD.
+leave it as TBD — `/verify` will flag it for follow-up.
 
 ---
 
