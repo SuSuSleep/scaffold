@@ -33,7 +33,7 @@ TBD (will be linked after /compose) — expected target: the brownfield workflow
 
 ## Expected Behavior
 
-TBD (fill in after /elicit on this very module — meta) — the high-level promise from the caller's perspective: they answer four short sets of questions (one phase per turn), see file writes happen between phases so they always know what's been captured, and leave with all the answer-able TBDs filled in, all the can't-answer-yet TBDs annotated with the reason, and a summary block that names what was filled and what remains.
+`/elicit` runs a guided, four-phase interview that lets a developer, maintainer, or coding agent fill in the business-context TBDs left in a brownfield module's docs after `/scan-deep` — who uses it, why it exists, and what its errors mean to users. Without it, module docs stay full of TBD placeholders, so they can't serve as a reliable source of truth for the existing code, and there's no way to derive a business-layer doc or hand the module off to `/compose`.
 
 ## API Contract
 
