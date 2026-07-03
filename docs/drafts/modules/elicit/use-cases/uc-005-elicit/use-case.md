@@ -39,7 +39,9 @@ TBD (will be linked after /compose) — belongs to the brownfield documentation 
 
 ## Business Rules
 
-TBD (what business rules should apply here — e.g. must every brownfield module go through `/elicit` before `/compose`? Can `/elicit` be re-run on a module whose TBDs were already filled? Are there minimum-quality bars for the answers — e.g. "Goal must be in user-facing language"?) — `/elicit` fills this (in a future iteration on this very module).
+- Every brownfield module must go through `/elicit` before it can be included in `/compose`
+- `/elicit` does not need to be re-run on a module whose TBDs are already filled, unless the user explicitly requests it
+- The Goal (Q3 answer) must be written in user-facing language — not internal/implementation terms
 
 ## Postconditions
 
