@@ -26,10 +26,10 @@ TBD (will be linked after /compose) — expected target: the brownfield workflow
 
 ## Story
 
-- **As:** TBD (who calls this — end user, internal service, or automated process? In context: typically a documentation owner, product engineer, or coding agent picking up a brownfield codebase shortly after `/scan-deep`; `/elicit` should confirm whether anyone else is a direct actor — e.g. business analysts running it during a discovery workshop.)
+- **As:** Developer or maintainer of this repo, or a coding agent acting on their behalf
 - **I want to:** TBD (what does the caller want to achieve? Likely: "answer a small, focused set of business questions and have those answers land in the right module-doc sections — without manually editing each file, hunting for the right heading, or remembering which fields are TBD.")
 - **So that:** TBD (what stops working if this entry point disappears? Likely: "the brownfield loop loses its bridge from technical scaffolding to product-readable documentation; `/compose` has nothing to compose because module Stories remain `TBD (who calls this...)`; downstream business UCs can't be synthesised; the project ends up with code that has no narrative.")
-- **Trigger:** TBD (what makes them call this — on demand, event, schedule? Likely: on demand, immediately after `/scan-deep` finishes a module, or as a batch step before `/compose`.)
+- **Trigger:** On demand
 
 ## Expected Behavior
 
