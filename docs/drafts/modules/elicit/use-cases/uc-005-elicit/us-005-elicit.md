@@ -111,7 +111,7 @@ Not separately addressed. E1 (module not found), E2 (nothing to elicit), E9 (gre
 
 > Skeleton only — Given/When/Then bodies are TBD pending `/elicit` (on this very module). Each scenario maps to one behavioural test in `tests/behavioral/elicit/us-005-*.test.*`.
 
-### Scenario 1: TBD (happy path — single-UC module, all four phases complete, all TBDs replaced, summary printed)
+### Scenario 1: Module documentation completed — all four phases answered, TBDs filled, summary printed
 
 - **Given:** TBD
 - **When:** TBD
