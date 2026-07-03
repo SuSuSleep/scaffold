@@ -27,8 +27,8 @@ TBD (will be linked after /compose) — expected target: the brownfield workflow
 ## Story
 
 - **As:** Developer or maintainer of this repo, or a coding agent acting on their behalf
-- **I want to:** TBD (what does the caller want to achieve? Likely: "answer a small, focused set of business questions and have those answers land in the right module-doc sections — without manually editing each file, hunting for the right heading, or remembering which fields are TBD.")
-- **So that:** TBD (what stops working if this entry point disappears? Likely: "the brownfield loop loses its bridge from technical scaffolding to product-readable documentation; `/compose` has nothing to compose because module Stories remain `TBD (who calls this...)`; downstream business UCs can't be synthesised; the project ends up with code that has no narrative.")
+- **I want to:** complete the module documentation by answering a small, focused set of business questions and having those answers land in the right module-doc sections — without manually editing each file, hunting for the right heading, or remembering which fields are TBD
+- **So that:** without `/elicit`, a brownfield module's docs stay full of TBD placeholders, making them impossible to rebuild into a reliable source of truth for the existing code, and too incomplete to infer a business-layer UC/US from
 - **Trigger:** On demand
 
 ## Expected Behavior
