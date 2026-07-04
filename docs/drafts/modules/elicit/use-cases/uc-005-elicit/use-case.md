@@ -39,7 +39,9 @@ TBD (will be linked after /compose) — belongs to the brownfield documentation 
 
 ## Business Rules
 
-TBD (what business rules should apply here — e.g. must every brownfield module go through `/elicit` before `/compose`? Can `/elicit` be re-run on a module whose TBDs were already filled? Are there minimum-quality bars for the answers — e.g. "Goal must be in user-facing language"?) — `/elicit` fills this (in a future iteration on this very module).
+- Every brownfield module must go through `/elicit` before it can be included in `/compose`
+- `/elicit` does not need to be re-run on a module whose TBDs are already filled, unless the user explicitly requests it
+- The Goal (Q3 answer) must be written in user-facing language — not internal/implementation terms
 
 ## Postconditions
 
@@ -75,15 +77,15 @@ On stop (user says "skip" / "not sure" on a TBD): the marker stays as `TBD (ask 
 
 ## Exception Flows
 
-- **E1 — Named module doesn't exist under `docs/drafts/modules/`**: report which module path was searched and not found; suggest running `/scan-deep {module}` first; stop
-- **E2 — Module exists but has no TBD placeholders**: report "nothing to elicit — module's business context is already complete"; suggest `/compose` if ≥2 modules are ready, otherwise `/scan-deep` on the next module
-- **E3 — User says "skip" or "not sure" on a TBD**: leave the marker but rewrite it as `TBD (ask product team)` or `TBD (deferred)` — never silently drop the TBD; record the reason so the summary block can list it
-- **E4 — User abandons mid-interview**: file writes already happened up to the last completed phase, so partial progress is preserved; do NOT roll back; on next `/elicit` invocation the user can resume — the skill detects which TBDs remain and continues from there
-- **E5 — Module has multiple UCs with materially different actors / goals**: in Phase 1 and Phase 2, ask the questions separately per US file (or per UC, depending on where the divergence sits); Phases 3 and 4 are always per-UC since flows and exceptions differ
-- **E6 — Module's draft file lacks a frontmatter `sections` map** (older `/scan-deep` output or hand-written drafts): fall back to the default aliases from `format.md` / `skills/init/references/format.md`, but warn the user that the file's heading names may not match the schema — recommend re-running `/scan-deep` to restamp frontmatter
-- **E7 — Cross-module reference can't be resolved AND the user can't confirm the other module's status**: leave as `TBD (deferred until {other-module}'s loop completes)`; do NOT block the interview
-- **E8 — User offers a UC rename in Phase 3 but the new slug would collide with an existing UC folder**: report the collision; ask for a different name; do not rename until a non-colliding slug is given
-- **E9 — Module was produced by `/design-plan`, not `/scan-deep`** (detectable by inspecting whether `docs/drafts/use-cases/uc-{N}/use-case.md` references this module's UC via `implemented-by`, or whether the module folder has a `serves` link to a business UC drafted by `/draft`): refuse to run; tell the user `/elicit` is brownfield-only and the greenfield equivalent for filling these TBDs lives elsewhere (currently a gap — no greenfield-elicit skill exists)
+- **E1 — Named module doesn't exist under `docs/drafts/modules/`** (recoverable): report which module path was searched and not found; suggest running `/scan-deep {module}` first; stop
+- **E2 — Module exists but has no TBD placeholders** (recoverable): report "nothing to elicit — module's business context is already complete"; suggest `/compose` if ≥2 modules are ready, otherwise `/scan-deep` on the next module
+- **E3 — User says "skip" or "not sure" on a TBD** (recoverable): leave the marker but rewrite it as `TBD (ask product team)` or `TBD (deferred)` — never silently drop the TBD; record the reason so the summary block can list it
+- **E4 — User abandons mid-interview** (recoverable): file writes already happened up to the last completed phase, so partial progress is preserved; do NOT roll back; on next `/elicit` invocation the user can resume — the skill detects which TBDs remain and continues from there
+- **E5 — Module has multiple UCs with materially different actors / goals** (recoverable): in Phase 1 and Phase 2, ask the questions separately per US file (or per UC, depending on where the divergence sits); Phases 3 and 4 are always per-UC since flows and exceptions differ
+- **E6 — Module's draft file lacks a frontmatter `sections` map** (older `/scan-deep` output or hand-written drafts) (recoverable): fall back to the default aliases from `format.md` / `skills/init/references/format.md`, but warn the user that the file's heading names may not match the schema — recommend re-running `/scan-deep` to restamp frontmatter
+- **E7 — Cross-module reference can't be resolved AND the user can't confirm the other module's status** (recoverable): leave as `TBD (deferred until {other-module}'s loop completes)`; do NOT block the interview
+- **E8 — User offers a UC rename in Phase 3 but the new slug would collide with an existing UC folder** (recoverable): report the collision, highlighting the update-cascade impact (folder rename, file renames, and any in-module cross-references that would need to follow); present the user with explicit options — pick a different non-colliding slug, keep the current name, or cancel the rename — and do not rename until the user picks one
+- **E9 — Module was produced by `/design-plan`, not `/scan-deep`** (detectable by inspecting whether `docs/drafts/use-cases/uc-{N}/use-case.md` references this module's UC via `implemented-by`, or whether the module folder has a `serves` link to a business UC drafted by `/draft`) (contact support — wrong workflow): refuse to run; tell the user `/elicit` is brownfield-only and the greenfield equivalent for filling these TBDs lives elsewhere (currently a gap — no greenfield-elicit skill exists)
 
 ## Serves
 

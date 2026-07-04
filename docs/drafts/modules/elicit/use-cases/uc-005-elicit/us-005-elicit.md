@@ -26,14 +26,14 @@ TBD (will be linked after /compose) — expected target: the brownfield workflow
 
 ## Story
 
-- **As:** TBD (who calls this — end user, internal service, or automated process? In context: typically a documentation owner, product engineer, or coding agent picking up a brownfield codebase shortly after `/scan-deep`; `/elicit` should confirm whether anyone else is a direct actor — e.g. business analysts running it during a discovery workshop.)
-- **I want to:** TBD (what does the caller want to achieve? Likely: "answer a small, focused set of business questions and have those answers land in the right module-doc sections — without manually editing each file, hunting for the right heading, or remembering which fields are TBD.")
-- **So that:** TBD (what stops working if this entry point disappears? Likely: "the brownfield loop loses its bridge from technical scaffolding to product-readable documentation; `/compose` has nothing to compose because module Stories remain `TBD (who calls this...)`; downstream business UCs can't be synthesised; the project ends up with code that has no narrative.")
-- **Trigger:** TBD (what makes them call this — on demand, event, schedule? Likely: on demand, immediately after `/scan-deep` finishes a module, or as a batch step before `/compose`.)
+- **As:** Developer or maintainer of this repo, or a coding agent acting on their behalf
+- **I want to:** complete the module documentation by answering a small, focused set of business questions and having those answers land in the right module-doc sections — without manually editing each file, hunting for the right heading, or remembering which fields are TBD
+- **So that:** without `/elicit`, a brownfield module's docs stay full of TBD placeholders, making them impossible to rebuild into a reliable source of truth for the existing code, and too incomplete to infer a business-layer UC/US from
+- **Trigger:** On demand
 
 ## Expected Behavior
 
-TBD (fill in after /elicit on this very module — meta) — the high-level promise from the caller's perspective: they answer four short sets of questions (one phase per turn), see file writes happen between phases so they always know what's been captured, and leave with all the answer-able TBDs filled in, all the can't-answer-yet TBDs annotated with the reason, and a summary block that names what was filled and what remains.
+`/elicit` runs a guided, four-phase interview that lets a developer, maintainer, or coding agent fill in the business-context TBDs left in a brownfield module's docs after `/scan-deep` — who uses it, why it exists, and what its errors mean to users. Without it, module docs stay full of TBD placeholders, so they can't serve as a reliable source of truth for the existing code, and there's no way to derive a business-layer doc or hand the module off to `/compose`.
 
 ## API Contract
 
@@ -111,7 +111,7 @@ Not separately addressed. E1 (module not found), E2 (nothing to elicit), E9 (gre
 
 > Skeleton only — Given/When/Then bodies are TBD pending `/elicit` (on this very module). Each scenario maps to one behavioural test in `tests/behavioral/elicit/us-005-*.test.*`.
 
-### Scenario 1: TBD (happy path — single-UC module, all four phases complete, all TBDs replaced, summary printed)
+### Scenario 1: Module documentation completed — all four phases answered, TBDs filled, summary printed
 
 - **Given:** TBD
 - **When:** TBD
