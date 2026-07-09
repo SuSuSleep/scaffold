@@ -26,14 +26,14 @@ TBD (will be linked after /compose) — expected target: the greenfield workflow
 
 ## Story
 
-- **As:** TBD (who calls this — end user, internal service, or automated process? In context: typically a developer or product person mid-decision; `/elicit` should confirm whether design leads or solo founders are also direct actors.)
-- **I want to:** TBD (what does the caller want to achieve? Likely: "think through a problem grounded in the real code and docs, without the assistant rushing to implementation or burning context on file writes I don't yet want.")
-- **So that:** TBD (what stops working if this entry point disappears? Likely: "the project loses its pre-commitment thinking space; users either skip exploration and jump straight to drafts (often producing premature or wrong-shape requirements) or rely on the assistant's default 'be helpful = ship something' tendency, which costs rework downstream.")
-- **Trigger:** TBD (what makes them call this — on demand, event, schedule? Likely: on demand, whenever a problem feels under-shaped to draft against — including proactively during spec, design, or implementation phases when a decision needs unpacking before proceeding.)
+- **As:** Developer or maintainer of this repo
+- **I want to:** understand current repo with coding agent and clarify unclear detail, like target, method, and etc.
+- **So that:** User would be hard to align their thought or idea with coding agent. Users need to show every detail about their idea when they don't know what the coding agent don't know.
+- **Trigger:** User would trigger it when it want to do something with current repo (not only this repo, include all repo that have coding agent use this skill)
 
 ## Expected Behavior
 
-TBD (fill in after /elicit) — the high-level promise from the caller's perspective: they invoke `/explore` and get a thinking partner who reads the project's nav context, traces the relevant doc chain, optionally checks code, then engages adaptively — asking, comparing, visualising, proposing — without ever writing code or files. If the conversation crystallises into something worth persisting, the skill offers the right handoff (e.g. *"want me to draft it?"*) and waits; the user is the one who exits explore mode by invoking the next skill.
+`/explore` gives a developer or maintainer a conversation-first way to understand a repo with a coding agent before deciding what should be changed. The skill reads relevant project context, helps clarify unclear details such as the target, method, assumptions, and next step, and keeps all thinking in the conversation instead of writing files. This matters because users often do not know what context the coding agent is missing; without `/explore`, they have to spell out every detail up front and alignment becomes harder.
 
 ## API Contract
 
