@@ -26,14 +26,14 @@ TBD (will be linked after /compose) — expected target: the project-bootstrap w
 
 ## Story
 
-- **As:** TBD (who calls this — end user, internal service, or automated process? In context: typically a developer starting a new project or onboarding to an existing one without docs; `/elicit` should confirm whether tech leads, repo owners, or coding agents acting autonomously are also direct actors.)
-- **I want to:** TBD (what does the caller want to achieve? Likely: "answer a small interview about my project (identity, stack, testing, API), see exactly what will be written before any file lands, then have the entire scaffold materialised in one shot with a single git commit — no per-file confirmations, no piecemeal setup, no surprises.")
-- **So that:** TBD (what stops working if this entry point disappears? Likely: "every new project starts ad-hoc; AGENTS.md / CLAUDE.md / CONVENTIONS.md / docs/schema all need manual authoring; downstream skills (`/draft`, `/setup`, `/scan-all`) have no expected scaffold to operate against; AI agents joining the project can't orient without re-asking the same identity / stack / convention questions every session.")
-- **Trigger:** TBD (what makes them call this — on demand, event, schedule? Likely: on demand, once per project, at the moment the user has a working directory and wants documentation scaffolding to be there. Re-running on a project that already has scaffold files triggers the overwrite-vs-skip pre-flight.)
+- **As:** Project developer or maintainer
+- **I want to:** import the based files for scaffold.
+- **So that:** User can not cowork with ai agent based on scaffold(docs for everything)
+- **Trigger:** On demand when starting a new project
 
 ## Expected Behavior
 
-TBD (fill in after /elicit) — the high-level promise from the caller's perspective: they invoke `/init`, answer ~11 questions across 4 phases, see a complete preview of every file that will be created, confirm, and end up with a fully bootstrapped scaffold + one commit — ready to immediately run `/explore + /setup`, then `/draft`. The scaffold is **structurally identical** across projects (only the filled-in values differ), so downstream skills can rely on a known layout.
+`/init` gives a project developer or maintainer a guided way to import the base scaffold files into a new project. It creates the standard orientation, convention, schema, overview, and workflow folders so the repo has docs for everything the coding agent needs to understand. Without `/init`, the user cannot reliably collaborate with an AI agent through the scaffold because the shared documentation structure is missing.
 
 ## API Contract
 
@@ -129,7 +129,7 @@ Not separately addressed. E2 (preview declined), E5 (no git repo), E6 (non-HTTP)
 
 > Skeleton only — Given/When/Then bodies are TBD pending `/elicit`. Each scenario maps to one behavioural test in `tests/behavioral/init/us-007-*.test.*`.
 
-### Scenario 1: TBD (happy path — empty repo, full interview, preview accepted, all scaffold files written, single git commit created, summary printed with next steps)
+### Scenario 1: Base scaffold files imported into a new project
 
 - **Given:** TBD
 - **When:** TBD

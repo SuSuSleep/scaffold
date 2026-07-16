@@ -41,7 +41,7 @@ TBD (will be linked after /compose) — belongs to the brownfield documentation 
 
 ## Business Rules
 
-TBD (what business rules should apply here — e.g. is `/scan-deep` allowed to overwrite an existing module draft folder, or must the user delete it first? Should there be a minimum-file-count threshold below which the skill refuses (single-file modules might be too thin to scan-deep)? Are some module names reserved or excluded?) — `/elicit` fills this.
+None — the technical preconditions cover it.
 
 ## Postconditions
 
@@ -131,16 +131,16 @@ A module that mixes shapes (e.g. a route handler AND an event listener) produces
 
 ## Exception Flows
 
-- **E1 — `docs/drafts/coverage.md` does not exist**: refuse to run; tell the user to run `/scan-all` first. Make no changes
-- **E2 — All `Scan` rows are already `[x]`**: report "all modules scanned"; suggest `/elicit` on any module with TBD business context, or `/verify` if the workflow is fully complete; make no changes
-- **E3 — Named module doesn't exist in `src/`** (or doesn't appear as a row in `coverage.md`): report the lookup failure; suggest `/scan-all` to refresh the tracker; make no changes
-- **E4 — User doesn't answer Q1 (and/or Q2) — abandons the confirmation gate**: no file is written; `coverage.md` is not modified; the conversation can be resumed later by re-invoking `/scan-deep {module}`. This is a hard precondition for any write
-- **E5 — User corrects the module one-liner in Q1**: incorporate the correction; the corrected one-liner becomes the framing for all derived UC bodies (specifically the use-case.md title line and the Primary Actor description). Do NOT silently use the original one-liner
-- **E6 — User says cross-module calls in Q2 belong to a higher-level orchestrator, not this module**: scope the module UC's Postconditions and Main Flow to the boundary the user described — write the dependency in `related` as a TBD without claiming this module owns the orchestration
-- **E7 — Module folder for an existing UC already exists in `docs/drafts/modules/{module}/use-cases/uc-{id}-{slug}/`**: do NOT overwrite silently; surface the collision and ask the user whether to (a) skip that UC, (b) assign new IDs and write alongside, or (c) delete the existing draft and rewrite. The default is (b) (preserve everything)
-- **E8 — Module has zero entry points** (e.g. all files are internal helpers or constants with no exported surface): use `api-type: none` and write a single UC describing the module's internal role; in the summary, flag that the module may not warrant business-layer composition (no entry point = no business UC to derive)
-- **E9 — User explicitly asks `/scan-deep` to also fanout to another module's code** during the same run: refuse and explain the boundary — `/scan-deep` is single-module per invocation; the user should run `/scan-deep {other-module}` separately
-- **E10 — Source code reading reveals significant divergence between code structure and the coverage.md row** (e.g. the module turns out to be empty / renamed / a stub): surface the mismatch; do NOT silently flip `Scan [x]`; ask the user whether to update `coverage.md` (preferably via re-running `/scan-all`) or to proceed with what's there
+- **E1 — `docs/drafts/coverage.md` does not exist** (contact support): refuse to run; tell the user to run `/scan-all` first. Make no changes
+- **E2 — All `Scan` rows are already `[x]`** (contact support): report "all modules scanned"; suggest `/elicit` on any module with TBD business context, or `/verify` if the workflow is fully complete; make no changes
+- **E3 — Named module doesn't exist in `src/`** (contact support): or doesn't appear as a row in `coverage.md`; report the lookup failure; suggest `/scan-all` to refresh the tracker; make no changes
+- **E4 — User doesn't answer Q1 (and/or Q2) — abandons the confirmation gate** (contact support): no file is written; `coverage.md` is not modified; the conversation can be resumed later by re-invoking `/scan-deep {module}`. This is a hard precondition for any write
+- **E5 — User corrects the module one-liner in Q1** (recoverable): incorporate the correction; the corrected one-liner becomes the framing for all derived UC bodies (specifically the use-case.md title line and the Primary Actor description). Do NOT silently use the original one-liner
+- **E6 — User says cross-module calls in Q2 belong to a higher-level orchestrator, not this module** (recoverable): scope the module UC's Postconditions and Main Flow to the boundary the user described — write the dependency in `related` as a TBD without claiming this module owns the orchestration
+- **E7 — Module folder for an existing UC already exists in `docs/drafts/modules/{module}/use-cases/uc-{id}-{slug}/`** (recoverable): do NOT overwrite silently; surface the collision and ask the user whether to (a) skip that UC, (b) assign new IDs and write alongside, or (c) delete the existing draft and rewrite. The default is (b) (preserve everything)
+- **E8 — Module has zero entry points** (recoverable): e.g. all files are internal helpers or constants with no exported surface; use `api-type: none` and write a single UC describing the module's internal role; in the summary, flag that the module may not warrant business-layer composition (no entry point = no business UC to derive)
+- **E9 — User explicitly asks `/scan-deep` to also fanout to another module's code** (recoverable): during the same run, refuse and explain the boundary — `/scan-deep` is single-module per invocation; the user should run `/scan-deep {other-module}` separately
+- **E10 — Source code reading reveals significant divergence between code structure and the coverage.md row** (contact support): e.g. the module turns out to be empty / renamed / a stub; surface the mismatch; do NOT silently flip `Scan [x]`; ask the user whether to update `coverage.md` (preferably via re-running `/scan-all`) or to proceed with what's there
 
 ## Serves
 

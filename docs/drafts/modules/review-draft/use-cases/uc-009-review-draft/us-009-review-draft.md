@@ -26,14 +26,14 @@ TBD (will be linked after /compose) — expected target: the greenfield workflow
 
 ## Story
 
-- **As:** TBD (who calls this — end user, internal service, or automated process? In context: typically a developer or product owner just after writing or amending drafts via `/draft`; `/elicit` should confirm whether design leads, tech leads, or business stakeholders are also direct actors.)
-- **I want to:** TBD (what does the caller want to achieve? Likely: "see a comprehensive quality report on my business drafts without having to remember which sections need what, and have the reviewed state automatically pinned in git when — and only when — every UC reaches READY.")
-- **So that:** TBD (what stops working if this entry point disappears? Likely: "the workflow loses its quality gate between requirement capture and planning; `/design-plan` runs on drafts that may be incoherent, vague, or missing critical scenarios; the reviewed state isn't pinned, so 'this was reviewed and ready' becomes a memory claim rather than a git fact.")
-- **Trigger:** TBD (what makes them call this — on demand, event, schedule? Likely: on demand, immediately after `/draft` makes a change to business-layer drafts, and before `/design-plan`.)
+- **As:** Project developer or maintainer
+- **I want to:** check whether the document in draft is complete or needs to write down more details.
+- **So that:** If I don't have this skill, I need to read all of the rules and understand all the content of the document in draft. Then I can do the suggestion.
+- **Trigger:** On demand when they need to check whether drafts match the required format and rules
 
 ## Expected Behavior
 
-TBD (fill in after /elicit) — the high-level promise from the caller's perspective: they invoke `/review-draft`, see a structured per-UC report (READY / NEEDS REVIEW / BLOCKED) with named findings (BLOCKERS, WARNINGS, SUGGESTIONS) plus a plan-together advisory; the skill never edits a draft to fix anything (read-only on docs by invariant); if every UC reaches READY, the skill commits `docs/drafts/` as a review checkpoint with a verbose message listing each item and its verdict — providing a traceable anchor for "the exact state that passed review."
+`/review-draft` gives a project developer or maintainer a structured way to check whether draft documents are complete, follow the required format and workflow rules, and need more detail before planning. It reads the draft documents, applies the scaffold review rules, and reports what is READY, what NEEDS REVIEW, and what is BLOCKED without editing the drafts directly. Without `/review-draft`, the user has to read all rules and understand every draft document manually before they can make useful suggestions.
 
 ## API Contract
 
@@ -136,7 +136,7 @@ Not separately addressed. E1 (no drafts), E3 / E5 (refusal cases), E6 (no git re
 
 > Skeleton only — Given/When/Then bodies are TBD pending `/elicit`. Each scenario maps to one behavioural test in `tests/behavioral/review-draft/us-009-*.test.*`.
 
-### Scenario 1: TBD (happy path — single UC, all checks pass, full-READY verdict, `docs/drafts/` committed with verbose message, "Ready for design-plan" footer printed)
+### Scenario 1: Draft documents checked for completeness and readiness
 
 - **Given:** TBD
 - **When:** TBD

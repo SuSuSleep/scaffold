@@ -108,7 +108,7 @@ There is no terminal "complete" outcome — every outcome is mid-conversation or
 
 > Skeleton only — Given/When/Then bodies are TBD pending `/elicit`. Each scenario maps to one behavioural test in `tests/behavioral/explore/us-006-*.test.*`.
 
-### Scenario 1: TBD (happy path — user explores a vague idea; skill orients, maps doc chain, asks emergent questions, sketches options, proposes a direction, offers a capture handoff; user accepts and exits to `/draft`)
+### Scenario 1: Understand current repo and clarify unclear details with a coding agent
 
 - **Given:** TBD
 - **When:** TBD

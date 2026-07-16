@@ -26,14 +26,14 @@ TBD (will be linked after /compose) — expected target: the brownfield workflow
 
 ## Story
 
-- **As:** TBD (who calls this — end user, internal service, or automated process? In context: typically a documentation owner, product engineer, or coding agent picking up a brownfield codebase right after `/scan-all`; `/elicit` should confirm whether tech leads or repo onboarders are also direct actors.)
-- **I want to:** TBD (what does the caller want to achieve? Likely: "produce a complete first-pass set of module-layer UC + US drafts for one module's entry points without manually enumerating route handlers, function signatures, error types, and api-type variants — and without accidentally fanning out into other modules' code.")
-- **So that:** TBD (what stops working if this entry point disappears? Likely: "the brownfield loop loses its 'read code and propose drafts' bridge between `/scan-all`'s tracker and `/elicit`'s business-context interview; every module's first-pass docs have to be authored by hand; the api-type-per-entry-point detection has to be redone case-by-case; the `Scan [x]` column never gets flipped automatically.")
-- **Trigger:** TBD (what makes them call this — on demand, event, schedule? Likely: on demand, immediately after `/scan-all` produces a coverage tracker, or any time a new unchecked-Scan row appears.)
+- **As:** Project developer or maintainer
+- **I want to:** understand what each module does, such as entry point, flow in each module, what functions module have.
+- **So that:** If the skill disappear overnight, user need to review all of the code by themselves.
+- **Trigger:** On demand when they want to understand what kind of work each module does
 
 ## Expected Behavior
 
-TBD (fill in after /elicit) — the high-level promise from the caller's perspective: they invoke `/scan-deep` (with a module name or unnamed → first unchecked row), see a 3-line summary, answer the two mandatory confirmation questions, and end up with a complete set of module-layer UC + US drafts (api-types correctly chosen, code-derivable fields filled, TBDs marked with guiding questions for `/elicit`) plus a flipped `Scan [x]` in `coverage.md` — without any source-code modification or git commit.
+`/scan-deep` helps a project developer or maintainer understand what one module does by reading its source and producing first-pass module documentation. It identifies the module's entry points, internal flow, functions, data shapes, side effects, and code-derived exceptions, then writes module UC/US drafts with business-context fields left for `/elicit`. Without `/scan-deep`, the user has to review all module code manually to understand what each module does before rebuilding documentation.
 
 ## API Contract
 
@@ -143,7 +143,7 @@ Not separately addressed. E1 (no coverage.md), E2 (all scanned), E3 (module not 
 
 > Skeleton only — Given/When/Then bodies are TBD pending `/elicit`. Each scenario maps to one behavioural test in `tests/behavioral/scan-deep/us-011-*.test.*`.
 
-### Scenario 1: TBD (happy path — named module with 1 REST entry point; Q1 confirmed; Q2 confirmed; one UC + US written with `api-type: rest`; coverage.md `Scan [x]` flipped; summary printed)
+### Scenario 1: Module source reviewed and first-pass docs produced
 
 - **Given:** TBD
 - **When:** TBD

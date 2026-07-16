@@ -37,7 +37,7 @@ TBD (will be linked after /compose) — belongs to the project-maintenance workf
 
 ## Business Rules
 
-TBD (what business rules should apply here — e.g. who is permitted to evolve the schema? Should format.md changes require ≥1 approver before migration? Is bootstrap mode only allowed when no schema files exist at all, or also when only one of the two exists? Should the skill refuse if any in-flight `/apply` is mid-execution against the old schema?) — `/elicit` fills this.
+None — the technical preconditions cover it.
 
 ## Postconditions
 
@@ -138,16 +138,16 @@ Invariants (apply in every mode):
 
 ## Exception Flows
 
-- **E1 — Both schema files missing AND no documents to bootstrap** (truly fresh project): suggest running `/init` instead; `/init` is the canonical bootstrap path for greenfield projects; `/schema-update` bootstrap mode is for adding a schema to a project that already has legacy documents
-- **E2 — Ambiguous change in the interview** ("add a section" without a name; "rename" without specifying which): ask for clarification; do NOT proceed until the change is unambiguous
-- **E3 — User abandons during the classification confirmation (Step 4)**: no file written; classifications can be recomputed on next invocation
-- **E4 — Class 3 user declines on a document**: skip that document; add to "deferred" list; continue with other documents; do NOT halt the run
-- **E5 — Legacy document headings match no known alias** (Step 7 fallthrough): **leave the document unmodified**; add to "Manual review" list with the unrecognised headings noted; report after all other documents are migrated
-- **E6 — Path pattern matches no known doc-type** (e.g. a UC file in an unexpected location): leave unmodified; add to "Manual review" with the path; report
-- **E7 — Schema files exist but their frontmatter is malformed**: refuse to read the version; surface the parse failure; ask the user to fix the schema file manually before re-running — do NOT auto-repair the frontmatter (risk of misinterpreting intent)
-- **E8 — Concurrent `/apply` or `/draft` run mid-flight (detectable via uncommitted drafts modified after `format.md`'s mtime)**: warn the user that the in-flight skill may be operating against the old schema; ask whether to proceed (accepting that the in-flight skill's output may need a follow-up migration) or to abort and let the in-flight skill complete first
-- **E9 — A document's existing frontmatter `schema-version` is HIGHER than the version currently in `format.md`**: do NOT downgrade; surface this as a Manual-review item and ask the user how to reconcile (likely the schema was updated elsewhere or the file was edited from a future version of the project)
-- **E10 — User requests both bootstrap mode AND custom changes in the same run**: support it — bootstrap with the user's specified schema, then apply the changes on top in the same pass. Migration report should distinguish "bootstrapped" from "evolved"
+- **E1 — Both schema files missing AND no documents to bootstrap** (contact support): truly fresh project; suggest running `/init` instead; `/init` is the canonical bootstrap path for greenfield projects; `/schema-update` bootstrap mode is for adding a schema to a project that already has legacy documents
+- **E2 — Ambiguous change in the interview** (recoverable): "add a section" without a name; "rename" without specifying which; ask for clarification; do NOT proceed until the change is unambiguous
+- **E3 — User abandons during the classification confirmation (Step 4)** (recoverable): no file written; classifications can be recomputed on next invocation
+- **E4 — Class 3 user declines on a document** (recoverable): skip that document; add to "deferred" list; continue with other documents; do NOT halt the run
+- **E5 — Legacy document headings match no known alias** (recoverable): Step 7 fallthrough; **leave the document unmodified**; add to "Manual review" list with the unrecognised headings noted; report after all other documents are migrated
+- **E6 — Path pattern matches no known doc-type** (recoverable): e.g. a UC file in an unexpected location; leave unmodified; add to "Manual review" with the path; report
+- **E7 — Schema files exist but their frontmatter is malformed** (recoverable): refuse to read the version; surface the parse failure; ask the user to fix the schema file manually before re-running — do NOT auto-repair the frontmatter (risk of misinterpreting intent)
+- **E8 — Concurrent `/apply` or `/draft` run mid-flight (detectable via uncommitted drafts modified after `format.md`'s mtime)** (contact support): warn the user that the in-flight skill may be operating against the old schema; ask whether to proceed (accepting that the in-flight skill's output may need a follow-up migration) or to abort and let the in-flight skill complete first
+- **E9 — A document's existing frontmatter `schema-version` is HIGHER than the version currently in `format.md`** (contact support): do NOT downgrade; surface this as a Manual-review item and ask the user how to reconcile (likely the schema was updated elsewhere or the file was edited from a future version of the project)
+- **E10 — User requests both bootstrap mode AND custom changes in the same run** (contact support): support it — bootstrap with the user's specified schema, then apply the changes on top in the same pass. Migration report should distinguish "bootstrapped" from "evolved"
 
 ## Serves
 

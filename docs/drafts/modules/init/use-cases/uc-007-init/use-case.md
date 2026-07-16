@@ -35,7 +35,7 @@ TBD (will be linked after /compose) — belongs to the project-bootstrap workflo
 
 ## Business Rules
 
-TBD (what business rules should apply here — e.g. is `/init` allowed to run on a project that already has *some* scaffold files? Should there be guardrails against running it on a non-empty docs/ tree? Are there projects where `/init` should refuse to run, e.g. a project that has confirmed UCs already?) — `/elicit` fills this.
+None — the technical preconditions cover it.
 
 ## Postconditions
 
@@ -68,7 +68,7 @@ On stop (user declines the preview in Step 2, or pre-flight overwrite question g
 ## Main Flow
 
 1. **Pre-flight check** — list any existing scaffold files (`AGENTS.md`, `CLAUDE.md`, `README.md`, `CONVENTIONS.md`, `docs/overview/`); if any exist, ask the user whether to overwrite or skip the existing ones; wait for the answer before proceeding
-2. **Phase 1 — Service identity**: Q1 project name; Q2 one-paragraph description (what business problem, who uses it, what it produces). Wait for answers before continuing
+2. **Phase 1 — Service purpose**: Q1 project name; Q2 one-paragraph description (what business problem, who uses it, what it produces). Wait for answers before continuing
 3. **Phase 2 — Tech stack**: Q3 language + framework. Infer naming conventions from the stack table (TypeScript / Python / Go / Java / Kotlin / Ruby supported by default); show inferred conventions; Q4 confirms or amends them
 4. **Phase 3 — Testing**: Q5 test tool; Q6 four commands (verify / behavioral / coverage / report); Q7 minimum coverage threshold (default 80%). Suggest sensible defaults from the testing-defaults table when the user doesn't know
 5. **Phase 3b — Quality tooling**: infer linter, formatter, typecheck commands from the stack; show the inferred set; Q8 confirms or amends; Q9 asks whether a build/compile step is required before tests
@@ -86,15 +86,15 @@ On stop (user declines the preview in Step 2, or pre-flight overwrite question g
 
 ## Exception Flows
 
-- **E1 — Some scaffold files already exist** (pre-flight detects `AGENTS.md`, `docs/overview/`, etc.): list them, ask overwrite-or-skip; the user's answer determines per-file behavior in Step 3 (overwrite = full template; skip = leave existing untouched, but other files in the scaffold still proceed). Do NOT silently overwrite
-- **E2 — User declines the preview in Step 2**: stop without writing anything; ask what they want to change; loop back to the relevant interview phase
-- **E3 — User says "I don't know" on a quality-tool / test-command question**: propose the sensible default for the named tool from the defaults table; ask for confirm. Stack-aware defaulting is init's responsibility (Q2 boundary 2a); ongoing tuning is `/setup`'s
-- **E4 — Stack is unknown / not in the inference tables**: ask the user for the conventions, lint command, format command, typecheck command directly; do not block init on a stack not in the table — degrade to free-form input
-- **E5 — Not a git repository at commit time**: skip the `git add` + `git commit` step silently; note in the summary "Not a git repository — files written, no commit created"; do NOT auto-`git init` (that's a separate user choice). All file writes still persist
-- **E6 — User says "no" to the HTTP-service question (Q10)**: skip the `api-spec.yaml` write; do not list it in the summary; do not refer to it anywhere else in the scaffold
-- **E7 — `.gitignore` already exists with conflicting entries**: append the scaffold section at the end (never deduplicate or reorganise existing entries — that's not init's job); rely on the section header (`# ── Added by @sususleep/scaffold — {date} ({stack}) ──`) to disambiguate
-- **E8 — Templates in `references/` cannot be read**: refuse to run; report which template is missing; the user must restore the references before re-invoking. The skill does NOT regenerate template contents from memory — that risks divergence from `/schema-update`'s expected baseline
-- **E9 — User asks init to populate Module Overview / glossary / draft folders during the interview**: refuse politely; explain that those are filled later by `/scan-all` + `/scan-deep` (architecture) / `/setup` (glossary) / `/draft` (drafts); offer to run those skills after `/init` completes
+- **E1 — Some scaffold files already exist** (recoverable): pre-flight detects `AGENTS.md`, `docs/overview/`, etc.; list them, ask overwrite-or-skip; the user's answer determines per-file behavior in Step 3 (overwrite = full template; skip = leave existing untouched, but other files in the scaffold still proceed). Do NOT silently overwrite
+- **E2 — User declines the preview in Step 2** (recoverable): stop without writing anything; ask what they want to change; loop back to the relevant interview phase
+- **E3 — User says "I don't know" on a quality-tool / test-command question** (recoverable): propose the sensible default for the named tool from the defaults table; ask for confirm. Stack-aware defaulting is init's responsibility (Q2 boundary 2a); ongoing tuning is `/setup`'s
+- **E4 — Stack is unknown / not in the inference tables** (recoverable): ask the user for the conventions, lint command, format command, typecheck command directly; do not block init on a stack not in the table — degrade to free-form input
+- **E5 — Not a git repository at commit time** (recoverable): skip the `git add` + `git commit` step silently; note in the summary "Not a git repository — files written, no commit created"; do NOT auto-`git init` (that's a separate user choice). All file writes still persist
+- **E6 — User says "no" to the HTTP-service question (Q10)** (recoverable): skip the `api-spec.yaml` write; do not list it in the summary; do not refer to it anywhere else in the scaffold
+- **E7 — `.gitignore` already exists with conflicting entries** (recoverable): append the scaffold section at the end (never deduplicate or reorganise existing entries — that's not init's job); rely on the section header (`# ── Added by @sususleep/scaffold — {date} ({stack}) ──`) to disambiguate
+- **E8 — Templates in `references/` cannot be read** (contact support): refuse to run; report which template is missing; the user must restore the references before re-invoking. The skill does NOT regenerate template contents from memory — that risks divergence from `/schema-update`'s expected baseline
+- **E9 — User asks init to populate Module Overview / glossary / draft folders during the interview** (contact support): refuse politely; explain that those are filled later by `/scan-all` + `/scan-deep` (architecture) / `/setup` (glossary) / `/draft` (drafts); offer to run those skills after `/init` completes
 
 ## Serves
 

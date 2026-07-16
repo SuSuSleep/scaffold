@@ -26,14 +26,14 @@ TBD (will be linked after /compose) — expected target: the greenfield workflow
 
 ## Story
 
-- **As:** TBD (who calls this — end user, internal service, or automated process? In context: typically a developer or coding agent about to open a PR; `/elicit` should confirm whether release engineers or CI-driven runs are also direct actors.)
-- **I want to:** TBD (what does the caller want to achieve? Likely: "be confident that the changed confirmed docs on my branch match the behavioural tests and the code before I ask anyone for a code review; and have the opportunity to commit my still-unstaged doc changes as the final commit without it happening silently.")
-- **So that:** TBD (what stops working if this entry point disappears? Likely: "PRs to main go out without delta-scoped alignment checks; the project loses its 'last line of defence' against TBD leaks, scenario/test count drift, and stale references; the workflow's clean handoff from `/merge` (which leaves doc changes unstaged) to PR-open never gets a structured gate.")
-- **Trigger:** TBD (what makes them call this — on demand, event, schedule? Likely: on demand, immediately after `/merge` announces "Ready for /verify", before the user opens a PR to main.)
+- **As:** Project developer or maintainer
+- **I want to:** quickly confirm all the merge doc are correct formatted, and after all correct, then commit.
+- **So that:** If not skill, user need to review all doc manually.
+- **Trigger:** On demand when they want to confirm the merged docs are correct and match the required format
 
 ## Expected Behavior
 
-TBD (fill in after /elicit) — the high-level promise from the caller's perspective: they invoke `/verify`, the skill identifies scope via `git diff main...HEAD`, runs four checks per changed confirmed US (three hard, one soft), and prints a `CLEAN` or `MISALIGNED` report. On CLEAN with uncommitted doc changes, the skill asks "shall I commit?" and commits only on an explicit "yes" — otherwise the working tree is left untouched. On MISALIGNED, the skill prints recommendations but never modifies any file, never creates a fix plan, never invokes another skill.
+`/verify` helps a project developer or maintainer quickly confirm that merged confirmed docs are correctly formatted and aligned before opening a PR. It checks the branch's changed confirmed docs against related tests and code, reports whether the branch is CLEAN or MISALIGNED, and only after a clean result offers to commit the verified doc changes. Without `/verify`, the user has to manually review every merged doc before they can trust and commit the final branch state.
 
 ## API Contract
 
@@ -148,7 +148,7 @@ Not separately addressed. E1 (no git diff), E3 (running on main), E10/E11 (fix r
 
 > Skeleton only — Given/When/Then bodies are TBD pending `/elicit`. Each scenario maps to one behavioural test in `tests/behavioral/verify/us-014-*.test.*`.
 
-### Scenario 1: TBD (CLEAN happy path — working tree clean — report printed with all ✓; ends with "ready to open PR to main."; no commit prompt; nothing written)
+### Scenario 1: Merged docs verified and ready for PR
 
 - **Given:** TBD
 - **When:** TBD

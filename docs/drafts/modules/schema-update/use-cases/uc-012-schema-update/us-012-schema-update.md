@@ -26,14 +26,14 @@ TBD (will be linked after /compose) — expected target: the project-maintenance
 
 ## Story
 
-- **As:** TBD (who calls this — end user, internal service, or automated process? In context: typically the project owner, tech lead, or documentation steward; `/elicit` should confirm whether engineers acting autonomously are also direct actors.)
-- **I want to:** TBD (what does the caller want to achieve? Likely: "change the document schema or workflow rules (add a required field, rename a heading, switch ID policy, etc.) and have every existing document updated to match the new shape — with placeholder content where I now need to fill something in and confirmation prompts before anything destructive — without having to migrate documents one-by-one by hand.")
-- **So that:** TBD (what stops working if this entry point disappears? Likely: "schema evolution becomes manual and error-prone; documents drift across versions; legacy projects can never adopt the schema concept without rewriting every file by hand; the workflow loses its ability to evolve over time.")
-- **Trigger:** TBD (what makes them call this — on demand, event, schedule? Likely: on demand, whenever the project decides to evolve the schema — adding a section to all use cases, switching an ID policy, introducing the schema concept to a legacy project, etc.)
+- **As:** Project developer or maintainer
+- **I want to:** quickly review the difference between the new schema and the current document. Then they can easily update the current document to match the new schema.
+- **So that:** If without this skill, they need to review all the documents manually.
+- **Trigger:** On demand when the schema updates and current documents need to match the new schema
 
 ## Expected Behavior
 
-TBD (fill in after /elicit) — the high-level promise from the caller's perspective: they invoke `/schema-update`, describe what they want changed (across 12 categories), see a classified change list (Class 1 / 2 / 3), confirm, and end up with the schema files updated, every affected document migrated, and a clear report of what was auto-updated / what needs human content / what was deferred / what needs manual review. No source code touched, no git operation, no silent edits to unrecognised documents.
+`/schema-update` helps a project developer or maintainer compare the current document set against a new schema and update affected documents to match it. It classifies schema changes, migrates documents where it can, asks for confirmation before destructive changes, and reports what was updated, deferred, or left for manual review. Without `/schema-update`, the user has to inspect every document manually to understand schema differences and bring the docs back into alignment.
 
 ## API Contract
 
@@ -162,7 +162,7 @@ Not separately addressed. E1 (truly fresh project — suggest `/init`), E2 (ambi
 
 > Skeleton only — Given/When/Then bodies are TBD pending `/elicit`. Each scenario maps to one behavioural test in `tests/behavioral/schema-update/us-012-*.test.*`.
 
-### Scenario 1: TBD (happy path Class 1 — rename "Primary Actor" → "Requestor" → every UC's heading text + sections-map key updated; schema-version bumped; report shows N auto-updated)
+### Scenario 1: Documents updated to match the new schema
 
 - **Given:** TBD
 - **When:** TBD
