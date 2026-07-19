@@ -57,16 +57,16 @@ workflow rules (lifecycle/policy):
 >
 > **Workflow rule changes** (affect gates, policy, lifecycle):
 >
-> 6. Modify ID assignment policy (e.g. switch to gap-fill)
-> 7. Change the ADR creation criteria
-> 8. Add or modify a gate (e.g. require N scenarios per US before planning)
-> 9. Change a lifecycle rule (e.g. allow direct edits to confirmed docs)
-> 10. Modify the pre-merge checklist (block on more conditions)
-> 11. Change test conventions (path pattern, naming)
+> 1. Modify ID assignment policy (e.g. switch to gap-fill)
+> 2. Change the ADR creation criteria
+> 3. Add or modify a gate (e.g. require N scenarios per US before planning)
+> 4. Change a lifecycle rule (e.g. allow direct edits to confirmed docs)
+> 5. Modify the pre-merge checklist (block on more conditions)
+> 6. Change test conventions (path pattern, naming)
 >
 > **Other:**
 >
-> 12. Something else — describe it
+> 1. Something else — describe it
 
 Collect all changes before proceeding. Do not start migrating until the full
 change set is described.
