@@ -1,0 +1,79 @@
+---
+schema: web-service
+schema-version: 0
+doc-type: user-story
+id: US-010
+api-type: cli
+sections:
+  parent-link: Belongs to
+  adr-link: Related ADR
+  story: Story
+  expected-behavior: Expected Behavior
+  api-contract: API Contract
+  scenarios: Test Scenarios
+---
+
+# US-010: Resume or Recover an Implementation
+
+## Belongs to
+
+- [UC-003: Manage and Deliver a Business Change](use-case.md)
+
+## Related ADR
+
+- Preserve any ADR scope already recorded by the original plan or generated fix plan.
+
+## Story
+
+As a **project developer or maintainer**
+When **implementation is interrupted or a bounded failure prevents completion**
+I want **the system to preserve completed work and resume from an explicit next unit**
+So that **I do not repeat successful work or manually reconstruct what failed and how to continue**
+
+## Expected Behavior
+
+Re-running implementation starts at the first pending task and retains every completed checkbox. Repeated task failure stops with evidence for human guidance, while final regression failure creates a separate fix plan instead of hiding the failure with unplanned inline changes.
+
+## API Contract
+
+### Command
+
+`/apply [original or fix plan]`
+
+### Flags
+
+None.
+
+### Stdin / Stdout / Stderr
+
+- Stdin: The plan selection when multiple plans exist and guidance after a repeated task failure.
+- Stdout: Resume point, batch progress, preserved completion state, or newly created fix-plan path.
+- Stderr: The failing task or final regression evidence and the attempted corrections.
+
+### Exit Codes
+
+Not applicable to the conversational slash-command interface.
+
+### Notes
+
+- Only one implementation run may update a plan at a time.
+
+## Test Scenarios
+
+### Scenario 1: Partially Completed Plan Resumed
+
+- **Given**: TBD (a plan contains completed and pending tasks)
+- **When**: TBD (the user reruns implementation for that plan)
+- **Then**: the system SHALL preserve completed tasks and continue from the first pending task
+
+### Scenario 2: Task Fails After the Allowed Attempts
+
+- **Given**: TBD (a task's required check repeatedly fails)
+- **When**: TBD (the allowed correction attempts are exhausted)
+- **Then**: the system SHALL leave that task pending, preserve prior completed work, and report the error and attempted fixes
+
+### Scenario 3: Final Regression Creates a Fix Plan
+
+- **Given**: TBD (regular implementation tasks are complete but the final behavioral regression suite fails)
+- **When**: TBD (the final batch runs)
+- **Then**: the system SHALL create and announce a bounded fix plan without committing the failed result
