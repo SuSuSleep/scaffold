@@ -1,5 +1,5 @@
 ---
-schema: web-service
+schema: agent-skills
 schema-version: 0
 doc-type: user-story
 id: US-006
@@ -9,7 +9,7 @@ sections:
   adr-link: Related ADR
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: API Contract
+  api-contract: Interface Contract
   scenarios: Test Scenarios
 ---
 
@@ -34,7 +34,7 @@ So that **future planning does not implement cancelled intent or leave misleadin
 
 The system discovers every in-draft dependency before deleting the cancelled requirement. Safe references are repaired automatically; a dependency that cannot survive the cancellation requires the user's cascade decision.
 
-## API Contract
+## Interface Contract
 
 ### Command
 

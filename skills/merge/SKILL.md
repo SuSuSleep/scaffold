@@ -94,9 +94,9 @@ a test file exists at the path defined by `test-conventions.behavioral-path-patt
 in workflow-rules (default `tests/behavioral/{module}/us-{id}-*.test.*`).
 Report PASS or BLOCKER (list missing files).
 
-**3. API Contract vs api-spec** (warn-only) — for each US file in scope, read
+**3. Interface Contract vs api-spec** (warn-only) — for each US file in scope, read
 its `api-type` frontmatter. If `api-type: rest`: find the api-contract section
-(alias from `format.md`, default "API Contract") and its `### Endpoint`
+(alias from `format.md`, default "Interface Contract") and its `### Endpoint`
 sub-heading. Check whether that endpoint path appears in
 `docs/overview/api-spec.yaml`. Report PASS if found, WARN if not. For any
 other api-type (`function`, `event`, `cli`, `graphql`, `grpc`, `none`): SKIP
@@ -128,7 +128,7 @@ Pre-merge checklist
 ────────────────────────────────────────
 UC main flow     PASS
 Behavioral tests PASS  (4 files verified)
-API Contract     WARN  POST /payments not found in api-spec.yaml
+Interface Contract     WARN  POST /payments not found in api-spec.yaml
 TBD references   2 found — will resolve
 New module       SKIP  (no new module detected)
 ADR supersession PASS  (include only when ADR supersession is involved)
@@ -154,7 +154,7 @@ For each UC in the plan's Scope:
 
 2. For each US file in the moved folder, simplify the api-contract section
    using the section name from its own frontmatter (`sections.api-contract`,
-   default "API Contract"). The summary form depends on the document's
+   default "Interface Contract"). The summary form depends on the document's
    `api-type` frontmatter:
 
    | api-type   | Extract                                    | Summary line                                 |
@@ -321,7 +321,7 @@ Commit:  {short hash} — {commit message}
 - docs/drafts/plans/{plan-name}.md             (deleted)
 
 ### Warnings
-- [API Contract: POST /payments not found in api-spec.yaml]
+- [Interface Contract: POST /payments not found in api-spec.yaml]
 - [TBD: ADR-002 reference in UC-001 could not be resolved — still in drafts]
 ```
 

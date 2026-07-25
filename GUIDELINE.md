@@ -14,7 +14,7 @@ docs/                                # All documentation — centralized
     architecture.md                  # Module relationships, directory structure, key data flows
     glossary.md                      # Business term definitions
     test-strategy.md                 # Testing tools and layering strategy (project-level)
-    api-spec.yaml                    # OpenAPI spec — source of truth for field-level API contracts
+    api-spec.yaml                    # Optional OpenAPI spec for projects with HTTP APIs
   adr/                               # Project-level confirmed architecture decisions
   drafts/                            # ALL work-in-progress (single location)
     use-cases/                       # Business-layer UC/US drafts
@@ -98,7 +98,7 @@ tests/       → Centralized — mirrors module structure, consistent with most 
 | Understand implementation batch planning   | `docs/drafts/plans/`                              |
 | Understand architecture decisions          | `docs/adr/` or `docs/modules/{module}/adr/`       |
 | Understand system structure and data flows | `docs/overview/architecture.md`                   |
-| Look up API field specs                    | `docs/overview/api-spec.yaml`                     |
+| Look up HTTP API specs                     | `docs/overview/api-spec.yaml`                     |
 | Look up business term definitions          | `docs/overview/glossary.md`                       |
 | Look up testing tools and strategy         | `docs/overview/test-strategy.md`                  |
 | Look up quality commands (lint, format, test) | `CONVENTIONS.md`                              |
@@ -264,7 +264,7 @@ Promotion rule: remove `drafts/` from the path — that is the only change on me
    → Project-level ADR moves from docs/drafts/adr/ to docs/adr/
    → Module-level ADR moves from docs/drafts/modules/{module}/adr/ to
      docs/modules/{module}/adr/
-   → US API Contract section rewritten to simplified form (endpoint line only;
+   → US Interface Contract section rewritten to simplified form (endpoint line only;
      full request/response tables are preserved in the API contract file)
    → Module US Interface Contract section simplified to a single "Accepts/Emits" summary line
    → Delete the plan
@@ -320,7 +320,7 @@ Drafts with no updates for more than one iteration → Review at sprint planning
 ```markdown
 # [Project Name]
 
-## What this service does
+## What this project does
 
 One paragraph describing the business positioning of this project.
 
@@ -332,7 +332,7 @@ One paragraph describing the business positioning of this project.
 - Implementation batch plans → docs/drafts/plans/
 - Project architecture decisions → docs/adr/
 - System structure & data flows → docs/overview/architecture.md
-- API field specs → docs/overview/api-spec.yaml
+- HTTP API specs (optional) → docs/overview/api-spec.yaml
 - Business term glossary → docs/overview/glossary.md
 - Testing strategy → docs/overview/test-strategy.md
 - Coding & doc conventions → CONVENTIONS.md
@@ -441,7 +441,7 @@ re-plan quality tests.
 ### Core Principle
 
 > Always maintain current state only. History goes to git. Decision reasoning
-> goes to ADR. API specs go to docs/overview/api-spec.yaml. Scenarios declared in US documents
+> goes to ADR. HTTP API specs, when present, go to docs/overview/api-spec.yaml. Scenarios declared in US documents
 > are the contract — they must be satisfied. Implementation quality tests
 > live in code only and require no documentation.
 
@@ -729,7 +729,7 @@ So that _**
 
 (Describe the expected behavior of this feature)
 
-## API Contract
+## Interface Contract
 
 ### Endpoint
 
@@ -807,7 +807,7 @@ So that _**
 
 (Describe current behavior only — no history)
 
-## API Contract
+## Interface Contract
 
 - Endpoint: (e.g. POST /api/v1/payments, or "CLI: payments process", or "Event: payment.requested")
 
@@ -1138,7 +1138,7 @@ See `CONVENTIONS.md` for all quality commands (verify, coverage, lint, format, t
 ## 5. Maintenance Principles Summary
 
 > **Always maintain current state only. History goes to git. Decision reasoning goes to ADR.
-> API specs go to docs/overview/api-spec.yaml. Scenarios are the contract. Implementation quality tests live in
+> HTTP API specs, when present, go to docs/overview/api-spec.yaml. Scenarios are the contract. Implementation quality tests live in
 > code only. Directory structure is defined in architecture.md — AI must not deviate from it.**
 
 | Document       | Location                        | How to update                       |
@@ -1146,7 +1146,7 @@ See `CONVENTIONS.md` for all quality commands (verify, coverage, lint, format, t
 | README.md      | Project root                    | Overwrite directly                  |
 | CONVENTIONS.md | Project root                    | Overwrite directly                  |
 | Architecture   | docs/overview/                  | Update when structure changes       |
-| API spec       | docs/overview/api-spec.yaml     | Update in place                     |
+| HTTP API spec  | docs/overview/api-spec.yaml     | Update in place when present        |
 | Business UC/US (draft)     | docs/drafts/use-cases/                  | Overwrite directly                  |
 | Business UC/US (confirmed) | docs/use-cases/                         | Overwrite directly                  |
 | Module UC/US (draft)       | docs/drafts/modules/{module}/use-cases/ | Overwrite directly                  |
@@ -1330,7 +1330,7 @@ Plan                        ↔  One batch of work across one or more UCs
 Fix Plan                    ↔  Targeted fix for a regression
 Project ADR                 ↔  Cross-module decision
 Module ADR                  ↔  Single-module internal decision
-API field specs             ↔  API contract file (post-implementation source of truth)
+HTTP API specs              ↔  Optional OpenAPI contract file for HTTP projects
 US scenarios                ↔  The contract — must be satisfied
 Behavioral tests            ↔  Contract verification — protected
 Implementation quality tests↔  Code quality — flexible, code only

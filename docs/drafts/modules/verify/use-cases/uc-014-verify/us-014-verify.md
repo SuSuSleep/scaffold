@@ -1,5 +1,5 @@
 ---
-schema: web-service
+schema: agent-skills
 schema-version: 0
 doc-type: user-story
 id: US-014
@@ -9,7 +9,7 @@ sections:
   derived-from: Derived from
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: API Contract
+  api-contract: Interface Contract
   test-scenarios: Test Scenarios
   serves: Serves
 ---
@@ -35,7 +35,7 @@ TBD (will be linked after /compose) — expected target: the greenfield workflow
 
 `/verify` helps a project developer or maintainer quickly confirm that merged confirmed docs are correctly formatted and aligned before opening a PR. It checks the branch's changed confirmed docs against related tests and code, reports whether the branch is CLEAN or MISALIGNED, and only after a clean result offers to commit the verified doc changes. Without `/verify`, the user has to manually review every merged doc before they can trust and commit the final branch state.
 
-## API Contract
+## Interface Contract
 
 **api-type: `cli`** — invoked as a Claude Code slash command. Mostly single-turn (orient → diff → checks → report). One conditional interactive moment: the commit-yes-no prompt when CLEAN AND working tree has uncommitted doc changes.
 

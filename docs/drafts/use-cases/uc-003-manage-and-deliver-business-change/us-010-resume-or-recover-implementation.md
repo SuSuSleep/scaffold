@@ -1,5 +1,5 @@
 ---
-schema: web-service
+schema: agent-skills
 schema-version: 0
 doc-type: user-story
 id: US-010
@@ -9,7 +9,7 @@ sections:
   adr-link: Related ADR
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: API Contract
+  api-contract: Interface Contract
   scenarios: Test Scenarios
 ---
 
@@ -34,7 +34,7 @@ So that **I do not repeat successful work or manually reconstruct what failed an
 
 Re-running implementation starts at the first pending task and retains every completed checkbox. Repeated task failure stops with evidence for human guidance, while final regression failure creates a separate fix plan instead of hiding the failure with unplanned inline changes.
 
-## API Contract
+## Interface Contract
 
 ### Command
 

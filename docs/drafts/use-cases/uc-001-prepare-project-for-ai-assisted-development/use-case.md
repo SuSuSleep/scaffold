@@ -1,5 +1,5 @@
 ---
-schema: web-service
+schema: agent-skills
 schema-version: 0
 doc-type: use-case
 id: UC-001
@@ -41,7 +41,7 @@ Project developer or maintainer.
 ## Main Flow
 
 1. The project developer or maintainer starts `/init` in the intended project directory and grants permission to create or update the scaffold.
-2. The system guides the user through the project's purpose, technology, testing, quality-tooling, and API information.
+2. The system guides the user through the project's purpose, technology, testing, quality tooling, and interface information.
 3. The user reviews and approves the proposed scaffold changes, including how existing files will be handled.
 4. The system creates the project documentation scaffold and reports the initialized project state.
 5. The user starts `/setup` to complete the project-specific information left by initialization.

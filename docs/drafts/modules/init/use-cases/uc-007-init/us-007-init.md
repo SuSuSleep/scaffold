@@ -1,5 +1,5 @@
 ---
-schema: web-service
+schema: agent-skills
 schema-version: 0
 doc-type: user-story
 id: US-007
@@ -9,7 +9,7 @@ sections:
   derived-from: Derived from
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: API Contract
+  api-contract: Interface Contract
   test-scenarios: Test Scenarios
   serves: Serves
 ---
@@ -35,7 +35,7 @@ TBD (will be linked after /compose) — expected target: the project-bootstrap w
 
 `/init` gives a project developer or maintainer a guided way to import the base scaffold files into a new project. It creates the standard orientation, convention, schema, overview, and workflow folders so the repo has docs for everything the coding agent needs to understand. Without `/init`, the user cannot reliably collaborate with an AI agent through the scaffold because the shared documentation structure is missing.
 
-## API Contract
+## Interface Contract
 
 **api-type: `cli`** — invoked as a Claude Code slash command. Multi-turn within the conversation: pre-flight → 4 interview phases → preview confirmation → single-pass write → commit → summary. Interactive checkpoints at pre-flight (if scaffold exists) and preview (mandatory confirmation).
 
@@ -67,7 +67,7 @@ Not applicable in the OS sense — input is multi-turn conversational. The skill
 Per-turn output across the interview, then preview, then write, then summary:
 
 - **Pre-flight turn**: list of any existing scaffold files + overwrite/skip question (only when something already exists)
-- **Phase 1 turn**: Q1 + Q2 (service identity)
+- **Phase 1 turn**: Q1 + Q2 (project identity)
 - **Phase 2 turn**: Q3 (stack) → inferred naming table → Q4 (confirm)
 - **Phase 3 turn**: Q5 + Q6 + Q7 (test tool + commands + coverage threshold)
 - **Phase 3b turn**: inferred quality-tool table → Q8 (confirm) → Q9 (build step?)
@@ -135,7 +135,7 @@ Not separately addressed. E2 (preview declined), E5 (no git repo), E6 (non-HTTP)
 - **When:** TBD
 - **Then:** TBD
 
-### Scenario 2: TBD (HTTP service — Q10=yes, Q11 supplies base path → api-spec.yaml is written with that base path; non-HTTP path omits the file)
+### Scenario 2: TBD (HTTP API project — Q10=yes, Q11 supplies base path → api-spec.yaml is written with that base path; non-HTTP path omits the file)
 
 - **Given:** TBD
 - **When:** TBD

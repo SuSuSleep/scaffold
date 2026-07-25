@@ -1,5 +1,5 @@
 ---
-schema: web-service
+schema: agent-skills
 schema-version: 0
 doc-type: user-story
 id: US-005
@@ -9,7 +9,7 @@ sections:
   derived-from: Derived from
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: API Contract
+  api-contract: Interface Contract
   test-scenarios: Test Scenarios
   serves: Serves
 ---
@@ -35,7 +35,7 @@ TBD (will be linked after /compose) — expected target: the brownfield workflow
 
 `/elicit` runs a guided, four-phase interview that lets a developer, maintainer, or coding agent fill in the business-context TBDs left in a brownfield module's docs after `/scan-deep` — who uses it, why it exists, and what its errors mean to users. Without it, module docs stay full of TBD placeholders, so they can't serve as a reliable source of truth for the existing code, and there's no way to derive a business-layer doc or hand the module off to `/compose`.
 
-## API Contract
+## Interface Contract
 
 **api-type: `cli`** — invoked as a Claude Code slash command. The interview is multi-turn within the conversation: four phases, one phase per assistant turn, with file writes after each phase (so an interrupted session doesn't lose progress).
 

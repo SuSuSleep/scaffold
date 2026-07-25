@@ -1,5 +1,5 @@
 ---
-schema: web-service
+schema: agent-skills
 schema-version: 0
 doc-type: user-story
 id: US-013
@@ -9,7 +9,7 @@ sections:
   derived-from: Derived from
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: API Contract
+  api-contract: Interface Contract
   test-scenarios: Test Scenarios
   serves: Serves
 ---
@@ -35,7 +35,7 @@ TBD (will be linked after /compose) — expected target: the project-bootstrap w
 
 `/setup` helps a project developer or maintainer fill the basic project information that `/init` left as placeholders by showing where answers are needed and asking targeted questions. It updates the project-owned setup documents, such as test strategy, glossary, conventions, README, and shared test helper registration, without touching feature workflow docs or source code. Without `/setup`, the user has to understand all documents created by `/init` before they can safely fill the placeholders themselves.
 
-## API Contract
+## Interface Contract
 
 **api-type: `cli`** — invoked as a Claude Code slash command. Multi-turn within the conversation: read context → scan scaffold → identify targets → targeted questions → write → summary.
 

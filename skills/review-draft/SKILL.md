@@ -34,7 +34,7 @@ knowable right now.
      `user-story` section aliases so checks can target the right headings
      (default: actor="Primary Actor", flow="Main Flow", exceptions="Exception Flows",
      implemented-by="Implementation Layer Mapping", scenarios="Test Scenarios",
-     api-contract="API Contract", story="Story").
+     api-contract="Interface Contract", story="Story").
    - Read `docs/schema/workflow-rules.md` if it exists — extract any
      `gates.review-draft-*` policies that override the default checks below.
    - Note: each document also carries its own `sections` map in its frontmatter;
@@ -69,7 +69,7 @@ Is the document well-formed? Are required fields present and filled with real
 content (not template placeholders like `[Business Goal Name]` or `xxx`)?
 
 Use each document's own `sections` frontmatter map to look up the actual heading
-names. The checks below use the default web-service aliases; substitute the
+names. The checks below use the default agent-skills aliases; substitute the
 project's aliases when present.
 
 **use-case.md** (defaults: actor="Primary Actor", flow="Main Flow",
@@ -85,7 +85,7 @@ exceptions="Exception Flows", implemented-by="Implementation Layer Mapping"):
 | Module names match `docs/modules/` | N/A | WARNING if unknown module named |
 
 **Each us-{id}-*.md** (defaults: story="Story", scenarios="Test Scenarios",
-api-contract="API Contract"):
+api-contract="Interface Contract"):
 
 | Check | Severity |
 |---|---|

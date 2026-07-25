@@ -1,5 +1,5 @@
 ---
-schema: web-service
+schema: agent-skills
 schema-version: 0
 doc-type: user-story
 id: US-012
@@ -9,7 +9,7 @@ sections:
   adr-link: Related ADR
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: API Contract
+  api-contract: Interface Contract
   scenarios: Test Scenarios
 ---
 
@@ -34,7 +34,7 @@ So that **the module can be understood, reviewed, and maintained without manuall
 
 The system scans one module, creates one UC per distinct goal-bearing entry point, and fills all high-inferability fields from code. It then incrementally elicits actor, goal, value, rules, and exception meaning before reviewing and promoting the completed module documentation.
 
-## API Contract
+## Interface Contract
 
 ### Command
 

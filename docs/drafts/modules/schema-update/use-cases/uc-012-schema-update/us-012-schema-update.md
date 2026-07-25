@@ -1,5 +1,5 @@
 ---
-schema: web-service
+schema: agent-skills
 schema-version: 0
 doc-type: user-story
 id: US-012
@@ -9,7 +9,7 @@ sections:
   derived-from: Derived from
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: API Contract
+  api-contract: Interface Contract
   test-scenarios: Test Scenarios
   serves: Serves
 ---
@@ -35,7 +35,7 @@ TBD (will be linked after /compose) — expected target: the project-maintenance
 
 `/schema-update` helps a project developer or maintainer compare the current document set against a new schema and update affected documents to match it. It classifies schema changes, migrates documents where it can, asks for confirmation before destructive changes, and reports what was updated, deferred, or left for manual review. Without `/schema-update`, the user has to inspect every document manually to understand schema differences and bring the docs back into alignment.
 
-## API Contract
+## Interface Contract
 
 **api-type: `cli`** — invoked as a Claude Code slash command. Multi-turn: interview → classification confirmation → schema-file writes → document migration (with per-document Class 3 confirmations) → migration report.
 

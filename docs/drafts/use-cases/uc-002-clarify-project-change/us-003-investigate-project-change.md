@@ -1,5 +1,5 @@
 ---
-schema: web-service
+schema: agent-skills
 schema-version: 0
 doc-type: user-story
 id: US-003
@@ -9,7 +9,7 @@ sections:
   adr-link: Related ADR
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: API Contract
+  api-contract: Interface Contract
   scenarios: Test Scenarios
 ---
 
@@ -34,7 +34,7 @@ So that **I can choose a direction with a clear understanding of its assumptions
 
 The system explores the user's question through a grounded, adaptive conversation that may include repository navigation, comparisons, and diagrams. The user can continue or reinvoke the skill until the codebase, reasonable approaches, and remaining open questions are understood. The system preserves a strict read-only boundary and leaves the user—not the system—in control of when to capture or implement a conclusion.
 
-## API Contract
+## Interface Contract
 
 ### Command
 

@@ -1,5 +1,5 @@
 ---
-schema: web-service
+schema: agent-skills
 schema-version: 0
 doc-type: user-story
 id: US-002
@@ -9,7 +9,7 @@ sections:
   adr-link: Related ADR
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: API Contract
+  api-contract: Interface Contract
   scenarios: Test Scenarios
 ---
 
@@ -34,7 +34,7 @@ So that **agents can orient themselves, follow conventions, run the correct test
 
 The user follows the `/setup` guide to replace relevant scaffold completion markers with project-specific decisions. Existing information is preserved unless the user confirms a change, while unavailable values remain explicit and the setup can be resumed later.
 
-## API Contract
+## Interface Contract
 
 ### Command
 

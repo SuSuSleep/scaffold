@@ -1,5 +1,5 @@
 ---
-schema: web-service
+schema: agent-skills
 schema-version: 0
 doc-type: user-story
 id: US-002
@@ -9,7 +9,7 @@ sections:
   derived-from: Derived from
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: API Contract
+  api-contract: Interface Contract
   test-scenarios: Test Scenarios
   serves: Serves
 ---
@@ -35,7 +35,7 @@ TBD (will be linked after /compose) — expected target: the brownfield document
 
 `/compose` ingests two or more module-layer UC docs, runs a 3-phase interview (journey boundary → actor & goal → cross-module seams), and produces a single business-layer UC + US draft in `docs/drafts/use-cases/` that links every contributing module under `implemented-by`. Module docs are not modified — except in the narrow case where a blocking TBD must be resolved in-line and written back to the upstream module doc with the user's answer. The new business doc captures the cross-module Main Flow, the deduplicated business-rules union, the user journey from Q2, and one scenario per cross-module failure seam from Q5.
 
-## API Contract
+## Interface Contract
 
 **api-type: `cli`** — invoked as a Claude Code slash command. The interview is multi-turn within the conversation: one phase per assistant turn, with user answers in between.
 

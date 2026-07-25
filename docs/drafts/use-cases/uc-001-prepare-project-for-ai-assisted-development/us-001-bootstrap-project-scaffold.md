@@ -1,5 +1,5 @@
 ---
-schema: web-service
+schema: agent-skills
 schema-version: 0
 doc-type: user-story
 id: US-001
@@ -9,7 +9,7 @@ sections:
   adr-link: Related ADR
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: API Contract
+  api-contract: Interface Contract
   scenarios: Test Scenarios
 ---
 
@@ -34,7 +34,7 @@ So that **agents and contributors can immediately understand what the project do
 
 The user follows the `/init` guide, supplies the available project information, reviews the complete change preview, and confirms how existing files should be handled. The system then creates the approved scaffold without silently overwriting existing project information.
 
-## API Contract
+## Interface Contract
 
 ### Command
 
@@ -62,9 +62,9 @@ Not applicable to the conversational slash-command interface.
 
 ### Scenario 1: Project Scaffold Initialized
 
-- **Given**: the user is in an intended project directory, has granted write permission, and can answer or accept defaults for service identity, tech stack, naming conventions, testing, quality tooling, build requirements, and HTTP API shape
+- **Given**: the user is in an intended project directory, has granted write permission, and can answer or accept defaults for project identity, tech stack, naming conventions, testing, quality tooling, build requirements, and interface shape
 - **When**: the user runs `/init`, completes each interview phase, reviews the scaffold preview, and confirms `Proceed`
-- **Then**: the system SHALL create `AGENTS.md`, `CLAUDE.md`, `README.md`, `CONVENTIONS.md`, `docs/overview/architecture.md`, `docs/overview/test-strategy.md`, `docs/overview/glossary.md`, `docs/schema/format.md`, `docs/schema/workflow-rules.md`, `.gitignore`, and empty `docs/drafts/`, `docs/use-cases/`, `docs/modules/`, and `docs/adr/` directories; it SHALL create `docs/overview/api-spec.yaml` only when the user says the project is an HTTP service; and it SHALL report the initialized project state
+- **Then**: the system SHALL create `AGENTS.md`, `CLAUDE.md`, `README.md`, `CONVENTIONS.md`, `docs/overview/architecture.md`, `docs/overview/test-strategy.md`, `docs/overview/glossary.md`, `docs/schema/format.md`, `docs/schema/workflow-rules.md`, `.gitignore`, and empty `docs/drafts/`, `docs/use-cases/`, `docs/modules/`, and `docs/adr/` directories; it SHALL create `docs/overview/api-spec.yaml` only when the user says the project exposes an HTTP API; and it SHALL report the initialized project state
 
 ### Scenario 2: Existing Project Files Are Skipped
 

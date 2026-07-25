@@ -1,5 +1,5 @@
 ---
-schema: web-service
+schema: agent-skills
 schema-version: 0
 doc-type: user-story
 id: US-009
@@ -9,7 +9,7 @@ sections:
   derived-from: Derived from
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: API Contract
+  api-contract: Interface Contract
   test-scenarios: Test Scenarios
   serves: Serves
 ---
@@ -35,7 +35,7 @@ TBD (will be linked after /compose) — expected target: the greenfield workflow
 
 `/review-draft` gives a project developer or maintainer a structured way to check whether draft documents are complete, follow the required format and workflow rules, and need more detail before planning. It reads the draft documents, applies the scaffold review rules, and reports what is READY, what NEEDS REVIEW, and what is BLOCKED without editing the drafts directly. Without `/review-draft`, the user has to read all rules and understand every draft document manually before they can make useful suggestions.
 
-## API Contract
+## Interface Contract
 
 **api-type: `cli`** — invoked as a Claude Code slash command. Single-turn structured output: orient → scan → 3-pass review per UC → ADR drafts → plan-together → report → conditional commit. No multi-phase interview; no follow-up turns required.
 

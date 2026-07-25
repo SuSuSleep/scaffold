@@ -1,5 +1,5 @@
 ---
-schema: web-service
+schema: agent-skills
 schema-version: 0
 doc-type: user-story
 id: US-011
@@ -9,7 +9,7 @@ sections:
   adr-link: Related ADR
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: API Contract
+  api-contract: Interface Contract
   scenarios: Test Scenarios
 ---
 
@@ -34,7 +34,7 @@ So that **I know what must be documented and can continue the retrofit across mu
 
 The system identifies the user-confirmed source root, treats each direct child directory as one module, and creates or append-only updates the coverage and architecture inventories. Existing progress is preserved.
 
-## API Contract
+## Interface Contract
 
 ### Command
 

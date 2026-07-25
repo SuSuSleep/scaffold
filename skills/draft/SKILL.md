@@ -36,7 +36,7 @@ those files describe the parameters.
      `sections` maps for `use-case` and `user-story`. Read the markdown body
      for the `## use-case Template` and `## user-story Template` blocks.
    - If no: use the shipped defaults verbatim from
-     `skills/init/references/format.md` (the web-service schema — the
+     `skills/init/references/format.md` (the agent-skills schema — the
      authoritative source for default section names and template bodies).
      Set the document's `schema-version` per the "Schema versioning" rules in
      that same file.
@@ -120,7 +120,7 @@ shared sub-flow) rather than leaving the template placeholder.
 
 ## Step 3: Assign IDs for new documents
 
-Apply `id-rules` from `workflow-rules.md`. The default policy (web-service):
+Apply `id-rules` from `workflow-rules.md`. The default policy (agent-skills):
 
 - `highest + 1` across drafts and confirmed locations (shared namespace)
 - Do not fill gaps — if `uc-001` and `uc-003` exist, next UC is `uc-004`
@@ -372,4 +372,4 @@ sections. Step 0 loads them. Use them verbatim when creating new documents,
 substituting `{id}` and other placeholders.
 
 If `docs/schema/format.md` does not exist, fall back to the templates shipped
-in `skills/init/references/format.md` (the web-service defaults).
+in `skills/init/references/format.md` (the agent-skills defaults).

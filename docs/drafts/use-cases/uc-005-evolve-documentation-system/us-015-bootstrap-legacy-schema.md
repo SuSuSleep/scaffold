@@ -1,5 +1,5 @@
 ---
-schema: web-service
+schema: agent-skills
 schema-version: 0
 doc-type: user-story
 id: US-015
@@ -9,7 +9,7 @@ sections:
   adr-link: Related ADR
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: API Contract
+  api-contract: Interface Contract
   scenarios: Test Scenarios
 ---
 
@@ -34,7 +34,7 @@ So that **future documentation workflows can read, validate, and evolve them con
 
 The system creates the initial schema definitions, recognizes legacy document types from approved paths and headings, and adds inferred metadata without rewriting unrecognized structures. Bootstrap and any custom evolution requested in the same run are reported separately.
 
-## API Contract
+## Interface Contract
 
 ### Command
 

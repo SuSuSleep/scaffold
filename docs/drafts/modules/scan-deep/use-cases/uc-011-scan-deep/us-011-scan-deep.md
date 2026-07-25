@@ -1,5 +1,5 @@
 ---
-schema: web-service
+schema: agent-skills
 schema-version: 0
 doc-type: user-story
 id: US-011
@@ -9,7 +9,7 @@ sections:
   derived-from: Derived from
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: API Contract
+  api-contract: Interface Contract
   test-scenarios: Test Scenarios
   serves: Serves
 ---
@@ -35,7 +35,7 @@ TBD (will be linked after /compose) — expected target: the brownfield workflow
 
 `/scan-deep` helps a project developer or maintainer understand what one module does by reading its source and producing first-pass module documentation. It identifies the module's entry points, internal flow, functions, data shapes, side effects, and code-derived exceptions, then writes module UC/US drafts with business-context fields left for `/elicit`. Without `/scan-deep`, the user has to review all module code manually to understand what each module does before rebuilding documentation.
 
-## API Contract
+## Interface Contract
 
 **api-type: `cli`** — invoked as a Claude Code slash command. Multi-turn within the conversation: turn 1 = 3-line summary + Q1/Q2; turn 2 (after user answers) = file writes + final summary. Two-turn minimum; the gate at Q1/Q2 is mandatory before any write.
 
@@ -57,7 +57,7 @@ Not applicable in the OS sense — input is conversational. The skill ingests:
 
 - The named module's source: every file under `src/{module}/`
 - `docs/drafts/coverage.md` (for unnamed-invocation module selection AND for the post-write `Scan [x]` flip)
-- `docs/schema/format.md` (`use-case.sections`, `user-story.sections`, `## use-case Template`, `## user-story Template`, `## API Contract Variants`); falls back to `skills/init/references/format.md`
+- `docs/schema/format.md` (`use-case.sections`, `user-story.sections`, `## use-case Template`, `## user-story Template`, `## Interface Contract Variants`); falls back to `skills/init/references/format.md`
 - `docs/schema/workflow-rules.md` (`id-rules`, `decomposition.uc-rule`); falls back to embedded defaults
 - All existing UC/US IDs from `docs/drafts/use-cases/`, `docs/drafts/modules/`, `docs/use-cases/`, `docs/modules/` (for ID assignment)
 - The user's answer to Q1 (one-liner confirmation/correction)

@@ -1,5 +1,5 @@
 ---
-schema: web-service
+schema: agent-skills
 schema-version: 0
 doc-type: user-story
 id: US-013
@@ -9,7 +9,7 @@ sections:
   adr-link: Related ADR
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: API Contract
+  api-contract: Interface Contract
   scenarios: Test Scenarios
 ---
 
@@ -34,7 +34,7 @@ So that **the project explains not only what individual modules do but why their
 
 The system composes completed module contracts as soon as they cover a coherent journey, captures cross-module seams as business scenarios, and promotes the business documentation after review. Once all coverage is complete, final verification must pass; misalignment returns the workflow to the affected loop.
 
-## API Contract
+## Interface Contract
 
 ### Command
 

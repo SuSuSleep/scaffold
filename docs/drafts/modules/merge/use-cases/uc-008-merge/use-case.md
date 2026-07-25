@@ -1,5 +1,5 @@
 ---
-schema: web-service
+schema: agent-skills
 schema-version: 0
 doc-type: use-case
 id: UC-008
@@ -79,7 +79,7 @@ On block (any plan checkbox unchecked, OR any behavioral test file missing for a
 4. **Pre-merge checklist** (6 items):
    1. UC main flow — read each `use-case.md` in scope; PASS if the Main Flow looks consistent with the implementation, WARN if stale
    2. Behavioral tests — for each US in scope, verify a file exists at `tests/behavioral/{module}/us-{id}-*.test.*`; PASS or **HARD BLOCKER** (list missing files; stop)
-   3. API Contract vs api-spec — for each US whose `api-type: rest`, verify its `### Endpoint` appears in `docs/overview/api-spec.yaml`; PASS / WARN. SKIP for non-rest api-types
+   3. Interface Contract vs api-spec — for each US whose `api-type: rest`, verify its `### Endpoint` appears in `docs/overview/api-spec.yaml`; PASS / WARN. SKIP for non-rest api-types
    4. TBD references — scan all draft files being promoted for `TBD` strings; note which targets will be resolved in Step 6
    5. New module or dependency — does Affected Files name a module whose `src/` didn't exist before? Does any UC reference a new external service not in `architecture.md`? PASS / WARN
    6. ADR supersession (only when the plan's Related ADRs include a new ADR superseding an existing one) — confirm the old confirmed ADR exists at its current path; scan `docs/drafts/` for any residual `Related ADR: ADR-{old-id}` references (should be 0 after `/draft`'s cascade); scan `src/` for `// see ADR-{old-id}` or `ADR-{old-id}` strings (should be 0 after `/apply`'s rework batch); PASS / WARN

@@ -1,5 +1,5 @@
 ---
-schema: web-service
+schema: agent-skills
 schema-version: 0
 doc-type: user-story
 id: US-014
@@ -9,7 +9,7 @@ sections:
   adr-link: Related ADR
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: API Contract
+  api-contract: Interface Contract
   scenarios: Test Scenarios
 ---
 
@@ -34,7 +34,7 @@ So that **the documentation system evolves consistently without silent data loss
 
 The system derives the proposed new version from user-provided context, collects the full change set, classifies its migration risk, and waits for explicit confirmation. It preserves the existing meaning of recognized documents while aligning their content and format, then gives an honest report of content-needed, deferred, or manually reviewable results.
 
-## API Contract
+## Interface Contract
 
 ### Command
 

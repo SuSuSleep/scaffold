@@ -1,5 +1,5 @@
 ---
-schema: web-service
+schema: agent-skills
 schema-version: 0
 doc-type: user-story
 id: US-009
@@ -9,7 +9,7 @@ sections:
   adr-link: Related ADR
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: API Contract
+  api-contract: Interface Contract
   scenarios: Test Scenarios
 ---
 
@@ -34,7 +34,7 @@ So that **the feature or bug fix reaches a PR-ready state with aligned code, tes
 
 The system executes plan batches, creates the required behavioral and quality evidence, promotes drafts only after completion gates pass, and performs final three-way alignment checks. It stops at “ready to open PR”; it never pushes or opens the PR automatically.
 
-## API Contract
+## Interface Contract
 
 ### Command
 

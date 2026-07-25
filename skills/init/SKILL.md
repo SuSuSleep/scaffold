@@ -16,7 +16,7 @@ description: >
 Guide the user through a structured interview, then write the complete project
 scaffold in one pass. The goal: after init, an AI agent (or new human contributor)
 can open the project and orient immediately — without needing to ask what the
-service does, how it's tested, or where things go.
+project does, how it's tested, or where things go.
 
 All file templates are in `references/templates.md`. Read that file before
 writing anything in Step 3.
@@ -51,7 +51,7 @@ Do not ask all questions at once — it overwhelms new users.
 
 ### Phase 2: Tech stack
 
-> **3.** What language and framework does this service use?
+> **3.** What language and framework does this project use?
 > (e.g. TypeScript + NestJS, Python + FastAPI, Go + Gin)
 
 Infer naming conventions from the stack:
@@ -123,13 +123,13 @@ Stack-aware defaults to propose:
 | Rust       | Clippy        | `cargo clippy`           | `.clippy.toml`  | rustfmt     | `cargo fmt`         | `rustfmt.toml`   | (built into build) |
 | Java/Kotlin| Checkstyle    | `mvn checkstyle:check`   | `checkstyle.xml`| Spotless    | `mvn spotless:apply`| `pom.xml`        | (built into build) |
 
-### Phase 4: API
+### Phase 4: Optional HTTP Interface
 
-> **10.** Is this an HTTP service? (yes / no)
+> **10.** Does this project expose an HTTP API? (yes / no)
 
 If yes:
 
-> **11.** What's the API base path? (e.g. /api/v1)
+> **11.** What's the HTTP API base path? (e.g. /api/v1)
 
 If no: skip api-spec.yaml.
 
@@ -143,14 +143,14 @@ Print a preview of everything that will be created. Do not write anything yet.
 Init preview
 ──────────────────────────────────────────────────────
 Will create:
-  AGENTS.md                     service identity + rules + workflow
+  AGENTS.md                     project identity + rules + workflow
   CLAUDE.md                     @AGENTS.md reference only
   README.md                     navigation guide
   CONVENTIONS.md                {stack} naming + quality commands + git rules
   docs/overview/
     architecture.md             empty module table, directory structure
     test-strategy.md            test case structure + {threshold}% coverage threshold
-    api-spec.yaml               OpenAPI stub — base path: {path}    ← only if HTTP
+    api-spec.yaml               OpenAPI stub — base path: {path}    ← only if HTTP API exists
     glossary.md                 empty stub
   docs/schema/
     format.md                   document section aliases + templates
@@ -174,14 +174,14 @@ Read `references/templates.md` now. It contains all templates.
 
 Write in this order, substituting values from the interview:
 
-1. **AGENTS.md** — service name + description + rules + workflow steps
+1. **AGENTS.md** — project name + description + rules + workflow steps
 2. **CLAUDE.md** — single line: `@AGENTS.md`
-3. **README.md** — service name + description + navigation links
+3. **README.md** — project name + description + navigation links
 4. **CONVENTIONS.md** — filled naming conventions + quality commands (lint, format,
    typecheck, build, verify, coverage) + config files table + git rules
 5. **docs/overview/architecture.md** — empty module table + directory structure
 6. **docs/overview/test-strategy.md** — test case structure + coverage threshold
-7. **docs/overview/api-spec.yaml** — OpenAPI stub (HTTP projects only)
+7. **docs/overview/api-spec.yaml** — OpenAPI stub (projects with HTTP APIs only)
 8. **docs/overview/glossary.md** — empty stub
 
 9. **docs/schema/format.md** — copy the file from `references/format.md` verbatim.

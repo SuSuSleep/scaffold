@@ -1,5 +1,5 @@
 ---
-schema: web-service
+schema: agent-skills
 schema-version: 0
 doc-type: user-story
 id: US-007
@@ -9,7 +9,7 @@ sections:
   adr-link: Related ADR
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: API Contract
+  api-contract: Interface Contract
   scenarios: Test Scenarios
 ---
 
@@ -34,7 +34,7 @@ So that **the project does not retain contradictory decisions, stale references,
 
 The system creates a proposed replacement ADR, discovers every affected document, and prepares a complete draft cascade before planning. Implementation updates code references, promotion adopts the replacement and removes the superseded decision, and final verification checks the resulting feature evidence.
 
-## API Contract
+## Interface Contract
 
 ### Command
 

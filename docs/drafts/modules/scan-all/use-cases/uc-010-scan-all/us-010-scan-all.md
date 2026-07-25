@@ -1,5 +1,5 @@
 ---
-schema: web-service
+schema: agent-skills
 schema-version: 0
 doc-type: user-story
 id: US-010
@@ -9,7 +9,7 @@ sections:
   derived-from: Derived from
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: API Contract
+  api-contract: Interface Contract
   test-scenarios: Test Scenarios
   serves: Serves
 ---
@@ -35,7 +35,7 @@ TBD (will be linked after /compose) — expected target: the brownfield workflow
 
 `/scan-all` helps a project developer or maintainer start rebuilding documentation for a brownfield project by discovering the project's modules and creating the coverage checklist used by later documentation steps. It records what modules exist, seeds the architecture overview, and gives the user a clear starting point for `/scan-deep`, `/elicit`, and `/compose`. Without `/scan-all`, the user has to manually inspect the project and build the checklist for reviewing and rebuilding the docs.
 
-## API Contract
+## Interface Contract
 
 **api-type: `cli`** — invoked as a Claude Code slash command. Single-turn structured output: pre-flight → discovery → write/append → summary. Interactive only when source-directory resolution is ambiguous (E1/E2/E3), the existing coverage table is malformed (E6), or architecture.md is missing the Module Overview section (E7).
 

@@ -1,5 +1,5 @@
 ---
-schema: web-service
+schema: agent-skills
 schema-version: 0
 doc-type: user-story
 id: US-004
@@ -9,7 +9,7 @@ sections:
   adr-link: Related ADR
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: API Contract
+  api-contract: Interface Contract
   scenarios: Test Scenarios
 ---
 
@@ -34,7 +34,7 @@ So that **implementation can begin from explicit business expectations rather th
 
 The system turns the user's plain-language intent into one UC per distinct goal and the necessary business stories. It discovers related documentation, assesses ADR need, preserves lifecycle boundaries, and leaves intent that is not specific enough to classify unwritten until clarified.
 
-## API Contract
+## Interface Contract
 
 ### Command
 

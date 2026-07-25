@@ -1,5 +1,5 @@
 ---
-schema: web-service
+schema: agent-skills
 schema-version: 0
 doc-type: user-story
 id: US-005
@@ -9,7 +9,7 @@ sections:
   adr-link: Related ADR
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: API Contract
+  api-contract: Interface Contract
   scenarios: Test Scenarios
 ---
 
@@ -34,7 +34,7 @@ So that **the next implementation reflects current intent while the released doc
 
 Existing drafts are updated in place. Confirmed requirements are first copied to their draft mirror and changed there, with related documents discovered and any structural references repaired.
 
-## API Contract
+## Interface Contract
 
 ### Command
 

@@ -1,5 +1,5 @@
 ---
-schema: web-service
+schema: agent-skills
 schema-version: 0
 doc-type: user-story
 id: US-001
@@ -9,7 +9,7 @@ sections:
   derived-from: Derived from
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: API Contract
+  api-contract: Interface Contract
   test-scenarios: Test Scenarios
   serves: Serves
 ---
@@ -35,7 +35,7 @@ TBD (will be linked after /compose) — expected target: the greenfield implemen
 
 `/apply` walks an implementation plan batch by batch — writing code, behavioural tests, and quality tests for each US scenario, marking each `[ ]` as `[x]` only when all three pass. It uses the plan file as a state machine, so an interrupted run can be resumed by simply invoking `/apply` again. On the Final Batch the full behavioural suite runs as an integration regression check; on success it stages and commits the work, on failure it creates a fix-plan as the new unit of work.
 
-## API Contract
+## Interface Contract
 
 **api-type: `cli`** — invoked as a Claude Code slash command. Runs in conversation context; no separate process / stdin / exit codes apply, but the slash-command shape still fits the CLI variant.
 

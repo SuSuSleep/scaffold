@@ -1,5 +1,5 @@
 ---
-schema: web-service
+schema: agent-skills
 schema-version: 0
 doc-type: user-story
 id: US-008
@@ -9,7 +9,7 @@ sections:
   derived-from: Derived from
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: API Contract
+  api-contract: Interface Contract
   test-scenarios: Test Scenarios
   serves: Serves
 ---
@@ -35,7 +35,7 @@ TBD (will be linked after /compose) — expected target: the greenfield workflow
 
 `/merge` gives a project developer or maintainer a controlled way to move completed documentation from `docs/drafts/` into persistent confirmed documentation after workable code has been implemented. It removes the draft-path boundary, promotes the updated docs to their permanent storage locations, and cleans up the plan state without committing the changes. Without `/merge`, the project keeps two competing document versions: older confirmed docs that no longer match the user requirement or code, and draft docs that contain only the updated portion rather than the full persistent source of truth.
 
-## API Contract
+## Interface Contract
 
 **api-type: `cli`** — invoked as a Claude Code slash command. Single-pass: pre-flight check → checklist → promotion (lock-step substeps) → cleanup → summary. Interactive only when the plan name is ambiguous or a behavioral test BLOCKER fires.
 
@@ -74,7 +74,7 @@ Pre-merge checklist
 ────────────────────────────────────────
 UC main flow     PASS
 Behavioral tests PASS  (4 files verified)
-API Contract     WARN  POST /payments not found in api-spec.yaml
+Interface Contract     WARN  POST /payments not found in api-spec.yaml
 TBD references   2 found — will resolve
 New module       SKIP  (no new module detected)
 ADR supersession PASS  (include only when ADR supersession is involved)
@@ -102,7 +102,7 @@ Plan:    {plan-name}
 - docs/drafts/plans/{plan-name}.md             (deleted)
 
 ### Warnings
-- [API Contract: POST /payments not found in api-spec.yaml]
+- [Interface Contract: POST /payments not found in api-spec.yaml]
 - [TBD: ADR-002 reference in UC-001 could not be resolved — still in drafts]
 
 Ready for /verify — run it to confirm doc/code/test alignment before opening a PR to main.

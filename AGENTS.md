@@ -2,7 +2,7 @@
 
 > Agent orientation file. Read this at the start of every session.
 
-## What this service does
+## What this project does
 
 A documentation scaffold for AI coding agents — a reusable starter template that gives coding agents structured business context so teams don't have to re-explain their project from scratch each session.
 

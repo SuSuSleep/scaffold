@@ -1,5 +1,5 @@
 ---
-schema: web-service
+schema: agent-skills
 schema-version: 0
 doc-type: user-story
 id: US-006
@@ -9,7 +9,7 @@ sections:
   derived-from: Derived from
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: API Contract
+  api-contract: Interface Contract
   test-scenarios: Test Scenarios
   serves: Serves
 ---
@@ -35,7 +35,7 @@ TBD (will be linked after /compose) — expected target: the greenfield workflow
 
 `/explore` gives a developer or maintainer a conversation-first way to understand a repo with a coding agent before deciding what should be changed. The skill reads relevant project context, helps clarify unclear details such as the target, method, assumptions, and next step, and keeps all thinking in the conversation instead of writing files. This matters because users often do not know what context the coding agent is missing; without `/explore`, they have to spell out every detail up front and alignment becomes harder.
 
-## API Contract
+## Interface Contract
 
 **api-type: `cli`** — invoked as a Claude Code slash command. The skill is multi-turn and adaptive: no fixed phases, no required outputs, no terminal "complete" state. Exits only when the user explicitly invokes another skill, asks for a file update, or signals end of session.
 

@@ -1,5 +1,5 @@
 ---
-schema: web-service
+schema: agent-skills
 schema-version: 0
 doc-type: user-story
 id: US-008
@@ -9,7 +9,7 @@ sections:
   adr-link: Related ADR
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: API Contract
+  api-contract: Interface Contract
   scenarios: Test Scenarios
 ---
 
@@ -34,7 +34,7 @@ So that **the AI agent can implement the change without rediscovering scope, dep
 
 The system first returns a clear readiness verdict and planning relationships. Only READY drafts proceed to module decomposition and scenario-level plans, with greenfield paths marked, architectural decisions captured, and regression obligations collected in a final batch.
 
-## API Contract
+## Interface Contract
 
 ### Command
 

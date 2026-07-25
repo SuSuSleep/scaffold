@@ -1,5 +1,5 @@
 ---
-schema: web-service
+schema: agent-skills
 schema-version: 0
 doc-type: use-case
 id: UC-012
@@ -78,7 +78,7 @@ Invariants (apply in every mode):
 
 1. **Pre-flight** — check `docs/schema/format.md` and `docs/schema/workflow-rules.md`:
    - Both present → **evolution mode** (note current versions and section/rule sets — the "old schemas")
-   - Both absent → **bootstrap mode** (old schema baseline = web-service version 0)
+   - Both absent → **bootstrap mode** (old schema baseline = agent-skills version 0)
    - One present, one absent → asymmetric: evolve the one present + bootstrap the one absent in the same run
 2. **Interview** — present the 12-category change list (5 format-side + 6 workflow-side + "something else"); collect every change before proceeding. Ask for clarification on any ambiguous change ("add a section" without a name, "rename" without specifying which). Do NOT start migrating until the full change set is described and unambiguous
 3. **Classify every collected change**:
