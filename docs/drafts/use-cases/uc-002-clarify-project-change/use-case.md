@@ -22,7 +22,7 @@ Project developer or maintainer.
 
 ## Preconditions
 
-- The user has a question, incomplete idea, confusing situation, or implementation doubt that is not yet ready to become a repository change.
+- The user has an early idea, confusing situation, or implementation doubt that is not yet ready to become a repository change.
 - Relevant project orientation material, documentation, or source code is readable when it exists.
 - The user wants investigation or discussion rather than immediate repository changes.
 - The user is available for an adaptive conversation.
@@ -31,12 +31,12 @@ Project developer or maintainer.
 
 - Exploration SHALL remain read-only and SHALL NOT persist analysis or implementation changes to the repository.
 - Recommendations SHALL be grounded in the project's actual documentation and source code when available.
-- The system SHALL discuss ambiguity explicitly and distinguish established facts, assumptions, trade-offs, and unresolved questions rather than filling gaps with invented certainty.
+- The system SHALL distinguish established facts, assumptions, trade-offs, and open questions rather than filling gaps with invented certainty.
 - The user decides when exploration ends and whether its result should enter another workflow.
 
 ## Postconditions
 
-- The user better understands the problem, relevant project context, available options, risks, and unresolved questions.
+- The user better understands the problem, relevant project context, available options, risks, and open questions.
 - If a direction has crystallized, the user has a recommended next workflow without any automatic repository change.
 - If certainty is not yet possible, the missing information and decision ownership are explicit.
 

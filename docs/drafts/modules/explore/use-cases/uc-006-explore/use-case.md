@@ -21,6 +21,7 @@ Provide a free-form thinking-partner mode where the assistant can read files, se
 ## Primary Actor
 
 Inbound CLI invocation via the `/explore` slash command in Claude Code. Often invoked in four archetypal contexts:
+
 - A vague idea ("let me think about how we'd handle X")
 - A specific problem ("I'm stuck on Y")
 - Mid-implementation doubt ("is this the right approach?")

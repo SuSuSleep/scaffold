@@ -51,7 +51,7 @@ None.
 
 - Stdin: Module selection, boundary confirmations, and business-context interview answers.
 - Stdout: Code summary, module drafts, elicitation progress, review verdict, promotion result, and coverage updates.
-- Stderr: Missing coverage, missing module source, unresolved review blockers, or the recorded review/promotion contract mismatch.
+- Stderr: Missing coverage, missing module source, open review blockers, or the recorded review/promotion contract mismatch.
 
 ### Exit Codes
 
@@ -65,24 +65,24 @@ Not applicable to the conversational slash-command interface.
 
 ### Scenario 1: Existing Module Documented and Promoted
 
-- **Given**: TBD (coverage lists an undocumented module with readable source)
-- **When**: TBD (scan, elicitation, review, and promotion complete)
+- **Given**: coverage lists a module whose source is readable and whose module documentation remains open
+- **When**: `/scan-deep`, `/elicit`, the brownfield module-document review gate, and promotion complete for that module
 - **Then**: the system SHALL produce confirmed module contracts with technical facts derived from code and business facts confirmed by the user
 
 ### Scenario 2: Module Scan Is Interrupted Before Confirmation
 
-- **Given**: TBD (the system has read a module but the user has not answered the required boundary questions)
-- **When**: TBD (the scan session ends)
-- **Then**: the system SHALL write no module drafts, leave the coverage row incomplete, and allow the scan to restart
+- **Given**: the system has read a module but the user has not answered the required boundary questions
+- **When**: the scan session ends
+- **Then**: the system SHALL write no module drafts, leave the coverage row open, and allow the scan to restart
 
 ### Scenario 3: Elicitation Is Interrupted
 
-- **Given**: TBD (some business-context phases have already been answered)
-- **When**: TBD (the elicitation session ends before completion)
-- **Then**: the system SHALL preserve written answers and resume later from the remaining TBD fields
+- **Given**: some business-context phases have already been answered
+- **When**: the elicitation session ends before completion
+- **Then**: the system SHALL preserve written answers and resume later from the remaining business-context fields
 
 ### Scenario 4: Module Draft Does Not Pass Review
 
-- **Given**: TBD (the module draft has unresolved or inconsistent content)
-- **When**: TBD (the brownfield module-document review gate runs)
+- **Given**: the module draft has open business context or inconsistent content
+- **When**: the brownfield module-document review gate runs
 - **Then**: the system SHALL leave the draft unpromoted and report the revisions or escalation required

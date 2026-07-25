@@ -62,18 +62,18 @@ Not applicable to the conversational slash-command interface.
 
 ### Scenario 1: Unreferenced Requirement Withdrawn
 
-- **Given**: TBD (an in-progress business requirement has no inbound draft references)
-- **When**: TBD (the user withdraws the requirement)
+- **Given**: an in-progress business requirement exists under `docs/drafts/use-cases/` and no other draft references it
+- **When**: the user runs `/draft` and requests withdrawal of that requirement
 - **Then**: the system SHALL delete the draft and report the withdrawal
 
 ### Scenario 2: Referenced Requirement Withdrawn Safely
 
-- **Given**: TBD (other drafts contain safely repairable references to the requirement)
-- **When**: TBD (the user withdraws the requirement)
+- **Given**: other drafts contain references to the requirement that can be removed or rewritten without changing their business goals
+- **When**: the user runs `/draft` and requests withdrawal of that requirement
 - **Then**: the system SHALL repair those references before deleting the cancelled draft
 
 ### Scenario 3: Withdrawal Requires a Cascade Decision
 
-- **Given**: TBD (another draft cannot remain coherent without the cancelled requirement)
-- **When**: TBD (the user requests withdrawal)
+- **Given**: another draft depends on the requirement being withdrawn and cannot preserve its current business goal without it
+- **When**: the user requests withdrawal
 - **Then**: the system SHALL pause deletion and ask whether the dependent requirement should also be withdrawn

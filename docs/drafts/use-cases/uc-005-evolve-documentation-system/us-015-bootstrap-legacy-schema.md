@@ -62,24 +62,24 @@ Not applicable to the conversational slash-command interface.
 
 ### Scenario 1: Recognized Legacy Documents Adopted
 
-- **Given**: TBD (legacy UC/US documents exist at recognized paths and no project schema exists)
-- **When**: TBD (the user starts schema bootstrap)
+- **Given**: legacy UC/US documents exist at recognized paths and no project schema exists
+- **When**: the user runs `/schema-update` to start schema bootstrap
 - **Then**: the system SHALL create initial schema definitions and add inferred metadata to recognized documents
 
 ### Scenario 2: Unrecognized Legacy Document Requires Manual Review
 
-- **Given**: TBD (a legacy document's path or headings do not match a known document type)
-- **When**: TBD (bootstrap scans existing documentation)
+- **Given**: a legacy document's path or headings do not match a recognized document type
+- **When**: bootstrap scans existing documentation
 - **Then**: the system SHALL leave the document unchanged and list its unrecognized structure for manual review
 
 ### Scenario 3: Fresh Project Is Redirected to Initialization
 
-- **Given**: TBD (the project has neither schema definitions nor legacy documents to adopt)
-- **When**: TBD (the user starts schema bootstrap)
+- **Given**: the project has neither schema definitions nor legacy documents to adopt
+- **When**: the user starts schema bootstrap
 - **Then**: the system SHALL make no changes and direct the user to project initialization
 
 ### Scenario 4: Bootstrap and Custom Evolution Run Together
 
-- **Given**: TBD (legacy documents need adoption and the user also requests a custom schema change)
-- **When**: TBD (the combined change set is confirmed)
+- **Given**: legacy documents need adoption and the user also requests a custom schema change
+- **When**: the combined change set is confirmed
 - **Then**: the system SHALL bootstrap first, apply the custom evolution second, and distinguish both result sets in the report

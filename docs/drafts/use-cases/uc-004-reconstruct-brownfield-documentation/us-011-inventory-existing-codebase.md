@@ -46,7 +46,7 @@ None.
 
 ### Stdin / Stdout / Stderr
 
-- Stdin: Source-root confirmation when discovery is ambiguous.
+- Stdin: Source-root confirmation when discovery finds no default root or multiple candidate roots.
 - Stdout: Discovered modules, coverage mode, updated paths, and the recommended first module loop.
 - Stderr: A clear request for a valid source root or repair of a malformed existing tracker.
 
@@ -62,18 +62,18 @@ Not applicable to the conversational slash-command interface.
 
 ### Scenario 1: Brownfield Module Inventory Created
 
-- **Given**: TBD (an initialized project contains an existing source root with direct-child modules)
-- **When**: TBD (the user starts brownfield inventory)
+- **Given**: an initialized project contains a confirmed source root with direct-child module directories
+- **When**: the user runs `/scan-all`
 - **Then**: the system SHALL create a coverage row and architecture entry for every discovered module
 
 ### Scenario 2: Source Root Requires Confirmation
 
-- **Given**: TBD (the default source root is absent or multiple alternatives exist)
-- **When**: TBD (module discovery starts)
+- **Given**: the default `src/` root is absent or multiple alternative roots such as `app/`, `lib/`, `cmd/`, or `packages/` exist
+- **When**: module discovery starts
 - **Then**: the system SHALL ask the user to confirm the source root before creating or updating the inventory
 
 ### Scenario 3: Existing Coverage Is Extended
 
-- **Given**: TBD (coverage exists and the source root contains newly added modules)
-- **When**: TBD (the inventory flow reruns)
+- **Given**: `docs/drafts/coverage.md` exists and the confirmed source root contains newly added direct-child modules
+- **When**: the inventory flow reruns
 - **Then**: the system SHALL append only the new modules and preserve all existing progress states

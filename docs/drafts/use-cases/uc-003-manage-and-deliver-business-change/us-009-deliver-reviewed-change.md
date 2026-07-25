@@ -48,7 +48,7 @@ None.
 
 ### Stdin / Stdout / Stderr
 
-- Stdin: Selected plan when ambiguous and explicit confirmation for a final documentation commit when applicable.
+- Stdin: Selected plan when more than one plan is available and explicit confirmation for a final documentation commit when applicable.
 - Stdout: Batch progress, promotion summary, verification report, and PR-readiness status.
 - Stderr: Task failures, promotion blockers, or final alignment failures with a correction path.
 
@@ -64,18 +64,18 @@ Not applicable to the conversational slash-command interface.
 
 ### Scenario 1: Reviewed Change Delivered and Ready for PR
 
-- **Given**: TBD (a reviewed change has a complete plan on a feature branch)
-- **When**: TBD (the implementation, promotion, and verification stages all pass)
+- **Given**: a reviewed change has a complete implementation plan on a feature branch
+- **When**: `/apply` completes every plan task, `/merge` promotes the completed drafts, and `/verify` reports CLEAN
 - **Then**: the system SHALL report aligned code, tests, and confirmed documentation ready for the user to open a pull request
 
-### Scenario 2: Promotion Gate Blocks Incomplete Work
+### Scenario 2: Promotion Gate Blocks Open Work
 
-- **Given**: TBD (the plan has unchecked work or a required behavioral test is missing)
-- **When**: TBD (the user attempts document promotion)
+- **Given**: the plan has unchecked work or a required behavioral test file is missing
+- **When**: the user runs `/merge`
 - **Then**: the system SHALL promote nothing and report every blocking item
 
 ### Scenario 3: Final Verification Finds Misalignment
 
-- **Given**: TBD (promoted working-tree documentation does not align with tests or implementation evidence)
-- **When**: TBD (the final verification gate runs)
+- **Given**: promoted working-tree documentation does not align with tests or implementation evidence
+- **When**: the `/verify` gate runs
 - **Then**: the system SHALL report MISALIGNED, leave the changes uncommitted, and tell the user not to open a pull request

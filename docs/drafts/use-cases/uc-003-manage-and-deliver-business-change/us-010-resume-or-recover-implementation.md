@@ -62,18 +62,18 @@ Not applicable to the conversational slash-command interface.
 
 ### Scenario 1: Partially Completed Plan Resumed
 
-- **Given**: TBD (a plan contains completed and pending tasks)
-- **When**: TBD (the user reruns implementation for that plan)
+- **Given**: a plan file contains one or more completed `[x]` tasks followed by pending `[ ]` tasks
+- **When**: the user reruns `/apply` for that plan
 - **Then**: the system SHALL preserve completed tasks and continue from the first pending task
 
 ### Scenario 2: Task Fails After the Allowed Attempts
 
-- **Given**: TBD (a task's required check repeatedly fails)
-- **When**: TBD (the allowed correction attempts are exhausted)
+- **Given**: a task's required typecheck, behavioral test, or implementation-quality test repeatedly fails during `/apply`
+- **When**: the allowed correction attempts are exhausted
 - **Then**: the system SHALL leave that task pending, preserve prior completed work, and report the error and attempted fixes
 
 ### Scenario 3: Final Regression Creates a Fix Plan
 
-- **Given**: TBD (regular implementation tasks are complete but the final behavioral regression suite fails)
-- **When**: TBD (the final batch runs)
+- **Given**: regular implementation tasks are complete but the final behavioral regression suite fails
+- **When**: the final batch runs
 - **Then**: the system SHALL create and announce a bounded fix plan without committing the failed result

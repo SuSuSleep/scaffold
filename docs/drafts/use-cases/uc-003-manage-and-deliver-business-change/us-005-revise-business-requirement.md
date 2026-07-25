@@ -62,18 +62,18 @@ Not applicable to the conversational slash-command interface.
 
 ### Scenario 1: Existing Draft Revised In Place
 
-- **Given**: TBD (a matching business requirement already exists in drafts)
-- **When**: TBD (the user describes a clear revision)
+- **Given**: a matching business requirement already exists under `docs/drafts/use-cases/`
+- **When**: the user runs `/draft` and describes a revision that stays within the same business goal
 - **Then**: the system SHALL update the affected draft sections while preserving unrelated content
 
 ### Scenario 2: Confirmed Requirement Revised Through a Draft Copy
 
-- **Given**: TBD (the matching requirement exists only in confirmed documentation)
-- **When**: TBD (the user describes a revision)
+- **Given**: the matching requirement exists only under `docs/use-cases/`
+- **When**: the user runs `/draft` and describes a revision to that confirmed requirement
 - **Then**: the system SHALL copy the confirmed requirement into its draft mirror and leave the confirmed version unchanged
 
 ### Scenario 3: Revision Overlaps Another User Goal
 
-- **Given**: TBD (the requested revision materially overlaps a separate business goal)
-- **When**: TBD (the system decomposes the change)
+- **Given**: the requested revision materially overlaps a separate business goal
+- **When**: the system decomposes the change
 - **Then**: the system SHALL ask whether to modify, extract a shared flow, or create a sibling use case before writing

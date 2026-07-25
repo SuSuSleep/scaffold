@@ -21,7 +21,7 @@ sections:
 
 ## Related ADR
 
-- TBD (the new proposed ADR is created when a specific supersession is requested).
+- A new proposed ADR is created when a specific supersession is requested.
 
 ## Story
 
@@ -50,7 +50,7 @@ None.
 
 - Stdin: The decision being replaced, replacement intent, and any clarification.
 - Stdout: Proposed ADR, complete affected-document set, implementation progress, promotion result, and verification verdict.
-- Stderr: A missing superseded ADR, incomplete cascade, failing implementation gate, or final misalignment report.
+- Stderr: A missing superseded ADR, partial cascade, failing implementation gate, or final misalignment report.
 
 ### Exit Codes
 
@@ -64,18 +64,18 @@ Not applicable to the conversational slash-command interface.
 
 ### Scenario 1: Architectural Decision Replaced End to End
 
-- **Given**: TBD (an adopted ADR exists and a clear replacement decision is requested)
-- **When**: TBD (the user completes the reviewed change workflow)
+- **Given**: an adopted ADR exists in `docs/adr/` and the user requests a specific replacement decision with its intended implementation impact
+- **When**: the user completes `/draft`, `/review-draft`, `/design-plan`, `/apply`, `/merge`, and `/verify` for the supersession change
 - **Then**: the system SHALL adopt the replacement, remove the superseded decision, update affected evidence, and report readiness for PR
 
 ### Scenario 2: Superseded Decision Cannot Be Found
 
-- **Given**: TBD (the requested superseded ADR identifier does not exist)
-- **When**: TBD (the replacement cascade is prepared)
+- **Given**: the requested superseded ADR identifier does not match an adopted ADR in `docs/adr/` or `docs/modules/*/adr/`
+- **When**: the replacement cascade is prepared
 - **Then**: the system SHALL write no cascade and ask whether the identifier is wrong or a fresh ADR is intended
 
-### Scenario 3: Impact Cascade Is Incomplete
+### Scenario 3: Impact Cascade Cannot Be Prepared
 
-- **Given**: TBD (one or more affected references cannot be prepared consistently)
-- **When**: TBD (the supersession change set is assembled)
+- **Given**: one or more affected references cannot be copied, rewritten, or linked consistently for the replacement decision
+- **When**: the supersession change set is assembled
 - **Then**: the system SHALL stop the supersession operation rather than leave a partial decision cascade

@@ -37,10 +37,10 @@ Project developer or maintainer.
 - Format-schema and workflow-rule versions SHALL advance independently according to which definition changed.
 - A workflow-rule-only change SHALL NOT trigger unnecessary document-body migration.
 - A mechanically safe transformation MAY run automatically after confirmation.
-- A content-adding transformation SHALL insert explicit placeholders and report every document that still needs human content.
+- A content-adding transformation SHALL insert explicit completion markers and report every document that still needs human content.
 - A destructive transformation SHALL require confirmation for each affected document; declined documents remain completely untouched.
 - Documents with malformed schema metadata, unrecognized structure, or a schema version newer than the project schema SHALL NOT be guessed, silently repaired, or downgraded.
-- The workflow SHALL report migrated, bootstrapped, deferred, content-incomplete, and manual-review documents separately.
+- The workflow SHALL report migrated, bootstrapped, deferred, content-needed, and manual-review documents separately.
 - The workflow SHALL NOT commit or push migration changes automatically.
 
 ## Postconditions
@@ -53,19 +53,19 @@ Project developer or maintainer.
 ## Main Flow
 
 1. The project developer or maintainer describes every desired document-format and workflow-policy change.
-2. The system uses the context and information supplied by the user to clarify ambiguous changes and determine whether this is schema evolution, workflow evolution, legacy bootstrap, or a combined run.
+2. The system uses the context and information supplied by the user to clarify changes that are not specific enough to migrate and determine whether this is schema evolution, workflow evolution, legacy bootstrap, or a combined run.
 3. The system classifies each change by migration risk and shows the full classification to the user.
 4. The user explicitly confirms the classified change set.
 5. The system updates the applicable schema and workflow definitions, advancing their versions independently.
 6. The system discovers affected draft and confirmed documents of recognized types.
-7. The system applies safe transformations, inserts explicit placeholders for new required content, and asks per-document confirmation before destructive transformations.
+7. The system applies safe transformations, inserts explicit completion markers for new required content, and asks per-document confirmation before destructive transformations.
 8. In legacy bootstrap mode, the system infers frontmatter only for documents whose paths and headings match recognized document types.
-9. The system prints a migration report separating completed, incomplete, deferred, and manual-review results.
-10. The user reviews and completes reported placeholders, deferred transformations, and manual-review files, then reruns `/schema-update` when further migration is required.
+9. The system prints a migration report separating completed, content-needed, deferred, and manual-review results.
+10. The user reviews and completes reported content markers, deferred transformations, and manual-review files, then reruns `/schema-update` when further migration is required.
 
 ## Exception Flows
 
-- The requested change is ambiguous: the system writes nothing and asks for the missing section name, old/new heading, policy value, or scope. → See US-014
+- The requested change is not specific enough to migrate: the system writes nothing and asks for the missing section name, old/new heading, policy value, or scope. → See US-014
 - Existing schema metadata is malformed: the system stops and asks for manual repair rather than guessing its meaning. → See US-014
 - A document carries a newer schema version than the project definition: the system leaves it unchanged and asks the user how to reconcile the versions. → See US-014
 - The user declines a destructive transformation for a document: that document remains completely unchanged and appears in the deferred list. → See US-014
@@ -78,7 +78,7 @@ Project developer or maintainer.
 - Optional prerequisite: [UC-002 Clarify a Project Change Before Committing to It](../uc-002-clarify-project-change/use-case.md)
 - Related: [UC-003 Manage and Deliver a Business Change](../uc-003-manage-and-deliver-business-change/use-case.md)
 - Related: [UC-004 Reconstruct Business Documentation for an Existing Codebase](../uc-004-reconstruct-brownfield-documentation/use-case.md)
-- Follow-up: review and complete every reported placeholder, deferred transformation, and manual-review document; rerun UC-005 as needed.
+- Follow-up: review and complete every reported content marker, deferred transformation, and manual-review document; rerun UC-005 as needed.
 
 ## Implementation Layer Mapping
 

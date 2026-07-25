@@ -62,18 +62,18 @@ Not applicable to the conversational slash-command interface.
 
 ### Scenario 1: Project Scaffold Initialized
 
-- **Given**: TBD (the user is in an intended project directory and has granted write permission)
-- **When**: TBD (the user completes the `/init` guide and approves the preview)
-- **Then**: the system SHALL create the approved documentation scaffold and report the initialized project state
+- **Given**: the user is in an intended project directory, has granted write permission, and can answer or accept defaults for service identity, tech stack, naming conventions, testing, quality tooling, build requirements, and HTTP API shape
+- **When**: the user runs `/init`, completes each interview phase, reviews the scaffold preview, and confirms `Proceed`
+- **Then**: the system SHALL create `AGENTS.md`, `CLAUDE.md`, `README.md`, `CONVENTIONS.md`, `docs/overview/architecture.md`, `docs/overview/test-strategy.md`, `docs/overview/glossary.md`, `docs/schema/format.md`, `docs/schema/workflow-rules.md`, `.gitignore`, and empty `docs/drafts/`, `docs/use-cases/`, `docs/modules/`, and `docs/adr/` directories; it SHALL create `docs/overview/api-spec.yaml` only when the user says the project is an HTTP service; and it SHALL report the initialized project state
 
-### Scenario 2: Existing Project Files Require Confirmation
+### Scenario 2: Existing Project Files Are Skipped
 
-- **Given**: TBD (one or more scaffold target files already exist)
-- **When**: TBD (the user starts `/init`)
-- **Then**: the system SHALL ask how the existing files should be handled before overwriting any content
+- **Given**: one or more scaffold target files already exist
+- **When**: the user runs `/init` and chooses to skip existing files during the pre-flight check
+- **Then**: the system SHALL leave existing scaffold files unchanged, create missing scaffold files and directories, append the scaffold section to `.gitignore` when appropriate, and report which files were skipped versus created
 
 ### Scenario 3: Permission Is Unavailable
 
-- **Given**: TBD (the user has not granted permission to update the project)
-- **When**: TBD (initialization attempts to write the scaffold)
+- **Given**: the user is in the intended project directory but write permission for scaffold targets is not available
+- **When**: the user runs `/init` and the initialization flow reaches the file-writing step
 - **Then**: the system SHALL leave unauthorized files unchanged and explain that permission is required before retrying

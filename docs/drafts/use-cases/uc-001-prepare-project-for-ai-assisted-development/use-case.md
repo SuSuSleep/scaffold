@@ -29,14 +29,14 @@ Project developer or maintainer.
 ## Business Rules
 
 - Existing project files SHALL NOT be overwritten without confirmation from the user.
-- Information that the user cannot provide SHALL remain explicitly marked as incomplete; the system SHALL NOT invent project facts.
-- An incomplete setup SHALL remain resumable without requiring the initialized scaffold to be recreated.
+- Information that the user cannot provide SHALL remain explicitly marked for later completion; the system SHALL NOT invent project facts.
+- A partially completed setup SHALL remain resumable without requiring the initialized scaffold to be recreated.
 
 ## Postconditions
 
 - The project contains an agent-oriented documentation scaffold and project-specific configuration harness.
 - Agents can orient themselves, follow the project's conventions, and discover the correct test and quality commands without the user repeatedly explaining the project.
-- If project-specific configuration remains incomplete, its placeholders are visible and the user can rerun `/setup` later.
+- If project-specific configuration still needs later completion, its explicit completion markers are visible and the user can rerun `/setup` later.
 
 ## Main Flow
 
@@ -46,15 +46,15 @@ Project developer or maintainer.
 4. The system creates the project documentation scaffold and reports the initialized project state.
 5. The user starts `/setup` to complete the project-specific information left by initialization.
 6. The system guides the user through the remaining testing strategy, domain glossary, README, conventions, and shared test-support decisions in scope.
-7. The system records the supplied decisions while preserving existing information and explicitly marking anything still unknown.
+7. The system records the supplied decisions while preserving existing information and explicitly marking any value still awaiting user input.
 8. The user receives a project harness from which they can begin greenfield feature work or rebuild documentation for a brownfield codebase.
 
 ## Exception Flows
 
 - Initialization cannot proceed because permission is unavailable: no unauthorized file is changed, and the user can retry after granting permission. → See US-001
 - Initialization finds existing project files: the system asks whether each affected file should be overwritten or preserved before proceeding. → See US-001
-- Initialization succeeds but setup is interrupted or fails: the initialized scaffold remains usable with explicit placeholders, and the user can rerun `/setup`. → See US-002
-- The user cannot supply a setup value: the value remains explicitly marked as incomplete and is reported as needing attention. → See US-002
+- Initialization succeeds but setup is interrupted or fails: the initialized scaffold remains usable with explicit completion markers, and the user can rerun `/setup`. → See US-002
+- The user cannot supply a setup value: the value remains explicitly marked for later completion and is reported as needing attention. → See US-002
 
 ## Related Use Cases
 

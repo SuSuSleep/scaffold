@@ -47,9 +47,9 @@ None.
 
 ### Stdin / Stdout / Stderr
 
-- Stdin: Selected business UC IDs and clarification of ambiguous module mappings.
+- Stdin: Selected business UC IDs and clarification of module mappings that are not specific enough to plan.
 - Stdout: Review verdicts followed by module drafts, plan paths, ADR results, and affected-file summaries.
-- Stderr: Blocking review findings or planning ambiguity that prevents a trustworthy plan.
+- Stderr: Blocking review findings or planning questions that prevent a trustworthy plan.
 
 ### Exit Codes
 
@@ -63,18 +63,18 @@ Not applicable to the conversational slash-command interface.
 
 ### Scenario 1: READY Business Change Planned
 
-- **Given**: TBD (the business drafts are complete and coherent)
-- **When**: TBD (review returns READY and planning runs)
+- **Given**: the selected business drafts contain coherent stories, scenarios, and implementation mappings
+- **When**: `/review-draft` returns READY and `/design-plan` runs for those UC IDs
 - **Then**: the system SHALL create module contracts and scenario-level implementation batches for the reviewed change
 
 ### Scenario 2: Review Finds Blocking Business Gaps
 
-- **Given**: TBD (one or more business drafts are incomplete or inconsistent)
-- **When**: TBD (the review gate runs)
+- **Given**: one or more selected business drafts are missing required sections, scenarios, or coherent story-to-scenario alignment
+- **When**: the `/review-draft` gate runs
 - **Then**: the system SHALL preserve the drafts, report specific findings, and create no implementation plan
 
 ### Scenario 3: Module Mapping Blocks Planning
 
-- **Given**: TBD (a READY business draft has an absent or ambiguous implementation mapping)
-- **When**: TBD (planning attempts to decompose the change)
+- **Given**: a READY business draft lacks a module mapping specific enough for module-level decomposition
+- **When**: planning attempts to decompose the change
 - **Then**: the system SHALL create no plan and report the mapping decision required from the user

@@ -51,7 +51,7 @@ None.
 
 - Stdin: Module grouping, journey answers, cross-module failure behavior, and any review corrections.
 - Stdout: Business drafts, scenario inventory, coverage updates, promotion result, and final alignment verdict.
-- Stderr: Insufficient composition readiness, blocking TBDs, failed review/promotion gates, or a MISALIGNED report.
+- Stderr: Insufficient composition readiness, blocking business-context gaps, failed review/promotion gates, or a MISALIGNED report.
 
 ### Exit Codes
 
@@ -65,24 +65,24 @@ Not applicable to the conversational slash-command interface.
 
 ### Scenario 1: Coherent Module Journey Composed
 
-- **Given**: TBD (at least two completed module contracts form one user-facing journey)
-- **When**: TBD (the user completes the composition interview and review/promotion gates)
+- **Given**: at least two completed module contracts form one coherent user-facing journey
+- **When**: the user completes the `/compose` interview and the resulting business draft passes review and promotion gates
 - **Then**: the system SHALL produce confirmed business documentation linked to every contributing module
 
 ### Scenario 2: No Coherent Composition Is Ready
 
-- **Given**: TBD (fewer than two completed module contracts form a coherent journey)
-- **When**: TBD (the workflow assesses composition readiness)
-- **Then**: the system SHALL defer composition and continue with the next incomplete module loop
+- **Given**: fewer than two completed module contracts form a coherent user-facing journey
+- **When**: the workflow assesses composition readiness
+- **Then**: the system SHALL defer composition and continue with the next open module loop
 
-### Scenario 3: Blocking TBD Prevents Composition
+### Scenario 3: Blocking Business Context Prevents Composition
 
-- **Given**: TBD (a contributing module lacks business context required to explain the journey)
-- **When**: TBD (business composition begins)
+- **Given**: a contributing module lacks business context required to explain the journey
+- **When**: business composition begins
 - **Then**: the system SHALL write no partial business UC/US and direct the user back to elicitation for the affected module
 
 ### Scenario 4: Final Verification Reports Misalignment
 
-- **Given**: TBD (coverage is complete but confirmed documentation, evidence, and code are not aligned)
-- **When**: TBD (final verification runs)
-- **Then**: the system SHALL keep UC-004 incomplete and direct the user back to the affected module or business-documentation loop
+- **Given**: coverage is complete but confirmed documentation, evidence, and code are not aligned
+- **When**: final verification runs
+- **Then**: the system SHALL keep UC-004 open and direct the user back to the affected module or business-documentation loop
