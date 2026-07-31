@@ -1,15 +1,14 @@
 ---
-schema: agent-skills
+schema: business-capability
 schema-version: 0
 doc-type: user-story
 id: US-003
-api-type: cli
 sections:
   parent-link: Belongs to
   adr-link: Related ADR
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: Interface Contract
+  interaction: User Interaction
   scenarios: Test Scenarios
 ---
 
@@ -32,38 +31,32 @@ So that **I can choose a direction with a clear understanding of its assumptions
 
 ## Expected Behavior
 
-The system explores the user's question through a grounded, adaptive conversation that may include repository navigation, comparisons, and diagrams. The user can continue or reinvoke the skill until the codebase, reasonable approaches, and remaining open questions are understood. The system preserves a strict read-only boundary and leaves the user—not the system—in control of when to capture or implement a conclusion.
+The system explores the user's question through a grounded, adaptive conversation that may include repository navigation, comparisons, and diagrams. The user can continue or continue the investigation until the codebase, reasonable approaches, and remaining open questions are understood. The system preserves a strict read-only boundary and leaves the user—not the system—in control of when to capture or implement a conclusion.
 
-## Interface Contract
+## User Interaction
 
-### Command
+### Trigger
 
-`/explore [topic]`
+The user asks for help understanding an idea, confusing situation, or possible approach before committing to repository changes.
 
-### Flags
+### User-Provided Information
 
-None.
+- The question or topic, available project context, and any constraints or decisions already known.
 
-### Stdin / Stdout / Stderr
+### System Response
 
-- Stdin: The user's topic, answers, corrections, and decisions through conversation.
-- Stdout: Grounded analysis, questions, comparisons, diagrams, risks, and optional handoff guidance.
-- Stderr: A clear boundary reminder when the user requests repository changes while exploration remains active.
+- Performs read-only investigation, compares options, surfaces risks and open questions, and recommends an appropriate next workflow only when the user asks for one.
 
-### Exit Codes
+### Failure Signals
 
-Not applicable to the conversational slash-command interface.
-
-### Notes
-
-- Exploration is read-only and has no automatic terminal state.
+- Relevant context is missing, evidence cannot support a definitive answer, or the user asks for file changes before leaving the exploration boundary.
 
 ## Test Scenarios
 
 ### Scenario 1: Project Change Clarified Without Repository Changes
 
 - **Given**: the user has a project question and relevant orientation files, docs, or source code are readable
-- **When**: the user runs `/explore` and discusses the question while the system reads the relevant project context
+- **When**: the user starts a read-only investigation and discusses the question while the system reads the relevant project context
 - **Then**: the system SHALL provide grounded clarity while leaving repository files unchanged
 
 ### Scenario 2: User Requests a Repository Change During Exploration
@@ -81,5 +74,5 @@ Not applicable to the conversational slash-command interface.
 ### Scenario 4: User Continues Exploration
 
 - **Given**: one exploration topic has produced new questions or remaining open decisions
-- **When**: the user continues the conversation or invokes `/explore` again
+- **When**: the user continues the conversation or continues the investigation workflow
 - **Then**: the system SHALL retain the grounded context and continue helping the user understand the codebase and reasonable approaches without modifying files

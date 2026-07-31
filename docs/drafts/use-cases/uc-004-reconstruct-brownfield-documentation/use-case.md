@@ -1,5 +1,5 @@
 ---
-schema: agent-skills
+schema: business-capability
 schema-version: 0
 doc-type: use-case
 id: UC-004
@@ -11,7 +11,6 @@ sections:
   flow: Main Flow
   exceptions: Exception Flows
   related: Related Use Cases
-  implemented-by: Implementation Layer Mapping
 ---
 
 # UC-004: Reconstruct Business Documentation for an Existing Codebase
@@ -37,17 +36,17 @@ Project developer or maintainer.
 - Actor, goal, business value, and other low-inferability facts SHALL be elicited from a person and SHALL NOT be invented from code.
 - Open cross-module relationships MAY remain explicitly deferred until the related module loop completes.
 - A module SHALL NOT be promoted until its draft passes the brownfield module-document review gate.
-- Business composition SHALL begin as soon as at least two completed module contracts describe a coherent user-facing flow; it need not wait for every module.
+- Business composition SHALL begin as soon as at least two completed implementation contracts describe a coherent user-facing flow; it need not wait for every module.
 - A business composition SHALL include one happy-path scenario plus one exception scenario per cross-module failure seam.
 - The workflow SHALL remain open until every coverage row is complete and final verification reports alignment.
-- Known contract mismatch: `BROWNFIELD.md` requires `review-draft` and `merge` to review and promote module drafts, but their current module contracts only support business-draft review and completed-plan promotion. Those module contracts require correction before UC-004 can be considered ready for planning.
+- Known capability mismatch: the documented brownfield workflow requires module-draft review and promotion, but the current implementation contracts do not yet fully cover those responsibilities. Those contracts require correction before UC-004 can be considered ready for planning.
 
 ## Postconditions
 
 - Every discovered module appears in `docs/drafts/coverage.md` and the architecture module inventory.
 - Each completed module has code-derived technical documentation enriched with confirmed or explicitly deferred business context.
 - Completed module drafts have passed review and been promoted to confirmed module documentation.
-- Coherent cross-module journeys have corresponding business-layer UC/US documentation with implementation mappings and scenario contracts.
+- Coherent cross-module journeys have corresponding business-layer UC/US documentation with implementation boundaries and scenario contracts.
 - Every coverage row is fully checked for scan, module documentation, and business documentation progress.
 - Final verification confirms alignment among the reconstructed documentation, available behavioral evidence, and code, or UC-004 remains open with a named return loop.
 
@@ -60,7 +59,7 @@ Project developer or maintainer.
 5. The system guides the user through actor, goal, value, flow-validation, business-rule, and exception-framing questions, preserving answers incrementally.
 6. The completed module drafts pass the brownfield module-document review gate and are promoted; the coverage row records module completion.
 7. Steps 3–6 repeat for subsequent modules, while open relationships to later modules remain explicitly deferred.
-8. As soon as two or more completed module contracts form a coherent user journey, the system composes them into business UC/US drafts.
+8. As soon as two or more completed implementation contracts form a coherent user journey, the system composes them into business UC/US drafts.
 9. The composed business drafts pass review and are promoted; contributing module rows record their business-documentation coverage.
 10. Module loops and business compositions continue until every coverage row is fully checked.
 11. The system performs final alignment verification across confirmed documentation, behavioral evidence, and code.
@@ -82,13 +81,3 @@ Project developer or maintainer.
 - Prerequisite: [UC-001 Prepare a Project for AI-Assisted Development](../uc-001-prepare-project-for-ai-assisted-development/use-case.md)
 - Optional prerequisite: [UC-002 Clarify a Project Change Before Committing to It](../uc-002-clarify-project-change/use-case.md)
 - Related: UC-005 Evolve the Documentation System Safely.
-
-## Implementation Layer Mapping
-
-- `scan-all` → [UC-010: Bootstrap the brownfield documentation workflow](../../modules/scan-all/use-cases/uc-010-scan-all/use-case.md) (draft)
-- `scan-deep` → [UC-011: Produce module drafts from source](../../modules/scan-deep/use-cases/uc-011-scan-deep/use-case.md) (draft)
-- `elicit` → [UC-005: Fill module business-context fields](../../modules/elicit/use-cases/uc-005-elicit/use-case.md) (draft)
-- `review-draft` → [UC-009: Review business-layer drafts](../../modules/review-draft/use-cases/uc-009-review-draft/use-case.md) (draft; module-draft review responsibility required by `BROWNFIELD.md` is not represented)
-- `merge` → [UC-008: Promote completed-plan drafts](../../modules/merge/use-cases/uc-008-merge/use-case.md) (draft; brownfield module-only promotion responsibility is not represented)
-- `compose` → [UC-002: Compose a business-layer document](../../modules/compose/use-cases/uc-002-compose-business-doc/use-case.md) (draft)
-- `verify` → [UC-014: Verify three-way alignment](../../modules/verify/use-cases/uc-014-verify/use-case.md) (draft)

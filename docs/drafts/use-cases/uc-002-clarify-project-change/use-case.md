@@ -1,5 +1,5 @@
 ---
-schema: agent-skills
+schema: business-capability
 schema-version: 0
 doc-type: use-case
 id: UC-002
@@ -11,7 +11,6 @@ sections:
   flow: Main Flow
   exceptions: Exception Flows
   related: Related Use Cases
-  implemented-by: Implementation Layer Mapping
 ---
 
 # UC-002: Clarify a Project Change Before Committing to It
@@ -47,7 +46,7 @@ Project developer or maintainer.
 3. The system helps the user clarify the goal, assumptions, constraints, and points of disagreement between documentation and implementation.
 4. The system compares viable approaches, surfaces risks and downstream effects, and answers questions grounded in the repository.
 5. The user either selects a reasonable approach, identifies the decisions or information still needed, or decides that the exploration itself provided enough clarity.
-6. The user may continue the same discussion, invoke `/explore` again for another question, or stop with the improved understanding gained so far.
+6. The user may continue the same discussion, continue the investigation workflow for another question, or stop with the improved understanding gained so far.
 7. When requested, the system identifies the appropriate follow-up workflow while leaving the repository unchanged.
 
 ## Exception Flows
@@ -60,10 +59,6 @@ Project developer or maintainer.
 
 - Optional prerequisite: [UC-001 Prepare a Project for AI-Assisted Development](../uc-001-prepare-project-for-ai-assisted-development/use-case.md)
 - Follow-up: UC-003 Manage and Deliver a Business Change.
-- Follow-up: `/setup` when exploration resolves project-level configuration.
-- Follow-up: `/draft`, `/design-plan`, or `/apply` according to how far the resulting change has already progressed.
+- Follow-up: project configuration when exploration resolves project-level configuration.
+- Follow-up: capture, planning, or implementation workflow according to how far the resulting change has already progressed.
 - Related: UC-005 Evolve the Documentation System Safely.
-
-## Implementation Layer Mapping
-
-- `explore` → [UC-006: Enter explore mode](../../modules/explore/use-cases/uc-006-explore/use-case.md) (draft)

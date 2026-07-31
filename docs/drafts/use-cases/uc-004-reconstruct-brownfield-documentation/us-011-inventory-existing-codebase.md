@@ -1,15 +1,14 @@
 ---
-schema: agent-skills
+schema: business-capability
 schema-version: 0
 doc-type: user-story
 id: US-011
-api-type: cli
 sections:
   parent-link: Belongs to
   adr-link: Related ADR
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: Interface Contract
+  interaction: User Interaction
   scenarios: Test Scenarios
 ---
 
@@ -34,36 +33,30 @@ So that **I know what must be documented and can continue the retrofit across mu
 
 The system identifies the user-confirmed source root, treats each direct child directory as one module, and creates or append-only updates the coverage and architecture inventories. Existing progress is preserved.
 
-## Interface Contract
+## User Interaction
 
-### Command
+### Trigger
 
-`/scan-all`
+The user asks to begin reconstructing documentation for an existing codebase.
 
-### Flags
+### User-Provided Information
 
-None.
+- The source root to inspect when it is not obvious, and confirmation of discovered module boundaries.
 
-### Stdin / Stdout / Stderr
+### System Response
 
-- Stdin: Source-root confirmation when discovery finds no default root or multiple candidate roots.
-- Stdout: Discovered modules, coverage mode, updated paths, and the recommended first module loop.
-- Stderr: A clear request for a valid source root or repair of a malformed existing tracker.
+- Inventories direct-child modules, creates or append-only updates coverage tracking, seeds the architecture inventory, and preserves existing progress.
 
-### Exit Codes
+### Failure Signals
 
-Not applicable to the conversational slash-command interface.
-
-### Notes
-
-- Existing coverage rows and checkbox states are preserved in update mode.
+- No source root is available, multiple candidate roots require selection, or existing coverage data is unreadable.
 
 ## Test Scenarios
 
 ### Scenario 1: Brownfield Module Inventory Created
 
 - **Given**: an initialized project contains a confirmed source root with direct-child module directories
-- **When**: the user runs `/scan-all`
+- **When**: the user starts codebase inventory
 - **Then**: the system SHALL create a coverage row and architecture entry for every discovered module
 
 ### Scenario 2: Source Root Requires Confirmation

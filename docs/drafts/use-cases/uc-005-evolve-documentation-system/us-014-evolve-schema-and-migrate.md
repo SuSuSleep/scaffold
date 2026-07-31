@@ -1,15 +1,14 @@
 ---
-schema: agent-skills
+schema: business-capability
 schema-version: 0
 doc-type: user-story
 id: US-014
-api-type: cli
 sections:
   parent-link: Belongs to
   adr-link: Related ADR
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: Interface Contract
+  interaction: User Interaction
   scenarios: Test Scenarios
 ---
 
@@ -34,29 +33,23 @@ So that **the documentation system evolves consistently without silent data loss
 
 The system derives the proposed new version from user-provided context, collects the full change set, classifies its migration risk, and waits for explicit confirmation. It preserves the existing meaning of recognized documents while aligning their content and format, then gives an honest report of content-needed, deferred, or manually reviewable results.
 
-## Interface Contract
+## User Interaction
 
-### Command
+### Trigger
 
-`/schema-update`
+The user asks to change document format, content expectations, or workflow policy.
 
-### Flags
+### User-Provided Information
 
-None.
+- Complete change set, clarifications, migration-risk confirmation, and per-document decisions for destructive transformations.
 
-### Stdin / Stdout / Stderr
+### System Response
 
-- Stdin: Complete schema/workflow change set, clarifications, classification confirmation, and per-document destructive-change decisions.
-- Stdout: Classification table, migration progress, and categorized migration report.
-- Stderr: Request that is not specific enough to migrate, malformed schema metadata, future-version conflict, or concurrent-write warning.
+- Classifies risk, updates schema or workflow definitions, migrates recognized affected documents, and reports completed, content-needed, deferred, and manual-review results.
 
-### Exit Codes
+### Failure Signals
 
-Not applicable to the conversational slash-command interface.
-
-### Notes
-
-- Schema and workflow versions are independent.
+- The requested change is not specific enough, schema metadata is malformed, a future-version conflict exists, or concurrent documentation writes create migration risk.
 
 ## Test Scenarios
 
@@ -93,5 +86,5 @@ Not applicable to the conversational slash-command interface.
 ### Scenario 6: Migration Follow-Up Is Reviewed and Resumed
 
 - **Given**: a migration report lists content markers, deferred transformations, or manual-review documents
-- **When**: the user supplies the missing decisions or content and reruns `/schema-update`
+- **When**: the user supplies the missing decisions or content and resumes schema migration
 - **Then**: the system SHALL preserve completed migration work and process the remaining confirmed updates against the new version

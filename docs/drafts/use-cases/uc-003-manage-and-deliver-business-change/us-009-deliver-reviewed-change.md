@@ -1,15 +1,14 @@
 ---
-schema: agent-skills
+schema: business-capability
 schema-version: 0
 doc-type: user-story
 id: US-009
-api-type: cli
 sections:
   parent-link: Belongs to
   adr-link: Related ADR
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: Interface Contract
+  interaction: User Interaction
   scenarios: Test Scenarios
 ---
 
@@ -34,48 +33,40 @@ So that **the feature or bug fix reaches a PR-ready state with aligned code, tes
 
 The system executes plan batches, creates the required behavioral and quality evidence, promotes drafts only after completion gates pass, and performs final three-way alignment checks. It stops at “ready to open PR”; it never pushes or opens the PR automatically.
 
-## Interface Contract
+## User Interaction
 
-### Command
+### Trigger
 
-1. `/apply [plan]`
-2. `/merge [completed plan]`
-3. `/verify`
+The user asks to deliver an approved implementation plan.
 
-### Flags
+### User-Provided Information
 
-None.
+- The approved plan, permission to update implementation files, and responses to any bounded recovery questions.
 
-### Stdin / Stdout / Stderr
+### System Response
 
-- Stdin: Selected plan when more than one plan is available and explicit confirmation for a final documentation commit when applicable.
-- Stdout: Batch progress, promotion summary, verification report, and PR-readiness status.
-- Stderr: Task failures, promotion blockers, or final alignment failures with a correction path.
+- Implements plan batches, runs required checks, promotes completed documentation when gates pass, performs final alignment verification, and reports pull-request readiness.
 
-### Exit Codes
+### Failure Signals
 
-Not applicable to the conversational slash-command interface.
-
-### Notes
-
-- Pushing and opening the pull request remain manual user actions.
+- Plan work remains incomplete, required behavioral evidence is missing, promotion gates fail, or final alignment verification reports a mismatch.
 
 ## Test Scenarios
 
 ### Scenario 1: Reviewed Change Delivered and Ready for PR
 
 - **Given**: a reviewed change has a complete implementation plan on a feature branch
-- **When**: `/apply` completes every plan task, `/merge` promotes the completed drafts, and `/verify` reports CLEAN
+- **When**: implementation completes every plan task, completed drafts are promoted, and final alignment verification passes
 - **Then**: the system SHALL report aligned code, tests, and confirmed documentation ready for the user to open a pull request
 
 ### Scenario 2: Promotion Gate Blocks Open Work
 
 - **Given**: the plan has unchecked work or a required behavioral test file is missing
-- **When**: the user runs `/merge`
+- **When**: the user asks to promote completed drafts
 - **Then**: the system SHALL promote nothing and report every blocking item
 
 ### Scenario 3: Final Verification Finds Misalignment
 
 - **Given**: promoted working-tree documentation does not align with tests or implementation evidence
-- **When**: the `/verify` gate runs
+- **When**: the final alignment gate runs
 - **Then**: the system SHALL report MISALIGNED, leave the changes uncommitted, and tell the user not to open a pull request

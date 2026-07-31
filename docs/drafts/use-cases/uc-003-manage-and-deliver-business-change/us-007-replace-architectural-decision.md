@@ -1,15 +1,14 @@
 ---
-schema: agent-skills
+schema: business-capability
 schema-version: 0
 doc-type: user-story
 id: US-007
-api-type: cli
 sections:
   parent-link: Belongs to
   adr-link: Related ADR
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: Interface Contract
+  interaction: User Interaction
   scenarios: Test Scenarios
 ---
 
@@ -34,38 +33,30 @@ So that **the project does not retain contradictory decisions, stale references,
 
 The system creates a proposed replacement ADR, discovers every affected document, and prepares a complete draft cascade before planning. Implementation updates code references, promotion adopts the replacement and removes the superseded decision, and final verification checks the resulting feature evidence.
 
-## Interface Contract
+## User Interaction
 
-### Command
+### Trigger
 
-`/draft [ADR supersession described in conversation]`
+The user asks to replace an adopted architectural decision.
 
-Followed after review by `/design-plan`, `/apply`, `/merge`, and `/verify` when implementation impact exists.
+### User-Provided Information
 
-### Flags
+- The decision being superseded, the replacement decision, rationale, scope, and expected implementation impact.
 
-None.
+### System Response
 
-### Stdin / Stdout / Stderr
+- Creates a superseding decision draft, captures any related business-change work, and carries the change through review, implementation planning, delivery, promotion, and alignment verification when implementation impact exists.
 
-- Stdin: The decision being replaced, replacement intent, and any clarification.
-- Stdout: Proposed ADR, complete affected-document set, implementation progress, promotion result, and verification verdict.
-- Stderr: A missing superseded ADR, partial cascade, failing implementation gate, or final misalignment report.
+### Failure Signals
 
-### Exit Codes
-
-Not applicable to the conversational slash-command interface.
-
-### Notes
-
-- ADR supersession is all-or-nothing at requirement-capture time.
+- The superseded decision cannot be found, replacement rationale is incomplete, or implementation impact is unclear.
 
 ## Test Scenarios
 
 ### Scenario 1: Architectural Decision Replaced End to End
 
 - **Given**: an adopted ADR exists in `docs/adr/` and the user requests a specific replacement decision with its intended implementation impact
-- **When**: the user completes `/draft`, `/review-draft`, `/design-plan`, `/apply`, `/merge`, and `/verify` for the supersession change
+- **When**: the user completes capture, review, planning, implementation, promotion, and verification for the supersession change
 - **Then**: the system SHALL adopt the replacement, remove the superseded decision, update affected evidence, and report readiness for PR
 
 ### Scenario 2: Superseded Decision Cannot Be Found

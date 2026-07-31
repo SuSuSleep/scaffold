@@ -1,15 +1,14 @@
 ---
-schema: agent-skills
+schema: business-capability
 schema-version: 0
 doc-type: user-story
 id: US-004
-api-type: cli
 sections:
   parent-link: Belongs to
   adr-link: Related ADR
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: Interface Contract
+  interaction: User Interaction
   scenarios: Test Scenarios
 ---
 
@@ -34,36 +33,30 @@ So that **implementation can begin from explicit business expectations rather th
 
 The system turns the user's plain-language intent into one UC per distinct goal and the necessary business stories. It discovers related documentation, assesses ADR need, preserves lifecycle boundaries, and leaves intent that is not specific enough to classify unwritten until clarified.
 
-## Interface Contract
+## User Interaction
 
-### Command
+### Trigger
 
-`/draft [requirement described in conversation]`
+The user asks to capture a new feature, bug-fix goal, or newly understood business requirement.
 
-### Flags
+### User-Provided Information
 
-None.
+- Business goal, actor, scope, intended operation, constraints, and any decision context that may require an ADR.
 
-### Stdin / Stdout / Stderr
+### System Response
 
-- Stdin: The new feature or bug-fix intent and clarification answers.
-- Stdout: Created drafts, decision-record result, repaired references, and review notes.
-- Stderr: A targeted clarification request when actor, scope, or operation is not specific enough to classify.
+- Creates coherent business drafts with allocated IDs, records relevant relationships, identifies required decision records, and leaves unclear intent unwritten until clarified.
 
-### Exit Codes
+### Failure Signals
 
-Not applicable to the conversational slash-command interface.
-
-### Notes
-
-- Confirmed files are never edited directly.
+- Actor, scope, operation, or decision context is not specific enough to classify safely.
 
 ## Test Scenarios
 
 ### Scenario 1: New Requirement Captured
 
 - **Given**: the user provides a feature or bug-fix goal with a clear actor, scope, and intended operation
-- **When**: the user runs `/draft` and the requirement-capture flow classifies the change as a new business requirement
+- **When**: the user asks to update business documentation and the requirement-capture flow classifies the change as a new business requirement
 - **Then**: the system SHALL create coherent business drafts with allocated IDs and relevant relationships
 
 ### Scenario 2: Requirement Intent Needs Clarification

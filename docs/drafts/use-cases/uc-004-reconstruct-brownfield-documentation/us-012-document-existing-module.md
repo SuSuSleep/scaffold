@@ -1,15 +1,14 @@
 ---
-schema: agent-skills
+schema: business-capability
 schema-version: 0
 doc-type: user-story
 id: US-012
-api-type: cli
 sections:
   parent-link: Belongs to
   adr-link: Related ADR
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: Interface Contract
+  interaction: User Interaction
   scenarios: Test Scenarios
 ---
 
@@ -34,40 +33,31 @@ So that **the module can be understood, reviewed, and maintained without manuall
 
 The system scans one module, creates one UC per distinct goal-bearing entry point, and fills all high-inferability fields from code. It then incrementally elicits actor, goal, value, rules, and exception meaning before reviewing and promoting the completed module documentation.
 
-## Interface Contract
+## User Interaction
 
-### Command
+### Trigger
 
-1. `/scan-deep [module]`
-2. `/elicit [module]`
-3. `/review-draft [module draft]` (intended brownfield behavior; current contract mismatch)
-4. `/merge [module draft]` (intended brownfield behavior; current contract mismatch)
+The user asks to document a module whose code exists but whose contract or business meaning is incomplete.
 
-### Flags
+### User-Provided Information
 
-None.
+- Module selection, responsibility-boundary confirmations, and answers for actor, goal, value, rules, and exception meaning.
 
-### Stdin / Stdout / Stderr
+### System Response
 
-- Stdin: Module selection, boundary confirmations, and business-context interview answers.
-- Stdout: Code summary, module drafts, elicitation progress, review verdict, promotion result, and coverage updates.
-- Stderr: Missing coverage, missing module source, open review blockers, or the recorded review/promotion contract mismatch.
+- Derives technical facts from code, captures business context from the user, reviews the module documentation, promotes completed implementation contracts, and updates coverage.
 
-### Exit Codes
+### Failure Signals
 
-Not applicable to the conversational slash-command interface.
-
-### Notes
-
-- The module loop is resumable and remains bounded to one module.
+- Module source is missing, boundary questions are unanswered, business context remains open, or the module documentation fails review.
 
 ## Test Scenarios
 
 ### Scenario 1: Existing Module Documented and Promoted
 
 - **Given**: coverage lists a module whose source is readable and whose module documentation remains open
-- **When**: `/scan-deep`, `/elicit`, the brownfield module-document review gate, and promotion complete for that module
-- **Then**: the system SHALL produce confirmed module contracts with technical facts derived from code and business facts confirmed by the user
+- **When**: module scanning, business-context elicitation, brownfield module-document review, and promotion complete for that module
+- **Then**: the system SHALL produce confirmed implementation contracts with technical facts derived from code and business facts confirmed by the user
 
 ### Scenario 2: Module Scan Is Interrupted Before Confirmation
 

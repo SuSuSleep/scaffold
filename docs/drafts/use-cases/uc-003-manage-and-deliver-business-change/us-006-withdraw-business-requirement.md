@@ -1,15 +1,14 @@
 ---
-schema: agent-skills
+schema: business-capability
 schema-version: 0
 doc-type: user-story
 id: US-006
-api-type: cli
 sections:
   parent-link: Belongs to
   adr-link: Related ADR
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: Interface Contract
+  interaction: User Interaction
   scenarios: Test Scenarios
 ---
 
@@ -34,42 +33,36 @@ So that **future planning does not implement cancelled intent or leave misleadin
 
 The system discovers every in-draft dependency before deleting the cancelled requirement. Safe references are repaired automatically; a dependency that cannot survive the cancellation requires the user's cascade decision.
 
-## Interface Contract
+## User Interaction
 
-### Command
+### Trigger
 
-`/draft [requirement withdrawal described in conversation]`
+The user asks to withdraw an in-progress business requirement.
 
-### Flags
+### User-Provided Information
 
-None.
+- The requirement to withdraw and any cascade decision for dependent drafts.
 
-### Stdin / Stdout / Stderr
+### System Response
 
-- Stdin: The requirement to withdraw and any cascade decision.
-- Stdout: Deleted drafts and repaired references.
-- Stderr: A dependency conflict requiring explicit user direction.
+- Checks draft dependencies, repairs references that can safely survive the withdrawal, deletes the cancelled draft when safe, and reports the result.
 
-### Exit Codes
+### Failure Signals
 
-Not applicable to the conversational slash-command interface.
-
-### Notes
-
-- Cancellation is immediate for drafts after reference safety is established.
+- A dependent draft cannot preserve its business goal without a user cascade decision.
 
 ## Test Scenarios
 
 ### Scenario 1: Unreferenced Requirement Withdrawn
 
 - **Given**: an in-progress business requirement exists under `docs/drafts/use-cases/` and no other draft references it
-- **When**: the user runs `/draft` and requests withdrawal of that requirement
+- **When**: the user asks to update business documentation and requests withdrawal of that requirement
 - **Then**: the system SHALL delete the draft and report the withdrawal
 
 ### Scenario 2: Referenced Requirement Withdrawn Safely
 
 - **Given**: other drafts contain references to the requirement that can be removed or rewritten without changing their business goals
-- **When**: the user runs `/draft` and requests withdrawal of that requirement
+- **When**: the user asks to update business documentation and requests withdrawal of that requirement
 - **Then**: the system SHALL repair those references before deleting the cancelled draft
 
 ### Scenario 3: Withdrawal Requires a Cascade Decision

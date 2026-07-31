@@ -1,15 +1,14 @@
 ---
-schema: agent-skills
+schema: business-capability
 schema-version: 0
 doc-type: user-story
 id: US-005
-api-type: cli
 sections:
   parent-link: Belongs to
   adr-link: Related ADR
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: Interface Contract
+  interaction: User Interaction
   scenarios: Test Scenarios
 ---
 
@@ -34,42 +33,36 @@ So that **the next implementation reflects current intent while the released doc
 
 Existing drafts are updated in place. Confirmed requirements are first copied to their draft mirror and changed there, with related documents discovered and any structural references repaired.
 
-## Interface Contract
+## User Interaction
 
-### Command
+### Trigger
 
-`/draft [requirement revision described in conversation]`
+The user asks to revise an existing business requirement.
 
-### Flags
+### User-Provided Information
 
-None.
+- The existing requirement, the requested change, whether the business goal remains the same, and any confirmed-document update decision.
 
-### Stdin / Stdout / Stderr
+### System Response
 
-- Stdin: The requirement revision and clarification answers.
-- Stdout: Updated draft paths, relationship effects, and items needing review.
-- Stderr: A conflict report when the revision overlaps another goal or cannot be scoped safely.
+- Updates an in-progress draft in place or creates a draft copy of confirmed documentation before revision, preserving lifecycle rules and affected references.
 
-### Exit Codes
+### Failure Signals
 
-Not applicable to the conversational slash-command interface.
-
-### Notes
-
-- Drafts represent current state; history remains in git.
+- The requested revision changes the business goal, targets an unknown requirement, or would alter confirmed documentation without the required draft path.
 
 ## Test Scenarios
 
 ### Scenario 1: Existing Draft Revised In Place
 
 - **Given**: a matching business requirement already exists under `docs/drafts/use-cases/`
-- **When**: the user runs `/draft` and describes a revision that stays within the same business goal
+- **When**: the user asks to update business documentation and describes a revision that stays within the same business goal
 - **Then**: the system SHALL update the affected draft sections while preserving unrelated content
 
 ### Scenario 2: Confirmed Requirement Revised Through a Draft Copy
 
 - **Given**: the matching requirement exists only under `docs/use-cases/`
-- **When**: the user runs `/draft` and describes a revision to that confirmed requirement
+- **When**: the user asks to update business documentation and describes a revision to that confirmed requirement
 - **Then**: the system SHALL copy the confirmed requirement into its draft mirror and leave the confirmed version unchanged
 
 ### Scenario 3: Revision Overlaps Another User Goal

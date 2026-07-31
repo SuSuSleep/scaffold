@@ -1,15 +1,14 @@
 ---
-schema: agent-skills
+schema: business-capability
 schema-version: 0
 doc-type: user-story
 id: US-010
-api-type: cli
 sections:
   parent-link: Belongs to
   adr-link: Related ADR
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: Interface Contract
+  interaction: User Interaction
   scenarios: Test Scenarios
 ---
 
@@ -34,41 +33,35 @@ So that **I do not repeat successful work or manually reconstruct what failed an
 
 Re-running implementation starts at the first pending task and retains every completed checkbox. Repeated task failure stops with evidence for human guidance, while final regression failure creates a separate fix plan instead of hiding the failure with unplanned inline changes.
 
-## Interface Contract
+## User Interaction
 
-### Command
+### Trigger
 
-`/apply [original or fix plan]`
+The user asks to resume incomplete implementation work or recover from repeated verification failure.
 
-### Flags
+### User-Provided Information
 
-None.
+- The original or recovery plan, observed failure details, and permission to continue from the recorded state.
 
-### Stdin / Stdout / Stderr
+### System Response
 
-- Stdin: The plan selection when multiple plans exist and guidance after a repeated task failure.
-- Stdout: Resume point, batch progress, preserved completion state, or newly created fix-plan path.
-- Stderr: The failing task or final regression evidence and the attempted corrections.
+- Preserves completed work, resumes pending tasks, creates a bounded recovery plan when required, and reports attempted fixes and remaining blockers.
 
-### Exit Codes
+### Failure Signals
 
-Not applicable to the conversational slash-command interface.
-
-### Notes
-
-- Only one implementation run may update a plan at a time.
+- The same task repeatedly fails, the plan state is inconsistent, or the remaining blocker requires user or external correction.
 
 ## Test Scenarios
 
 ### Scenario 1: Partially Completed Plan Resumed
 
 - **Given**: a plan file contains one or more completed `[x]` tasks followed by pending `[ ]` tasks
-- **When**: the user reruns `/apply` for that plan
+- **When**: the user resumes implementation for that plan
 - **Then**: the system SHALL preserve completed tasks and continue from the first pending task
 
 ### Scenario 2: Task Fails After the Allowed Attempts
 
-- **Given**: a task's required typecheck, behavioral test, or implementation-quality test repeatedly fails during `/apply`
+- **Given**: a task's required typecheck, behavioral test, or implementation-quality test repeatedly fails during implementation
 - **When**: the allowed correction attempts are exhausted
 - **Then**: the system SHALL leave that task pending, preserve prior completed work, and report the error and attempted fixes
 

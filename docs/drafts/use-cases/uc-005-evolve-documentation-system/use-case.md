@@ -1,5 +1,5 @@
 ---
-schema: agent-skills
+schema: business-capability
 schema-version: 0
 doc-type: use-case
 id: UC-005
@@ -11,7 +11,6 @@ sections:
   flow: Main Flow
   exceptions: Exception Flows
   related: Related Use Cases
-  implemented-by: Implementation Layer Mapping
 ---
 
 # UC-005: Evolve the Documentation System Safely
@@ -61,7 +60,7 @@ Project developer or maintainer.
 7. The system applies safe transformations, inserts explicit completion markers for new required content, and asks per-document confirmation before destructive transformations.
 8. In legacy bootstrap mode, the system infers frontmatter only for documents whose paths and headings match recognized document types.
 9. The system prints a migration report separating completed, content-needed, deferred, and manual-review results.
-10. The user reviews and completes reported content markers, deferred transformations, and manual-review files, then reruns `/schema-update` when further migration is required.
+10. The user reviews and completes reported content markers, deferred transformations, and manual-review files, then resumes schema migration when further migration is required.
 
 ## Exception Flows
 
@@ -79,7 +78,3 @@ Project developer or maintainer.
 - Related: [UC-003 Manage and Deliver a Business Change](../uc-003-manage-and-deliver-business-change/use-case.md)
 - Related: [UC-004 Reconstruct Business Documentation for an Existing Codebase](../uc-004-reconstruct-brownfield-documentation/use-case.md)
 - Follow-up: review and complete every reported content marker, deferred transformation, and manual-review document; rerun UC-005 as needed.
-
-## Implementation Layer Mapping
-
-- `schema-update` → [UC-012: Evolve project schema and migrate affected documents](../../modules/schema-update/use-cases/uc-012-schema-update/use-case.md) (draft)

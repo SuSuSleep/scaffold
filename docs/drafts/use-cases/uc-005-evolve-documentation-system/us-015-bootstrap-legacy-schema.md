@@ -1,15 +1,14 @@
 ---
-schema: agent-skills
+schema: business-capability
 schema-version: 0
 doc-type: user-story
 id: US-015
-api-type: cli
 sections:
   parent-link: Belongs to
   adr-link: Related ADR
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: Interface Contract
+  interaction: User Interaction
   scenarios: Test Scenarios
 ---
 
@@ -34,36 +33,30 @@ So that **future documentation workflows can read, validate, and evolve them con
 
 The system creates the initial schema definitions, recognizes legacy document types from approved paths and headings, and adds inferred metadata without rewriting unrecognized structures. Bootstrap and any custom evolution requested in the same run are reported separately.
 
-## Interface Contract
+## User Interaction
 
-### Command
+### Trigger
 
-`/schema-update`
+The user asks to adopt the current documentation schema for legacy documents that lack schema metadata.
 
-### Flags
+### User-Provided Information
 
-None.
+- Confirmation to bootstrap recognized legacy documents and any decisions needed for ambiguous document structure.
 
-### Stdin / Stdout / Stderr
+### System Response
 
-- Stdin: Optional custom schema changes and confirmation of inferred legacy document types when necessary.
-- Stdout: Bootstrapped definitions, adopted documents, and manual-review inventory.
-- Stderr: Truly fresh-project redirect, unrecognized structure, or metadata that cannot be inferred safely.
+- Creates schema and workflow definitions when absent, adds inferred frontmatter to recognized documents, preserves content, and reports files requiring manual review.
 
-### Exit Codes
+### Failure Signals
 
-Not applicable to the conversational slash-command interface.
-
-### Notes
-
-- A project with neither schemas nor legacy documents belongs in UC-001 instead.
+- No recognizable legacy documents exist, document headings do not match known formats, or metadata cannot be inferred without guessing.
 
 ## Test Scenarios
 
 ### Scenario 1: Recognized Legacy Documents Adopted
 
 - **Given**: legacy UC/US documents exist at recognized paths and no project schema exists
-- **When**: the user runs `/schema-update` to start schema bootstrap
+- **When**: the user starts schema bootstrap to start schema bootstrap
 - **Then**: the system SHALL create initial schema definitions and add inferred metadata to recognized documents
 
 ### Scenario 2: Unrecognized Legacy Document Requires Manual Review
