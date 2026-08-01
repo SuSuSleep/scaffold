@@ -1,5 +1,5 @@
 ---
-schema: web-service
+schema: agent-skills
 schema-version: 0
 doc-type: use-case
 id: UC-008
@@ -38,7 +38,7 @@ TBD (will be linked after /compose) — belongs to the greenfield implementation
 
 ## Business Rules
 
-TBD (what business rules should apply here — e.g. is `/merge` allowed on a plan owned by someone else? Must `/review-draft` have run on the original business drafts at some point? Can `/merge` skip the diagram-update step for plans that don't introduce new modules? Are there guardrails on deleting superseded ADRs without a snapshot?) — `/elicit` fills this.
+None — the technical preconditions cover it.
 
 ## Postconditions
 
@@ -79,7 +79,7 @@ On block (any plan checkbox unchecked, OR any behavioral test file missing for a
 4. **Pre-merge checklist** (6 items):
    1. UC main flow — read each `use-case.md` in scope; PASS if the Main Flow looks consistent with the implementation, WARN if stale
    2. Behavioral tests — for each US in scope, verify a file exists at `tests/behavioral/{module}/us-{id}-*.test.*`; PASS or **HARD BLOCKER** (list missing files; stop)
-   3. API Contract vs api-spec — for each US whose `api-type: rest`, verify its `### Endpoint` appears in `docs/overview/api-spec.yaml`; PASS / WARN. SKIP for non-rest api-types
+   3. Interface Contract vs api-spec — for each US whose `api-type: rest`, verify its `### Endpoint` appears in `docs/overview/api-spec.yaml`; PASS / WARN. SKIP for non-rest api-types
    4. TBD references — scan all draft files being promoted for `TBD` strings; note which targets will be resolved in Step 6
    5. New module or dependency — does Affected Files name a module whose `src/` didn't exist before? Does any UC reference a new external service not in `architecture.md`? PASS / WARN
    6. ADR supersession (only when the plan's Related ADRs include a new ADR superseding an existing one) — confirm the old confirmed ADR exists at its current path; scan `docs/drafts/` for any residual `Related ADR: ADR-{old-id}` references (should be 0 after `/draft`'s cascade); scan `src/` for `// see ADR-{old-id}` or `ADR-{old-id}` strings (should be 0 after `/apply`'s rework batch); PASS / WARN
@@ -97,16 +97,16 @@ On block (any plan checkbox unchecked, OR any behavioral test file missing for a
 
 ## Exception Flows
 
-- **E1 — Plan has unchecked items**: report `Merge blocked — {N} tasks are not yet complete` with the list; stop before touching any file. Tell the user to run `/apply` to complete the remaining tasks
-- **E2 — No plan named and no plan glob matches**: report "no plan found in `docs/drafts/plans/`" and stop. If multiple match without a name, list them and ask which to use
-- **E3 — Behavioral test file missing for an in-scope US** (HARD BLOCKER on the pre-merge checklist): list the missing test file paths and stop without touching anything. Tell the user to add the tests via `/apply` first
-- **E4 — User asks to merge only some UCs from the plan** ("partial merge"): refuse and explain that partial merges are not supported by this UC; ask whether to defer or to complete the rest of the plan via `/apply`
-- **E5 — `lifecycle.adr-supersession-deletes-old` is `false`** (project policy override): skip the deletion of the old confirmed ADR; the new ADR's Background still names the superseded one as a textual reference; report this in the summary so the user knows the old file persists
-- **E6 — Module README `## Confirmed Use Cases` table missing or malformed in an existing README**: do NOT auto-fix the table layout; report the malformation in the warnings; leave the README untouched and ask the user to repair it before re-running merge for that module
-- **E7 — `architecture.md` doesn't exist when a new-module flag fires**: create it from a minimal stub (Module Overview table with the new module + Directory Structure boilerplate + empty Mermaid diagram block) and flag it in the warnings — this is the only path through which `/merge` creates `architecture.md`; normally `/init` owns its creation
-- **E8 — TBD reference target is ambiguous** (the path string in the TBD doesn't uniquely identify a promoted file): leave the TBD as-is and add a warning to the summary; `/verify` will surface it for human resolution
-- **E9 — Source SKILL.md still says "add a TODO comment near the diagram"** — this UC explicitly overrides that behavior. If a future skill revision tries to revert merge to the TODO-comment behavior, the change should re-confirm with the user; the current intended responsibility is direct diagram update
-- **E10 — User asks merge to also run `git add` / `git commit`**: refuse and remind the user that commit policy is a downstream step. This UC explicitly excludes git operations. (Suggested phrasing: *"This skill only updates the docs and stops. `/verify` is the next step — it owns the review and any commit policy that follows."*)
+- **E1 — Plan has unchecked items** (contact support): report `Merge blocked — {N} tasks are not yet complete` with the list; stop before touching any file. Tell the user to run `/apply` to complete the remaining tasks
+- **E2 — No plan named and no plan glob matches** (recoverable): report "no plan found in `docs/drafts/plans/`" and stop. If multiple match without a name, list them and ask which to use
+- **E3 — Behavioral test file missing for an in-scope US** (contact support): HARD BLOCKER on the pre-merge checklist; list the missing test file paths and stop without touching anything. Tell the user to add the tests via `/apply` first
+- **E4 — User asks to merge only some UCs from the plan** (recoverable): ("partial merge"): refuse and explain that partial merges are not supported by this UC; ask whether to defer or to complete the rest of the plan via `/apply`
+- **E5 — `lifecycle.adr-supersession-deletes-old` is `false`** (follow project policy): project policy override; skip the deletion of the old confirmed ADR; the new ADR's Background still names the superseded one as a textual reference; report this in the summary so the user knows the old file persists
+- **E6 — Module README `## Confirmed Use Cases` table missing or malformed in an existing README** (contact support): do NOT auto-fix the table layout; report the malformation in the warnings; leave the README untouched and ask the user to repair it before re-running merge for that module
+- **E7 — `architecture.md` doesn't exist when a new-module flag fires** (contact support): create it from a minimal stub (Module Overview table with the new module + Directory Structure boilerplate + empty Mermaid diagram block) and flag it in the warnings — this is the only path through which `/merge` creates `architecture.md`; normally `/init` owns its creation
+- **E8 — TBD reference target is ambiguous** (contact support): the path string in the TBD doesn't uniquely identify a promoted file; leave the TBD as-is and add a warning to the summary; `/verify` will surface it for human resolution
+- **E9 — Source SKILL.md still says "add a TODO comment near the diagram"** (recoverable): this UC explicitly overrides that behavior. If a future skill revision tries to revert merge to the TODO-comment behavior, the change should re-confirm with the user; the current intended responsibility is direct diagram update
+- **E10 — User asks merge to also run `git add` / `git commit`** (contact support): refuse and remind the user that commit policy is a downstream step. This UC explicitly excludes git operations. (Suggested phrasing: *"This skill only updates the docs and stops. `/verify` is the next step — it owns the review and any commit policy that follows."*)
 
 ## Serves
 

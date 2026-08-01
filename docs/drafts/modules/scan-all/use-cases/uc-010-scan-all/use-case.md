@@ -1,5 +1,5 @@
 ---
-schema: web-service
+schema: agent-skills
 schema-version: 0
 doc-type: use-case
 id: UC-010
@@ -36,7 +36,7 @@ TBD (will be linked after /compose) — belongs to the brownfield documentation 
 
 ## Business Rules
 
-TBD (what business rules should apply here — e.g. should `/scan-all` refuse to run on a project that already has confirmed module docs in `docs/modules/`? Is there a minimum content threshold for a directory to count as a module — e.g. ignore empty directories? Should scan-all warn when many modules are discovered (heuristic for "your `src/` may be over-flat — consider monorepo packages")?) — `/elicit` fills this.
+None — the technical preconditions cover it.
 
 ## Postconditions
 
@@ -92,15 +92,15 @@ Invariants (apply in both modes):
 
 ## Exception Flows
 
-- **E1 — `src/` is absent and exactly one fallback exists**: ask the user "I found `{dir}/` — should I treat that as the modules directory?"; wait for yes/no. Do NOT proceed on assumption
-- **E2 — Multiple fallback directories exist** (e.g. both `app/` and `lib/`): list them; ask the user which one is the modules directory; do NOT guess. This avoids accidentally bootstrapping coverage for the wrong tree
-- **E3 — No source directory found at all**: ask the user "Where does this project keep its module code?"; accept their path and proceed. Do NOT default to creating `src/`
-- **E4 — Source directory exists but has zero subdirectories**: report "no module directories found in `{source-root}/`. Nothing to scan." Stop. Do NOT create empty coverage.md / architecture.md
-- **E5 — Update mode but no new modules**: skip the file-write steps; print "coverage.md is already up to date — no new modules found in `src/`". This is success, not failure
-- **E6 — Existing `coverage.md` has a non-standard table layout** (extra columns, different header, etc.): refuse to append (would risk corrupting the user's customisations); report the structural mismatch; ask the user whether to recreate it (which would lose state) or to fix the header manually first
-- **E7 — `architecture.md` exists but has no `## Module Overview` section**: do NOT auto-add the section (that risks disturbing the user's organisation); report the missing section as a warning; the coverage.md update still proceeds; the user can add the section manually and re-run, or `/scan-deep` can later prompt
-- **E8 — A nested directory looks like it might be a sibling module** (e.g. `src/payment/auth/` looks like an auth module): explicitly does NOT register it. The one-level rule is a hard invariant. If the project's structure genuinely has logical modules at depth >1, the user must reshape `src/` (move them up, or convert to a monorepo `packages/` layout) before re-running
-- **E9 — User invokes `/scan-all` on a project that already has confirmed module docs** under `docs/modules/`: proceed normally in update mode. The presence of confirmed module docs does NOT block scan-all (the workflow expressly supports late-arriving brownfield documentation on top of existing artifacts); flag in the summary that confirmed module docs exist so the user knows scan-all does not re-verify them
+- **E1 — `src/` is absent and exactly one fallback exists** (recoverable): ask the user "I found `{dir}/` — should I treat that as the modules directory?"; wait for yes/no. Do NOT proceed on assumption
+- **E2 — Multiple fallback directories exist** (recoverable): e.g. both `app/` and `lib/`; list them; ask the user which one is the modules directory; do NOT guess. This avoids accidentally bootstrapping coverage for the wrong tree
+- **E3 — No source directory found at all** (contact support): ask the user "Where does this project keep its module code?"; accept their path and proceed. Do NOT default to creating `src/`
+- **E4 — Source directory exists but has zero subdirectories** (recoverable): report "no module directories found in `{source-root}/`. Nothing to scan." Stop. Do NOT create empty coverage.md / architecture.md
+- **E5 — Update mode but no new modules** (recoverable): skip the file-write steps; print "coverage.md is already up to date — no new modules found in `src/`". This is success, not failure
+- **E6 — Existing `coverage.md` has a non-standard table layout** (recoverable): extra columns, different header, etc.; refuse to append (would risk corrupting the user's customisations); report the structural mismatch; ask the user whether to recreate it (which would lose state) or to fix the header manually first
+- **E7 — `architecture.md` exists but has no `## Module Overview` section** (recoverable): do NOT auto-add the section (that risks disturbing the user's organisation); report the missing section as a warning; the coverage.md update still proceeds; the user can add the section manually and re-run, or `/scan-deep` can later prompt
+- **E8 — A nested directory looks like it might be a sibling module** (recoverable): e.g. `src/payment/auth/` looks like an auth module; explicitly does NOT register it. The one-level rule is a hard invariant. If the project's structure genuinely has logical modules at depth >1, the user must reshape `src/` (move them up, or convert to a monorepo `packages/` layout) before re-running
+- **E9 — User invokes `/scan-all` on a project that already has confirmed module docs** (contact support): under `docs/modules/`; proceed normally in update mode. The presence of confirmed module docs does NOT block scan-all (the workflow expressly supports late-arriving brownfield documentation on top of existing artifacts); flag in the summary that confirmed module docs exist so the user knows scan-all does not re-verify them
 
 ## Serves
 

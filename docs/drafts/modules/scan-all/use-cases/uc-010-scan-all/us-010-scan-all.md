@@ -1,5 +1,5 @@
 ---
-schema: web-service
+schema: agent-skills
 schema-version: 0
 doc-type: user-story
 id: US-010
@@ -9,7 +9,7 @@ sections:
   derived-from: Derived from
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: API Contract
+  api-contract: Interface Contract
   test-scenarios: Test Scenarios
   serves: Serves
 ---
@@ -26,16 +26,16 @@ TBD (will be linked after /compose) — expected target: the brownfield workflow
 
 ## Story
 
-- **As:** TBD (who calls this — end user, internal service, or automated process? In context: typically a developer or coding agent who has just run `/init` on a project that already has code; `/elicit` should confirm whether tech leads or documentation owners are also direct actors.)
-- **I want to:** TBD (what does the caller want to achieve? Likely: "discover every module in my project with one command and end up with a tracker (`coverage.md`) and a seeded architecture overview that the rest of the brownfield workflow can drive against — without having to enumerate modules myself or worry about accidentally documenting nested implementation details as separate modules.")
-- **So that:** TBD (what stops working if this entry point disappears? Likely: "every brownfield documentation effort has to start from scratch — `/scan-deep` has no way to pick a 'next module', `/compose` has no way to know which modules count, and downstream coverage/progress reporting becomes ad-hoc. The append-only update mode also goes away, removing the ability to add late-arriving modules without disturbing existing progress.")
-- **Trigger:** TBD (what makes them call this — on demand, event, schedule? Likely: on demand, once at project bootstrap; re-invoked occasionally when new modules are added to `src/` and the user wants them tracked.)
+- **As:** Project developer or maintainer
+- **I want to:** start rebuilding document work for this brownfield project.
+- **So that:** If this skill disappeared overnight, then user need to manually to do the checklist for reviewing project.
+- **Trigger:** On demand when they want to understand how many modules exist in the project branch and what those modules are
 
 ## Expected Behavior
 
-TBD (fill in after /elicit) — the high-level promise from the caller's perspective: they invoke `/scan-all`, the skill confirms the source directory if ambiguous, discovers modules as direct subdirectories only, writes (or appends to) `coverage.md` and `architecture.md`'s Module Overview, prints a summary, and stops without committing. On re-runs, existing rows and checkbox states are byte-stable; only genuinely new modules are appended.
+`/scan-all` helps a project developer or maintainer start rebuilding documentation for a brownfield project by discovering the project's modules and creating the coverage checklist used by later documentation steps. It records what modules exist, seeds the architecture overview, and gives the user a clear starting point for `/scan-deep`, `/elicit`, and `/compose`. Without `/scan-all`, the user has to manually inspect the project and build the checklist for reviewing and rebuilding the docs.
 
-## API Contract
+## Interface Contract
 
 **api-type: `cli`** — invoked as a Claude Code slash command. Single-turn structured output: pre-flight → discovery → write/append → summary. Interactive only when source-directory resolution is ambiguous (E1/E2/E3), the existing coverage table is malformed (E6), or architecture.md is missing the Module Overview section (E7).
 
@@ -132,7 +132,7 @@ Not separately addressed. E1 / E2 / E3 / E6 / E7 surface inline as questions or 
 
 > Skeleton only — Given/When/Then bodies are TBD pending `/elicit`. Each scenario maps to one behavioural test in `tests/behavioral/scan-all/us-010-*.test.*`.
 
-### Scenario 1: TBD (happy path — `src/` exists with 3 module subdirs; create mode; coverage.md written with 3 rows; architecture.md created from full stub; summary printed; no commit)
+### Scenario 1: Brownfield documentation checklist created from discovered modules
 
 - **Given:** TBD
 - **When:** TBD

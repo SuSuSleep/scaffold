@@ -1,5 +1,5 @@
 ---
-schema: web-service
+schema: agent-skills
 schema-version: 0
 doc-type: user-story
 id: US-003
@@ -9,7 +9,7 @@ sections:
   derived-from: Derived from
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: API Contract
+  api-contract: Interface Contract
   test-scenarios: Test Scenarios
   serves: Serves
 ---
@@ -35,7 +35,7 @@ TBD (will be linked after /compose) — expected target: the greenfield implemen
 
 `/design-plan` reads READY business UCs and translates each one into module-layer UC/US drafts (one folder per module in `implemented-by`) plus a single implementation plan with batched, scenario-level tasks and an explicit Affected Files list. Greenfield modules get `[proposed]` markers; the three-question ADR-trigger check fires per module and emits module-level or project-level ADR drafts when warranted; ADR supersession is detected and adds an upfront rework batch. The skill never writes code, runs tests, or promotes drafts — those are explicitly `/apply`'s and `/merge`'s jobs.
 
-## API Contract
+## Interface Contract
 
 **api-type: `cli`** — invoked as a Claude Code slash command. Predominantly a single-turn skill: it does a pre-flight pass, reports findings, writes everything in one shot, and prints a summary. The interactive moments are constrained to specific exception flows (E4 module ambiguity, E8 greenfield path confirmation).
 

@@ -1,5 +1,5 @@
 ---
-schema: web-service
+schema: agent-skills
 schema-version: 0
 doc-type: use-case
 id: UC-009
@@ -36,7 +36,7 @@ TBD (will be linked after /compose) — belongs to the greenfield implementation
 
 ## Business Rules
 
-TBD (what business rules should apply here — e.g. is `/review-draft` required before `/design-plan` or merely recommended? Should a NEEDS REVIEW verdict block planning, or only BLOCKED? Are there minimum-quality bars beyond the default checks — e.g. all USs must have ≥2 scenarios? Can the commit-on-READY step be opted out of per-project?) — `/elicit` fills this.
+None — the technical preconditions cover it.
 
 ## Postconditions
 
@@ -84,17 +84,17 @@ On not-full-READY (any UC is NEEDS REVIEW or BLOCKED):
 
 ## Exception Flows
 
-- **E1 — `docs/drafts/use-cases/` empty or missing**: report "no drafts to review" and stop. No commit. Suggest running `/draft` first
-- **E2 — Module-layer draft folder spotted under `docs/drafts/modules/`**: explicitly skip it; do NOT review it; if the user explicitly asks for module-layer review, refuse and explain that the scope is business-layer drafts from `/draft` only (module-layer review/quality is a gap — currently not owned by any skill). Suggest opening an issue or extending a future skill
-- **E3 — Confirmed docs requested for review** (e.g. user says "review UC-001" and UC-001 is in `docs/use-cases/`): refuse politely; explain that confirmed docs are out of scope; if the user really wants to revisit them, the path is `/draft` → copy-from-confirmed → re-review the draft
-- **E4 — Any UC verdict is NEEDS REVIEW or BLOCKED**: skip the commit step; print the report; tell the user to amend drafts via `/draft` and re-invoke `/review-draft`. Do NOT commit a partial-ready state — that would be misleading
-- **E5 — User asks the skill to fix a BLOCKER inline**: refuse; this skill is read-only on docs by hard invariant. Direct the user to `/draft` (or to edit the file directly and re-run)
-- **E6 — Working tree is not a git repo when full-READY is reached**: skip the commit step silently; note in the summary "Not a git repository — review report only, no commit created". Do NOT auto-`git init`
-- **E7 — A draft file has no frontmatter `sections` map**: fall back to the default aliases from `format.md` / `skills/init/references/format.md` for that file; flag this as a SUGGESTION ("file lacks frontmatter — re-run `/draft` or `/scan-deep` to stamp it")
-- **E8 — A US references a module in `implemented-by` that doesn't exist in `docs/modules/`** (established project): WARNING "unknown module named in Implementation Layer Mapping" (not a BLOCKER — the module may simply be brand-new and not yet documented)
-- **E9 — Plan-together assessment finds UCs that should be planned together**: surface as an advisory note in the report; do NOT downgrade verdicts; the user/`/design-plan` decides whether to combine
-- **E10 — A scenario uses vague language** ("a valid user", "some amount", "certain conditions"): flag as a WARNING (concrete values check); do not auto-rewrite
-- **E11 — User runs `/review-draft` after a full-READY commit was already made**: re-run is allowed; if no drafts changed, the report is identical and the commit step is a no-op (nothing to stage); if drafts changed since the last commit, the new review-state will be committed if it reaches full-READY again
+- **E1 — `docs/drafts/use-cases/` empty or missing** (contact support): report "no drafts to review" and stop. No commit. Suggest running `/draft` first
+- **E2 — Module-layer draft folder spotted under `docs/drafts/modules/`** (ignore): explicitly skip it; do NOT review it; if the user explicitly asks for module-layer review, refuse and explain that the scope is business-layer drafts from `/draft` only (module-layer review/quality is a gap — currently not owned by any skill). Suggest opening an issue or extending a future skill
+- **E3 — Confirmed docs requested for review** (contact support): e.g. user says "review UC-001" and UC-001 is in `docs/use-cases/`; refuse politely; explain that confirmed docs are out of scope; if the user really wants to revisit them, the path is `/draft` → copy-from-confirmed → re-review the draft
+- **E4 — Any UC verdict is NEEDS REVIEW or BLOCKED** (contact support): skip the commit step; print the report; tell the user to amend drafts via `/draft` and re-invoke `/review-draft`. Do NOT commit a partial-ready state — that would be misleading
+- **E5 — User asks the skill to fix a BLOCKER inline** (contact support): refuse; this skill is read-only on docs by hard invariant. Direct the user to `/draft` (or to edit the file directly and re-run)
+- **E6 — Working tree is not a git repo when full-READY is reached** (ignore): skip the commit step silently; note in the summary "Not a git repository — review report only, no commit created". Do NOT auto-`git init`
+- **E7 — A draft file has no frontmatter `sections` map** (contact support): fall back to the default aliases from `format.md` / `skills/init/references/format.md` for that file; flag this as a SUGGESTION ("file lacks frontmatter — re-run `/draft` or `/scan-deep` to stamp it")
+- **E8 — A US references a module in `implemented-by` that doesn't exist in `docs/modules/`** (recoverable): established project; WARNING "unknown module named in Implementation Layer Mapping" (not a BLOCKER — the module may simply be brand-new and not yet documented)
+- **E9 — Plan-together assessment finds UCs that should be planned together** (recoverable): surface as an advisory note in the report; do NOT downgrade verdicts; the user/`/design-plan` decides whether to combine
+- **E10 — A scenario uses vague language** (recoverable): ("a valid user", "some amount", "certain conditions"): flag as a WARNING (concrete values check); do not auto-rewrite
+- **E11 — User runs `/review-draft` after a full-READY commit was already made** (recoverable): re-run is allowed; if no drafts changed, the report is identical and the commit step is a no-op (nothing to stage); if drafts changed since the last commit, the new review-state will be committed if it reaches full-READY again
 
 ## Serves
 

@@ -30,12 +30,12 @@ Check both schema files in `docs/schema/`:
 - **`format.md`**
   - Exists → read its YAML frontmatter; note current `version` and all section
     aliases. This is the "old format schema".
-  - Does not exist → bootstrap mode. Old format schema is web-service version 0.
+  - Does not exist → bootstrap mode. Old format schema is agent-skills version 0.
 - **`workflow-rules.md`**
   - Exists → read its YAML frontmatter; note current `version` and all rule
     sections (id-rules, lifecycle, gates, adr-triggers, etc.). This is the
     "old workflow schema".
-  - Does not exist → bootstrap mode. Old workflow schema is web-service version 0.
+  - Does not exist → bootstrap mode. Old workflow schema is agent-skills version 0.
 
 If both are missing, this is a full bootstrap run: write both files for the
 first time and add frontmatter to every existing document. Proceed to Step 2.
@@ -57,16 +57,16 @@ workflow rules (lifecycle/policy):
 >
 > **Workflow rule changes** (affect gates, policy, lifecycle):
 >
-> 6. Modify ID assignment policy (e.g. switch to gap-fill)
-> 7. Change the ADR creation criteria
-> 8. Add or modify a gate (e.g. require N scenarios per US before planning)
-> 9. Change a lifecycle rule (e.g. allow direct edits to confirmed docs)
-> 10. Modify the pre-merge checklist (block on more conditions)
-> 11. Change test conventions (path pattern, naming)
+> 1. Modify ID assignment policy (e.g. switch to gap-fill)
+> 2. Change the ADR creation criteria
+> 3. Add or modify a gate (e.g. require N scenarios per US before planning)
+> 4. Change a lifecycle rule (e.g. allow direct edits to confirmed docs)
+> 5. Modify the pre-merge checklist (block on more conditions)
+> 6. Change test conventions (path pattern, naming)
 >
 > **Other:**
 >
-> 12. Something else — describe it
+> 1. Something else — describe it
 
 Collect all changes before proceeding. Do not start migrating until the full
 change set is described.
@@ -216,7 +216,7 @@ For each stale document:
 
 For any document with no frontmatter (legacy, version 0):
 
-1. Determine its `doc-type` from path and filename. As of schema v3, there are
+1. Determine its `doc-type` from path and filename. As of schema v4, there are
    five doc-types (`use-case`, `user-story`, `adr`, `plan`, `fix-plan`) — layer
    for `use-case`/`user-story` is determined by folder path, not doc-type:
    - `docs/{drafts/,}use-cases/uc-*/use-case.md` → `use-case` (project layer)
@@ -226,7 +226,7 @@ For any document with no frontmatter (legacy, version 0):
    - `docs/{drafts/adr/adr-draft-*,adr/*}.md`, `docs/{drafts/,}modules/*/adr/*.md` → `adr`
    - `docs/drafts/plans/plan-*-fix-*.md` → `fix-plan` (filename contains `-fix-`)
    - `docs/drafts/plans/plan-*.md` → `plan` (all other plan files)
-2. Infer section names by matching headings against the web-service default aliases
+2. Infer section names by matching headings against the agent-skills default aliases
    for that doc-type (see `skills/init/references/format.md`).
 3. For module-layer use-case / user-story: include the `serves` section in the
    document's `sections` frontmatter; the source/derived-from link goes in the
@@ -276,7 +276,7 @@ For any document with v1 module-* doc-types:
      api-type fits better (e.g., event listeners → `event`).
    - Rename `interface-contract` section key → `api-contract`. The section
      heading in the body becomes whatever the new `api-contract` alias is
-     (default "API Contract"). If the user prefers to keep "Interface Contract"
+     (default "Interface Contract"). If the user prefers to keep "Interface Contract"
      as the heading, set `sections.api-contract: "Interface Contract"` in the
      project's format.md and apply that.
 3. Bump `schema-version` to current.

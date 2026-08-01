@@ -1,5 +1,5 @@
 ---
-schema: web-service
+schema: agent-skills
 schema-version: 0
 doc-type: use-case
 id: UC-014
@@ -39,7 +39,7 @@ TBD (will be linked after /compose) — belongs to the greenfield implementation
 
 ## Business Rules
 
-TBD (what business rules should apply here — e.g. must `/verify` always be run before a PR to main, or can advanced users skip? Should it refuse to run on `main` itself? Should it refuse when the working tree has uncommitted source-code changes (not just doc changes from /merge), since that signals an unclean branch state? Are there exemption flags for emergency hotfixes?) — `/elicit` fills this.
+None — the technical preconditions cover it.
 
 ## Postconditions
 
@@ -120,17 +120,17 @@ Invariants (apply in every mode):
 
 ## Exception Flows
 
-- **E1 — `git diff` is unavailable** (not a git repo, or detached HEAD, or `main` ref is missing): report the failure clearly; ask the user to either set up the branch state properly or to manually specify which UCs to verify (the skill can fall back to manual scope if the user lists files). Make no changes
-- **E2 — Branch is identical to `main`**: report "no changes vs main — nothing to verify"; stop. This is a benign no-op, not a failure
-- **E3 — Working tree on `main` directly**: warn the user (`/verify` is intended for feature branches before PR); ask whether to proceed anyway (the four checks still work on whatever local changes exist); make no changes until the user answers
-- **E4 — Behavioural test file missing** (Check 1 cannot find a test file matching the path pattern): MISALIGNED with "no test file found"; report which US is affected; recommend `/apply` if the US was promoted without tests (a serious upstream-gate leak — `/merge`'s pre-merge checklist should have caught this as a HARD BLOCKER)
-- **E5 — TBD found in confirmed doc** (Check 3 fails): MISALIGNED with the line numbers; recommend whether `/merge`'s TBD-patch step failed (return to `/draft` to resolve the TBD's target) or whether `/review-draft`'s ADR-trigger check leaked (the missing decision should be drafted via `/draft`); never auto-fix
-- **E6 — `test-conventions.test-case-references-source` is set to `optional` in the project's workflow-rules.md**: Check 2's cite-presence requirement degrades to advisory; only the "cited scenario doesn't exist in US" condition remains a hard failure
-- **E7 — `behavioral-count-equals-scenarios: false` in the project's workflow-rules.md**: Check 1's count-equality requirement degrades to advisory; only the "no test file found" condition remains a hard failure
-- **E8 — User answers anything other than explicit "yes" to the commit prompt**: leave the working tree as-is; end with the "commit manually when ready" message. Do NOT interpret silence, "ok", "sure", or "go" as yes — require explicit "yes" because this is the final feature-branch commit before PR
-- **E9 — Working tree has uncommitted **source** changes (not just doc changes)**: surface this in the report as an advisory — `/verify`'s scope is documentation alignment, but a feature branch with uncommitted source changes is probably not ready for PR regardless of the verification verdict. Do NOT block; let the user decide
-- **E10 — User asks `/verify` to fix a MISALIGNED finding inline** ("just fix the test count to match"): refuse and explain that `/verify` is read-only by hard invariant; recommend the appropriate skill (`/apply` for test additions, `/draft` for TBD resolution); make no changes
-- **E11 — User asks `/verify` to create a fix plan** like `/apply` does on Final Batch failure: refuse and explain the difference — `/apply`'s Final Batch fix plan addresses a contained regression mid-implementation; `/verify`'s misalignment signals an upstream-gate leak (something escaped `/review-draft`, `/design-plan`, `/apply`, `/merge`), and creating a fix plan here would mask the root-cause signal. Recommend that the user investigate which upstream gate let the issue through
+- **E1 — `git diff` is unavailable** (not a git repo, or detached HEAD, or `main` ref is missing): report the failure clearly; ask the user to either set up the branch state properly or to manually specify which UCs to verify (the skill can fall back to manual scope if the user lists files). Make no changes. (contact support)
+- **E2 — Branch is identical to `main`**: report "no changes vs main — nothing to verify"; stop. This is a benign no-op, not a failure. (recoverable)
+- **E3 — Working tree on `main` directly**: warn the user (`/verify` is intended for feature branches before PR); ask whether to proceed anyway (the four checks still work on whatever local changes exist); make no changes until the user answers. (recoverable)
+- **E4 — Behavioural test file missing** (Check 1 cannot find a test file matching the path pattern): MISALIGNED with "no test file found"; report which US is affected; recommend `/apply` if the US was promoted without tests (a serious upstream-gate leak — `/merge`'s pre-merge checklist should have caught this as a HARD BLOCKER). (recoverable)
+- **E5 — TBD found in confirmed doc** (Check 3 fails): MISALIGNED with the line numbers; recommend whether `/merge`'s TBD-patch step failed (return to `/draft` to resolve the TBD's target) or whether `/review-draft`'s ADR-trigger check leaked (the missing decision should be drafted via `/draft`); never auto-fix. (contact support)
+- **E6 — `test-conventions.test-case-references-source` is set to `optional` in the project's workflow-rules.md**: Check 2's cite-presence requirement degrades to advisory; only the "cited scenario doesn't exist in US" condition remains a hard failure. (contact support)
+- **E7 — `behavioral-count-equals-scenarios: false` in the project's workflow-rules.md**: Check 1's count-equality requirement degrades to advisory; only the "no test file found" condition remains a hard failure. (contact support)
+- **E8 — User answers anything other than explicit "yes" to the commit prompt**: leave the working tree as-is; end with the "commit manually when ready" message. Do NOT interpret silence, "ok", "sure", or "go" as yes — require explicit "yes" because this is the final feature-branch commit before PR. (recoverable)
+- **E9 — Working tree has uncommitted **source** changes (not just doc changes)**: surface this in the report as an advisory — `/verify`'s scope is documentation alignment, but a feature branch with uncommitted source changes is probably not ready for PR regardless of the verification verdict. Do NOT block; let the user decide. (recoverable)
+- **E10 — User asks `/verify` to fix a MISALIGNED finding inline** ("just fix the test count to match"): refuse and explain that `/verify` is read-only by hard invariant; recommend the appropriate skill (`/apply` for test additions, `/draft` for TBD resolution); make no changes. (contact support)
+- **E11 — User asks `/verify` to create a fix plan** like `/apply` does on Final Batch failure: refuse and explain the difference — `/apply`'s Final Batch fix plan addresses a contained regression mid-implementation; `/verify`'s misalignment signals an upstream-gate leak (something escaped `/review-draft`, `/design-plan`, `/apply`, `/merge`), and creating a fix plan here would mask the root-cause signal. Recommend that the user investigate which upstream gate let the issue through. (contact support)
 
 ## Serves
 

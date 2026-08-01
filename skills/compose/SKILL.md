@@ -140,12 +140,12 @@ and omit `serves` on both UC and US.
 
 Prepend frontmatter to each file (schema, schema-version, doc-type, id,
 sections, and `api-type` on the US — typically `rest` for HTTP-fronted business
-flows; pick from format.md's API Contract Variants based on what the contributing
+flows; pick from format.md's Interface Contract Variants based on what the contributing
 modules expose at the user-facing entry point). Set `schema-version` per the
 "Schema versioning" section in `skills/init/references/format.md` (use the
 project's `docs/schema/format.md` version if present; otherwise 0). Then write
 the body using format.md's `## use-case Template` and `## user-story Template`
-(with the api-type-matching variant for the API Contract section).
+(with the api-type-matching variant for the Interface Contract section).
 
 Two files go under: `docs/drafts/use-cases/uc-{N}-{slugified-name}/`
 

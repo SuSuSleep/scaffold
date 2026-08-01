@@ -29,7 +29,7 @@ CLI command.
 
 - Read `docs/schema/format.md` if it exists — extract section aliases for
   `use-case` and `user-story` (the doc-types this skill creates; layer
-  determined by folder path). Read the body templates and the "API Contract
+  determined by folder path). Read the body templates and the "Interface Contract
   Variants" section for api-type sub-templates.
 - Read `docs/schema/workflow-rules.md` if it exists — extract `id-rules`
   (default highest-plus-one, no gaps) and `decomposition.uc-rule` (default
@@ -140,7 +140,7 @@ include the layer-appropriate sections:
    filled as "TBD" since /compose hasn't run yet); omit `implemented-by`.
 2. `us-{id}-{slug}.md` — use `docs/schema/format.md`'s `## user-story Template`.
    Module-layer means: include the `serves` section (filled as TBD).
-   Pick the API Contract sub-template based on the entry-point detected in
+   Pick the Interface Contract sub-template based on the entry-point detected in
    Step 1 — see "Entry-point detection and api-type" below for the mapping.
 
 ### Frontmatter for created documents
@@ -153,7 +153,7 @@ For `use-case.md`:
 
 ```yaml
 ---
-schema: {schema name from format.md, or "web-service"}
+schema: {schema name from format.md, or "agent-skills"}
 schema-version: {per Schema versioning rules}
 doc-type: use-case
 id: UC-{id}
@@ -183,9 +183,9 @@ sections:
 Section names below use the default `use-case` and `user-story` aliases
 (Primary Actor, Source, Preconditions, Business Rules, Postconditions, Main
 Flow, Exception Flows, Belongs to, Derived from, Story, Expected Behavior,
-API Contract, Test Scenarios). When format.md defines different aliases, use
+Interface Contract, Test Scenarios). When format.md defines different aliases, use
 those instead — but the fill/TBD decisions stay the same. (Note: under schema
-v3, the module UC has no high-level Interface Contract section — the detailed
+v4, the module UC has no high-level Interface Contract section — the detailed
 contract lives entirely in the module US's api-contract section.)
 
 | Field | Action |
@@ -217,8 +217,8 @@ contract lives entirely in the module US's api-contract section.)
 ### Entry-point detection and api-type
 
 All entry-point variants use the same `user-story` doc-type — the `api-type`
-frontmatter field controls the API Contract section's shape. Pick the variant
-from `format.md`'s "API Contract Variants" section based on what you detected
+frontmatter field controls the Interface Contract section's shape. Pick the variant
+from `format.md`'s "Interface Contract Variants" section based on what you detected
 in Step 1:
 
 | Entry point in code             | api-type    | Contract shape                                       |
@@ -229,7 +229,7 @@ in Step 1:
 | CLI command                     | `cli`       | Command, Flags, Stdin/Stdout/Stderr, Exit Codes      |
 | GraphQL resolver                | `graphql`   | Operation, Arguments, Returns, Errors                |
 | gRPC service method             | `grpc`      | Service/RPC, Request/Response Messages, Status Codes |
-| Internal helper (no caller)     | `none`      | Omit the API Contract section                        |
+| Internal helper (no caller)     | `none`      | Omit the Interface Contract section                 |
 
 ---
 
@@ -262,7 +262,7 @@ Next: run /elicit to fill in what code can't tell you.
 - **Module UC** body: `docs/schema/format.md` → `## use-case Template`
   (module-layer means include `serves`, omit `implemented-by`)
 - **Module US** body: `docs/schema/format.md` → `## user-story Template` plus
-  the appropriate variant from `## API Contract Variants`, selected by the
+  the appropriate variant from `## Interface Contract Variants`, selected by the
   api-type for the entry point (see "Entry-point detection and api-type" above)
 
 When writing, prepend the YAML frontmatter described in Step 5 to each file.

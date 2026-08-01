@@ -151,10 +151,10 @@ version if present; otherwise 0).
   on the module's interface style (default `function` for modules; use `rest`
   if the module exposes HTTP endpoints, `event` for event-driven modules,
   etc.). Use the body from `docs/schema/format.md`'s `## user-story Template`
-  with the matching variant from `## API Contract Variants`.
+  with the matching variant from `## Interface Contract Variants`.
 
 If `docs/schema/format.md` does not exist in the project, use the shipped
-defaults from `skills/init/references/format.md` (the web-service schema).
+defaults from `skills/init/references/format.md` (the agent-skills schema).
 
 ### Code context (established modules only)
 
@@ -180,7 +180,7 @@ When this plan involves an ADR supersession, the module UC/US translation change
   "validate session token from cookie" instead of "validate JWT from Authorization header".
 - In the module US's **api-contract section / Expected Behavior**, describe the new
   interface shape the ADR introduces. The api-contract section's shape depends
-  on the doc's api-type (see format.md's "API Contract Variants").
+  on the doc's api-type (see format.md's "Interface Contract Variants").
 - Do not document the old approach — the draft reflects the desired future state.
 
 If the module has an existing confirmed UC/US that was copied to `docs/drafts/` as

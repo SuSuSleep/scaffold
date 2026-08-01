@@ -1,5 +1,5 @@
 ---
-schema: web-service
+schema: agent-skills
 schema-version: 0
 doc-type: use-case
 id: UC-013
@@ -35,7 +35,7 @@ TBD (will be linked after /compose) — belongs to the project-bootstrap workflo
 
 ## Business Rules
 
-TBD (what business rules should apply here — e.g. must `/explore` have run first, or only recommended? Are there minimum-quality bars for test commands (e.g. all four commands required)? Can `/setup` refuse to overwrite an existing test-strategy.md that already has real content without explicit user confirmation?) — `/elicit` fills this.
+None — the technical preconditions cover it.
 
 ## Postconditions
 
@@ -84,17 +84,17 @@ Invariants (apply at every step):
 
 ## Exception Flows
 
-- **E1 — Broad request ("set up the project") with no `/explore` context**: list files with unfilled sections; ask the user which to work on today; do NOT configure everything in one go
-- **E2 — Conversation context covers some values but not others**: ask targeted questions only for the gaps; do NOT re-ask the established values
-- **E3 — User can't answer a targeted question**: write `(fill in per project)` in that slot instead of inventing a value; add the file to "Still needs attention" in the summary
-- **E4 — User asks `/setup` to update a UC, US, ADR, plan, or anything under `docs/use-cases/`, `docs/modules/`, `docs/drafts/`, `docs/adr/`**: refuse with a "wrong skill" message; redirect to `/draft` (business UC/US), `/design-plan` (module drafts + plan), `/scan-deep` (brownfield module docs), or the schema/migration skill as appropriate; make no changes
-- **E5 — User asks `/setup` to write source code or modify `src/`**: refuse; redirect to `/apply` (which writes implementation code under a plan) or `/explore` (if the user is still thinking); make no changes
-- **E6 — User asks `/setup` to add behavioural or implementation tests under `tests/behavioral/` or `tests/implementation/`**: refuse; explain that those test directories are `/apply`'s responsibility (driven by US scenarios and quality-test plans); offer to write shared helpers/fixtures instead if appropriate
-- **E7 — `test-strategy.md` has placeholder rows that look like real layer decisions (e.g. "Unit / Integration / E2E")**: replace them per the project's actual model; do NOT preserve them just because they look populated
-- **E8 — Existing `test-strategy.md` has real content the user didn't mention but is overwriting via a re-run**: read existing content first; surface "I see you currently have X for behavioral; you've described Y — apply the change?" before overwriting; preserve manual additions
-- **E9 — `tests/` doesn't exist but the user wants to create `tests/helpers/`**: create the parent + the subdirectory; flag this in the summary so the user knows the structure was bootstrapped
-- **E10 — User wants to remove or rename a glossary entry**: refuse — `/setup` is append-only on glossary by invariant; tell the user to edit `glossary.md` directly or use a schema migration if it's a project-wide rename
-- **E11 — A new shared helper file is created but `test-strategy.md` cannot be updated** (locked, missing, malformed): write the helper anyway; surface the failure to register it in the summary; ask the user to update `test-strategy.md` manually
+- **E1 — Broad request ("set up the project") with no `/explore` context** (not an error): list files with unfilled sections; ask the user which to work on today; do NOT configure everything in one go
+- **E2 — Conversation context covers some values but not others** (recoverable): ask targeted questions only for the gaps; do NOT re-ask the established values
+- **E3 — User can't answer a targeted question** (recoverable): write `(fill in per project)` in that slot instead of inventing a value; add the file to "Still needs attention" in the summary
+- **E4 — User asks `/setup` to update a UC, US, ADR, plan, or anything under `docs/use-cases/`, `docs/modules/`, `docs/drafts/`, `docs/adr/`** (contact support): refuse with a "wrong skill" message; redirect to `/draft` (business UC/US), `/design-plan` (module drafts + plan), `/scan-deep` (brownfield module docs), or the schema/migration skill as appropriate; make no changes
+- **E5 — User asks `/setup` to write source code or modify `src/`** (contact support): refuse; redirect to `/apply` (which writes implementation code under a plan) or `/explore` (if the user is still thinking); make no changes
+- **E6 — User asks `/setup` to add behavioural or implementation tests under `tests/behavioral/` or `tests/implementation/`** (contact support): refuse; explain that those test directories are `/apply`'s responsibility (driven by US scenarios and quality-test plans); offer to write shared helpers/fixtures instead if appropriate
+- **E7 — `test-strategy.md` has placeholder rows that look like real layer decisions (e.g. "Unit / Integration / E2E")** (recoverable): replace them per the project's actual model; do NOT preserve them just because they look populated
+- **E8 — Existing `test-strategy.md` has real content the user didn't mention but is overwriting via a re-run** (recoverable): read existing content first; surface "I see you currently have X for behavioral; you've described Y — apply the change?" before overwriting; preserve manual additions
+- **E9 — `tests/` doesn't exist but the user wants to create `tests/helpers/`** (recoverable): create the parent + the subdirectory; flag this in the summary so the user knows the structure was bootstrapped
+- **E10 — User wants to remove or rename a glossary entry** (recoverable): refuse — `/setup` is append-only on glossary by invariant; tell the user to edit `glossary.md` directly or use a schema migration if it's a project-wide rename
+- **E11 — A new shared helper file is created but `test-strategy.md` cannot be updated** (contact support): locked, missing, malformed; write the helper anyway; surface the failure to register it in the summary; ask the user to update `test-strategy.md` manually
 
 ## Serves
 

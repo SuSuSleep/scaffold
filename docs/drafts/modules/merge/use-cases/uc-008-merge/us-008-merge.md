@@ -1,5 +1,5 @@
 ---
-schema: web-service
+schema: agent-skills
 schema-version: 0
 doc-type: user-story
 id: US-008
@@ -9,7 +9,7 @@ sections:
   derived-from: Derived from
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: API Contract
+  api-contract: Interface Contract
   test-scenarios: Test Scenarios
   serves: Serves
 ---
@@ -26,16 +26,16 @@ TBD (will be linked after /compose) — expected target: the greenfield workflow
 
 ## Story
 
-- **As:** TBD (who calls this — end user, internal service, or automated process? In context: typically a developer or coding agent who just finished `/apply`; `/elicit` should confirm whether tech leads or documentation owners are also direct actors.)
-- **I want to:** TBD (what does the caller want to achieve? Likely: "promote the just-completed plan's draft docs to their permanent confirmed homes in one structured pass — with all the simplifications, README updates, diagram changes, and TBD-ref patches handled for me — without any git commit happening at this stage, so the doc changes are visible to `/verify` as an unstaged diff for review.")
-- **So that:** TBD (what stops working if this entry point disappears? Likely: "the workflow has no path from completed-plan drafts to permanent confirmed docs; the project accumulates drafts that never get promoted; module READMEs and the architecture diagram drift; later sessions can't tell which UCs are confirmed vs in-progress. Without the explicit no-commit boundary, the merge step would also conflate doc promotion with commit policy — coupling two decisions that should be separable.")
-- **Trigger:** TBD (what makes them call this — on demand, event, schedule? Likely: on demand, immediately after `/apply` announces "Ready for /merge" — every plan checkbox is `[x]`.)
+- **As:** Project developer or maintainer
+- **I want to:** merge the docs from drafts to persistent store.
+- **So that:** Then there are 2 version of ducument. One is original doc but doesn't match user requirement and code. Another one is drafts doc only updated part not full information.
+- **Trigger:** On demand after implementing workable code and preparing to merge docs from drafts to persistent doc storage
 
 ## Expected Behavior
 
-TBD (fill in after /elicit) — the high-level promise from the caller's perspective: they invoke `/merge` (optionally with a plan name), see a pre-merge checklist with PASS/WARN/SKIP/BLOCKER lines, then see files move from drafts to confirmed locations, US files trimmed, READMEs appended, the architecture diagram updated to include any new module, the plan file deleted, and a summary block listing what changed and any warnings. The working tree shows all the doc changes as unstaged edits — ready for `/verify` to review. **No git commit is created by this skill.**
+`/merge` gives a project developer or maintainer a controlled way to move completed documentation from `docs/drafts/` into persistent confirmed documentation after workable code has been implemented. It removes the draft-path boundary, promotes the updated docs to their permanent storage locations, and cleans up the plan state without committing the changes. Without `/merge`, the project keeps two competing document versions: older confirmed docs that no longer match the user requirement or code, and draft docs that contain only the updated portion rather than the full persistent source of truth.
 
-## API Contract
+## Interface Contract
 
 **api-type: `cli`** — invoked as a Claude Code slash command. Single-pass: pre-flight check → checklist → promotion (lock-step substeps) → cleanup → summary. Interactive only when the plan name is ambiguous or a behavioral test BLOCKER fires.
 
@@ -74,7 +74,7 @@ Pre-merge checklist
 ────────────────────────────────────────
 UC main flow     PASS
 Behavioral tests PASS  (4 files verified)
-API Contract     WARN  POST /payments not found in api-spec.yaml
+Interface Contract     WARN  POST /payments not found in api-spec.yaml
 TBD references   2 found — will resolve
 New module       SKIP  (no new module detected)
 ADR supersession PASS  (include only when ADR supersession is involved)
@@ -102,7 +102,7 @@ Plan:    {plan-name}
 - docs/drafts/plans/{plan-name}.md             (deleted)
 
 ### Warnings
-- [API Contract: POST /payments not found in api-spec.yaml]
+- [Interface Contract: POST /payments not found in api-spec.yaml]
 - [TBD: ADR-002 reference in UC-001 could not be resolved — still in drafts]
 
 Ready for /verify — run it to confirm doc/code/test alignment before opening a PR to main.
@@ -145,7 +145,7 @@ Not separately addressed. E1 (unchecked plan items), E3 (missing test files), an
 
 > Skeleton only — Given/When/Then bodies are TBD pending `/elicit`. Each scenario maps to one behavioural test in `tests/behavioral/merge/us-008-*.test.*`.
 
-### Scenario 1: TBD (happy path — single UC, all checkboxes [x], all checklist items PASS or SKIP, files moved, US simplified, README appended, plan deleted, summary printed; no git commit created)
+### Scenario 1: Docs merged from drafts to persistent storage
 
 - **Given:** TBD
 - **When:** TBD

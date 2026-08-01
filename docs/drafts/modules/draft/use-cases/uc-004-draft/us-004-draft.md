@@ -1,5 +1,5 @@
 ---
-schema: web-service
+schema: agent-skills
 schema-version: 0
 doc-type: user-story
 id: US-004
@@ -9,7 +9,7 @@ sections:
   derived-from: Derived from
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: API Contract
+  api-contract: Interface Contract
   test-scenarios: Test Scenarios
   serves: Serves
 ---
@@ -35,7 +35,7 @@ TBD (will be linked after /compose) — expected target: the greenfield workflow
 
 `/draft` reads the conversation, derives a complete operation set (any mix of CREATE, UPDATE, DELETE, COPY-from-confirmed, ADR-create, or ADR-supersession), and executes it in a single ordered pass over `docs/drafts/`. Confirmed docs in `docs/use-cases/`, `docs/modules/`, and `docs/adr/` are never edited directly — they are copied to their mirror path under `docs/drafts/` first and the change is applied to the copy. ADR supersession additionally scans every confirmed doc carrying the old ADR reference, copies each into drafts with the reference rewritten to TBD, and prints a `⚠ REVIEW REQUIRED` cascade block that gates downstream skills until the user reviews.
 
-## API Contract
+## Interface Contract
 
 **api-type: `cli`** — invoked as a Claude Code slash command. Predominantly a single-turn skill that derives the operation set from prior conversation; interactive only on E1 ambiguity and a few other exception paths.
 

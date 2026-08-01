@@ -1,6 +1,6 @@
 ---
-schema: web-service
-version: 3
+schema: agent-skills
+version: 4
 use-case:
   sections:
     actor: "Primary Actor"
@@ -21,7 +21,7 @@ user-story:
     adr-link: "Related ADR"
     story: "Story"
     expected-behavior: "Expected Behavior"
-    api-contract: "API Contract"
+    api-contract: "Interface Contract"
     scenarios: "Test Scenarios"
     required-extra: []
 adr:
@@ -54,7 +54,7 @@ fix-plan:
     required-extra: []
 ---
 
-# Format: Web Service
+# Format: Agent Skills
 
 This file defines the document schema for this project. Skills read the YAML
 frontmatter above to know what sections to create and look for. Each document
@@ -75,14 +75,14 @@ Documents carry a `schema-version` field in their frontmatter. The convention:
 | `0`           | Document was written when no project schema existed         |
 |               | (no `docs/schema/format.md` at write time). `/schema-update` |
 |               | will detect these as legacy and bootstrap them on next run. |
-| `1`, `2`, `3` | Document was written under the named schema version of this |
+| `1`, `2`, `3`, `4` | Document was written under the named schema version of this |
 |               | project's `format.md`. `/schema-update` migrates when the   |
 |               | project's `format.md` version is bumped beyond a doc's      |
 |               | recorded version.                                           |
 
 When a skill writes a document and `docs/schema/format.md` doesn't exist in the
 project, it still uses the shipped templates from
-`skills/init/references/format.md` (currently v3) — but it stamps the document
+`skills/init/references/format.md` (currently v4) — but it stamps the document
 as `schema-version: 0` because there is no project-level schema to bind to.
 Later, `/schema-update` can adopt these docs into a real project schema.
 
@@ -184,8 +184,8 @@ Used by `/draft` (project layer, greenfield), `/compose` (project layer,
 brownfield), `/design-plan` (module layer, greenfield), and `/scan-deep`
 (module layer, brownfield) when creating a `us-{id}-{name}.md`.
 
-The `## API Contract` section's body shape varies by `api-type` (set in the
-document's frontmatter). See "API Contract Variants" below for the sub-template
+The `## Interface Contract` section's body shape varies by `api-type` (set in the
+document's frontmatter). See "Interface Contract Variants" below for the sub-template
 matching each api-type. Include the `Derived from` link only at module layer.
 
 ```markdown
@@ -212,9 +212,9 @@ So that **[benefit or outcome]**
 (Describe what this feature does — user-visible at project layer,
  module-internal at module layer)
 
-## API Contract
+## Interface Contract
 
-(Use the sub-template matching the document's api-type — see "API Contract
+(Use the sub-template matching the document's api-type — see "Interface Contract
 Variants" below.)
 
 ## Test Scenarios
@@ -240,9 +240,9 @@ Variants" below.)
 
 ---
 
-## API Contract Variants
+## Interface Contract Variants
 
-Each variant replaces the body of the `## API Contract` section in the
+Each variant replaces the body of the `## Interface Contract` section in the
 user-story template. The chosen variant is determined by the document's
 `api-type` frontmatter value.
 
@@ -427,7 +427,7 @@ POST /api/v1/[path]
 
 ### Variant: none
 
-(Omit the `## API Contract` section entirely. Use for user stories that describe
+(Omit the `## Interface Contract` section entirely. Use for user stories that describe
 internal behavior with no externally visible contract — rare; usually a sign
 the story belongs elsewhere.)
 

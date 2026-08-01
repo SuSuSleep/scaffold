@@ -91,7 +91,7 @@ as drafts.
 
 Module US documents use the **Business US detailed template** from GUIDELINE.md §6.
 Store them at `docs/drafts/modules/{module}/use-cases/uc-xxx/us-xxx.md`.
-Story fields (actor, trigger, goal, value) are TBD until `/elicit`. API Contract fields
+Story fields (actor, trigger, goal, value) are TBD until `/elicit`. Interface Contract fields
 are inferred from code at `/scan-deep` time.
 
 ### UC and US ID scheme
@@ -196,7 +196,7 @@ A module with three entry points produces three UC+US pairs.
 | Document | Fields confirmed from code |
 | -------- | -------------------------- |
 | Module UC | Trigger, Preconditions (technical), Postconditions, Main Flow, Exception Flows (code-level), Interface: Accepts, Interface: Emits |
-| Module US | API Endpoint, Request fields, Response fields, Error codes, Test Scenario structure (skeleton) |
+| Module US | Interface variant (CLI/function/event/REST/etc.), input fields, output fields, error behavior, Test Scenario structure (skeleton) |
 
 Left as TBD (needs /elicit):
 
@@ -225,7 +225,7 @@ cross-module call references in the docs, and asks for confirmation.
 | Document | Fields confirmed |
 | -------- | ---------------- |
 | Business UC | Name, Primary Actor, Preconditions (combined), Postconditions (combined), Main Flow (cross-module), Exception Flows, Related Use Cases (Prerequisite / Follow-up), Implementation Layer Mapping |
-| Business US | Story (assembled from elicitation), Expected Behavior, API Contract, Test Scenarios (cross-module) |
+| Business US | Story (assembled from elicitation), Expected Behavior, Interface Contract, Test Scenarios (cross-module) |
 
 **Test scenario synthesis rule:**
 

@@ -1,5 +1,5 @@
 ---
-schema: web-service
+schema: agent-skills
 schema-version: 0
 doc-type: user-story
 id: US-013
@@ -9,7 +9,7 @@ sections:
   derived-from: Derived from
   story: Story
   expected-behavior: Expected Behavior
-  api-contract: API Contract
+  api-contract: Interface Contract
   test-scenarios: Test Scenarios
   serves: Serves
 ---
@@ -26,16 +26,16 @@ TBD (will be linked after /compose) — expected target: the project-bootstrap w
 
 ## Story
 
-- **As:** TBD (who calls this — end user, internal service, or automated process? In context: typically a developer just past `/init`, possibly after `/explore` aligned context; `/elicit` should confirm whether tech leads or onboarders are also direct actors.)
-- **I want to:** TBD (what does the caller want to achieve? Likely: "fill in the project-config blanks `/init` left — test commands, coverage threshold, glossary terms, a CONVENTIONS section, a README — in one focused pass; accept framework-aware defaults where they're sensible; have shared test helpers created and auto-registered in `test-strategy.md`; and never accidentally touch UC/US/ADR/plan documents or `src/`.")
-- **So that:** TBD (what stops working if this entry point disappears? Likely: "every project's Tier-0 config has to be authored by hand and re-derived per project; `test-strategy.md`'s scaffold-example layer rows leak into real projects; glossaries lose their append-only safety; `/apply` and `/design-plan` have nothing reliable to read for conventions and test commands.")
-- **Trigger:** TBD (what makes them call this — on demand, event, schedule? Likely: on demand, shortly after `/init`, often after a `/explore` session that has aligned the project's testing / conventions / domain context.)
+- **As:** Project developer or maintainer
+- **I want to:** understand where they should provide the answer.
+- **So that:** If this skill disappear overnight, they need to understand the whole documents from init skill, then they can fill the placeholders.
+- **Trigger:** On demand when they start to configure the basic information for this project
 
 ## Expected Behavior
 
-TBD (fill in after /elicit) — the high-level promise from the caller's perspective: they invoke `/setup`, the skill reads conversation context first, asks only the targeted questions it can't answer from context, then writes the in-scope files with the three update modes (placeholder-replace / section-update / glossary-append). Shared test helpers are created in `tests/helpers/` or `tests/fixtures/` only — never in `tests/behavioral/` or `tests/implementation/` — and are auto-registered in `test-strategy.md`. Feature-workflow files are never touched. Unknown values become `(fill in per project)`, never invented.
+`/setup` helps a project developer or maintainer fill the basic project information that `/init` left as placeholders by showing where answers are needed and asking targeted questions. It updates the project-owned setup documents, such as test strategy, glossary, conventions, README, and shared test helper registration, without touching feature workflow docs or source code. Without `/setup`, the user has to understand all documents created by `/init` before they can safely fill the placeholders themselves.
 
-## API Contract
+## Interface Contract
 
 **api-type: `cli`** — invoked as a Claude Code slash command. Multi-turn within the conversation: read context → scan scaffold → identify targets → targeted questions → write → summary.
 
@@ -131,7 +131,7 @@ Not separately addressed. E4 (wrong-skill request — UC/US/ADR/plan or feature-
 
 > Skeleton only — Given/When/Then bodies are TBD pending `/elicit`. Each scenario maps to one behavioural test in `tests/behavioral/setup/us-013-*.test.*`.
 
-### Scenario 1: TBD (happy path — first-time fill on test-strategy.md after pytest discussed in `/explore`; four commands and threshold populated; Testing Layers rows replaced with real project layers; summary printed)
+### Scenario 1: Basic project setup information filled into scaffold docs
 
 - **Given:** TBD
 - **When:** TBD

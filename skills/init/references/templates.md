@@ -8,11 +8,11 @@ values collected during the interview.
 ## AGENTS.md
 
 ```markdown
-# {service_name}
+# {project_name}
 
 > Agent orientation file. Read this at the start of every session.
 
-## What this service does
+## What this project does
 
 {description}
 
@@ -58,9 +58,9 @@ migrates existing documents to match.
 ## README.md
 
 ```markdown
-# {service_name}
+# {project_name}
 
-## What this service does
+## What this project does
 
 {description}
 
@@ -72,7 +72,7 @@ migrates existing documents to match.
 - Implementation batch plans → docs/drafts/plans/
 - Project architecture decisions → docs/adr/
 - System structure & data flows → docs/overview/architecture.md
-- API field specs → docs/overview/api-spec.yaml
+- HTTP API specs (optional) → docs/overview/api-spec.yaml
 - Business term glossary → docs/overview/glossary.md
 - Testing strategy → docs/overview/test-strategy.md
 - Document section format → docs/schema/format.md
@@ -329,7 +329,7 @@ Example output on failure:
 ```yaml
 openapi: "3.0.3"
 info:
-  title: {service_name}
+  title: {project_name}
   version: "0.1.0"
   description: {description}
 servers:
@@ -345,7 +345,7 @@ paths: {}
 ```markdown
 # Glossary
 
-Business term definitions for {service_name}.
+Business term definitions for {project_name}.
 
 | Term | Definition |
 | ---- | ---------- |

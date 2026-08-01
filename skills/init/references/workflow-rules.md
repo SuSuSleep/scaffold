@@ -1,6 +1,6 @@
 ---
-schema: web-service
-version: 1
+schema: agent-skills
+version: 2
 
 # ── ID assignment ──────────────────────────────────────────────────────
 id-rules:
@@ -46,7 +46,7 @@ document-strategy:
   architecture:           { location: docs/overview/,                     update: on-structure-change }
   glossary:               { location: docs/overview/,                     update: in-place }
   test-strategy:          { location: docs/overview/,                     update: in-place }
-  api-spec:               { location: docs/overview/api-spec.yaml,        update: in-place }
+  http-api-spec:          { location: docs/overview/api-spec.yaml,        update: in-place-when-present }
   business-uc-us-draft:   { location: docs/drafts/use-cases/,             update: in-place }
   business-uc-us:         { location: docs/use-cases/,                    update: in-place }
   module-uc-us-draft:     { location: docs/drafts/modules/{module}/,      update: in-place }
@@ -157,7 +157,7 @@ layer describes what each module must do to fulfill its part.
 | Architecture               | docs/overview/                        | Update when structure changes         |
 | Glossary                   | docs/overview/                        | Update in place                       |
 | Test strategy              | docs/overview/                        | Update in place                       |
-| API spec                   | docs/overview/api-spec.yaml           | Update in place                       |
+| HTTP API spec              | docs/overview/api-spec.yaml           | Update in place when present          |
 | Business UC/US (draft)     | docs/drafts/use-cases/                | Update in place                       |
 | Business UC/US (confirmed) | docs/use-cases/                       | Update in place                       |
 | Module UC/US (draft)       | docs/drafts/modules/{module}/         | Update in place                       |
@@ -271,7 +271,7 @@ patched) before `/verify` passes.
 
 **Warnings** (surface but don't block):
 
-- API endpoint missing from `docs/overview/api-spec.yaml`
+- REST endpoint missing from `docs/overview/api-spec.yaml`
 - UC main flow appears stale vs. implementation
 - TBD references remaining (will be resolved during merge)
 - New module not yet listed in `architecture.md`
