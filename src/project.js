@@ -89,6 +89,9 @@ function overrides(directory) {
     if (!fs.existsSync(dir)) continue;
     for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
       if (entry.isFile() && entry.name.endsWith('.md')) found.push(`${type}/${entry.name}`);
+      if (type === 'skills' && entry.isDirectory() && fs.existsSync(path.join(dir, entry.name, 'SKILL.md'))) {
+        found.push(`${type}/${entry.name}/SKILL.md`);
+      }
     }
   }
   return found;

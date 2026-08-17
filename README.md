@@ -15,7 +15,7 @@ scaffold status /path/to/project
 scaffold update /path/to/project
 ```
 
-`init` creates `.scaffold/metadata.md`, extension directories, and `knowledge/` directories. Shared operational defaults stay in the installed Scaffold package; they are not copied into the project. A project can explicitly replace shared artifacts with Markdown files in `.scaffold/`.
+`init` creates `.scaffold/metadata.md`, extension directories, and `knowledge/` directories. Shared operational defaults stay in the installed Scaffold package; they are not copied into the project. A project can explicitly replace shared artifacts with Markdown files in `.scaffold/`; local skills use `.scaffold/skills/<skill-name>/SKILL.md`.
 
 For agent discovery, `init` makes one deliberate bootstrap exception: it creates `.scaffold/agent-guide.md` and, only when absent, root `AGENTS.md` and `CLAUDE.md`. These files tell Codex and Claude Code how to select Scaffold guidance for a request. Existing instruction files are never modified; the CLI reports when they need a manual integration.
 

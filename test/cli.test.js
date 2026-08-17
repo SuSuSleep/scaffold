@@ -49,6 +49,17 @@ test('status reports a project-local replacement', () => {
   assert.match(result.stdout, /project-rules.md/);
 });
 
+test('status reports a native project-local skill replacement', () => {
+  const directory = temporaryDirectory();
+  run('init', directory);
+  const localSkill = path.join(directory, '.scaffold/skills/verify-change');
+  fs.mkdirSync(localSkill);
+  fs.writeFileSync(path.join(localSkill, 'SKILL.md'), '# Local Verify Change\n');
+  const result = run('status', directory);
+  assert.equal(result.status, 0, result.stderr);
+  assert.match(result.stdout, /skills\/verify-change\/SKILL.md/);
+});
+
 test('update preserves project-local replacement content', () => {
   const directory = temporaryDirectory();
   run('init', directory);

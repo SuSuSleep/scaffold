@@ -1,0 +1,4 @@
+interface:
+  display_name: "Analyze Impact"
+  short_description: "Assess change effects across Scaffold knowledge"
+  default_prompt: "Use $analyze-impact to assess the effects of this requested change."
