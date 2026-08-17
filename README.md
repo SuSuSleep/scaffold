@@ -2,6 +2,8 @@
 
 Scaffold is a portable, knowledge-first software development harness. It provides Markdown-first defaults for project knowledge, project rules, workflows, and skills while allowing explicit project-local replacement.
 
+Workflows own the sequence of work through ordered Phases. Each Phase states its goal and required outcome; Skills are reusable, optional method guidance suggested by a Phase. Project Rules may require a particular method, such as TDD, without changing the Workflow. In short: workflow owns sequencing, phase owns intent, outcome owns completion, and skill owns method.
+
 ## Requirements
 
 Node.js 20 or later.

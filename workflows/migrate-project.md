@@ -10,20 +10,64 @@ Safely adapt a project when a Scaffold upgrade cannot be represented by ordinary
 - The changed shared behavior and installed project version are known.
 - The affected project-local replacements have been identified.
 
+## Phases
+
+### Phase — Establish Migration Context
+
+#### Goal
+
+Establish the versions, changed shared behavior, and affected local replacements.
+
+#### Required Outcome
+
+The old and new shared behavior and all affected project-local replacements are identified.
+
+#### Suggested Skills
+
+- collect-context
+
+### Phase — Determine Migration Impact
+
+#### Goal
+
+Determine which project-owned artifacts and knowledge require deliberate adaptation.
+
+#### Required Outcome
+
+Project-local schemas, rules, workflows, and skills are reviewed as explicit replacements, and necessary knowledge changes are identified.
+
+#### Suggested Skills
+
+- analyze-impact
+
+### Phase — Realize Migration
+
+#### Goal
+
+Apply the necessary project-owned migration decisions safely.
+
+#### Required Outcome
+
+Necessary changes to durable project knowledge are made deliberately, and decisions that cannot be safely inferred are recorded for the project owner.
+
+### Phase — Verify Migration
+
+#### Goal
+
+Confirm the migrated project has the intended version and remains usable.
+
+#### Required Outcome
+
+The project metadata reflects the intended Scaffold version and proportionate migration verification is complete.
+
+#### Suggested Skills
+
+- verify-change
+
 ## Required Outcomes
 
-- Old and new shared behavior are compared.
-- Project-local schemas, rules, workflows, and skills are reviewed as explicit replacements.
-- Necessary changes to durable project knowledge are made deliberately.
-- Decisions that cannot be safely inferred are recorded for the project owner.
-- The project metadata reflects the intended Scaffold version after the migration is complete.
+- The project is deliberately adapted to the intended Scaffold version.
 
 ## Conditional Outcomes
 
 - Create a specialized project migration workflow when the project has materially different migration needs.
-
-## Suggested Skills
-
-- collect-context
-- analyze-impact
-- verify-change

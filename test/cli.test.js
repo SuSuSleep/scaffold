@@ -84,3 +84,23 @@ test('the package provides an explicit migration workflow without a migrate comm
   assert.equal(result.status, 1);
   assert.match(result.stderr, /Unknown command/);
 });
+
+
+test('shared workflows own explicit phase sequencing independent of suggested skills', () => {
+  const workflows = [
+    'implement-change.md',
+    'initialize-project.md',
+    'learn-from-finding.md',
+    'migrate-project.md',
+    'update-knowledge.md',
+  ];
+
+  for (const workflow of workflows) {
+    const contents = fs.readFileSync(path.resolve(__dirname, '../workflows', workflow), 'utf8');
+    assert.match(contents, /^## Phases$/m, workflow + ' should define phases');
+    assert.match(contents, /^### Phase — .+$/m, workflow + ' should name each phase');
+    assert.match(contents, /^#### Goal$/m, workflow + ' phases should state their goal');
+    assert.match(contents, /^#### Required Outcome$/m, workflow + ' phases should state their outcome');
+    assert.doesNotMatch(contents, /^## Suggested Skills$/m, workflow + ' must not use skills to define its process');
+  }
+});
