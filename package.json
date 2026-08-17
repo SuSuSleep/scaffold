@@ -1,0 +1,24 @@
+{
+  "name": "@sususleep/scaffold",
+  "version": "0.2.0",
+  "description": "A portable, knowledge-first software development harness",
+  "license": "SEE LICENSE IN LICENSE",
+  "type": "commonjs",
+  "bin": {
+    "scaffold": "./bin/scaffold.js"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    "defaults/",
+    "workflows/",
+    "skills/",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
