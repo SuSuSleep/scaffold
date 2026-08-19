@@ -6,7 +6,7 @@ Bring the implementation into compliance with an accepted change while preservin
 
 ## Entry Conditions
 
-- The requested change and relevant constraints are understood.
+- An accepted change request exists.
 
 ## Phases
 

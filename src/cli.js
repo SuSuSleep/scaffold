@@ -8,8 +8,8 @@ const HELP = `Scaffold ${packageInfo.version}
 
 Usage:
   scaffold init [directory]     Initialize Scaffold in a repository
-  scaffold status [directory]   Inspect Scaffold metadata and overrides
-  scaffold update [directory]   Record the currently running Scaffold version
+  scaffold status [directory]   Inspect effective artifacts and update-review state
+  scaffold update [directory]   Record completion of a Scaffold update review
 
 Scaffold keeps shared defaults in the installed package. Project-specific
 replacements live in .scaffold/ and are never overwritten by update.`;

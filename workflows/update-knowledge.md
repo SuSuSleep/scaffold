@@ -6,7 +6,7 @@ Change durable project knowledge while preserving internal logical consistency.
 
 ## Entry Conditions
 
-- The authoritative document and intended semantic change are known.
+- A durable knowledge change is requested or discovered.
 
 ## Phases
 
