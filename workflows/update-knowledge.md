@@ -18,7 +18,7 @@ Understand the authoritative document, intended semantic change, and applicable 
 
 #### Required Outcome
 
-The authoritative document, intended semantic change, shared Knowledge Model, active Knowledge Schema, and applicable rules are understood.
+The authoritative document, intended semantic change, shared Knowledge Model, active Knowledge Schema, applicable Template, existing related project knowledge, and applicable rules are understood. Meaning comes from the Model, representation from the Schema, and starting structure from the Template; template headings do not define semantic meaning.
 
 #### Suggested Skills
 
@@ -46,7 +46,7 @@ Make the semantic change while restoring internal knowledge consistency.
 
 #### Required Outcome
 
-Obsolete knowledge is corrected, removed, or explicitly superseded, the active Knowledge Schema is respected, and Model boundaries remain intact: Findings are not promoted directly to universal Controls, Requirements do not gain unmandated implementation detail, and completed Verification evidence is not invented.
+Obsolete knowledge is corrected, removed, or explicitly superseded, the active Knowledge Schema is respected, and Model boundaries remain intact: Findings are not promoted directly to universal Controls, Requirements do not gain unmandated implementation detail, and completed Verification evidence is not invented. Schema or Template changes do not automatically rewrite project knowledge; use deliberate migration when semantic adaptation is required.
 
 ## Required Outcomes
 

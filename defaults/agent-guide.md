@@ -6,7 +6,7 @@
 2. Read `.scaffold/metadata.md` and run `scaffold status` when the shared package location or active replacements are needed.
 3. Read the shared Knowledge Model from the installed Scaffold package. It is a Harness-level semantic contract and cannot be replaced by `.scaffold/knowledge-model.md`.
 4. Resolve each replaceable Scaffold artifact explicitly: use the project-local Knowledge Schema, Project Rules, workflow, or skill when it exists; otherwise use the corresponding shared artifact. Never merge local and shared artifacts implicitly.
-5. Read the shared Knowledge Model, active Knowledge Schema, and Project Rules before changing durable knowledge or implementation behavior. Use the Model to classify Problem, Governance, and Solution knowledge and their relationships; use the Schema only for representation.
+5. When creating or updating project knowledge, use this precedence: shared Knowledge Model for semantic meaning, active Knowledge Schema for representation, applicable Template for starting structure, then existing Project Knowledge for local coherence. Do not infer semantic meaning solely from template headings.
 6. Resolve material ambiguity from authoritative project evidence first; ask the user only when unresolved ambiguity would materially change the durable knowledge outcome.
 
 ## Choose Guidance by Request Type
@@ -33,3 +33,5 @@ Update durable project knowledge when a change affects externally observable beh
 When sources disagree, analyze the inconsistency. Do not automatically treat code, tests, or temporary work artifacts as the sole authority.
 
 Classify durable knowledge before recording it: keep stakeholder intent and externally meaningful obligations in Problem Space; retain external contracts, findings, policies, controls, constraints, and applicability in Governance Space; and record solution capabilities, responsibilities, components, interfaces, designs, decisions, and verification in Solution Space. Preserve the Model invariants: do not turn a Finding directly into a universal Control, do not put unmandated implementation detail into a Requirement, and do not claim Verification evidence that has not occurred.
+
+Templates provide starting structure only. Apply the active Schema when updating records and preserve existing project knowledge coherently rather than mechanically rewriting it for a Schema or Template change.

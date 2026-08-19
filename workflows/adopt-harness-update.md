@@ -18,7 +18,7 @@ Identify the newly active shared guidance and affected active replacements.
 
 #### Required Outcome
 
-Relevant shared changes and affected project-local artifacts are identified.
+Relevant shared changes, including default Knowledge Schema and template changes, and affected project-local artifacts are identified.
 
 #### Suggested Skills
 
@@ -32,7 +32,7 @@ Classify conflicts and drift introduced by the newly active shared guidance.
 
 #### Required Outcome
 
-Active Conflicts between authoritative artifacts are resolved. Shadow Drift—shared changes hidden by a local replacement—is reviewed for continued relevance.
+Active Conflicts between authoritative artifacts are resolved. Shadow Drift—especially a default Schema change hidden by a project-local Schema—is reviewed for continued relevance. Project knowledge is not automatically rewritten; deliberate semantic migration follows the migration Workflow when needed.
 
 #### Suggested Skills
 

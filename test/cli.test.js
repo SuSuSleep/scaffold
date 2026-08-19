@@ -106,6 +106,22 @@ test('shared workflows own explicit phase sequencing independent of suggested sk
   }
 });
 
+test('default templates conform exactly to the default Knowledge Schema structure', () => {
+  const schema = fs.readFileSync(path.resolve(__dirname, '../defaults/knowledge-schema.md'), 'utf8');
+  assert.match(schema, /required structural section.*may remain empty/s);
+  assert.match(schema, /project-local Schema replaces this default representation contract in full/);
+  const expectedSections = {
+    problem: ['Intent', 'Actors and Goals', 'Use Cases', 'Requirements', 'Acceptance Criteria', 'Related Knowledge'],
+    solution: ['Capabilities', 'Responsibilities', 'Components and Boundaries', 'Satisfies', 'Design and Decisions', 'Verification Strategy', 'Related Knowledge'],
+    governance: ['Context', 'Obligation or Control', 'Applicability', 'Verification', 'Related Knowledge'],
+  };
+  for (const [type, sections] of Object.entries(expectedSections)) {
+    const template = fs.readFileSync(path.resolve(__dirname, `../defaults/templates/${type}.md`), 'utf8');
+    const headings = [...template.matchAll(/^## (.+)$/gm)].map((match) => match[1]);
+    assert.deepEqual(headings, sections, `${type} template sections`);
+    for (const section of sections) assert.match(schema, new RegExp(`\\| ${section} \\|`), `${type} Schema maps ${section}`);
+  }
+});
 
 test("the package ships a complete default Knowledge Model", () => {
   const model = fs.readFileSync(path.resolve(__dirname, "../defaults/knowledge-model.md"), "utf8");

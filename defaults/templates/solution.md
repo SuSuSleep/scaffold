@@ -2,7 +2,11 @@
 
 > Follow the active Knowledge Schema for section guidance.
 
+## Capabilities
+
 ## Responsibilities
+
+## Components and Boundaries
 
 ## Satisfies
 

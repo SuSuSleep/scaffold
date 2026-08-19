@@ -34,7 +34,7 @@ Determine which project-owned artifacts and knowledge require deliberate adaptat
 
 #### Required Outcome
 
-Project-local schemas, rules, workflows, and skills are reviewed as explicit replacements, and necessary knowledge changes are identified.
+Project-local schemas, rules, workflows, and skills are reviewed as explicit replacements, including Schema shadow drift caused by default Schema or template changes, and necessary knowledge changes are identified.
 
 #### Suggested Skills
 
@@ -48,7 +48,7 @@ Apply the necessary project-owned migration decisions safely.
 
 #### Required Outcome
 
-Necessary changes to durable project knowledge are made deliberately, and decisions that cannot be safely inferred are recorded for the project owner.
+Necessary changes to durable project knowledge are made deliberately rather than by automatic rewrite for a Schema or template change, and decisions that cannot be safely inferred are recorded for the project owner.
 
 ### Phase — Verify Migration
 

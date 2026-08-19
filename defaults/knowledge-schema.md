@@ -2,17 +2,25 @@
 
 ## Purpose
 
-This schema defines the default Markdown representation of durable project knowledge. It is authoritative only when `.scaffold/knowledge-schema.md` does not exist. The shared Knowledge Model defines the concepts and relationship semantics used here; this schema does not redefine them.
+This schema defines the default Markdown representation of durable project knowledge. It is authoritative only when `.scaffold/knowledge-schema.md` does not exist. A project-local Schema replaces this default representation contract in full and is never implicitly merged with it. The shared Knowledge Model defines the concepts and relationship semantics used here; this schema does not redefine them.
 
 ## Documents
 
-Store durable knowledge in `knowledge/` using the following document types:
+The default representation stores durable knowledge in `knowledge/` using the following document types and locations:
 
 - `problem/`: business intent, actors, goals, use cases, requirements, and acceptance criteria.
 - `solution/`: capabilities, responsibilities, components and boundaries, interfaces, designs, decisions, and verification strategy.
 - `governance/`: external constraints, policies, security controls, operational concerns, and reusable findings.
 
-Each document should state its purpose, the durable facts it records, and meaningful relationships to other knowledge. Use stable identifiers for important requirements and decisions when traceability is useful.
+These are default representation choices, not Knowledge Model concepts. Projects may replace this organization through their active Knowledge Schema.
+
+## Structural Requirements
+
+Each section listed in the default document mappings below is a **required structural section**. A required section may remain empty when no applicable knowledge exists; its heading still provides deterministic document structure. The default Schema defines no optional or conditional sections.
+
+The default templates must contain every required section for their corresponding document type and must not introduce another required semantic section. Templates provide only a concrete starting structure; use this Schema for representation guidance and the shared Knowledge Model for concept meaning.
+
+Use stable identifiers for important knowledge objects when durable traceability is useful. The default Schema does not require an identifier format: a project may use identifiers such as `REQ-001` or `DEC-001`, explicit relationship labels, Markdown links, or short relationship statements.
 
 ## Document Section Guidance
 
@@ -24,6 +32,7 @@ Use these descriptions before creating or updating a document from a default tem
 | --- | --- |
 | Intent | The problem or opportunity, the desired outcome, and why it matters. Avoid solution design. |
 | Actors and Goals | The people, roles, systems, or external parties involved and the outcome each needs. |
+| Use Cases | Relevant externally meaningful interactions through which Actors pursue Goals. |
 | Requirements | Observable obligations. Give important requirements stable identifiers and state their origin when known. |
 | Acceptance Criteria | Conditions and examples that demonstrate a requirement is satisfied from an external or stakeholder perspective. |
 | Related Knowledge | Identifiers or links to connected governance, solution, or problem records. |
@@ -50,7 +59,11 @@ Use these descriptions before creating or updating a document from a default tem
 | Verification | Evidence, checks, reviews, or tests that establish adherence to the obligation or control. |
 | Related Knowledge | Identifiers or links to affected requirements, solutions, findings, or external contracts. |
 
-## Relationships
+## Relationship Representation
+
+Represent relationships with stable identifiers, explicit labels, Markdown links, or short relationship statements as appropriate. When a specific shared Knowledge Model relationship is known, represent it explicitly: for example, prefer `Satisfies: REQ-021` to placing the same relationship only under Related Knowledge. Use `related-to` only when no more precise relationship applies.
+
+## Relationship Guidance
 
 - Use the shared Knowledge Model relationship vocabulary (`motivates`, `derived-from`, `satisfies`, `realizes`, `constrains`, `assigned-to`, `exposes`, `verifies`, `supersedes`, and `related-to`) when it describes the connection.
 - Requirements should identify their origin when known.

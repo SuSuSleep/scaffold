@@ -6,6 +6,8 @@
 
 ## Actors and Goals
 
+## Use Cases
+
 ## Requirements
 
 ## Acceptance Criteria
