@@ -2,9 +2,11 @@
 
 ## Purpose
 
-This model defines the shared meaning of durable Scaffold knowledge. It is authoritative only when a project does not provide `.scaffold/knowledge-model.md`.
+This model defines the shared meaning of durable Scaffold knowledge. It is the authoritative Harness-level semantic contract for every Scaffold project; project-local replacement is not supported.
 
-The Knowledge Model defines what knowledge means. The active Knowledge Schema defines how it is represented in documents. This model is independent of filenames, folder layout, Markdown ordering, validation syntax, implementation workflow, coding standards, and project-specific policy.
+> The Knowledge Model defines semantic concepts and relationships only. The active Knowledge Schema defines how those concepts are organized, represented, identified, and linked in project artifacts.
+
+The Knowledge Model defines what knowledge means. The active Knowledge Schema may change its representation without redefining its concepts or relationships. This model is independent of document types, filenames, folder layout, Markdown headings and ordering, field layouts, identifier formatting, relationship encoding, templates, validation syntax, implementation workflow, coding standards, and project-specific policy.
 
 ## Knowledge Architecture
 
@@ -106,7 +108,7 @@ A **Decision** records an intentional choice between meaningful alternatives. Wh
 
 ## Relationship Semantics
 
-Projects may use different textual representations through their Knowledge Schema, but the semantic relationship must remain clear.
+Projects may use different representations through their Knowledge Schema, but the semantic relationship must remain clear.
 
 | Relationship | Meaning and typical direction |
 | --- | --- |
@@ -133,7 +135,7 @@ Decision → Design
 Verification → Requirement / Control / Interface expectation / Design expectation
 ```
 
-This is a semantic map, not a required development sequence.
+This is a semantic map, not a required file structure, workflow sequence, or mandatory one-to-one hierarchy.
 
 ## Semantic Invariants
 
@@ -144,12 +146,23 @@ This is a semantic map, not a required development sequence.
 - An internal Component must not be treated as an Actor solely because it communicates with another Component.
 - Responsibility describes ownership semantics; Component describes architectural assignment. They are not interchangeable.
 - Verification evidence must not be claimed before the verification occurs.
+- Relationships must support many-to-many connections.
+
+## Semantic Anti-Patterns
+
+- Do not invent a Component immediately from a Requirement; establish the needed Capability and Responsibility first.
+- Do not turn a Finding directly into a universal security ban; analyze cause, scope, and applicability before deriving a Control or Constraint.
+- Do not encode a Business Goal as a Capability.
+- Do not use a Decision to rewrite expected behavior represented by a Requirement.
+- Do not use a Component where ownership semantics require a Responsibility.
+- Do not use `related-to` when a known, more precise relationship applies.
+
 
 ## Schema Integration and Customization
 
-The active Knowledge Schema should reference this model for concept meanings rather than redefine them. It may change document layout and textual representation without changing concepts or relationship semantics.
+The active Knowledge Schema should reference this model for concept meanings rather than redefine them. It may change representation, organization, identifiers, and linking without changing core concepts or relationship semantics.
 
-This is a Harness-level semantic contract and should evolve more conservatively than the Knowledge Schema, Project Rules, Workflows, or Skills. Normal project customization belongs in those artifacts or in project knowledge. Projects may introduce domain-specific concepts that reference this model, but must not silently redefine core concepts. Full project replacement and a formal extension mechanism are intentionally unsupported initially.
+This contract should evolve more conservatively than the Knowledge Schema, Project Rules, Workflows, Skills, or Templates. Normal project customization belongs in those artifacts or in project knowledge. Projects may introduce domain-specific concepts that reference this model, but must not redefine core concepts. A formal extension mechanism is intentionally unsupported initially.
 
 ## Deferred Scope
 

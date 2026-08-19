@@ -19,7 +19,7 @@ Understand the change intent, relevant existing knowledge, and applicable rules 
 
 #### Required Outcome
 
-The change intent, relevant active Knowledge Model and Knowledge Schema, Project Rules, Governance knowledge, and authoritative project records are identified.
+The change intent, shared Knowledge Model, active Knowledge Schema, Project Rules, Governance knowledge, and authoritative project records are identified.
 
 #### Suggested Skills
 

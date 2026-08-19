@@ -28,11 +28,11 @@ Repository context, existing knowledge, and relevant repository instructions are
 
 #### Goal
 
-Make the applicable Scaffold defaults and replacement model available to the project.
+Make the shared Knowledge Model and applicable replaceable Scaffold artifacts available to the project.
 
 #### Required Outcome
 
-Applicable Scaffold defaults are available and any project-local replacements are understood.
+The shared Knowledge Model is available, and any project-local Knowledge Schema, Project Rules, workflow, or skill replacements are understood.
 
 ### Phase — Establish Initial Knowledge
 

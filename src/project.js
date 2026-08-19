@@ -4,7 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const METADATA_FILE = 'metadata.md';
-const OVERRIDES = ['knowledge-model.md', 'knowledge-schema.md', 'project-rules.md'];
+const OVERRIDES = ['knowledge-schema.md', 'project-rules.md'];
 const AGENT_FILES = ['AGENTS.md', 'CLAUDE.md'];
 const MANAGED_BLOCK = /<!-- scaffold:start -->[\s\S]*?<!-- scaffold:end -->/;
 
@@ -118,8 +118,12 @@ function inspectProject({ directory, version, packageRoot }) {
     const shared = path.join(packageRoot, 'defaults', name);
     return [`${label}:`, `  source: ${fs.existsSync(local) ? 'project' : 'shared'}`, `  path: ${fs.existsSync(local) ? local : shared}`];
   };
+  const sharedKnowledgeModel = path.join(packageRoot, 'defaults', 'knowledge-model.md');
+  const localKnowledgeModel = path.join(scaffoldDirectory(directory), 'knowledge-model.md');
   const artifactLines = [
-    ...activeArtifact('Knowledge Model', 'knowledge-model.md'),
+    'Knowledge Model:',
+    '  source: shared',
+    `  path: ${sharedKnowledgeModel}`,
     ...activeArtifact('Knowledge Schema', 'knowledge-schema.md'),
     ...activeArtifact('Project Rules', 'project-rules.md'),
   ];
@@ -148,6 +152,7 @@ function inspectProject({ directory, version, packageRoot }) {
     'Agent Integration:',
     ...AGENT_FILES.map((filename) => `  ${filename}: ${fs.existsSync(path.join(directory, filename)) && MANAGED_BLOCK.test(fs.readFileSync(path.join(directory, filename), 'utf8')) ? 'configured' : 'integration required'}`),
     `Project-local replacements: ${found.length ? found.join(', ') : 'none'}`,
+    ...(fs.existsSync(localKnowledgeModel) ? [`Unsupported project-local Knowledge Model ignored: ${localKnowledgeModel}`] : []),
     `Shadowed shared artifacts: ${shadowed.length ? shadowed.join(', ') : 'none'}`,
     ...(reviewRequired ? ['Run the shared adopt-harness-update workflow, then use "scaffold update" to record completion.'] : []),
   ] };
@@ -159,9 +164,11 @@ function updateProject({ directory, version }) {
   const now = timestamp();
   fs.writeFileSync(metadataPath(directory), metadata({ lastReviewedVersion: version, installedAt: details.installedAt || now, updatedAt: now }), 'utf8');
   const found = overrides(directory);
+  const localKnowledgeModel = path.join(scaffoldDirectory(directory), 'knowledge-model.md');
   return { ok: true, lines: [
     `Recorded Scaffold version ${version} as reviewed.`,
     `Project-local replacements preserved: ${found.length ? found.join(', ') : 'none'}.`,
+    ...(fs.existsSync(localKnowledgeModel) ? [`Unsupported project-local Knowledge Model preserved but ignored: ${localKnowledgeModel}.`] : []),
     'Shared defaults are supplied by the currently running package and were not copied or overwritten.',
   ] };
 }

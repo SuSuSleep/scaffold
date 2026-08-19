@@ -8,7 +8,7 @@ Safely adapt a project when a Scaffold upgrade cannot be represented by ordinary
 
 - The project is initialized with Scaffold.
 - The changed shared behavior and installed project version are known.
-- The affected project-local replacements have been identified.
+- The affected project-local Knowledge Schema, Project Rules, workflows, and skills have been identified.
 
 ## Phases
 
@@ -20,7 +20,7 @@ Establish the versions, changed shared behavior, and affected local replacements
 
 #### Required Outcome
 
-The old and new shared behavior and all affected project-local replacements are identified.
+The old and new shared behavior and all affected project-local Knowledge Schema, Project Rules, workflows, and skills are identified.
 
 #### Suggested Skills
 

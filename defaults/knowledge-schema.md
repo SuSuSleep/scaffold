@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This schema defines the default Markdown representation of durable project knowledge. It is authoritative only when `.scaffold/knowledge-schema.md` does not exist. The active Knowledge Model defines the concepts and relationship semantics used here; this schema does not redefine them.
+This schema defines the default Markdown representation of durable project knowledge. It is authoritative only when `.scaffold/knowledge-schema.md` does not exist. The shared Knowledge Model defines the concepts and relationship semantics used here; this schema does not redefine them.
 
 ## Documents
 
@@ -52,7 +52,7 @@ Use these descriptions before creating or updating a document from a default tem
 
 ## Relationships
 
-- Use the active Knowledge Model relationship vocabulary (`motivates`, `derived-from`, `satisfies`, `realizes`, `constrains`, `assigned-to`, `exposes`, `verifies`, `supersedes`, and `related-to`) when it describes the connection.
+- Use the shared Knowledge Model relationship vocabulary (`motivates`, `derived-from`, `satisfies`, `realizes`, `constrains`, `assigned-to`, `exposes`, `verifies`, `supersedes`, and `related-to`) when it describes the connection.
 - Requirements should identify their origin when known.
 - Capabilities should identify the Requirements, Controls, or Constraints they satisfy; Responsibilities should identify the Capabilities they realize; and Components should identify assigned Responsibilities and exposed Interfaces when useful.
 - Verification should identify the Requirement, Control, Interface expectation, or Design expectation it verifies.

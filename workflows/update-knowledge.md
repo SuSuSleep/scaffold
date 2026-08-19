@@ -18,7 +18,7 @@ Understand the authoritative document, intended semantic change, and applicable 
 
 #### Required Outcome
 
-The authoritative document, intended semantic change, active Knowledge Model, active Knowledge Schema, and applicable rules are understood.
+The authoritative document, intended semantic change, shared Knowledge Model, active Knowledge Schema, and applicable rules are understood.
 
 #### Suggested Skills
 

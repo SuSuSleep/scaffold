@@ -18,7 +18,7 @@ Establish the request, constraints, and relevant project context.
 
 #### Required Outcome
 
-The requested change, applicable rules, active Knowledge Model, relevant knowledge, and affected scope are understood.
+The requested change, applicable rules, shared Knowledge Model, relevant knowledge, and affected scope are understood.
 
 #### Suggested Skills
 

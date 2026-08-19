@@ -4,12 +4,10 @@
 
 1. Read the current user request and inspect the repository context.
 2. Read `.scaffold/metadata.md` and run `scaffold status` when the shared package location or active replacements are needed.
-3. Resolve each Scaffold artifact explicitly:
-   - use the project-local artifact in `.scaffold/` when it exists;
-   - otherwise use the corresponding shared artifact from the installed Scaffold package;
-   - never merge the two implicitly.
-4. Read the active Knowledge Model, Knowledge Schema, and Project Rules before changing durable knowledge or implementation behavior. Use the Model to classify Problem, Governance, and Solution knowledge and their relationships; use the Schema only for representation.
-5. Resolve material ambiguity from authoritative project evidence first; ask the user only when unresolved ambiguity would materially change the durable knowledge outcome.
+3. Read the shared Knowledge Model from the installed Scaffold package. It is a Harness-level semantic contract and cannot be replaced by `.scaffold/knowledge-model.md`.
+4. Resolve each replaceable Scaffold artifact explicitly: use the project-local Knowledge Schema, Project Rules, workflow, or skill when it exists; otherwise use the corresponding shared artifact. Never merge local and shared artifacts implicitly.
+5. Read the shared Knowledge Model, active Knowledge Schema, and Project Rules before changing durable knowledge or implementation behavior. Use the Model to classify Problem, Governance, and Solution knowledge and their relationships; use the Schema only for representation.
+6. Resolve material ambiguity from authoritative project evidence first; ask the user only when unresolved ambiguity would materially change the durable knowledge outcome.
 
 ## Choose Guidance by Request Type
 

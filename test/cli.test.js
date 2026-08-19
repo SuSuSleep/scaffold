@@ -134,12 +134,15 @@ test("the package ships a complete default Knowledge Model", () => {
     "### Verification",
     "## Relationship Semantics",
     "## Semantic Invariants",
+    "## Semantic Anti-Patterns",
   ]) assert.ok(model.includes(heading), heading);
   assert.match(model, /Finding must not automatically become a Control/);
   assert.match(model, /Relationships are many-to-many/);
+  assert.match(model, /The Knowledge Model defines semantic concepts and relationships only/);
+  assert.doesNotMatch(model, /\.scaffold\/knowledge-model\.md/);
 });
 
-test("status resolves the Knowledge Model from shared defaults or a project replacement", () => {
+test("status always resolves the Knowledge Model from shared defaults", () => {
   const directory = temporaryDirectory();
   run("init", directory);
 
@@ -152,6 +155,7 @@ test("status resolves the Knowledge Model from shared defaults or a project repl
   fs.writeFileSync(localModel, "# Local Knowledge Model\n");
   const local = run("status", directory);
   assert.equal(local.status, 0, local.stderr);
-  assert.match(local.stdout, /Knowledge Model:\n  source: project/);
+  assert.match(local.stdout, /Knowledge Model:\n  source: shared/);
+  assert.match(local.stdout, /Unsupported project-local Knowledge Model ignored:/);
   assert.ok(local.stdout.includes(localModel));
 });
