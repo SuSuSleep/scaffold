@@ -105,3 +105,53 @@ test('shared workflows own explicit phase sequencing independent of suggested sk
     assert.doesNotMatch(contents, /^## Suggested Skills$/m, workflow + ' must not use skills to define its process');
   }
 });
+
+
+test("the package ships a complete default Knowledge Model", () => {
+  const model = fs.readFileSync(path.resolve(__dirname, "../defaults/knowledge-model.md"), "utf8");
+  for (const heading of [
+    "## Problem Space",
+    "## Governance Space",
+    "### Actor",
+    "### Goal",
+    "### Motivation",
+    "### Use Case",
+    "### Requirement",
+    "### Acceptance Criteria",
+    "### External Contract",
+    "### Finding",
+    "### Policy or Standard",
+    "### Control",
+    "### Constraint",
+    "### Applicability",
+    "## Solution Space",
+    "### Capability",
+    "### Responsibility",
+    "### Component",
+    "### Interface",
+    "### Design",
+    "### Decision",
+    "### Verification",
+    "## Relationship Semantics",
+    "## Semantic Invariants",
+  ]) assert.ok(model.includes(heading), heading);
+  assert.match(model, /Finding must not automatically become a Control/);
+  assert.match(model, /Relationships are many-to-many/);
+});
+
+test("status resolves the Knowledge Model from shared defaults or a project replacement", () => {
+  const directory = temporaryDirectory();
+  run("init", directory);
+
+  const shared = run("status", directory);
+  assert.equal(shared.status, 0, shared.stderr);
+  assert.match(shared.stdout, /Knowledge Model:\n  source: shared/);
+  assert.match(shared.stdout, /defaults[\/]knowledge-model\.md/);
+
+  const localModel = path.join(directory, ".scaffold/knowledge-model.md");
+  fs.writeFileSync(localModel, "# Local Knowledge Model\n");
+  const local = run("status", directory);
+  assert.equal(local.status, 0, local.stderr);
+  assert.match(local.stdout, /Knowledge Model:\n  source: project/);
+  assert.ok(local.stdout.includes(localModel));
+});

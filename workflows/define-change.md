@@ -33,7 +33,7 @@ Determine the semantic impact and the knowledge relationships affected by the in
 
 #### Required Outcome
 
-Affected Requirements, Use Cases, Governance, Solution responsibilities, verification, and potentially stale relationships are identified. Existing authoritative records are considered before creating duplicates.
+Affected Problem concepts (Actors, Goals, Use Cases, Requirements, and Acceptance Criteria), Governance concepts (Findings, Policies, Controls, Constraints, Contracts, and Applicability), Solution concepts (Capabilities, Responsibilities, Components, Interfaces, Designs, Decisions, and Verification), and potentially stale relationships are identified. Existing authoritative records are considered before creating duplicates.
 
 #### Suggested Skills
 
@@ -57,7 +57,7 @@ Make the durable knowledge state match the accepted change.
 
 #### Required Outcome
 
-Required knowledge is created, updated, removed, deprecated, superseded, split, merged, related, or unrelated as appropriate. Semantic ownership follows the Knowledge Model: Problem Space for behavior and stakeholder intent, Governance for obligations and controls, and Solution Space only for accepted durable solution decisions.
+Required knowledge is created, updated, removed, deprecated, superseded, split, merged, related, or unrelated as appropriate. Semantic ownership follows the Knowledge Model: Problem Space for behavior and stakeholder intent; Governance for external contracts, findings, policies, controls, constraints, and applicability; and Solution Space for accepted durable capabilities, responsibilities, components, interfaces, designs, decisions, and verification. Use explicit relationship semantics where useful, and do not treat the graph as a fixed hierarchy.
 
 ### Phase — Confirm Downstream Readiness
 

@@ -18,7 +18,7 @@ Understand the authoritative document, intended semantic change, and applicable 
 
 #### Required Outcome
 
-The authoritative document, intended semantic change, active Knowledge Schema, and applicable rules are understood.
+The authoritative document, intended semantic change, active Knowledge Model, active Knowledge Schema, and applicable rules are understood.
 
 #### Suggested Skills
 
@@ -32,7 +32,7 @@ Identify knowledge that depends on or is contradicted by the intended change.
 
 #### Required Outcome
 
-Dependent knowledge and required consistency updates are identified.
+Dependent knowledge and required consistency updates are identified, including affected `derived-from`, `satisfies`, `realizes`, `constrains`, `assigned-to`, `exposes`, `verifies`, and `supersedes` relationships where applicable.
 
 #### Suggested Skills
 
@@ -46,7 +46,7 @@ Make the semantic change while restoring internal knowledge consistency.
 
 #### Required Outcome
 
-Obsolete knowledge is corrected or removed, and the active Knowledge Schema is respected.
+Obsolete knowledge is corrected, removed, or explicitly superseded, the active Knowledge Schema is respected, and Model boundaries remain intact: Findings are not promoted directly to universal Controls, Requirements do not gain unmandated implementation detail, and completed Verification evidence is not invented.
 
 ## Required Outcomes
 

@@ -2,14 +2,14 @@
 
 ## Purpose
 
-This schema defines the default Markdown representation of durable project knowledge. It is authoritative only when `.scaffold/knowledge-schema.md` does not exist.
+This schema defines the default Markdown representation of durable project knowledge. It is authoritative only when `.scaffold/knowledge-schema.md` does not exist. The active Knowledge Model defines the concepts and relationship semantics used here; this schema does not redefine them.
 
 ## Documents
 
 Store durable knowledge in `knowledge/` using the following document types:
 
 - `problem/`: business intent, actors, goals, use cases, requirements, and acceptance criteria.
-- `solution/`: capabilities, designs, decisions, interfaces, and verification strategy.
+- `solution/`: capabilities, responsibilities, components and boundaries, interfaces, designs, decisions, and verification strategy.
 - `governance/`: external constraints, policies, security controls, operational concerns, and reusable findings.
 
 Each document should state its purpose, the durable facts it records, and meaningful relationships to other knowledge. Use stable identifiers for important requirements and decisions when traceability is useful.
@@ -32,9 +32,11 @@ Use these descriptions before creating or updating a document from a default tem
 
 | Section | Record |
 | --- | --- |
-| Responsibilities | The capability or component responsibilities and their boundaries. |
-| Satisfies | The requirements, controls, or constraints this solution addresses. |
-| Design and Decisions | Important interfaces, data or state semantics, technical choices, alternatives, and their reasoning. |
+| Capabilities | Solution abilities that satisfy one or more obligations. |
+| Responsibilities | Ownership semantics that realize Capabilities before physical decomposition. |
+| Components and Boundaries | Concrete architectural units, their assigned Responsibilities, and the Interfaces they expose. |
+| Satisfies | The Requirements, Controls, or Constraints this solution addresses. |
+| Design and Decisions | Durable technical behavior, structure, and the intentional choices that select or constrain it. |
 | Verification Strategy | The evidence, tests, checks, or reviews that should verify the solution's important expectations. |
 | Related Knowledge | Identifiers or links to connected problem, governance, or solution records. |
 
@@ -50,9 +52,10 @@ Use these descriptions before creating or updating a document from a default tem
 
 ## Relationships
 
+- Use the active Knowledge Model relationship vocabulary (`motivates`, `derived-from`, `satisfies`, `realizes`, `constrains`, `assigned-to`, `exposes`, `verifies`, `supersedes`, and `related-to`) when it describes the connection.
 - Requirements should identify their origin when known.
-- Solution responsibilities should identify the requirements or constraints they satisfy.
-- Verification should identify the requirement or design expectation it verifies.
+- Capabilities should identify the Requirements, Controls, or Constraints they satisfy; Responsibilities should identify the Capabilities they realize; and Components should identify assigned Responsibilities and exposed Interfaces when useful.
+- Verification should identify the Requirement, Control, Interface expectation, or Design expectation it verifies.
 - Many-to-many relationships are allowed; do not force them into a tree.
 
 ## Change Discipline

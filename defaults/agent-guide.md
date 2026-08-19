@@ -8,7 +8,7 @@
    - use the project-local artifact in `.scaffold/` when it exists;
    - otherwise use the corresponding shared artifact from the installed Scaffold package;
    - never merge the two implicitly.
-4. Read the active Knowledge Model, Knowledge Schema, and Project Rules before changing durable knowledge or implementation behavior. Use the Model for semantic ownership and the Schema for representation.
+4. Read the active Knowledge Model, Knowledge Schema, and Project Rules before changing durable knowledge or implementation behavior. Use the Model to classify Problem, Governance, and Solution knowledge and their relationships; use the Schema only for representation.
 5. Resolve material ambiguity from authoritative project evidence first; ask the user only when unresolved ambiguity would materially change the durable knowledge outcome.
 
 ## Choose Guidance by Request Type
@@ -33,3 +33,5 @@ Use `update-knowledge` when the exact durable knowledge change is already known.
 Update durable project knowledge when a change affects externally observable behavior, requirements, interfaces, responsibilities, security assumptions, or important design reasoning. Do not create knowledge updates for purely mechanical changes.
 
 When sources disagree, analyze the inconsistency. Do not automatically treat code, tests, or temporary work artifacts as the sole authority.
+
+Classify durable knowledge before recording it: keep stakeholder intent and externally meaningful obligations in Problem Space; retain external contracts, findings, policies, controls, constraints, and applicability in Governance Space; and record solution capabilities, responsibilities, components, interfaces, designs, decisions, and verification in Solution Space. Preserve the Model invariants: do not turn a Finding directly into a universal Control, do not put unmandated implementation detail into a Requirement, and do not claim Verification evidence that has not occurred.
