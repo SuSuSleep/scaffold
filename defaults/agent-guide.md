@@ -8,20 +8,25 @@
    - use the project-local artifact in `.scaffold/` when it exists;
    - otherwise use the corresponding shared artifact from the installed Scaffold package;
    - never merge the two implicitly.
-4. Read the active Knowledge Schema and Project Rules before changing durable knowledge or implementation behavior.
-5. Ask the user when an important requirement, constraint, or intended behavior is unclear.
+4. Read the active Knowledge Model, Knowledge Schema, and Project Rules before changing durable knowledge or implementation behavior. Use the Model for semantic ownership and the Schema for representation.
+5. Resolve material ambiguity from authoritative project evidence first; ask the user only when unresolved ambiguity would materially change the durable knowledge outcome.
 
 ## Choose Guidance by Request Type
 
 | Request | Primary Workflow | Useful Skills |
 | --- | --- | --- |
 | Establish or adopt Scaffold in a repository | `initialize-project` | `collect-context` |
-| Implement or change behavior | `implement-change` | `collect-context`, `analyze-impact`, `verify-change` |
+| Define an ambiguous request, problem, requirement, or discovered need | `define-change` | `collect-context`, `analyze-impact` |
+| Implement an accepted change | `implement-change` | `collect-context`, `analyze-impact`, `verify-change` |
 | Change requirements, design, or governance knowledge | `update-knowledge` | `collect-context`, `analyze-impact` |
 | Turn a defect, incident, or security finding into reusable knowledge | `learn-from-finding` | `collect-context`, `analyze-impact`, `verify-change` |
 | Adapt to an incompatible Scaffold change | `migrate-project` | `collect-context`, `analyze-impact`, `verify-change` |
 
 Workflows define the ordered Phases and their required outcomes. A Phase defines its local intent and can be completed without a Skill. Skills provide reusable, suggested methods; project rules may require or prohibit a particular method. A project may replace a workflow or skill with a local artifact.
+
+Use `define-change` when the requested semantics are not sufficiently defined. Inspect existing knowledge before creating a record, prefer updating authoritative records over duplicating them, and consider removals or deprecations as well as additions. Do not implement production code before the change is sufficiently defined unless the user explicitly directs it.
+
+Use `update-knowledge` when the exact durable knowledge change is already known.
 
 ## Knowledge Discipline
 

@@ -88,6 +88,7 @@ test('the package provides an explicit migration workflow without a migrate comm
 
 test('shared workflows own explicit phase sequencing independent of suggested skills', () => {
   const workflows = [
+    'define-change.md',
     'implement-change.md',
     'initialize-project.md',
     'learn-from-finding.md',
