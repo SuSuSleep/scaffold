@@ -6,11 +6,6 @@
 - Inspect relevant knowledge, rules, and workflows before making a meaningful change.
 - Update durable knowledge when implementation reveals or changes important behavior, constraints, or reasoning.
 
-## Replacement
-
-- A project-local artifact in `.scaffold/` replaces the corresponding shared artifact.
-- Do not assume partial inheritance or implicit merging.
-
 ## Safety and Verification
 
 - Preserve externally observable behavior unless an accepted change requires it.

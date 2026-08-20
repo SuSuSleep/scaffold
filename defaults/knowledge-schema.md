@@ -70,7 +70,3 @@ Represent relationships with stable identifiers, explicit labels, Markdown links
 - Capabilities should identify the Requirements, Controls, or Constraints they satisfy; Responsibilities should identify the Capabilities they realize; and Components should identify assigned Responsibilities and exposed Interfaces when useful.
 - Verification should identify the Requirement, Control, Interface expectation, or Design expectation it verifies.
 - Many-to-many relationships are allowed; do not force them into a tree.
-
-## Change Discipline
-
-Update durable knowledge when a change affects observable behavior, requirements, interfaces, responsibilities, security assumptions, or important design reasoning. Do not create knowledge documents for purely mechanical changes.

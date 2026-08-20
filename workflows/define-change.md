@@ -19,7 +19,7 @@ Understand the change intent, relevant existing knowledge, and applicable rules 
 
 #### Required Outcome
 
-The change intent, shared Knowledge Model, active Knowledge Schema, Project Rules, Governance knowledge, and authoritative project records are identified.
+The change intent, active Knowledge Schema, Project Rules, relevant durable knowledge, and authoritative project records are identified.
 
 #### Suggested Skills
 
@@ -33,7 +33,7 @@ Determine the semantic impact and the knowledge relationships affected by the in
 
 #### Required Outcome
 
-Affected Problem concepts (Actors, Goals, Use Cases, Requirements, and Acceptance Criteria), Governance concepts (Findings, Policies, Controls, Constraints, Contracts, and Applicability), Solution concepts (Capabilities, Responsibilities, Components, Interfaces, Designs, Decisions, and Verification), and potentially stale relationships are identified. Existing authoritative records are considered before creating duplicates.
+Affected durable knowledge, material relationships, and potentially stale records are identified according to the active Knowledge Model and Knowledge Schema. Existing authoritative records are considered before creating duplicates.
 
 #### Suggested Skills
 
@@ -57,7 +57,7 @@ Record the sufficiently defined proposed knowledge change for review.
 
 #### Required Outcome
 
-The proposed knowledge delta is recorded clearly enough for review. Semantic ownership follows the Knowledge Model: Problem Space for behavior and stakeholder intent; Governance for external contracts, findings, policies, controls, constraints, and applicability; and Solution Space for durable capabilities, responsibilities, components, interfaces, designs, decisions, and verification. Use explicit relationship semantics where useful, and do not treat the graph as a fixed hierarchy.
+The proposed knowledge delta is recorded clearly enough for review, using the active Knowledge Model for semantic ownership and the active Knowledge Schema for representation.
 
 ### Phase — Confirm Downstream Readiness
 

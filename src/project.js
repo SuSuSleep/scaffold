@@ -174,7 +174,7 @@ function inspectProject({ directory, version, packageRoot }) {
     `Project-local replacements: ${found.length ? found.map((artifact) => path.relative(scaffoldDirectory(directory), artifact.local)).join(', ') : 'none'}`,
     ...(fs.existsSync(localKnowledgeModel) ? [`Unsupported project-local Knowledge Model ignored: ${localKnowledgeModel}`] : []),
     `Shadowed shared artifacts: ${shadowed.length ? shadowed.join(', ') : 'none'}`,
-    ...(reviewRequired ? ['Run the shared adopt-harness-update workflow, then use "scaffold update" to record completion.'] : []),
+    ...(reviewRequired ? ['Complete the shared adopt-harness-update review, then use "scaffold update" to attest and record completion.'] : []),
   ] };
 }
 
@@ -187,10 +187,10 @@ function updateProject({ directory, version, packageRoot }) {
   const found = localReplacements(directory, packageRoot);
   const localKnowledgeModel = path.join(scaffoldDirectory(directory), 'knowledge-model.md');
   return { ok: true, lines: [
-    `Recorded Scaffold version ${version} as reviewed.`,
+    `Recorded your attestation that Scaffold version ${version} has been reviewed.`,
     `Project-local replacements preserved: ${found.length ? found.map((artifact) => path.relative(scaffoldDirectory(directory), artifact.local)).join(', ') : 'none'}.`,
     ...(fs.existsSync(localKnowledgeModel) ? [`Unsupported project-local Knowledge Model preserved but ignored: ${localKnowledgeModel}.`] : []),
-    'Shared defaults are supplied by the currently running package and were not copied or overwritten.',
+    'This command records review completion; semantic validation remains agent-driven. Shared defaults are supplied by the currently running package and were not copied or overwritten.',
   ] };
 }
 

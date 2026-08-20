@@ -18,7 +18,7 @@ Establish the request, constraints, and relevant project context.
 
 #### Required Outcome
 
-The requested change, applicable rules, shared Knowledge Model, relevant knowledge, and affected scope are understood.
+The requested change, applicable rules, relevant durable knowledge, and affected scope are understood.
 
 #### Suggested Skills
 
@@ -32,7 +32,7 @@ Determine the change's effects on behavior, interfaces, tests, and durable knowl
 
 #### Required Outcome
 
-Affected Requirements, Controls, Constraints, Contracts, implementation areas, verification needs, and knowledge updates are identified. Trace obligations through the relevant Solution concepts: Capabilities that satisfy obligations, Responsibilities that realize Capabilities, Components assigned Responsibilities, Interfaces they expose, durable Designs, and Decisions that select or constrain those Designs.
+Relevant obligations, constraints, implementation areas, verification needs, and durable knowledge updates are identified according to the active Knowledge Model and Knowledge Schema.
 
 #### Suggested Skills
 
@@ -46,7 +46,7 @@ Make the accepted change while preserving applicable constraints.
 
 #### Required Outcome
 
-The implementation satisfies the accepted change and required durable knowledge is updated without treating Components as Actors, Responsibilities as Components, Capabilities as Goals, or Decisions as replacements for Requirements.
+The implementation satisfies the accepted change, applicable constraints are preserved, and required durable knowledge is updated according to the active Knowledge Model and Knowledge Schema.
 
 #### Suggested Skills
 
@@ -74,7 +74,7 @@ Ensure durable project knowledge reflects discoveries made while realizing and v
 
 #### Required Outcome
 
-Durable discoveries are reconciled, and obsolete or incomplete knowledge is corrected where needed. Record Verification only as a strategy or as completed evidence according to what actually occurred, and preserve explicit traceability to the expectations it verifies.
+Durable discoveries are reconciled and obsolete or incomplete knowledge is corrected where needed, with evidence and relationships represented according to the active Knowledge Model and Knowledge Schema.
 
 ## Required Outcomes
 

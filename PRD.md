@@ -168,7 +168,7 @@ A Workflow SHOULD NOT duplicate reusable procedural guidance already represented
 
 # 3. Product Goals
 
-## 2.8 Harness Architecture and Lifecycle
+## 3.1 Harness Architecture and Lifecycle
 
 The Knowledge Model is a Harness-owned, non-replaceable semantic contract. The Knowledge Schema, Project Rules, Workflows, Skills, and Templates are project-replaceable artifacts. Project Knowledge remains project-owned durable truth; `AGENTS.md` and `CLAUDE.md` are host-owned integration files whose surrounding content Scaffold MUST NOT replace.
 
@@ -271,7 +271,9 @@ Examples:
 
 ## 5.4 Workflow
 
-Reusable definition of a category of work and its required outcomes.
+Reusable definition of a category of work. A Workflow owns sequencing through ordered Phases; each Phase owns local intent and a required outcome. A Workflow also states its overall required outcomes and conditional outcomes.
+
+In short: **Workflow owns sequencing; Phase owns intent; Outcome owns completion; Skill owns method.**
 
 Examples:
 
@@ -588,11 +590,19 @@ Recommended format:
 
 ## Entry Conditions
 
+## Phases
+
+### Phase — <Name>
+
+#### Goal
+
+#### Required Outcome
+
+#### Suggested Skills
+
 ## Required Outcomes
 
 ## Conditional Outcomes
-
-## Suggested Skills
 ```
 
 Additional sections MAY be used when they materially improve the Workflow.
@@ -613,13 +623,29 @@ Required outcomes SHOULD include:
 
 - repository context understood;
 - existing knowledge identified;
-- applicable defaults installed;
+- applicable shared defaults and local replacements resolved;
 - initial project knowledge established;
 - obvious unknowns identified.
 
 ---
 
-## 17.2 Implement Change
+## 17.2 Define and Review Change
+
+The primary lifecycle is:
+
+```text
+initialize-project
+      ↓
+define-change
+      ↓
+review-change
+      ↓
+implement-change
+```
+
+`define-change` produces a sufficiently defined proposed durable change. `review-change` establishes semantic correctness, representation compliance, relationship consistency, project-constraint compliance, and acceptance before implementation begins.
+
+## 17.3 Implement Change
 
 Goal:
 
@@ -637,7 +663,7 @@ Typical required outcomes:
 
 ---
 
-## 17.3 Update Knowledge
+## 17.4 Update Knowledge
 
 Goal:
 
@@ -653,7 +679,15 @@ Typical outcomes:
 
 ---
 
-## 17.4 Learn From Finding
+## 17.5 Reconstruct Project Knowledge
+
+Goal:
+
+> Recover durable project knowledge from an existing repository without treating implementation as unquestionable project intent.
+
+The Workflow SHOULD establish repository context, select coherent knowledge subjects, reconstruct evidence-based knowledge, resolve material uncertainty, and review the result. It MUST distinguish knowledge that is Known, Inferred, and Unknown.
+
+## 17.6 Learn From Finding
 
 Goal:
 
@@ -756,25 +790,9 @@ The product SHOULD resist unnecessary Skill proliferation.
 
 ---
 
-# 21. Skill Composition
+# 21. Workflow and Skill Roles
 
-Workflows MAY suggest multiple Skills.
-
-Example:
-
-```text
-Implement Change
-
-collect-context
-      ↓
-analyze-impact
-      ↓
-implement-with-tdd
-      ↓
-verify-change
-```
-
-This is guidance rather than a mandatory execution engine unless Project Rules explicitly require the sequence.
+Workflows MAY suggest Skills within a Phase, but Skill names do not define a Workflow's sequencing or completion criteria. A Phase can be completed without a Skill when its required outcome is achieved. Project Rules may require a method such as TDD without changing the Workflow.
 
 ---
 
@@ -858,20 +876,15 @@ A bootstrapped repository SHOULD resemble:
 project/
 ├── .scaffold/
 │   ├── metadata.md
+│   ├── agent-guide.md
 │   ├── knowledge-schema.md        # optional override
 │   ├── project-rules.md           # optional override
 │   ├── workflows/                 # optional replacements/additions
 │   └── skills/                    # optional replacements/additions
-│
-├── knowledge/
-│   ├── problem/
-│   ├── solution/
-│   └── governance/
-│
 └── <existing project files>
 ```
 
-Exact naming MAY change during implementation if a clearer repository structure is identified.
+The CLI establishes only Harness infrastructure. The active Knowledge Schema and `initialize-project` Workflow establish any project knowledge locations, document types, and applicable templates. `AGENTS.md` and `CLAUDE.md` are host-owned integration files: Scaffold creates them only when absent and otherwise preserves surrounding host content.
 
 ---
 
@@ -906,7 +919,7 @@ The CLI is responsible for operations such as:
 initialize Scaffold in repository
 inspect installed Scaffold state
 apply Scaffold updates
-run migration workflows when necessary
+record completion of update reviews
 ```
 
 Illustrative commands:
@@ -938,14 +951,14 @@ Initialization MUST NOT require manual copying of Scaffold files.
 
 # 29. Scaffold Metadata
 
-Each installed project SHOULD record the Scaffold version or revision from which its current installation was derived.
+Each installed project SHOULD record the Scaffold version or revision last reviewed through `adopt-harness-update`.
 
 Example:
 
 ```markdown
 # Scaffold Metadata
 
-Scaffold Version: 0.2.0
+Last Reviewed Scaffold Version: 0.2.0
 ```
 
 Version information is used for:
@@ -976,6 +989,8 @@ Project-local replacement
 ```
 
 An updated shared artifact MUST NOT silently overwrite a project-local replacement.
+
+`adopt-harness-update` is the semantic review: it identifies changed guidance, active conflicts, shadow drift, required project-owned adjustments, migration need, and consistency concerns. `scaffold update` is not a deterministic workflow-state validator. It records the caller's attestation that this review is complete and the running Harness version has been reviewed.
 
 ---
 
@@ -1366,9 +1381,14 @@ Defaults
 
 Workflows
 ├── initialize-project
+├── define-change
+├── review-change
 ├── implement-change
 ├── update-knowledge
-└── learn-from-finding
+├── reconstruct-project-knowledge
+├── learn-from-finding
+├── adopt-harness-update
+└── migrate-project
 
 Skills
 ├── collect-context

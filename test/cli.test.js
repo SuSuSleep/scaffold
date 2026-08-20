@@ -132,6 +132,8 @@ test('update preserves project-local replacement content', () => {
   assert.equal(result.status, 0, result.stderr);
   assert.equal(fs.readFileSync(override, 'utf8'), '# Local Schema\n');
   assert.match(fs.readFileSync(path.join(directory, '.scaffold/metadata.md'), 'utf8'), /Last Updated:/);
+  assert.match(result.stdout, /attestation/);
+  assert.match(result.stdout, /semantic validation remains agent-driven/);
 });
 
 test('commands requiring initialization fail clearly', () => {
@@ -156,6 +158,7 @@ test('shared workflows own explicit phase sequencing independent of suggested sk
     'initialize-project.md',
     'learn-from-finding.md',
     'migrate-project.md',
+    'reconstruct-project-knowledge.md',
     'review-change.md',
     'update-knowledge.md',
   ];
@@ -190,6 +193,26 @@ test('review-change forms the acceptance gate before implementation', () => {
   ]) assert.match(workflow, new RegExp(`### Phase — ${phase}`));
   assert.match(workflow, /A proposed durable knowledge change has been defined\./);
   assert.match(workflow, /accepted for downstream work/);
+});
+
+test('reconstruction workflow preserves evidence confidence and uncertainty', () => {
+  const workflow = fs.readFileSync(path.resolve(__dirname, '../workflows/reconstruct-project-knowledge.md'), 'utf8');
+  for (const phase of [
+    'Establish Repository Context',
+    'Identify Knowledge Subjects',
+    'Reconstruct Evidence-Based Knowledge',
+    'Resolve Material Uncertainty',
+    'Review Reconstructed Knowledge',
+  ]) assert.match(workflow, new RegExp(`### Phase — ${phase}`));
+  assert.match(workflow, /Known, Inferred, or Unknown/);
+  assert.match(workflow, /not converted directly into Requirements/);
+});
+
+test('agent guidance routes brownfield reconstruction requests to the reconstruction workflow', () => {
+  const guide = fs.readFileSync(path.resolve(__dirname, '../defaults/agent-guide.md'), 'utf8');
+  assert.match(guide, /Reconstruct documentation or recover durable knowledge from an existing repository area \| `reconstruct-project-knowledge`/);
+  assert.match(guide, /reconstruct project documentation/);
+  assert.match(guide, /Known, Inferred, and Unknown/);
 });
 
 test('default templates conform exactly to the default Knowledge Schema structure', () => {

@@ -14,6 +14,7 @@
 | Request | Primary Workflow | Useful Skills |
 | --- | --- | --- |
 | Establish or adopt Scaffold in a repository | `initialize-project` | `collect-context` |
+| Reconstruct documentation or recover durable knowledge from an existing repository area | `reconstruct-project-knowledge` | `collect-context` |
 | Define an ambiguous request, problem, requirement, or discovered need | `define-change` | `collect-context`, `analyze-impact` |
 | Review a proposed durable change before implementation | `review-change` | `collect-context`, `analyze-impact` |
 | Implement an accepted change | `implement-change` | `collect-context`, `analyze-impact`, `verify-change` |
@@ -26,6 +27,8 @@ Workflows define the ordered Phases and their required outcomes. A Phase defines
 Use `define-change` when the requested semantics are not sufficiently defined. Its output is a sufficiently defined proposed knowledge change, not acceptance. Route proposed-but-not-yet-accepted durable changes through `review-change`; only an accepted change enters `implement-change`.
 
 Use `update-knowledge` when the exact durable knowledge change is already known.
+
+Use `reconstruct-project-knowledge` for requests such as “reconstruct project documentation,” “document this existing subsystem,” or “recover knowledge from this codebase.” Treat implementation as evidence, not unquestionable intent; distinguish Known, Inferred, and Unknown knowledge.
 
 ## Knowledge Discipline
 
