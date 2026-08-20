@@ -5,7 +5,7 @@
 1. Read the current user request and inspect the repository context.
 2. Read `.scaffold/metadata.md` and run `scaffold status` when the shared package location or active replacements are needed.
 3. Read the shared Knowledge Model from the installed Scaffold package. It is a Harness-level semantic contract and cannot be replaced by `.scaffold/knowledge-model.md`.
-4. Resolve each replaceable Scaffold artifact explicitly: use the project-local Knowledge Schema, Project Rules, workflow, or skill when it exists; otherwise use the corresponding shared artifact. Never merge local and shared artifacts implicitly.
+4. Resolve each replaceable Scaffold artifact explicitly: use the project-local Knowledge Schema, Project Rules, Workflow, Skill, or Template when it exists; otherwise use the corresponding shared artifact. Never merge local and shared artifacts implicitly. Template availability does not make it applicable; the active Knowledge Schema selects applicable template types.
 5. When creating or updating project knowledge, use this precedence: shared Knowledge Model for semantic meaning, active Knowledge Schema for representation, applicable Template for starting structure, then existing Project Knowledge for local coherence. Do not infer semantic meaning solely from template headings.
 6. Resolve material ambiguity from authoritative project evidence first; ask the user only when unresolved ambiguity would materially change the durable knowledge outcome.
 
@@ -15,6 +15,7 @@
 | --- | --- | --- |
 | Establish or adopt Scaffold in a repository | `initialize-project` | `collect-context` |
 | Define an ambiguous request, problem, requirement, or discovered need | `define-change` | `collect-context`, `analyze-impact` |
+| Review a proposed durable change before implementation | `review-change` | `collect-context`, `analyze-impact` |
 | Implement an accepted change | `implement-change` | `collect-context`, `analyze-impact`, `verify-change` |
 | Change requirements, design, or governance knowledge | `update-knowledge` | `collect-context`, `analyze-impact` |
 | Turn a defect, incident, or security finding into reusable knowledge | `learn-from-finding` | `collect-context`, `analyze-impact`, `verify-change` |
@@ -22,7 +23,7 @@
 
 Workflows define the ordered Phases and their required outcomes. A Phase defines its local intent and can be completed without a Skill. Skills provide reusable, suggested methods; project rules may require or prohibit a particular method. A project may replace a workflow or skill with a local artifact.
 
-Use `define-change` when the requested semantics are not sufficiently defined. Inspect existing knowledge before creating a record, prefer updating authoritative records over duplicating them, and consider removals or deprecations as well as additions. Do not implement production code before the change is sufficiently defined unless the user explicitly directs it.
+Use `define-change` when the requested semantics are not sufficiently defined. Its output is a sufficiently defined proposed knowledge change, not acceptance. Route proposed-but-not-yet-accepted durable changes through `review-change`; only an accepted change enters `implement-change`.
 
 Use `update-knowledge` when the exact durable knowledge change is already known.
 

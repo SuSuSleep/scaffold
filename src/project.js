@@ -4,7 +4,6 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const METADATA_FILE = 'metadata.md';
-const OVERRIDES = ['knowledge-schema.md', 'project-rules.md'];
 const AGENT_FILES = ['AGENTS.md', 'CLAUDE.md'];
 const MANAGED_BLOCK = /<!-- scaffold:start -->[\s\S]*?<!-- scaffold:end -->/;
 
@@ -41,6 +40,21 @@ Read \`.scaffold/agent-guide.md\` before meaningful project work.
 `;
 }
 
+function agentGuideBootstrap() {
+  return `# Scaffold Agent Guide Bootstrap
+
+This Scaffold-owned integration file intentionally contains no copied Harness guidance.
+Before meaningful project work, run \`scaffold status\` and read the agent guide from
+the currently installed Scaffold package at the reported Shared Package Root. This
+keeps shared guidance, workflows, skills, and the agent entry guidance on the same
+active Harness generation after package upgrades.
+`;
+}
+
+function synchronizeAgentGuide(directory) {
+  fs.writeFileSync(path.join(scaffoldDirectory(directory), 'agent-guide.md'), agentGuideBootstrap(), 'utf8');
+}
+
 function readMetadata(directory) {
   const file = metadataPath(directory);
   if (!fs.existsSync(file)) return null;
@@ -54,19 +68,19 @@ function readMetadata(directory) {
   };
 }
 
-function initProject({ directory, version, packageRoot }) {
+function initProject({ directory, version, packageRoot, decideHostIntegration }) {
   const root = scaffoldDirectory(directory);
   if (fs.existsSync(metadataPath(directory))) {
     return { ok: false, lines: [`Scaffold is already initialized in ${directory}.`, 'Use "scaffold status" to inspect it or "scaffold update" to update its metadata.'] };
   }
 
   fs.mkdirSync(directory, { recursive: true });
-  for (const relative of ['.scaffold/workflows', '.scaffold/skills', 'knowledge/problem', 'knowledge/solution', 'knowledge/governance']) {
+  for (const relative of ['.scaffold/workflows', '.scaffold/skills', '.scaffold/templates']) {
     fs.mkdirSync(path.join(directory, relative), { recursive: true });
   }
   const now = timestamp();
   fs.writeFileSync(metadataPath(directory), metadata({ lastReviewedVersion: version, installedAt: now }), 'utf8');
-  fs.copyFileSync(path.join(packageRoot, 'defaults', 'agent-guide.md'), path.join(root, 'agent-guide.md'));
+  synchronizeAgentGuide(directory);
   const preserved = [];
   for (const filename of AGENT_FILES) {
     const destination = path.join(directory, filename);
@@ -75,7 +89,12 @@ function initProject({ directory, version, packageRoot }) {
       if (MANAGED_BLOCK.test(contents)) {
         fs.writeFileSync(destination, contents.replace(MANAGED_BLOCK, agentInstruction().match(MANAGED_BLOCK)[0]), 'utf8');
       } else {
-        preserved.push(filename);
+        const decision = decideHostIntegration?.(filename, agentInstruction()) || 'leave';
+        if (decision === 'add') {
+          fs.writeFileSync(destination, `${contents}${contents.endsWith('\n') ? '\n' : '\n\n'}${agentInstruction()}`, 'utf8');
+        } else {
+          preserved.push(filename);
+        }
       }
     } else {
       fs.writeFileSync(destination, agentInstruction(), 'utf8');
@@ -87,61 +106,62 @@ function initProject({ directory, version, packageRoot }) {
   return { ok: true, lines: [
     `Initialized Scaffold in ${directory}.`,
     'Shared defaults remain package-managed; only the local agent-discovery guide was created.',
-    `Created ${path.relative(directory, root)}/metadata.md and knowledge directories.`,
+    `Created ${path.relative(directory, root)}/metadata.md and Harness extension directories.`,
     integration,
   ] };
 }
 
-function overrides(directory) {
-  const root = scaffoldDirectory(directory);
-  const found = OVERRIDES.filter((file) => fs.existsSync(path.join(root, file)));
-  for (const type of ['workflows', 'skills']) {
-    const dir = path.join(root, type);
-    if (!fs.existsSync(dir)) continue;
-    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-      if (entry.isFile() && entry.name.endsWith('.md')) found.push(`${type}/${entry.name}`);
-      if (type === 'skills' && entry.isDirectory() && fs.existsSync(path.join(dir, entry.name, 'SKILL.md'))) {
-        found.push(`${type}/${entry.name}/SKILL.md`);
-      }
-    }
-  }
-  return found;
+function directoryEntries(root, predicate) {
+  if (!fs.existsSync(root)) return [];
+  return fs.readdirSync(root, { withFileTypes: true }).filter(predicate).map((entry) => entry.name);
+}
+
+function resolvedArtifacts(directory, packageRoot) {
+  const localRoot = scaffoldDirectory(directory);
+  const artifacts = [
+    { label: 'Knowledge Schema:', name: 'knowledge-schema', local: path.join(localRoot, 'knowledge-schema.md'), shared: path.join(packageRoot, 'defaults/knowledge-schema.md') },
+    { label: 'Project Rules:', name: 'project-rules', local: path.join(localRoot, 'project-rules.md'), shared: path.join(packageRoot, 'defaults/project-rules.md') },
+  ];
+  const addNamed = (label, type, localPredicate, sharedPredicate, filePath) => {
+    const localBase = path.join(localRoot, type);
+    const sharedBase = path.join(packageRoot, type === 'templates' ? 'defaults/templates' : type);
+    const names = new Set([
+      ...directoryEntries(localBase, localPredicate),
+      ...directoryEntries(sharedBase, sharedPredicate),
+    ]);
+    for (const name of [...names].sort()) artifacts.push({
+      label: `${label}: ${name.replace(/\.md$/, '')}`,
+      name: `${type}/${name}`,
+      local: path.join(localBase, filePath(name)),
+      shared: path.join(sharedBase, filePath(name)),
+    });
+  };
+  addNamed('Workflow', 'workflows', (entry) => entry.isFile() && entry.name.endsWith('.md'), (entry) => entry.isFile() && entry.name.endsWith('.md'), (name) => name);
+  addNamed('Skill', 'skills', (entry) => entry.isDirectory() && fs.existsSync(path.join(localRoot, 'skills', entry.name, 'SKILL.md')), (entry) => entry.isDirectory() && fs.existsSync(path.join(packageRoot, 'skills', entry.name, 'SKILL.md')), (name) => path.join(name, 'SKILL.md'));
+  addNamed('Template', 'templates', (entry) => entry.isFile() && entry.name.endsWith('.md'), (entry) => entry.isFile() && entry.name.endsWith('.md'), (name) => name);
+  return artifacts.map((artifact) => ({ ...artifact, source: fs.existsSync(artifact.local) ? 'project' : 'shared', path: fs.existsSync(artifact.local) ? artifact.local : artifact.shared }));
+}
+
+function localReplacements(directory, packageRoot) {
+  return resolvedArtifacts(directory, packageRoot).filter((artifact) => artifact.source === 'project');
 }
 
 function inspectProject({ directory, version, packageRoot }) {
   const details = readMetadata(directory);
   if (!details) return { ok: false, lines: [`Scaffold is not initialized in ${directory}.`, 'Run "scaffold init" first.'] };
-  const found = overrides(directory);
+  synchronizeAgentGuide(directory);
+  const artifacts = resolvedArtifacts(directory, packageRoot);
+  const found = localReplacements(directory, packageRoot);
   const reviewRequired = details.lastReviewedVersion !== version;
-  const activeArtifact = (label, name) => {
-    const local = path.join(scaffoldDirectory(directory), name);
-    const shared = path.join(packageRoot, 'defaults', name);
-    return [`${label}:`, `  source: ${fs.existsSync(local) ? 'project' : 'shared'}`, `  path: ${fs.existsSync(local) ? local : shared}`];
-  };
   const sharedKnowledgeModel = path.join(packageRoot, 'defaults', 'knowledge-model.md');
   const localKnowledgeModel = path.join(scaffoldDirectory(directory), 'knowledge-model.md');
   const artifactLines = [
     'Knowledge Model:',
     '  source: shared',
     `  path: ${sharedKnowledgeModel}`,
-    ...activeArtifact('Knowledge Schema', 'knowledge-schema.md'),
-    ...activeArtifact('Project Rules', 'project-rules.md'),
+    ...artifacts.flatMap((artifact) => [artifact.label, `  source: ${artifact.source}`, `  path: ${artifact.path}`]),
   ];
-  for (const type of ['workflows', 'skills']) {
-    const sharedRoot = path.join(packageRoot, type);
-    const localRoot = path.join(scaffoldDirectory(directory), type);
-    const entries = new Set();
-    for (const root of [sharedRoot, localRoot]) if (fs.existsSync(root)) for (const entry of fs.readdirSync(root, { withFileTypes: true })) {
-      if (type === 'workflows' && entry.isFile() && entry.name.endsWith('.md')) entries.add(entry.name.replace(/\.md$/, ''));
-      if (type === 'skills' && entry.isDirectory() && fs.existsSync(path.join(root, entry.name, 'SKILL.md'))) entries.add(entry.name);
-    }
-    for (const name of [...entries].sort()) {
-      const relative = type === 'workflows' ? `${type}/${name}.md` : `${type}/${name}/SKILL.md`;
-      const localPath = path.join(localRoot, type === 'workflows' ? `${name}.md` : path.join(name, 'SKILL.md'));
-      artifactLines.push(`${type === 'workflows' ? 'Workflow' : 'Skill'}: ${name}`, `  source: ${fs.existsSync(localPath) ? 'project' : 'shared'}`, `  path: ${fs.existsSync(localPath) ? localPath : path.join(packageRoot, relative)}`);
-    }
-  }
-  const shadowed = found.filter((relative) => fs.existsSync(path.join(packageRoot, relative)));
+  const shadowed = found.filter((artifact) => fs.existsSync(artifact.shared)).map((artifact) => path.relative(packageRoot, artifact.shared));
   return { ok: true, lines: [
     `Scaffold project: ${directory}`,
     `Running Scaffold Version: ${version}`,
@@ -151,23 +171,24 @@ function inspectProject({ directory, version, packageRoot }) {
     ...artifactLines,
     'Agent Integration:',
     ...AGENT_FILES.map((filename) => `  ${filename}: ${fs.existsSync(path.join(directory, filename)) && MANAGED_BLOCK.test(fs.readFileSync(path.join(directory, filename), 'utf8')) ? 'configured' : 'integration required'}`),
-    `Project-local replacements: ${found.length ? found.join(', ') : 'none'}`,
+    `Project-local replacements: ${found.length ? found.map((artifact) => path.relative(scaffoldDirectory(directory), artifact.local)).join(', ') : 'none'}`,
     ...(fs.existsSync(localKnowledgeModel) ? [`Unsupported project-local Knowledge Model ignored: ${localKnowledgeModel}`] : []),
     `Shadowed shared artifacts: ${shadowed.length ? shadowed.join(', ') : 'none'}`,
     ...(reviewRequired ? ['Run the shared adopt-harness-update workflow, then use "scaffold update" to record completion.'] : []),
   ] };
 }
 
-function updateProject({ directory, version }) {
+function updateProject({ directory, version, packageRoot }) {
   const details = readMetadata(directory);
   if (!details) return { ok: false, lines: [`Scaffold is not initialized in ${directory}.`, 'Run "scaffold init" first.'] };
   const now = timestamp();
   fs.writeFileSync(metadataPath(directory), metadata({ lastReviewedVersion: version, installedAt: details.installedAt || now, updatedAt: now }), 'utf8');
-  const found = overrides(directory);
+  synchronizeAgentGuide(directory);
+  const found = localReplacements(directory, packageRoot);
   const localKnowledgeModel = path.join(scaffoldDirectory(directory), 'knowledge-model.md');
   return { ok: true, lines: [
     `Recorded Scaffold version ${version} as reviewed.`,
-    `Project-local replacements preserved: ${found.length ? found.join(', ') : 'none'}.`,
+    `Project-local replacements preserved: ${found.length ? found.map((artifact) => path.relative(scaffoldDirectory(directory), artifact.local)).join(', ') : 'none'}.`,
     ...(fs.existsSync(localKnowledgeModel) ? [`Unsupported project-local Knowledge Model preserved but ignored: ${localKnowledgeModel}.`] : []),
     'Shared defaults are supplied by the currently running package and were not copied or overwritten.',
   ] };

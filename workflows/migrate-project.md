@@ -6,9 +6,7 @@ Safely adapt a project when a Scaffold upgrade cannot be represented by ordinary
 
 ## Entry Conditions
 
-- The project is initialized with Scaffold.
-- The changed shared behavior and installed project version are known.
-- The affected project-local Knowledge Schema, Project Rules, workflows, and skills have been identified.
+- A Scaffold update requires deliberate project migration.
 
 ## Phases
 

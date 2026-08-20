@@ -6,7 +6,7 @@ Change durable project knowledge while preserving internal logical consistency.
 
 ## Entry Conditions
 
-- A durable knowledge change is requested or discovered.
+- A specific durable knowledge change is already sufficiently known.
 
 ## Phases
 

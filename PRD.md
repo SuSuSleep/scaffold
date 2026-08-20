@@ -168,6 +168,18 @@ A Workflow SHOULD NOT duplicate reusable procedural guidance already represented
 
 # 3. Product Goals
 
+## 2.8 Harness Architecture and Lifecycle
+
+The Knowledge Model is a Harness-owned, non-replaceable semantic contract. The Knowledge Schema, Project Rules, Workflows, Skills, and Templates are project-replaceable artifacts. Project Knowledge remains project-owned durable truth; `AGENTS.md` and `CLAUDE.md` are host-owned integration files whose surrounding content Scaffold MUST NOT replace.
+
+Replacement is explicit: when a project-local replaceable artifact exists it is used in full, otherwise the shared artifact is used. Scaffold MUST NOT implicitly merge either form. The dependency direction is Knowledge Model → Knowledge Schema → Template → Project Knowledge. Template resolution is mechanical, but the active Knowledge Schema alone determines whether a template type applies.
+
+The normal lifecycle is `initialize-project` → `define-change` → `review-change` → `implement-change`. `define-change` produces a sufficiently defined proposed change, `review-change` establishes semantic correctness, representation compliance, relationship consistency, project-constraint compliance, and acceptance, and `implement-change` realizes an accepted change.
+
+Package upgrades activate new shared guidance immediately. `status` reports update-review drift and shadowed shared artifacts; `adopt-harness-update` reviews changed guidance, Active Conflicts, Shadow Drift, required project-owned adjustments, migration need, and consistency. Only then may `scaffold update` record the running version as reviewed. Scaffold MUST NOT automatically migrate semantic project knowledge merely because default Schema or Template artifacts changed.
+
+Core CLI initialization establishes deterministic Harness infrastructure only. Representation-specific knowledge locations and files are established by `initialize-project` according to the active Knowledge Schema and existing repository knowledge.
+
 The Scaffold MUST provide:
 
 1. portable initialization across repositories;

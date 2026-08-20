@@ -32,7 +32,7 @@ Make the shared Knowledge Model and applicable replaceable Scaffold artifacts av
 
 #### Required Outcome
 
-The shared Knowledge Model is available, and any project-local Knowledge Schema, Project Rules, workflow, or skill replacements are understood.
+The shared Knowledge Model is available, and any project-local Knowledge Schema, Project Rules, Workflow, Skill, or Template replacements are understood. Host-owned `AGENTS.md` and `CLAUDE.md` integration is preserved or deliberately completed without replacing surrounding host instructions.
 
 ### Phase — Establish Initial Knowledge
 
@@ -42,7 +42,7 @@ Create the minimum durable project knowledge needed for useful future work.
 
 #### Required Outcome
 
-Initial project knowledge is established where needed, and obvious unknowns are recorded.
+Initial project knowledge locations, document types, and applicable template types are established from the active Knowledge Schema and existing repository knowledge. The CLI's Harness directories are not treated as semantic knowledge-layout requirements, and obvious unknowns are recorded.
 
 ## Required Outcomes
 

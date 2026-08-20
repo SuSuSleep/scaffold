@@ -2,7 +2,7 @@
 
 ## Goal
 
-Turn an idea, request, problem, or discovered need into an accepted and internally consistent change to project knowledge.
+Turn an idea, request, problem, or discovered need into a sufficiently defined proposed knowledge change.
 
 ## Entry Conditions
 
@@ -53,21 +53,21 @@ Material ambiguities that evidence cannot resolve are clarified with the user or
 
 #### Goal
 
-Make the durable knowledge state match the accepted change.
+Record the sufficiently defined proposed knowledge change for review.
 
 #### Required Outcome
 
-Required knowledge is created, updated, removed, deprecated, superseded, split, merged, related, or unrelated as appropriate. Semantic ownership follows the Knowledge Model: Problem Space for behavior and stakeholder intent; Governance for external contracts, findings, policies, controls, constraints, and applicability; and Solution Space for accepted durable capabilities, responsibilities, components, interfaces, designs, decisions, and verification. Use explicit relationship semantics where useful, and do not treat the graph as a fixed hierarchy.
+The proposed knowledge delta is recorded clearly enough for review. Semantic ownership follows the Knowledge Model: Problem Space for behavior and stakeholder intent; Governance for external contracts, findings, policies, controls, constraints, and applicability; and Solution Space for durable capabilities, responsibilities, components, interfaces, designs, decisions, and verification. Use explicit relationship semantics where useful, and do not treat the graph as a fixed hierarchy.
 
 ### Phase — Confirm Downstream Readiness
 
 #### Goal
 
-Confirm the resulting knowledge is consistent and sufficiently defined for its next Workflow.
+Confirm the proposed knowledge change is sufficiently defined for its review Workflow.
 
 #### Required Outcome
 
-Affected relationships are logically consistent, documents follow the active Knowledge Schema, and the accepted knowledge state is sufficiently defined for `implement-change` or another downstream Workflow.
+The proposed change is sufficiently defined for `review-change`; it is not accepted until that Workflow establishes acceptance.
 
 ## Required Outcomes
 
@@ -75,13 +75,12 @@ Affected relationships are logically consistent, documents follow the active Kno
 - Relevant existing knowledge, Project Rules, and Governance knowledge are considered.
 - Material ambiguities are resolved or explicitly recorded.
 - Conflicts with existing project knowledge are addressed.
-- The intended knowledge delta is established and applied without assuming knowledge is append-only.
-- Resulting documents follow the active Knowledge Schema and affected relationships remain consistent.
-- The resulting change is sufficiently defined for downstream work.
+- The intended knowledge delta is established without assuming knowledge is append-only.
+- The proposed change is sufficiently defined for `review-change`.
 
 ## Conditional Outcomes
 
 - Update Problem Space when externally expected behavior, stakeholder goals, Use Cases, requirements, or acceptance criteria change.
 - Update Governance when external contracts, policies, security controls, operational constraints, or reusable engineering rules change.
-- Update Solution Space only when a durable solution-level decision is part of the accepted change.
+- Update Solution Space only when a durable solution-level decision is part of the proposed change.
 - Identify implementation impact without requiring production code changes.

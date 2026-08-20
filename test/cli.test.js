@@ -17,17 +17,26 @@ function run(...args) {
   return spawnSync(process.execPath, [cli, ...args], { encoding: 'utf8' });
 }
 
-test('init creates metadata and knowledge directories without copying defaults', () => {
+test('init creates only Harness infrastructure without copying semantic defaults', () => {
   const directory = temporaryDirectory();
   const result = run('init', directory);
   assert.equal(result.status, 0, result.stderr);
   assert.match(result.stdout, /agent-discovery guide/);
   assert.match(fs.readFileSync(path.join(directory, '.scaffold/metadata.md'), 'utf8'), /Scaffold Version: 0.2.0/);
-  assert.ok(fs.statSync(path.join(directory, 'knowledge/problem')).isDirectory());
+  assert.equal(fs.existsSync(path.join(directory, 'knowledge/problem')), false);
   assert.equal(fs.existsSync(path.join(directory, '.scaffold/knowledge-schema.md')), false);
-  assert.match(fs.readFileSync(path.join(directory, '.scaffold/agent-guide.md'), 'utf8'), /Choose Guidance by Request Type/);
+  assert.match(fs.readFileSync(path.join(directory, '.scaffold/agent-guide.md'), 'utf8'), /currently installed Scaffold package/);
   assert.match(fs.readFileSync(path.join(directory, 'AGENTS.md'), 'utf8'), /agent-guide/);
   assert.match(fs.readFileSync(path.join(directory, 'CLAUDE.md'), 'utf8'), /agent-guide/);
+});
+
+test('agent entry guidance remains a package-resolved bootstrap after an upgrade', () => {
+  const directory = temporaryDirectory();
+  run('init', directory);
+  const guide = fs.readFileSync(path.join(directory, '.scaffold/agent-guide.md'), 'utf8');
+  assert.doesNotMatch(guide, /Choose Guidance by Request Type/);
+  assert.match(guide, /scaffold status/);
+  assert.match(guide, /currently installed Scaffold package/);
 });
 
 test('init preserves existing agent instructions and reports manual integration', () => {
@@ -40,6 +49,19 @@ test('init preserves existing agent instructions and reports manual integration'
   assert.ok(fs.existsSync(path.join(directory, 'CLAUDE.md')));
 });
 
+test('init updates only an existing managed agent block and preserves surrounding host content', () => {
+  const directory = temporaryDirectory();
+  const hostFile = path.join(directory, 'AGENTS.md');
+  fs.writeFileSync(hostFile, '# Host Rules\n\n<!-- scaffold:start -->old<!-- scaffold:end -->\n\nKeep this.\n');
+  const result = run('init', directory);
+  assert.equal(result.status, 0, result.stderr);
+  const contents = fs.readFileSync(hostFile, 'utf8');
+  assert.match(contents, /^# Host Rules/m);
+  assert.match(contents, /Read `\.scaffold\/agent-guide\.md`/);
+  assert.match(contents, /Keep this\./);
+  assert.doesNotMatch(contents, /-->old<!--/);
+});
+
 test('status reports a project-local replacement', () => {
   const directory = temporaryDirectory();
   run('init', directory);
@@ -47,6 +69,47 @@ test('status reports a project-local replacement', () => {
   const result = run('status', directory);
   assert.equal(result.status, 0, result.stderr);
   assert.match(result.stdout, /project-rules.md/);
+  assert.match(result.stdout, /Shadowed shared artifacts:[\s\S]*defaults[\\/]project-rules\.md/);
+});
+
+test('status resolves a local Knowledge Schema against its shared default', () => {
+  const directory = temporaryDirectory();
+  run('init', directory);
+  fs.writeFileSync(path.join(directory, '.scaffold/knowledge-schema.md'), '# Local Schema\n');
+  const result = run('status', directory);
+  assert.equal(result.status, 0, result.stderr);
+  assert.match(result.stdout, /Knowledge Schema:\n  source: project/);
+  assert.match(result.stdout, /Shadowed shared artifacts:[\s\S]*defaults[\\/]knowledge-schema\.md/);
+});
+
+test('status detects local workflow and skill replacements as shadowing their shared artifacts', () => {
+  const directory = temporaryDirectory();
+  run('init', directory);
+  fs.writeFileSync(path.join(directory, '.scaffold/workflows/define-change.md'), '# Local workflow\n');
+  const localSkill = path.join(directory, '.scaffold/skills/verify-change');
+  fs.mkdirSync(localSkill);
+  fs.writeFileSync(path.join(localSkill, 'SKILL.md'), '# Local skill\n');
+  const result = run('status', directory);
+  assert.equal(result.status, 0, result.stderr);
+  assert.match(result.stdout, /Workflow: define-change\n  source: project/);
+  assert.match(result.stdout, /Skill: verify-change\n  source: project/);
+  assert.match(result.stdout, /Shadowed shared artifacts:[\s\S]*workflows[\\/]define-change\.md/);
+  assert.match(result.stdout, /Shadowed shared artifacts:[\s\S]*skills[\\/]verify-change[\\/]SKILL\.md/);
+});
+
+test('status resolves local and shared templates without implicit merging', () => {
+  const directory = temporaryDirectory();
+  run('init', directory);
+  const templates = path.join(directory, '.scaffold/templates');
+  fs.mkdirSync(templates, { recursive: true });
+  fs.writeFileSync(path.join(templates, 'solution.md'), '# Local Solution\n');
+  fs.writeFileSync(path.join(templates, 'api-contract.md'), '# API Contract\n');
+  const result = run('status', directory);
+  assert.equal(result.status, 0, result.stderr);
+  assert.match(result.stdout, /Template: problem\n  source: shared/);
+  assert.match(result.stdout, /Template: solution\n  source: project/);
+  assert.match(result.stdout, /Template: api-contract\n  source: project/);
+  assert.match(result.stdout, /Shadowed shared artifacts:[\s\S]*defaults[\\/]templates[\\/]solution\.md/);
 });
 
 test('status reports a native project-local skill replacement', () => {
@@ -93,6 +156,7 @@ test('shared workflows own explicit phase sequencing independent of suggested sk
     'initialize-project.md',
     'learn-from-finding.md',
     'migrate-project.md',
+    'review-change.md',
     'update-knowledge.md',
   ];
 
@@ -104,6 +168,28 @@ test('shared workflows own explicit phase sequencing independent of suggested sk
     assert.match(contents, /^#### Required Outcome$/m, workflow + ' phases should state their outcome');
     assert.doesNotMatch(contents, /^## Suggested Skills$/m, workflow + ' must not use skills to define its process');
   }
+});
+
+test('shared workflows have entry conditions that do not pre-require their discovery work', () => {
+  const workflow = (name) => fs.readFileSync(path.resolve(__dirname, '../workflows', name), 'utf8');
+  assert.match(workflow('learn-from-finding.md'), /## Entry Conditions\n\n- A relevant finding or observed problem exists\./);
+  assert.match(workflow('migrate-project.md'), /## Entry Conditions\n\n- A Scaffold update requires deliberate project migration\./);
+  assert.match(workflow('update-knowledge.md'), /- A specific durable knowledge change is already sufficiently known\./);
+  assert.match(workflow('define-change.md'), /sufficiently defined proposed knowledge change/);
+  assert.match(workflow('adopt-harness-update.md'), /Mark Update Review Complete/);
+});
+
+test('review-change forms the acceptance gate before implementation', () => {
+  const workflow = fs.readFileSync(path.resolve(__dirname, '../workflows/review-change.md'), 'utf8');
+  for (const phase of [
+    'Review Semantic Correctness',
+    'Review Representation',
+    'Review Relationships',
+    'Review Project Constraints',
+    'Establish Acceptance',
+  ]) assert.match(workflow, new RegExp(`### Phase — ${phase}`));
+  assert.match(workflow, /A proposed durable knowledge change has been defined\./);
+  assert.match(workflow, /accepted for downstream work/);
 });
 
 test('default templates conform exactly to the default Knowledge Schema structure', () => {

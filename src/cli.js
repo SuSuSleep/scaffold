@@ -1,5 +1,6 @@
 'use strict';
 
+const fs = require('node:fs');
 const path = require('node:path');
 const { initProject, inspectProject, updateProject } = require('./project');
 const packageInfo = require('../package.json');
@@ -13,6 +14,22 @@ Usage:
 
 Scaffold keeps shared defaults in the installed package. Project-specific
 replacements live in .scaffold/ and are never overwritten by update.`;
+
+function decideHostIntegration(filename, proposed) {
+  if (!process.stdin.isTTY || !process.stdout.isTTY) return 'leave';
+  const readAnswer = () => {
+    const buffer = Buffer.alloc(1024);
+    const bytes = fs.readSync(0, buffer, 0, buffer.length, null);
+    return buffer.subarray(0, bytes).toString('utf8').trim().toLowerCase();
+  };
+  process.stdout.write(`\n${filename} is host-owned and has no Scaffold block.\n[a]dd Scaffold instruction, [l]eave unchanged, or [s]how proposed change: `);
+  let answer = readAnswer();
+  if (answer === 's' || answer === 'show') {
+    process.stdout.write(`\n${proposed}\nChoose [a]dd or [l]eave unchanged: `);
+    answer = readAnswer();
+  }
+  return answer === 'a' || answer === 'add' ? 'add' : 'leave';
+}
 
 async function run(args, { cwd = process.cwd(), output = console } = {}) {
   const [command, ...rest] = args;
@@ -35,7 +52,7 @@ async function run(args, { cwd = process.cwd(), output = console } = {}) {
   }
 
   const directory = path.resolve(cwd, rest[0] || '.');
-  const options = { directory, version: packageInfo.version, packageRoot: path.resolve(__dirname, '..') };
+  const options = { directory, version: packageInfo.version, packageRoot: path.resolve(__dirname, '..'), decideHostIntegration };
   const result = command === 'init' ? initProject(options)
     : command === 'status' ? inspectProject(options)
       : updateProject(options);

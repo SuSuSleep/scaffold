@@ -6,7 +6,7 @@ Convert a discovered problem into durable reusable knowledge when appropriate.
 
 ## Entry Conditions
 
-- A finding, its evidence, and its relevant conditions are understood.
+- A relevant finding or observed problem exists.
 
 ## Phases
 
