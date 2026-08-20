@@ -2,8 +2,6 @@
 
 Document ID: PROB-001
 
-> Source: [PRD.md](../../PRD.md), version 0.2 (draft). This document records the minimum durable product intent needed for safe ongoing development; the PRD remains the detailed product definition.
-
 ## Intent
 
 Scaffold is a portable, knowledge-first development harness for human developers and coding agents. It enables a repository to retain durable intent, constraints, technical reasoning, and verification expectations in Markdown while allowing a project to replace shared operational artifacts deliberately.
@@ -25,7 +23,7 @@ Scaffold is a portable, knowledge-first development harness for human developers
 
 ### REQ-001 — Portable initialization
 
-The CLI must initialize the Harness in a repository while preserving existing project structure. Derived from PRD §3.1 and §28.
+The CLI must initialize the Harness in a repository while preserving existing project structure.
 
 Acceptance Criteria:
 
@@ -34,7 +32,7 @@ Acceptance Criteria:
 
 ### REQ-002 — Explicit replacement
 
-A project-local replaceable artifact is authoritative in full; shared and local artifacts must not be implicitly merged. Derived from PRD §2.3 and §24.
+A project-local replaceable artifact is authoritative in full; shared and local artifacts must not be implicitly merged.
 
 Acceptance Criteria:
 
@@ -42,7 +40,7 @@ Acceptance Criteria:
 
 ### REQ-003 — Shared knowledge model
 
-The Knowledge Model is Harness-owned and non-replaceable; replaceable artifacts include the Knowledge Schema, Project Rules, Workflows, Skills, and Templates. Derived from PRD §3.1.
+The Knowledge Model is Harness-owned and non-replaceable; replaceable artifacts include the Knowledge Schema, Project Rules, Workflows, Skills, and Templates.
 
 Acceptance Criteria:
 
@@ -50,7 +48,7 @@ Acceptance Criteria:
 
 ### REQ-004 — Safe agent integration
 
-`AGENTS.md` and `CLAUDE.md` remain host-owned; Scaffold must preserve surrounding content. Derived from PRD §3.1 and §25.
+`AGENTS.md` and `CLAUDE.md` remain host-owned; Scaffold must preserve surrounding content.
 
 Acceptance Criteria:
 
@@ -58,11 +56,48 @@ Acceptance Criteria:
 
 ### REQ-005 — Review-aware updates
 
-Status must expose update-review drift, and update must record review completion without silently overwriting project-local replacements. Derived from PRD §3.1 and §30.
+Status must expose update-review drift, and update must record review completion without silently overwriting project-local replacements.
 
 Acceptance Criteria:
 
 - Updates preserve local replacement contents and record review attestation.
+
+### REQ-006 — Incremental brownfield reconstruction
+
+The Harness must support incremental reconstruction of durable project knowledge from an existing repository without treating implementation as unquestionable project intent.
+
+Acceptance Criteria:
+
+- A project can identify coherent knowledge subjects and document them incrementally.
+- Reconstructed conclusions distinguish known evidence, inference, and unresolved uncertainty.
+
+### REQ-007 — Evidence-based durable learning
+
+The Harness must guide a project to convert relevant security, operational, and engineering findings into appropriately scoped durable knowledge when analysis justifies doing so.
+
+Acceptance Criteria:
+
+- Finding analysis records the evidence, root cause, and affected scope before generalizing a reusable obligation.
+- A finding is not represented as a universal control or requirement without justified applicability.
+
+### REQ-008 — Usable Markdown-first guidance
+
+The Harness must provide usable default guidance and project knowledge representation in human-readable Markdown without requiring structured configuration for core operation.
+
+Acceptance Criteria:
+
+- A new project can begin useful work with the default Knowledge Schema, Project Rules, Workflows, and Skills.
+- A project may customize replaceable guidance, but customization is not required before useful work begins.
+
+### REQ-009 — Accepted-change lifecycle
+
+The Harness must support a lifecycle in which a meaningful change is defined and reviewed for acceptance before implementation, while allowing project-specific methods to satisfy the lifecycle outcomes.
+
+Acceptance Criteria:
+
+- `define-change` produces a sufficiently defined proposed durable change.
+- `review-change` establishes semantic correctness, representation compliance, relationship consistency, project-constraint compliance, and acceptance before `implement-change` begins.
+- A Project Rule may require a method such as TDD without changing the Workflow's required outcomes.
 
 ## Acceptance Criteria
 
@@ -71,4 +106,13 @@ Acceptance Criteria:
 - SOL-001#CAP-001 — Harness lifecycle management.
 - SOL-001#CAP-002 — Artifact resolution.
 - SOL-001#CAP-003 — Agent guidance integration.
-- [PRD.md](../../PRD.md) — detailed source and broader acceptance criteria.
+- SOL-002#CAP-002 — Evidence-based knowledge reconstruction.
+- SOL-002#CAP-003 — Finding-to-knowledge learning.
+- SOL-003#CAP-002 — Deliberate guidance authority.
+- SOL-004#CAP-001 — Accepted-change lifecycle management.
+- SOL-004#CAP-002 — Method-flexible work guidance.
+- GOV-002#CON-001 — Markdown-first core operation.
+- GOV-002#CON-002 — Agent-mediated semantic validation.
+- GOV-002#CON-003 — Durable source-of-truth boundaries.
+- GOV-002#CON-004 — Initial product scope boundaries.
+- GOV-001#CON-001 — Supported Node.js runtime.

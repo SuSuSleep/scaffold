@@ -1,0 +1,118 @@
+# Knowledge Architecture and Artifact Responsibilities
+
+Document ID: SOL-003
+
+> Evidence source: [`defaults/knowledge-model.md`](../../defaults/knowledge-model.md), [`defaults/knowledge-schema.md`](../../defaults/knowledge-schema.md), [`defaults/project-rules.md`](../../defaults/project-rules.md), and [`defaults/agent-guide.md`](../../defaults/agent-guide.md), inspected 2026-08-20.
+
+## Capabilities
+
+### CAP-001 — Durable knowledge separation
+
+Provide a shared structure that separates intended outcomes, reusable constraints, and technical realization while retaining the relationships among them.
+
+### CAP-002 — Deliberate guidance authority
+
+Provide distinct semantic, representation, and operating-policy authorities so a project can customize replaceable guidance without redefining the shared knowledge vocabulary.
+
+## Responsibilities
+
+### RESP-001 — Knowledge-space classification
+
+Realizes: CAP-001
+
+Classify durable records by their primary meaning and preserve the relationships that connect Problem, Governance, and Solution knowledge.
+
+### RESP-002 — Semantic authority stewardship
+
+Realizes: CAP-002
+
+Maintain the shared Knowledge Model as the non-replaceable authority for concepts and relationship meaning.
+
+### RESP-003 — Representation and policy resolution
+
+Realizes: CAP-002
+
+Resolve the active Knowledge Schema and Project Rules as separate, fully replaceable project artifacts, and apply each within its own authority.
+
+## Components and Boundaries
+
+### IFC-001 — Knowledge-space relationship model
+
+The three spaces form a connected graph, not a required document hierarchy or one-to-one delivery chain.
+
+```mermaid
+flowchart LR
+  problem["Problem Space<br/>Goals, use cases, and requirements"]
+  governance["Governance Space<br/>Policies, external contracts, findings,<br/>controls, and constraints"]
+  capability["Solution Space<br/>Capabilities"]
+  responsibility["Responsibilities"]
+  structure["Components, interfaces, and designs"]
+
+  governance -->|derives or constrains| problem
+  governance -->|constrains| capability
+  capability -->|satisfies| problem
+  responsibility -->|realizes| capability
+  structure -->|assigned-to or realizes| responsibility
+```
+
+- **Problem Space** owns stakeholder intent and externally meaningful obligations: actors, goals, use cases, requirements, and acceptance criteria. It answers why work matters and what must be true without prescribing unmandated implementation.
+- **Governance Space** owns reusable or external obligations and their applicability: policies, external contracts, findings, controls, and constraints. It can derive requirements or constrain Solution knowledge directly when appropriate.
+- **Solution Space** owns the intentional technical structure that realizes applicable obligations: capabilities, responsibilities, components, interfaces, designs, decisions, and verification strategy.
+- A finding is evidence, not automatically a control; a control, constraint, or requirement requires justified scope and applicability. A solution capability is not a business goal, and a decision does not redefine a requirement.
+
+### IFC-002 — Guidance-authority relationship model
+
+```mermaid
+flowchart LR
+  model["Knowledge Model<br/>shared and non-replaceable"]
+  schema["Knowledge Schema<br/>fully replaceable"]
+  template["Applicable Template<br/>starting structure only"]
+  rules["Project Rules<br/>fully replaceable"]
+  knowledge["Project Knowledge<br/>project-owned durable record"]
+
+  model -->|defines semantic meaning| schema
+  schema -->|defines representation| knowledge
+  schema -->|selects applicable types| template
+  template -->|provides starting structure| knowledge
+  rules -->|constrain project work and verification| knowledge
+```
+
+- The **Knowledge Model** defines the meaning of durable concepts and relationships. It is shared, Harness-owned, and non-replaceable; it does not dictate document layout or workflow mechanics.
+- The **Knowledge Schema** defines how project knowledge is represented: document types, sections, identifiers, and references. A project-local Schema replaces the shared Schema in full; it does not redefine Model concepts.
+- **Project Rules** define project-specific operating constraints and preferences, such as required engineering practices or when knowledge must be updated. A project-local Rules artifact replaces the shared Rules in full; it does not redefine Model semantics or Schema representation.
+- **Templates** provide starting structure only. The active Schema—not template availability—determines whether a template type applies.
+- Existing project knowledge remains the project-owned durable record. When creating or updating it, apply the Model for meaning, the active Schema for representation, applicable Rules for constraints, and an applicable Template only as a starting structure.
+
+## Satisfies
+
+- CAP-002 — Deliberate guidance authority satisfies:
+  - PROB-001#REQ-002 — Explicit replacement
+  - PROB-001#REQ-003 — Shared knowledge model
+
+## Design and Decisions
+
+### DEC-001 — Three connected knowledge spaces
+
+Scaffold represents durable knowledge primarily in Problem, Governance, and Solution spaces. Classification follows semantic meaning rather than folder structure, and the spaces remain many-to-many connected through explicit relationships.
+
+### DEC-002 — Separate semantic, representation, and policy authority
+
+The shared Knowledge Model is the semantic contract. The active Knowledge Schema represents that contract, while Project Rules constrain project work. Keeping these authorities distinct permits explicit local replacement of Schema and Rules without implicit merging or redefinition of shared semantics.
+
+### DEC-003 — Conceptually structured, physically coherent knowledge
+
+Knowledge objects may have independent semantic identities without requiring one physical file per object. The default representation favors sufficiently contextual Markdown documents; a project may adopt a more granular representation only through its active Knowledge Schema.
+
+## Verification Strategy
+
+- Review a proposed knowledge change to confirm that Problem obligations do not prescribe unmandated implementation, Findings are not promoted directly to Controls, and Decisions do not redefine Requirements.
+- Check that cross-document relationships use qualified document and object identifiers when durable traceability is needed.
+- Run `npm test` to verify the package ships the shared Knowledge Model, Schema, Rules, templates, and their artifact-resolution behavior.
+
+## Related Knowledge
+
+- PROB-001#REQ-002 — Explicit replacement.
+- PROB-001#REQ-003 — Shared knowledge model.
+- SOL-002#CAP-001 — Shared guidance artifact provision.
+- SOL-002#DEC-001 — Schema-selected template applicability.
+- GOV-002#CON-003 — Durable source-of-truth boundaries.

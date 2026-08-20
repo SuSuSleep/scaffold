@@ -39,6 +39,16 @@ Create absent agent instruction files or update only an existing managed Scaffol
 - **`src/project.js`** is assigned-to RESP-002 and RESP-003. It owns local filesystem interactions within the target project.
 - **Shared package artifacts** expose the Knowledge Model and default schemas, rules, workflows, skills, and templates; project-local artifacts may replace only the documented replaceable types.
 
+### IFC-001 — Scaffold command-line interface
+
+Exposed by `bin/scaffold.js` through `src/cli.js`.
+
+- `scaffold init [directory]` initializes Harness infrastructure for the target repository.
+- `scaffold status [directory]` reports the effective artifacts and update-review state.
+- `scaffold update [directory]` records completed update-review attestation without overwriting project-local replacements.
+- `scaffold --help` and `scaffold --version` report usage and the running package version; an unknown command or more than one directory argument returns a nonzero exit status.
+- When existing `AGENTS.md` or `CLAUDE.md` lacks a managed Scaffold block, interactive execution may add or preview the block; non-interactive execution preserves the file and reports that integration remains incomplete.
+
 ## Satisfies
 
 - CAP-001 — Harness lifecycle management satisfies:
@@ -80,5 +90,6 @@ A bounded `<!-- scaffold:start -->` / `<!-- scaffold:end -->` block permits Scaf
 - PROB-001#REQ-003 — Shared knowledge model.
 - PROB-001#REQ-004 — Safe agent integration.
 - PROB-001#REQ-005 — Review-aware updates.
+- GOV-001#CON-001 — Supported Node.js runtime.
 - [Project metadata](../../.scaffold/metadata.md).
-- **Unknown**: No external contracts, security controls, or other reusable governance obligations have been established for this project; add governance knowledge when evidence identifies one.
+- **Known governance**: GOV-001#CON-001 constrains the supported runtime. No external contracts or reusable security controls have been established for this project.
