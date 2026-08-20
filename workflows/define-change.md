@@ -81,6 +81,6 @@ The proposed change is sufficiently defined for `review-change`; it is not accep
 ## Conditional Outcomes
 
 - Update Problem Space when externally expected behavior, stakeholder goals, Use Cases, requirements, or acceptance criteria change.
-- Update Governance when external contracts, policies, security controls, operational constraints, or reusable engineering rules change.
+- Update Governance when external contracts, policies, security controls, operational constraints, findings, or rationale change. Use `evolve-project-rules` when project-wide engineering practices change.
 - Update Solution Space only when a durable solution-level decision is part of the proposed change.
 - Identify implementation impact without requiring production code changes.

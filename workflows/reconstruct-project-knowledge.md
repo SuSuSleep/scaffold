@@ -22,7 +22,15 @@ Relevant repository structure, existing documentation, instructions, implementat
 
 #### Relevant Governance
 
-- Existing Documentation Standards, Coding Standards, Verification Strategy, Security practices, and Architecture Constraints when they are evidence for reconstruction.
+- Existing Security Controls and Architecture Constraints when they are evidence for reconstruction.
+
+#### Relevant Rules
+
+- documentation.*
+- coding.*
+- verification.*
+- security.*
+- architecture.*
 
 #### Suggested Skills
 
@@ -48,9 +56,9 @@ Recover relevant durable knowledge from available evidence.
 
 Relevant Problem, Governance, and Solution knowledge is reconstructed from existing documentation, source code, tests, configuration, interfaces, deployment definitions, repository history, or user knowledge as appropriate. Important conclusions are explicitly classified as Known, Inferred, or Unknown. Existing code is not converted directly into Requirements without evidence that its behavior is intended.
 
-#### Relevant Governance
+#### Relevant Rules
 
-- Engineering conventions may be reconstructed as Governance only when explicit knowledge or strong repository evidence supports them.
+- Engineering conventions may be reconstructed as Project Rules only when explicit knowledge or strong repository evidence supports them.
 
 ### Phase — Resolve Material Uncertainty
 

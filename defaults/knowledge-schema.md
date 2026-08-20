@@ -10,7 +10,7 @@ The default representation stores durable knowledge in `knowledge/` using the fo
 
 - `problem/`: business intent, actors, goals, use cases, requirements, and acceptance criteria.
 - `solution/`: capabilities, responsibilities, components and boundaries, interfaces, designs, decisions, and solution-specific verification items.
-- `governance/`: external constraints, policies, security controls, operational concerns, reusable findings, and project-wide engineering strategy.
+- `governance/`: external contracts, policies or external standards, security controls, operational constraints, reusable findings, and their rationale.
 
 These are default representation choices, not Knowledge Model concepts. Projects may replace this organization through their active Knowledge Schema.
 
@@ -161,17 +161,17 @@ Use these descriptions before creating or updating a document from a default tem
 | Components and Boundaries | Concrete architectural units, their assigned Responsibilities, and the Interfaces they expose. |
 | Satisfies | The Requirements, Controls, or Constraints this solution addresses. |
 | Design and Decisions | Durable technical behavior, structure, and the intentional choices that select or constrain it. |
-| Verification Items | Specific expectations the Solution must demonstrate. Link each important item to the Requirement, Control, Interface, or Design expectation it verifies. The project-wide verification approach belongs in Governance unless this Solution has an exceptional constraint. |
+| Verification Items | Specific expectations the Solution must demonstrate. Link each important item to the Requirement, Control, Interface, or Design expectation it verifies. Applicable Project Rules guide the verification approach unless this Solution has an exceptional constraint. |
 | Related Knowledge | Identifiers or links to connected problem, governance, or solution records. |
 
 ### Governance Document
 
 | Section | Record |
 | --- | --- |
-| Purpose | The source, risk, external obligation, finding, policy, operational condition, or cross-cutting strategy this Governance record addresses. |
+| Purpose | The source, risk, external obligation, finding, policy, or operational condition this Governance record addresses. |
 | Applies When | The project activities, systems, data, conditions, or changes for which the record is relevant. Applicability is semantic; do not require agents to load every Governance record by default. |
 | Does Not Normally Apply When | Activities that normally do not require this context. State exceptions separately when they exist. |
-| Guidance | The applicable constraint, control, reusable rule, or engineering strategy. State mandatory obligations accurately without turning contextual risks into universal prohibitions. |
+| Guidance | The applicable constraint, control, or rationale. State mandatory obligations accurately without turning contextual risks into universal prohibitions. |
 | Verification | Evidence, checks, reviews, or tests that establish adherence to the Governance guidance. |
 | Related Knowledge | Identifiers or links to affected requirements, solutions, findings, or external contracts. |
 
@@ -191,6 +191,6 @@ Represent relationships with stable identifiers, explicit labels, Markdown links
 
 Governance is durable Project Knowledge and may apply project-wide, but project-wide scope does not require universal context loading. A Workflow Phase identifies the semantic categories of Governance relevant to its Goal and Required Outcome; an agent locates and reads only the applicable records, expanding context only when dependencies or uncertainty require it.
 
-Shared Workflows and Skills must refer to Governance by semantic subject, such as Verification Strategy, Coding Standards, Security Controls, or Architecture Constraints. They must not hard-code project-specific Governance file paths. The active Knowledge Schema and the project’s Governance records determine physical representation.
+Shared Workflows and Skills must refer to Governance by semantic subject, such as external contracts, security controls, or architecture constraints. They must not hard-code project-specific Governance file paths. The active Knowledge Schema and the project’s Governance records determine physical representation.
 
-Project Rules remain distinct from Governance: Rules define mandatory project constraints; Governance records project-wide engineering strategy, controls, constraints, and their applicability.
+Project Rules remain distinct from Governance: Rules define how work should or must be performed; Governance records durable constraints, evidence, obligations, rationale, and their applicability.

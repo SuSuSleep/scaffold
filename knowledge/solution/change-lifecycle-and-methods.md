@@ -24,7 +24,7 @@ Provide reusable guidance for collecting sufficient project, implementation, ver
 
 Realizes: CAP-001
 
-Define lifecycle phases, entry conditions, and required outcomes for project initialization, change definition and review, implementation, knowledge updates, reconstruction, learning, and migration.
+Define lifecycle phases, entry conditions, and required outcomes for project initialization, change definition and review, implementation, knowledge updates, reconstruction, learning, local Rule evolution, and migration.
 
 ### RESP-002 — Acceptance-gate enforcement
 
@@ -41,8 +41,8 @@ Provide concise Skills for methods such as context collection, impact analysis, 
 ## Components and Boundaries
 
 - **`workflows/define-change.md`**, **`workflows/review-change.md`**, and **`workflows/implement-change.md`** are assigned-to RESP-001 and RESP-002. Together, they define the normal accepted-change path.
-- **`workflows/initialize-project.md`**, **`workflows/update-knowledge.md`**, **`workflows/reconstruct-project-knowledge.md`**, **`workflows/learn-from-finding.md`**, **`workflows/adopt-harness-update.md`**, and **`workflows/migrate-project.md`** are assigned-to RESP-001 for their specialized work categories.
-- **`skills/collect-context/`**, **`skills/analyze-impact/`**, **`skills/implement-with-tdd/`**, and **`skills/verify-change/`** are assigned-to RESP-003.
+- **`workflows/initialize-project.md`**, **`workflows/update-knowledge.md`**, **`workflows/reconstruct-project-knowledge.md`**, **`workflows/learn-from-finding.md`**, **`workflows/evolve-project-rules.md`**, **`workflows/adopt-harness-update.md`**, and **`workflows/migrate-project.md`** are assigned-to RESP-001 for their specialized work categories.
+- **`skills/collect-context/`**, **`skills/analyze-impact/`**, **`skills/analyze-rule-conflicts/`**, **`skills/implement-with-tdd/`**, and **`skills/verify-change/`** are assigned-to RESP-003.
 - A Workflow may suggest a Skill, but a phase is complete when its required outcome is achieved. Project Rules may require a method, such as TDD, without changing the Workflow.
 
 ## Satisfies

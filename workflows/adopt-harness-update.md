@@ -18,7 +18,7 @@ Identify the newly active shared guidance and affected active replacements.
 
 #### Required Outcome
 
-Relevant shared changes, including default Knowledge Schema and template changes, and affected project-local artifacts are identified.
+Relevant shared changes, including default Knowledge Schema, Template, and Project Rule changes, and affected project-local artifacts are identified. For changed shared Rules, the old shared set, new shared set, and local Rules are available for review.
 
 #### Suggested Skills
 
@@ -32,11 +32,12 @@ Classify conflicts and drift introduced by the newly active shared guidance.
 
 #### Required Outcome
 
-Active Conflicts between authoritative artifacts are resolved. Shadow Drift—especially a default Schema change hidden by a project-local Schema—is reviewed for continued relevance. Project knowledge is not automatically rewritten; deliberate semantic migration follows the migration Workflow when needed.
+Active Conflicts between authoritative artifacts are resolved. Changed shared Rules are resolved with local Rules and reviewed for new semantic contradiction, redundancy, specialization, or unresolved precedence. Shadow Drift—especially a default Schema change hidden by a project-local Schema—is reviewed for continued relevance. Project knowledge is not automatically rewritten; deliberate semantic migration follows the migration Workflow when needed.
 
 #### Suggested Skills
 
 - analyze-impact
+- analyze-rule-conflicts
 
 ### Phase — Apply Project-Owned Adjustments
 

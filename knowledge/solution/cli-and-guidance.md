@@ -12,7 +12,7 @@ Initialize, inspect, and record update-review state for a target repository.
 
 ### CAP-002 — Artifact resolution
 
-Resolve shared defaults and project-local replacements deterministically.
+Resolve shared defaults, full project-local replacements, and the effective Project Rule collection deterministically.
 
 ### CAP-003 — Agent guidance integration
 
@@ -37,7 +37,7 @@ Create absent agent instruction files or update only an existing managed Scaffol
 - **`bin/scaffold.js`** exposes the command-line entry point.
 - **`src/cli.js`** is assigned-to RESP-001 and exposes the `init`, `status`, and `update` command interface.
 - **`src/project.js`** is assigned-to RESP-002 and RESP-003. It owns local filesystem interactions within the target project.
-- **Shared package artifacts** expose the Knowledge Model and default schemas, rules, workflows, skills, and templates. Templates are grouped by Problem, Solution, and Governance space; project-local artifacts may replace only the documented replaceable types.
+- **Shared package artifacts** expose the Knowledge Model, default Schema, categorized Rules, workflows, skills, and templates. Templates are grouped by Problem, Solution, and Governance space. Schema, Workflows, Skills, and Templates are fully replaceable; local Rules add identities or atomically replace matching shared identities.
 
 ### IFC-001 — Scaffold command-line interface
 
@@ -48,6 +48,7 @@ Exposed by `bin/scaffold.js` through `src/cli.js`.
 - `scaffold update [directory]` records completed update-review attestation without overwriting project-local replacements.
 - `scaffold --help` and `scaffold --version` report usage and the running package version; an unknown command or more than one directory argument returns a nonzero exit status.
 - When existing `AGENTS.md` or `CLAUDE.md` lacks a managed Scaffold block, interactive execution may add or preview the block; non-interactive execution preserves the file and reports that integration remains incomplete.
+- A legacy `.scaffold/project-rules.md` is reported and ignored; it requires deliberate project migration.
 
 ## Satisfies
 
@@ -55,8 +56,9 @@ Exposed by `bin/scaffold.js` through `src/cli.js`.
   - PROB-001#REQ-001 — Portable initialization
   - PROB-001#REQ-005 — Review-aware updates
 - CAP-002 — Artifact resolution satisfies:
-  - PROB-001#REQ-002 — Explicit replacement
+  - PROB-001#REQ-002 — Explicit artifact resolution
   - PROB-001#REQ-003 — Shared knowledge model
+  - PROB-001#REQ-011 — Extensible Project Rule collection
 - CAP-003 — Agent guidance integration satisfies:
   - PROB-001#REQ-004 — Safe agent integration
 
@@ -64,7 +66,7 @@ Exposed by `bin/scaffold.js` through `src/cli.js`.
 
 ### DEC-001 — Package-managed shared defaults
 
-Shared defaults are read from the running package rather than copied into a project. This keeps shared guidance current while preserving explicit project replacements.
+Shared defaults are read from the running package rather than copied into a project. This keeps shared guidance current while preserving full artifact replacements and effective Project Rule resolution.
 
 ### DEC-002 — Metadata-only CLI initialization
 
@@ -95,7 +97,8 @@ Expected evidence:
 ## Related Knowledge
 
 - PROB-001#REQ-001 — Portable initialization.
-- PROB-001#REQ-002 — Explicit replacement.
+- PROB-001#REQ-002 — Explicit artifact resolution.
+- PROB-001#REQ-011 — Extensible Project Rule collection.
 - PROB-001#REQ-003 — Shared knowledge model.
 - PROB-001#REQ-004 — Safe agent integration.
 - PROB-001#REQ-005 — Review-aware updates.

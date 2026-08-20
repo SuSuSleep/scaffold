@@ -10,7 +10,7 @@ Scaffold is a portable, knowledge-first development harness for human developers
 
 - **Project maintainer**: initialize and maintain Scaffold in a repository without restructuring existing work.
 - **Developer or coding agent**: discover applicable guidance and project knowledge before meaningful work.
-- **Project owner**: replace default schemas, rules, workflows, skills, or templates as the project matures, without implicit merging.
+- **Project owner**: replace schemas, workflows, skills, or templates in full, and extend or atomically replace individual Project Rules as the project matures.
 
 ## Use Cases
 
@@ -30,17 +30,28 @@ Acceptance Criteria:
 - A repository can be initialized and can use the default Scaffold without a custom schema.
 - An existing repository can adopt Scaffold without full restructuring.
 
-### REQ-002 — Explicit replacement
+### REQ-002 — Explicit artifact resolution
 
-A project-local replaceable artifact is authoritative in full; shared and local artifacts must not be implicitly merged.
+A project-local Knowledge Schema, Workflow, Skill, or Template is authoritative in full; shared and local content must not be implicitly merged.
 
 Acceptance Criteria:
 
-- Local schemas, rules, workflows, skills, and templates resolve as replacements and are reported as shadowing shared equivalents.
+- Local schemas, workflows, skills, and templates resolve as full replacements and are reported as shadowing shared equivalents.
+- The Knowledge Model, Harness resolution semantics, and agent bootstrap contract remain Harness-owned and non-replaceable.
+
+### REQ-011 — Extensible Project Rule collection
+
+The Harness must represent Project Rules as a categorized effective collection. Rules have stable identities and applicability; local Rules may add identities or atomically replace matching shared identities without content merge.
+
+Acceptance Criteria:
+
+- Shared and local Rules coexist, with local additions and same-identity replacements reported distinctly.
+- The old monolithic `.scaffold/project-rules.md` is not silently interpreted as a Rule collection.
+- Agents review semantic conflict, redundancy, specialization, and unknown intent without a deterministic conflict engine.
 
 ### REQ-003 — Shared knowledge model
 
-The Knowledge Model is Harness-owned and non-replaceable; replaceable artifacts include the Knowledge Schema, Project Rules, Workflows, Skills, and Templates.
+The Knowledge Model is Harness-owned and non-replaceable; full-replacement artifacts include the Knowledge Schema, Workflows, Skills, and Templates. Project Rules are extensible with atomic same-identity replacement.
 
 Acceptance Criteria:
 
@@ -99,15 +110,15 @@ Acceptance Criteria:
 - `review-change` establishes semantic correctness, representation compliance, relationship consistency, project-constraint compliance, and acceptance before `implement-change` begins.
 - A Project Rule may require a method such as TDD without changing the Workflow's required outcomes.
 
-### REQ-010 — Selective Governance consumption
+### REQ-010 — Selective guidance consumption
 
-The Harness must represent project-wide engineering strategy as durable Governance knowledge and enable agents to consume only the Governance relevant to the current Workflow Phase.
+The Harness must keep durable Governance separate from Project Rules and enable agents to consume only the Governance and Rules relevant to the current Workflow Phase.
 
 Acceptance Criteria:
 
 - Governance records state when they apply and when they do not normally apply.
-- Solution records define solution-specific verification items; project-wide verification approach belongs to Governance unless a Solution has an exceptional constraint.
-- Shared Workflows and Skills refer to Governance by semantic subject rather than project-specific file paths.
+- Solution records define solution-specific verification items; applicable verification Rules guide the project-wide approach unless a Solution has an exceptional constraint.
+- Shared Workflows and Skills refer to Governance and Rules by semantic subject rather than project-specific file paths.
 - No deterministic context-routing engine is required.
 
 ## Acceptance Criteria
@@ -122,8 +133,7 @@ Acceptance Criteria:
 - SOL-003#CAP-002 — Deliberate guidance authority.
 - SOL-004#CAP-001 — Accepted-change lifecycle management.
 - SOL-004#CAP-002 — Method-flexible work guidance.
-- SOL-005#CAP-001 — Selective Governance context resolution.
-- GOV-003#CTRL-001 — Project verification strategy.
+- SOL-005#CAP-001 — Selective guidance context resolution.
 - GOV-002#CON-001 — Markdown-first core operation.
 - GOV-002#CON-002 — Agent-mediated semantic validation.
 - GOV-002#CON-003 — Durable source-of-truth boundaries.

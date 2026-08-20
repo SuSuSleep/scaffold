@@ -78,6 +78,13 @@ function initProject({ directory, version, packageRoot, decideHostIntegration })
   for (const relative of [
     '.scaffold/workflows',
     '.scaffold/skills',
+    '.scaffold/rules/core',
+    '.scaffold/rules/documentation',
+    '.scaffold/rules/coding',
+    '.scaffold/rules/verification',
+    '.scaffold/rules/security',
+    '.scaffold/rules/architecture',
+    '.scaffold/rules/delivery',
     '.scaffold/templates/problem',
     '.scaffold/templates/solution',
     '.scaffold/templates/governance',
@@ -132,11 +139,64 @@ function templateNames(root, relative = '') {
   });
 }
 
+function markdownFiles(root, relative = '') {
+  const directory = path.join(root, relative);
+  if (!fs.existsSync(directory)) return [];
+  return fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+    const name = path.join(relative, entry.name);
+    if (entry.isDirectory()) return markdownFiles(root, name);
+    return entry.isFile() && entry.name.endsWith('.md') ? [name] : [];
+  });
+}
+
+function ruleIdentity(file) {
+  const heading = fs.readFileSync(file, 'utf8').match(/^# ([a-z][a-z0-9-]*(?:\.[a-z][a-z0-9-]*)+)\s*$/m)?.[1];
+  return heading || null;
+}
+
+function rulesAt(root, source) {
+  return markdownFiles(root).map((name) => {
+    const file = path.join(root, name);
+    return { source, relative: name, path: file, identity: ruleIdentity(file) };
+  });
+}
+
+function resolvedRules(directory, packageRoot) {
+  const shared = rulesAt(path.join(packageRoot, 'defaults/rules'), 'shared');
+  const local = rulesAt(path.join(scaffoldDirectory(directory), 'rules'), 'project');
+  const invalid = [...shared, ...local].filter((rule) => !rule.identity);
+  const duplicateIdentities = (rules) => rules.reduce((duplicates, rule) => {
+    if (!rule.identity) return duplicates;
+    const matching = rules.filter((candidate) => candidate.identity === rule.identity);
+    if (matching.length > 1 && !duplicates.some((entry) => entry.identity === rule.identity && entry.source === rule.source)) {
+      duplicates.push({ identity: rule.identity, source: rule.source, paths: matching.map((entry) => entry.path) });
+    }
+    return duplicates;
+  }, []);
+  const duplicates = [...duplicateIdentities(shared), ...duplicateIdentities(local)];
+  const sharedByIdentity = new Map(shared.filter((rule) => rule.identity).map((rule) => [rule.identity, rule]));
+  const localByIdentity = new Map(local.filter((rule) => rule.identity).map((rule) => [rule.identity, rule]));
+  const identities = new Set([...sharedByIdentity.keys(), ...localByIdentity.keys()]);
+  const rules = [...identities].sort().map((identity) => {
+    const sharedRule = sharedByIdentity.get(identity);
+    const localRule = localByIdentity.get(identity);
+    const active = localRule || sharedRule;
+    return {
+      identity,
+      source: active.source,
+      path: active.path,
+      disposition: sharedRule && localRule ? 'local replacement' : localRule ? 'local addition' : 'shared',
+      shared: sharedRule,
+      local: localRule,
+    };
+  });
+  return { rules, invalid, duplicates, legacy: path.join(scaffoldDirectory(directory), 'project-rules.md') };
+}
+
 function resolvedArtifacts(directory, packageRoot) {
   const localRoot = scaffoldDirectory(directory);
   const artifacts = [
     { label: 'Knowledge Schema:', name: 'knowledge-schema', local: path.join(localRoot, 'knowledge-schema.md'), shared: path.join(packageRoot, 'defaults/knowledge-schema.md') },
-    { label: 'Project Rules:', name: 'project-rules', local: path.join(localRoot, 'project-rules.md'), shared: path.join(packageRoot, 'defaults/project-rules.md') },
   ];
   const addNamed = (label, type, localPredicate, sharedPredicate, filePath) => {
     const localBase = path.join(localRoot, type);
@@ -169,6 +229,7 @@ function inspectProject({ directory, version, packageRoot }) {
   if (!details) return { ok: false, lines: [`Scaffold is not initialized in ${directory}.`, 'Run "scaffold init" first.'] };
   synchronizeAgentGuide(directory);
   const artifacts = resolvedArtifacts(directory, packageRoot);
+  const ruleSet = resolvedRules(directory, packageRoot);
   const found = localReplacements(directory, packageRoot);
   const reviewRequired = details.lastReviewedVersion !== version;
   const sharedKnowledgeModel = path.join(packageRoot, 'defaults', 'knowledge-model.md');
@@ -178,6 +239,13 @@ function inspectProject({ directory, version, packageRoot }) {
     '  source: shared',
     `  path: ${sharedKnowledgeModel}`,
     ...artifacts.flatMap((artifact) => [artifact.label, `  source: ${artifact.source}`, `  path: ${artifact.path}`]),
+    'Project Rules:',
+    ...(ruleSet.rules.length ? ruleSet.rules.flatMap((rule) => [
+      `  Rule: ${rule.identity}`,
+      `    source: ${rule.source}`,
+      `    disposition: ${rule.disposition}`,
+      `    path: ${rule.path}`,
+    ]) : ['  none discovered']),
   ];
   const shadowed = found.filter((artifact) => fs.existsSync(artifact.shared)).map((artifact) => path.relative(packageRoot, artifact.shared));
   return { ok: true, lines: [
@@ -190,7 +258,11 @@ function inspectProject({ directory, version, packageRoot }) {
     'Agent Integration:',
     ...AGENT_FILES.map((filename) => `  ${filename}: ${fs.existsSync(path.join(directory, filename)) && MANAGED_BLOCK.test(fs.readFileSync(path.join(directory, filename), 'utf8')) ? 'configured' : 'integration required'}`),
     `Project-local replacements: ${found.length ? found.map((artifact) => path.relative(scaffoldDirectory(directory), artifact.local)).join(', ') : 'none'}`,
+    `Project-local Rules: ${ruleSet.rules.filter((rule) => rule.local).length ? ruleSet.rules.filter((rule) => rule.local).map((rule) => path.relative(scaffoldDirectory(directory), rule.local.path)).join(', ') : 'none'}`,
     ...(fs.existsSync(localKnowledgeModel) ? [`Unsupported project-local Knowledge Model ignored: ${localKnowledgeModel}`] : []),
+    ...(fs.existsSync(ruleSet.legacy) ? [`Legacy monolithic Project Rules require deliberate migration and are ignored: ${ruleSet.legacy}`] : []),
+    ...ruleSet.invalid.map((rule) => `Invalid Project Rule identity (expected a dotted identity in the H1 heading): ${rule.path}`),
+    ...ruleSet.duplicates.map((duplicate) => `Duplicate ${duplicate.source} Project Rule identity ${duplicate.identity}: ${duplicate.paths.join(', ')}`),
     `Shadowed shared artifacts: ${shadowed.length ? shadowed.join(', ') : 'none'}`,
     ...(reviewRequired ? ['Complete the shared adopt-harness-update review, then use "scaffold update" to attest and record completion.'] : []),
   ] };
@@ -203,10 +275,12 @@ function updateProject({ directory, version, packageRoot }) {
   fs.writeFileSync(metadataPath(directory), metadata({ lastReviewedVersion: version, installedAt: details.installedAt || now, updatedAt: now }), 'utf8');
   synchronizeAgentGuide(directory);
   const found = localReplacements(directory, packageRoot);
+  const ruleSet = resolvedRules(directory, packageRoot);
   const localKnowledgeModel = path.join(scaffoldDirectory(directory), 'knowledge-model.md');
   return { ok: true, lines: [
     `Recorded your attestation that Scaffold version ${version} has been reviewed.`,
     `Project-local replacements preserved: ${found.length ? found.map((artifact) => path.relative(scaffoldDirectory(directory), artifact.local)).join(', ') : 'none'}.`,
+    `Project-local Rules preserved: ${ruleSet.rules.filter((rule) => rule.local).length ? ruleSet.rules.filter((rule) => rule.local).map((rule) => path.relative(scaffoldDirectory(directory), rule.local.path)).join(', ') : 'none'}.`,
     ...(fs.existsSync(localKnowledgeModel) ? [`Unsupported project-local Knowledge Model preserved but ignored: ${localKnowledgeModel}.`] : []),
     'This command records review completion; semantic validation remains agent-driven. Shared defaults are supplied by the currently running package and were not copied or overwritten.',
   ] };

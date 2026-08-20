@@ -52,7 +52,12 @@ Applicable constraints are satisfied and no unresolved material rule conflict re
 
 #### Relevant Governance
 
-- Applicable Governance strategy, controls, and constraints, including Verification Strategy when Solution verification items are affected.
+- Applicable Governance controls and constraints.
+
+#### Relevant Rules
+
+- verification.* when Solution verification items are affected
+- Other Rules applicable to the proposed change
 
 ### Phase — Establish Acceptance
 

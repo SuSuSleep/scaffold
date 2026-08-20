@@ -2,7 +2,7 @@
 
 Document ID: SOL-003
 
-> Evidence source: [`defaults/knowledge-model.md`](../../defaults/knowledge-model.md), [`defaults/knowledge-schema.md`](../../defaults/knowledge-schema.md), [`defaults/project-rules.md`](../../defaults/project-rules.md), and [`defaults/agent-guide.md`](../../defaults/agent-guide.md), inspected 2026-08-20.
+> Evidence source: [`defaults/knowledge-model.md`](../../defaults/knowledge-model.md), [`defaults/knowledge-schema.md`](../../defaults/knowledge-schema.md), [`defaults/rules/`](../../defaults/rules/), and [`defaults/agent-guide.md`](../../defaults/agent-guide.md), inspected 2026-08-20.
 
 ## Capabilities
 
@@ -32,7 +32,7 @@ Maintain the shared Knowledge Model as the non-replaceable authority for concept
 
 Realizes: CAP-002
 
-Resolve the active Knowledge Schema and Project Rules as separate, fully replaceable project artifacts, and apply each within its own authority.
+Resolve the active Knowledge Schema as a full replacement and Project Rules as an effective collection with atomic same-identity replacement, and apply each within its own authority.
 
 ## Components and Boundaries
 
@@ -67,7 +67,7 @@ flowchart LR
   model["Knowledge Model<br/>shared and non-replaceable"]
   schema["Knowledge Schema<br/>fully replaceable"]
   template["Applicable Template<br/>starting structure only"]
-  rules["Project Rules<br/>fully replaceable"]
+  rules["Project Rules<br/>extensible; atomic replacement"]
   knowledge["Project Knowledge<br/>project-owned durable record"]
 
   model -->|defines semantic meaning| schema
@@ -79,7 +79,7 @@ flowchart LR
 
 - The **Knowledge Model** defines the meaning of durable concepts and relationships. It is shared, Harness-owned, and non-replaceable; it does not dictate document layout or workflow mechanics.
 - The **Knowledge Schema** defines how project knowledge is represented: document types, sections, identifiers, and references. A project-local Schema replaces the shared Schema in full; it does not redefine Model concepts.
-- **Project Rules** define project-specific operating constraints and preferences, such as required engineering practices or when knowledge must be updated. A project-local Rules artifact replaces the shared Rules in full; it does not redefine Model semantics or Schema representation.
+- **Project Rules** define how project work should or must be performed, such as coding, documentation, verification, architecture, and delivery practices. Shared and local Rules form an effective collection by stable identity; a matching local identity replaces the shared Rule in full, while a new local identity adds guidance. Rules do not redefine Model semantics or Schema representation.
 - **Templates** provide starting structure only. The active Schema—not template availability—determines whether a template type applies.
 - Existing project knowledge remains the project-owned durable record. When creating or updating it, apply the Model for meaning, the active Schema for representation, applicable Rules for constraints, and an applicable Template only as a starting structure.
 
@@ -97,7 +97,7 @@ Scaffold represents durable knowledge primarily in Problem, Governance, and Solu
 
 ### DEC-002 — Separate semantic, representation, and policy authority
 
-The shared Knowledge Model is the semantic contract. The active Knowledge Schema represents that contract, while Project Rules constrain project work. Keeping these authorities distinct permits explicit local replacement of Schema and Rules without implicit merging or redefinition of shared semantics.
+The shared Knowledge Model is the semantic contract. The active Knowledge Schema represents that contract, while Project Rules guide project work. Keeping these authorities distinct permits explicit local replacement of Schema and atomic Rule replacement without implicit merging or redefinition of shared semantics.
 
 ### DEC-003 — Conceptually structured, physically coherent knowledge
 

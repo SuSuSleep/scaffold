@@ -22,7 +22,11 @@ The authoritative records, intended semantic change, active Knowledge Schema, ex
 
 #### Relevant Governance
 
-- Documentation Standards and the Governance subject being created or updated, when applicable.
+- The Governance subject being created or updated, when applicable.
+
+#### Relevant Rules
+
+- documentation.*
 
 #### Suggested Skills
 

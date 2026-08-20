@@ -75,11 +75,11 @@ Structured metadata MAY be introduced later when a concrete requirement justifie
 
 ---
 
-## 2.3 Explicit Replacement
+## 2.3 Explicit Artifact Resolution
 
-Project customization uses **replacement by default**.
+Knowledge Schema, Workflow, Skill, and Template customization uses **replacement by default**. Project Rules use extension plus atomic replacement by stable Rule identity.
 
-If a project-local artifact exists for a replaceable Scaffold artifact, the project-local artifact becomes authoritative.
+If a project-local artifact exists for a full-replacement artifact, the project-local artifact becomes authoritative. A local Project Rule adds a new identity or replaces a shared Rule with the same identity in full.
 
 The Scaffold MUST NOT implicitly:
 
@@ -170,9 +170,9 @@ A Workflow SHOULD NOT duplicate reusable procedural guidance already represented
 
 ## 3.1 Harness Architecture and Lifecycle
 
-The Knowledge Model is a Harness-owned, non-replaceable semantic contract. The Knowledge Schema, Project Rules, Workflows, Skills, and Templates are project-replaceable artifacts. Project Knowledge remains project-owned durable truth; `AGENTS.md` and `CLAUDE.md` are host-owned integration files whose surrounding content Scaffold MUST NOT replace.
+The Knowledge Model, Harness resolution semantics, and minimal agent bootstrap contract are Harness-owned, non-replaceable contracts. Knowledge Schema, Workflows, Skills, and Templates are project-replaceable artifacts. Project Rules are an extensible collection whose individual Rules are atomically replaceable by stable identity. Project Knowledge remains project-owned durable truth; `AGENTS.md` and `CLAUDE.md` are host-owned integration files whose surrounding content Scaffold MUST NOT replace.
 
-Replacement is explicit: when a project-local replaceable artifact exists it is used in full, otherwise the shared artifact is used. Scaffold MUST NOT implicitly merge either form. The dependency direction is Knowledge Model → Knowledge Schema → Template → Project Knowledge. Template resolution is mechanical, but the active Knowledge Schema alone determines whether a template type applies.
+Replacement is explicit: when a project-local full-replacement artifact exists it is used in full, otherwise the shared artifact is used. Project Rules resolve as shared Rules plus local Rules, with same-identity local Rules replacing their shared equivalent in full. Scaffold MUST NOT implicitly merge artifact or Rule content. The dependency direction is Knowledge Model → Knowledge Schema → Template → Project Knowledge. Template resolution is mechanical, but the active Knowledge Schema alone determines whether a template type applies.
 
 The normal lifecycle is `initialize-project` → `define-change` → `review-change` → `implement-change`. `define-change` produces a sufficiently defined proposed change, `review-change` establishes semantic correctness, representation compliance, relationship consistency, project-constraint compliance, and acceptance, and `implement-change` realizes an accepted change.
 
@@ -185,7 +185,7 @@ The Scaffold MUST provide:
 1. portable initialization across repositories;
 2. usable defaults without prior customization;
 3. project-specific Knowledge Schema replacement;
-4. project-specific Project Rule replacement;
+4. project-specific Project Rule extension and atomic replacement;
 5. reusable Workflows;
 6. concise reusable Skills;
 7. CLI-managed installation and updates;
@@ -371,13 +371,12 @@ It may contain:
 - External Systems;
 - Interface Contracts;
 - Platform Constraints;
-- Engineering Policies;
 - Security Findings;
 - Security Controls;
 - Prohibited Patterns;
 - Operational Constraints;
 - Compliance Requirements;
-- reusable engineering knowledge.
+- durable rationale and evidence.
 
 Example:
 
@@ -552,15 +551,15 @@ The Scaffold MUST NOT force these relationships into a tree structure.
 
 # 15. Project Rules
 
-The Scaffold MUST provide default Project Rules.
+The Scaffold MUST provide default Project Rules as a categorized collection.
 
-A project MAY replace them through:
+A project MAY add or atomically replace them through:
 
 ```text
-.scaffold/project-rules.md
+.scaffold/rules/<category>/<rule>.md
 ```
 
-When present, project-local rules become authoritative.
+Every independently resolvable Rule has a stable semantic identity and states its applicability. A local Rule with a new identity is added; a local Rule with a shared identity replaces that shared Rule in full. Rule content is never merged. Legacy `.scaffold/project-rules.md` requires deliberate migration and is not silently interpreted as a collection.
 
 Project Rules may govern:
 
@@ -852,7 +851,7 @@ Skill
 
 The Scaffold MUST use simple artifact resolution.
 
-For each replaceable artifact:
+For Knowledge Schema, Workflow, Skill, and Template:
 
 ```text
 Does a project-local version exist?
@@ -866,6 +865,8 @@ Does a project-local version exist?
 
 No implicit merge occurs.
 
+Project Rules are the sole initial extensible artifact type: the effective collection is shared Rules plus local Rules, resolved by stable identity with atomic same-identity replacement.
+
 ---
 
 # 25. Initial Project Layout
@@ -878,7 +879,7 @@ project/
 │   ├── metadata.md
 │   ├── agent-guide.md
 │   ├── knowledge-schema.md        # optional override
-│   ├── project-rules.md           # optional override
+│   ├── rules/                     # optional additions and atomic replacements
 │   ├── workflows/                 # optional replacements/additions
 │   └── skills/                    # optional replacements/additions
 └── <existing project files>
@@ -897,7 +898,10 @@ scaffold/
 ├── knowledge-model/
 ├── defaults/
 │   ├── knowledge-schema.md
-│   ├── project-rules.md
+│   ├── rules/
+│   │   ├── core/
+│   │   ├── coding/
+│   │   └── verification/
 │   └── templates/
 │
 ├── workflows/
@@ -1227,7 +1231,7 @@ Markdown-first.
 
 ## RD-02 — Customization
 
-Replace by default.
+Replace full-replacement artifacts by default; extend Project Rules with atomic same-identity replacement.
 
 No implicit merge.
 
@@ -1284,9 +1288,9 @@ A project can provide its own `knowledge-schema.md`, and agents use it instead o
 
 ---
 
-## AC-05 — Rule Replacement
+## AC-05 — Rule Extension and Atomic Replacement
 
-A project can provide its own `project-rules.md`, and agents use it instead of shared default rules.
+A project can add a local Rule identity alongside shared Rules or provide a local Rule with the same identity, which replaces the shared Rule in full without content merge.
 
 ---
 

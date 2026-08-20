@@ -29,6 +29,8 @@ test('init creates only Harness infrastructure without copying semantic defaults
   assert.ok(fs.existsSync(path.join(directory, '.scaffold/templates/problem')));
   assert.ok(fs.existsSync(path.join(directory, '.scaffold/templates/solution')));
   assert.ok(fs.existsSync(path.join(directory, '.scaffold/templates/governance')));
+  assert.ok(fs.existsSync(path.join(directory, '.scaffold/rules/core')));
+  assert.ok(fs.existsSync(path.join(directory, '.scaffold/rules/verification')));
   assert.match(fs.readFileSync(path.join(directory, '.scaffold/agent-guide.md'), 'utf8'), /currently installed Scaffold package/);
   assert.match(fs.readFileSync(path.join(directory, 'AGENTS.md'), 'utf8'), /agent-guide/);
   assert.match(fs.readFileSync(path.join(directory, 'CLAUDE.md'), 'utf8'), /agent-guide/);
@@ -66,14 +68,40 @@ test('init updates only an existing managed agent block and preserves surroundin
   assert.doesNotMatch(contents, /-->old<!--/);
 });
 
-test('status reports a project-local replacement', () => {
+test('status resolves local Project Rule additions and atomic replacements', () => {
+  const directory = temporaryDirectory();
+  run('init', directory);
+  const rules = path.join(directory, '.scaffold/rules');
+  fs.writeFileSync(path.join(rules, 'verification/risk.md'), '# verification.risk-proportionate\n');
+  fs.writeFileSync(path.join(rules, 'coding/formatting.md'), '# coding.formatting\n');
+  const result = run('status', directory);
+  assert.equal(result.status, 0, result.stderr);
+  assert.match(result.stdout, /Rule: verification\.risk-proportionate\n    source: project\n    disposition: local replacement/);
+  assert.match(result.stdout, /Rule: coding\.formatting\n    source: project\n    disposition: local addition/);
+  assert.match(result.stdout, /Project-local Rules: [\s\S]*rules[\\/]coding[\\/]formatting\.md/);
+  assert.doesNotMatch(result.stdout, /defaults[\\/]project-rules\.md/);
+});
+
+test('status reports legacy monolithic Project Rules as ignored', () => {
   const directory = temporaryDirectory();
   run('init', directory);
   fs.writeFileSync(path.join(directory, '.scaffold/project-rules.md'), '# Local Rules\n');
   const result = run('status', directory);
   assert.equal(result.status, 0, result.stderr);
-  assert.match(result.stdout, /project-rules.md/);
-  assert.match(result.stdout, /Shadowed shared artifacts:[\s\S]*defaults[\\/]project-rules\.md/);
+  assert.match(result.stdout, /Legacy monolithic Project Rules require deliberate migration and are ignored/);
+});
+
+test('status reports invalid and duplicate Project Rule identities', () => {
+  const directory = temporaryDirectory();
+  run('init', directory);
+  const rules = path.join(directory, '.scaffold/rules');
+  fs.writeFileSync(path.join(rules, 'coding/a.md'), '# coding.formatting\n');
+  fs.writeFileSync(path.join(rules, 'coding/b.md'), '# coding.formatting\n');
+  fs.writeFileSync(path.join(rules, 'documentation/invalid.md'), '# Not A Rule\n');
+  const result = run('status', directory);
+  assert.equal(result.status, 0, result.stderr);
+  assert.match(result.stdout, /Duplicate project Project Rule identity coding\.formatting/);
+  assert.match(result.stdout, /Invalid Project Rule identity/);
 });
 
 test('status resolves a local Knowledge Schema against its shared default', () => {
@@ -157,6 +185,7 @@ test('the package provides an explicit migration workflow without a migrate comm
 test('shared workflows own explicit phase sequencing independent of suggested skills', () => {
   const workflows = [
     'define-change.md',
+    'evolve-project-rules.md',
     'implement-change.md',
     'initialize-project.md',
     'learn-from-finding.md',
@@ -235,22 +264,22 @@ test('default templates conform exactly to the default Knowledge Schema structur
   }
 });
 
-test('default guidance supports selective Governance consumption', () => {
+test('default guidance supports selective Governance and Project Rule consumption', () => {
   const schema = fs.readFileSync(path.resolve(__dirname, '../defaults/knowledge-schema.md'), 'utf8');
   const workflow = (name) => fs.readFileSync(path.resolve(__dirname, '../workflows', name), 'utf8');
   const contextSkill = fs.readFileSync(path.resolve(__dirname, '../skills/collect-context/SKILL.md'), 'utf8');
-  const root = path.resolve(__dirname, '../defaults/templates/governance');
+  const rules = path.resolve(__dirname, '../defaults/rules');
 
   assert.match(schema, /## Selective Governance Consumption/);
   assert.match(schema, /must not hard-code project-specific Governance file paths/);
   for (const name of ['initialize-project.md', 'implement-change.md', 'update-knowledge.md', 'reconstruct-project-knowledge.md']) {
-    assert.match(workflow(name), /^#### Relevant Governance$/m, name);
+    assert.match(workflow(name), /^#### Relevant Rules$/m, name);
   }
   assert.match(contextSkill, /Do not load all Governance records by default/);
   assert.doesNotMatch(contextSkill, /knowledge\/governance\//);
-  for (const name of ['documentation-standard.md', 'coding-standard.md', 'verification-strategy.md']) {
-    assert.ok(fs.existsSync(path.join(root, name)), name);
-  }
+  assert.ok(fs.existsSync(path.join(rules, 'core/knowledge-discipline.md')));
+  assert.ok(fs.existsSync(path.join(rules, 'verification/risk-proportionate.md')));
+  assert.equal(fs.existsSync(path.resolve(__dirname, '../defaults/project-rules.md')), false);
 });
 
 test('default knowledge representation demonstrates local IDs and qualified references', () => {
@@ -290,7 +319,6 @@ test("the package ships a complete default Knowledge Model", () => {
     "### Requirement",
     "### Acceptance Criteria",
     "### External Contract",
-    "### Engineering Strategy",
     "### Finding",
     "### Policy or Standard",
     "### Control",
@@ -310,6 +338,7 @@ test("the package ships a complete default Knowledge Model", () => {
   ]) assert.ok(model.includes(heading), heading);
   assert.match(model, /Finding must not automatically become a Control/);
   assert.match(model, /Governance may be project-wide in scope without being relevant to every activity/);
+  assert.doesNotMatch(model, /### Engineering Strategy/);
   assert.match(model, /Relationships are many-to-many/);
   assert.match(model, /The Knowledge Model defines semantic concepts and relationships only/);
   assert.doesNotMatch(model, /\.scaffold\/knowledge-model\.md/);

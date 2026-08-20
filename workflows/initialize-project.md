@@ -20,9 +20,13 @@ Understand the repository and its existing knowledge before introducing Scaffold
 
 Repository context, existing knowledge, and relevant repository instructions are identified.
 
-#### Relevant Governance
+#### Relevant Rules
 
-- Existing Documentation Standards, Coding Standards, Verification Strategy, Security practices, and Architecture Constraints when repository evidence makes them relevant.
+- documentation.*
+- coding.*
+- verification.*
+- security.*
+- architecture.*
 
 #### Suggested Skills
 
@@ -36,7 +40,7 @@ Make the shared Knowledge Model and applicable replaceable Scaffold artifacts av
 
 #### Required Outcome
 
-The shared Knowledge Model is available, and any project-local Knowledge Schema, Project Rules, Workflow, Skill, or Template replacements are understood. Host-owned `AGENTS.md` and `CLAUDE.md` integration is preserved or deliberately completed without replacing surrounding host instructions.
+The shared Knowledge Model is available; full-replacement artifacts and the effective Project Rule collection are understood. Host-owned `AGENTS.md` and `CLAUDE.md` integration is preserved or deliberately completed without replacing surrounding host instructions.
 
 ### Phase — Establish Initial Knowledge
 
@@ -48,11 +52,15 @@ Create the minimum durable project knowledge needed for useful future work.
 
 Initial project knowledge locations, document types, and applicable template types are established from the active Knowledge Schema and existing repository knowledge. The CLI's Harness directories are not treated as semantic knowledge-layout requirements, and obvious unknowns are recorded.
 
-#### Relevant Governance
+#### Relevant Rules
 
-- Documentation Standards, Coding Standards, Verification Strategy, Security practices, and Architecture Constraints when explicit knowledge or strong repository evidence supports a conservative baseline.
+- documentation.*
+- coding.*
+- verification.*
+- security.*
+- architecture.*
 
-Do not invent Governance subjects that lack sufficient evidence. Governance may evolve later through normal knowledge updates without reinitializing the Harness.
+Establish local Rules only from explicit repository instructions, existing engineering documentation, build or CI conventions, formatter or linter configuration, test structure, or other strong evidence. Do not invent a project convention: leave it undefined or record the uncertainty. Review every established local Rule against the effective shared set, distinguishing a local addition, same-identity replacement, compatible specialization, semantic contradiction, and unknown intent. Governance may evolve later through normal knowledge updates without reinitializing the Harness.
 
 ## Required Outcomes
 

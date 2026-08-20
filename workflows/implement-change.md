@@ -22,7 +22,14 @@ The requested change, applicable rules, relevant durable knowledge, and affected
 
 #### Relevant Governance
 
-- Applicable Coding Standards, Security Controls, Architecture Constraints, and Documentation Standards.
+- Applicable Security Controls and Architecture Constraints.
+
+#### Relevant Rules
+
+- coding.*
+- documentation.*
+- security.*
+- architecture.*
 
 #### Suggested Skills
 
@@ -40,7 +47,12 @@ Relevant obligations, constraints, implementation areas, verification needs, and
 
 #### Relevant Governance
 
-- Applicable Security Controls, Architecture Constraints, and Verification Strategy.
+- Applicable Security Controls and Architecture Constraints.
+
+#### Relevant Rules
+
+- verification.*
+- security.*
 
 #### Suggested Skills
 
@@ -58,7 +70,13 @@ The implementation satisfies the accepted change, applicable constraints are pre
 
 #### Relevant Governance
 
-- Applicable Coding Standards, Security Controls, and Architecture Constraints.
+- Applicable Security Controls and Architecture Constraints.
+
+#### Relevant Rules
+
+- coding.*
+- security.*
+- architecture.*
 
 #### Suggested Skills
 
@@ -76,7 +94,12 @@ Proportionate verification is complete and any remaining limits or risks are kno
 
 #### Relevant Governance
 
-- Verification Strategy and applicable Security Controls.
+- Applicable Security Controls.
+
+#### Relevant Rules
+
+- verification.*
+- security.*
 
 #### Suggested Skills
 
@@ -94,7 +117,11 @@ Durable discoveries are reconciled and obsolete or incomplete knowledge is corre
 
 #### Relevant Governance
 
-- Documentation Standards and any Governance subject affected by a durable discovery.
+- Any Governance subject affected by a durable discovery.
+
+#### Relevant Rules
+
+- documentation.*
 
 ## Required Outcomes
 

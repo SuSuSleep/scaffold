@@ -18,7 +18,7 @@ Establish the versions, changed shared behavior, and affected local replacements
 
 #### Required Outcome
 
-The old and new shared behavior and all affected project-local Knowledge Schema, Project Rules, workflows, and skills are identified.
+The old and new shared behavior and all affected project-local Knowledge Schema, Project Rules, workflows, and skills are identified. A legacy monolithic Project Rules file is treated as an explicit migration subject, not an effective Rule collection.
 
 #### Suggested Skills
 
@@ -32,7 +32,7 @@ Determine which project-owned artifacts and knowledge require deliberate adaptat
 
 #### Required Outcome
 
-Project-local schemas, rules, workflows, and skills are reviewed as explicit replacements, including Schema shadow drift caused by default Schema or template changes, and necessary knowledge changes are identified.
+Project-local schemas, workflows, and skills are reviewed as explicit replacements; Project Rules are reviewed as an effective collection with local additions and atomic replacements. Schema shadow drift caused by default Schema or template changes, Rule migration, and necessary knowledge changes are identified.
 
 #### Suggested Skills
 

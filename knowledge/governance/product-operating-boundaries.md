@@ -2,7 +2,7 @@
 
 Document ID: GOV-002
 
-> Evidence source: [`PRD.md`](../../PRD.md), [`defaults/knowledge-model.md`](../../defaults/knowledge-model.md), [`defaults/knowledge-schema.md`](../../defaults/knowledge-schema.md), and [`defaults/project-rules.md`](../../defaults/project-rules.md), inspected 2026-08-20.
+> Evidence source: [`PRD.md`](../../PRD.md), [`PRD_delta2.md`](../../PRD_delta2.md), [`defaults/knowledge-model.md`](../../defaults/knowledge-model.md), [`defaults/knowledge-schema.md`](../../defaults/knowledge-schema.md), and [`defaults/rules/`](../../defaults/rules/), inspected 2026-08-20.
 
 ## Purpose
 

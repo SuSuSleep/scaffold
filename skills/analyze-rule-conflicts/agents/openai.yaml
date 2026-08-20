@@ -1,0 +1,4 @@
+interface:
+  display_name: "Analyze Rule Conflicts"
+  short_description: "Review effective Rules for conflicts and drift"
+  default_prompt: "Use $analyze-rule-conflicts to review these Project Rule changes."

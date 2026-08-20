@@ -13,7 +13,7 @@ The Knowledge Model defines what knowledge means. The active Knowledge Schema ma
 Durable knowledge belongs primarily to three connected spaces:
 
 - **Problem Space**: intended outcomes and externally meaningful obligations, without unnecessarily prescribing realization.
-- **Governance Space**: reusable or external obligations, evidence, controls, environmental conditions, and project-wide engineering strategy that constrain or guide project behavior beyond one business workflow.
+- **Governance Space**: reusable or external obligations, evidence, controls, environmental conditions, and rationale that constrain project behavior beyond one business workflow.
 - **Solution Space**: intentional technical structure that realizes applicable obligations.
 
 The spaces form a graph, not a fixed hierarchy. Problem obligations, Governance obligations, and external constraints may all shape Solution knowledge.
@@ -48,11 +48,7 @@ A **Requirement** is an obligation the system or solution must satisfy. It may b
 
 ## Governance Space
 
-Governance Space answers what reusable or external constraint or cross-cutting engineering strategy exists, why it exists, where it applies, and which project obligations or approaches follow from it. Governance may be project-wide in scope without being relevant to every activity; applicability determines selective consumption.
-
-### Engineering Strategy
-
-An **Engineering Strategy** is a durable project-wide approach to a concern such as documentation, coding, verification, security, architecture, or operations. It guides how the project generally approaches that concern and records when it applies. It is distinct from a Project Rule: a Rule expresses a mandatory project constraint, while an Engineering Strategy provides the reusable approach unless an explicit control or constraint makes part of it mandatory.
+Governance Space answers what reusable or external constraint, evidence, or rationale exists, why it exists, where it applies, and which project obligations follow from it. Governance may be project-wide in scope without being relevant to every activity; applicability determines selective consumption.
 
 ### External Contract
 
