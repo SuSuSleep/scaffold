@@ -23,20 +23,48 @@ Scaffold is a portable, knowledge-first development harness for human developers
 
 ## Requirements
 
-- **REQ-001 — Portable initialization**: The CLI must initialize the Harness in a repository while preserving existing project structure. Derived from PRD §3.1 and §28.
-- **REQ-002 — Explicit replacement**: A project-local replaceable artifact is authoritative in full; shared and local artifacts must not be implicitly merged. Derived from PRD §2.3 and §24.
-- **REQ-003 — Shared knowledge model**: The Knowledge Model is Harness-owned and non-replaceable; replaceable artifacts include the Knowledge Schema, Project Rules, Workflows, Skills, and Templates. Derived from PRD §3.1.
-- **REQ-004 — Safe agent integration**: `AGENTS.md` and `CLAUDE.md` remain host-owned; Scaffold must preserve surrounding content. Derived from PRD §3.1 and §25.
-- **REQ-005 — Review-aware updates**: Status must expose update-review drift, and update must record review completion without silently overwriting project-local replacements. Derived from PRD §3.1 and §30.
+### REQ-001 — Portable initialization
+
+The CLI must initialize the Harness in a repository while preserving existing project structure. Derived from PRD §3.1 and §28.
+
+Acceptance Criteria:
+
+- A repository can be initialized and can use the default Scaffold without a custom schema.
+- An existing repository can adopt Scaffold without full restructuring.
+
+### REQ-002 — Explicit replacement
+
+A project-local replaceable artifact is authoritative in full; shared and local artifacts must not be implicitly merged. Derived from PRD §2.3 and §24.
+
+Acceptance Criteria:
+
+- Local schemas, rules, workflows, skills, and templates resolve as replacements and are reported as shadowing shared equivalents.
+
+### REQ-003 — Shared knowledge model
+
+The Knowledge Model is Harness-owned and non-replaceable; replaceable artifacts include the Knowledge Schema, Project Rules, Workflows, Skills, and Templates. Derived from PRD §3.1.
+
+Acceptance Criteria:
+
+- A local Knowledge Model is ignored and reported while the shared model remains active.
+
+### REQ-004 — Safe agent integration
+
+`AGENTS.md` and `CLAUDE.md` remain host-owned; Scaffold must preserve surrounding content. Derived from PRD §3.1 and §25.
+
+Acceptance Criteria:
+
+- Initialization preserves non-Scaffold content in host-owned agent instruction files.
+
+### REQ-005 — Review-aware updates
+
+Status must expose update-review drift, and update must record review completion without silently overwriting project-local replacements. Derived from PRD §3.1 and §30.
+
+Acceptance Criteria:
+
+- Updates preserve local replacement contents and record review attestation.
 
 ## Acceptance Criteria
-
-- **AC-001 — Initialize a default Scaffold**: A repository can be initialized and can use the default Scaffold without a custom schema. Verifies REQ-001.
-- **AC-002 — Adopt Scaffold without restructuring**: An existing repository can adopt Scaffold without full restructuring. Verifies REQ-001.
-- **AC-003 — Resolve explicit replacements**: Local schemas, rules, workflows, skills, and templates resolve as replacements and are reported as shadowing shared equivalents. Verifies REQ-002.
-- **AC-004 — Retain the shared Knowledge Model**: A local Knowledge Model is ignored and reported while the shared model remains active. Verifies REQ-003.
-- **AC-005 — Preserve host-owned instructions**: Initialization preserves non-Scaffold content in host-owned agent instruction files. Verifies REQ-004.
-- **AC-006 — Preserve replacement content during updates**: Updates preserve local replacement contents and record review attestation. Verifies REQ-005.
 
 ## Related Knowledge
 

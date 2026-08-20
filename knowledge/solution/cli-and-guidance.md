@@ -6,15 +6,31 @@ Document ID: SOL-001
 
 ## Capabilities
 
-- **CAP-001 — Harness lifecycle management**: initialize, inspect, and record update-review state for a target repository.
-- **CAP-002 — Artifact resolution**: resolve shared defaults and project-local replacements deterministically.
-- **CAP-003 — Agent guidance integration**: provide a package-resolved bootstrap guide and managed instruction blocks without owning surrounding host instructions.
+### CAP-001 — Harness lifecycle management
+
+Initialize, inspect, and record update-review state for a target repository.
+
+### CAP-002 — Artifact resolution
+
+Resolve shared defaults and project-local replacements deterministically.
+
+### CAP-003 — Agent guidance integration
+
+Provide a package-resolved bootstrap guide and managed instruction blocks without owning surrounding host instructions.
 
 ## Responsibilities
 
-- **RESP-001 — Command dispatcher**: validate CLI commands and target path arguments, then delegate lifecycle work.
-- **RESP-002 — Project lifecycle service**: create infrastructure, maintain metadata, resolve artifacts, and format lifecycle results.
-- **RESP-003 — Host-instruction reconciler**: create absent agent instruction files or update only an existing managed Scaffold block.
+### RESP-001 — Command dispatcher
+
+Validate CLI commands and target path arguments, then delegate lifecycle work.
+
+### RESP-002 — Project lifecycle service
+
+Create infrastructure, maintain metadata, resolve artifacts, and format lifecycle results.
+
+### RESP-003 — Host-instruction reconciler
+
+Create absent agent instruction files or update only an existing managed Scaffold block.
 
 ## Components and Boundaries
 
@@ -36,10 +52,21 @@ Document ID: SOL-001
 
 ## Design and Decisions
 
-- **DEC-001 — Package-managed shared defaults**: Shared defaults are read from the running package rather than copied into a project. This keeps shared guidance current while preserving explicit project replacements.
-- **DEC-002 — Metadata-only CLI initialization**: `init` creates `.scaffold/metadata.md`, extension directories, and agent-discovery infrastructure; representation-specific project knowledge is established through the active schema and initialization workflow.
-- **DEC-003 — Managed-block integration**: A bounded `<!-- scaffold:start -->` / `<!-- scaffold:end -->` block permits Scaffold to refresh its own instruction while preserving host-owned content. In a non-interactive terminal, an unintegrated existing host file is left unchanged.
-- **DEC-004 — Attestation-based updates**: `update` records that review is complete but does not claim deterministic semantic validation or perform migration.
+### DEC-001 — Package-managed shared defaults
+
+Shared defaults are read from the running package rather than copied into a project. This keeps shared guidance current while preserving explicit project replacements.
+
+### DEC-002 — Metadata-only CLI initialization
+
+`init` creates `.scaffold/metadata.md`, extension directories, and agent-discovery infrastructure; representation-specific project knowledge is established through the active schema and initialization workflow.
+
+### DEC-003 — Managed-block integration
+
+A bounded `<!-- scaffold:start -->` / `<!-- scaffold:end -->` block permits Scaffold to refresh its own instruction while preserving host-owned content. In a non-interactive terminal, an unintegrated existing host file is left unchanged.
+
+### DEC-004 — Attestation-based updates
+
+`update` records that review is complete but does not claim deterministic semantic validation or perform migration.
 
 ## Verification Strategy
 
