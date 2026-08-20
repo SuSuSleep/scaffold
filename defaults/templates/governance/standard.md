@@ -4,15 +4,17 @@ Document ID: GOV-001
 
 > Follow the active Knowledge Schema for section guidance.
 
-## Context
+## Purpose
 
-## Obligation or Control
+## Applies When
 
-### CTRL-001 — <Reusable control or constraint>
+## Does Not Normally Apply When
 
-<Authoritative control meaning.>
+## Guidance
 
-## Applicability
+### CTRL-001 — <Reusable control, constraint, or strategy>
+
+<Authoritative guidance.>
 
 ## Verification
 

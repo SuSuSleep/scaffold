@@ -4,11 +4,19 @@ Document ID: GOV-002
 
 > Evidence source: [`PRD.md`](../../PRD.md), [`defaults/knowledge-model.md`](../../defaults/knowledge-model.md), [`defaults/knowledge-schema.md`](../../defaults/knowledge-schema.md), and [`defaults/project-rules.md`](../../defaults/project-rules.md), inspected 2026-08-20.
 
-## Context
+## Purpose
 
 Scaffold is a knowledge-first Harness rather than a replacement for every engineering system. Its initial scope depends on readable durable knowledge, agent reasoning, explicit customization, and deliberate treatment of inconsistencies and discoveries.
 
-## Obligation or Control
+## Applies When
+
+Product design, implementation, default guidance, documentation, automated checks, and proposed scope expansions for Scaffold are evaluated.
+
+## Does Not Normally Apply When
+
+A record is purely temporary work history and has no durable project consequence.
+
+## Guidance
 
 ### CON-001 — Markdown-first core operation
 
@@ -53,10 +61,6 @@ Constrains:
 
 - SOL-004#CAP-001 — Accepted-change lifecycle management.
 - SOL-004#CAP-003 — Context and impact collection.
-
-## Applicability
-
-These boundaries apply to product design, implementation, default guidance, documentation, automated checks, and proposed scope expansions for Scaffold.
 
 ## Verification
 

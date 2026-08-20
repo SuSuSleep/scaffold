@@ -20,6 +20,10 @@ Understand the relevant repository area and its available evidence.
 
 Relevant repository structure, existing documentation, instructions, implementation areas, and available evidence are understood.
 
+#### Relevant Governance
+
+- Existing Documentation Standards, Coding Standards, Verification Strategy, Security practices, and Architecture Constraints when they are evidence for reconstruction.
+
 #### Suggested Skills
 
 - collect-context
@@ -43,6 +47,10 @@ Recover relevant durable knowledge from available evidence.
 #### Required Outcome
 
 Relevant Problem, Governance, and Solution knowledge is reconstructed from existing documentation, source code, tests, configuration, interfaces, deployment definitions, repository history, or user knowledge as appropriate. Important conclusions are explicitly classified as Known, Inferred, or Unknown. Existing code is not converted directly into Requirements without evidence that its behavior is intended.
+
+#### Relevant Governance
+
+- Engineering conventions may be reconstructed as Governance only when explicit knowledge or strong repository evidence supports them.
 
 ### Phase — Resolve Material Uncertainty
 

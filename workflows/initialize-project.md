@@ -20,6 +20,10 @@ Understand the repository and its existing knowledge before introducing Scaffold
 
 Repository context, existing knowledge, and relevant repository instructions are identified.
 
+#### Relevant Governance
+
+- Existing Documentation Standards, Coding Standards, Verification Strategy, Security practices, and Architecture Constraints when repository evidence makes them relevant.
+
 #### Suggested Skills
 
 - collect-context
@@ -43,6 +47,12 @@ Create the minimum durable project knowledge needed for useful future work.
 #### Required Outcome
 
 Initial project knowledge locations, document types, and applicable template types are established from the active Knowledge Schema and existing repository knowledge. The CLI's Harness directories are not treated as semantic knowledge-layout requirements, and obvious unknowns are recorded.
+
+#### Relevant Governance
+
+- Documentation Standards, Coding Standards, Verification Strategy, Security practices, and Architecture Constraints when explicit knowledge or strong repository evidence supports a conservative baseline.
+
+Do not invent Governance subjects that lack sufficient evidence. Governance may evolve later through normal knowledge updates without reinitializing the Harness.
 
 ## Required Outcomes
 

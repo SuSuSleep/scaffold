@@ -37,7 +37,7 @@ Create absent agent instruction files or update only an existing managed Scaffol
 - **`bin/scaffold.js`** exposes the command-line entry point.
 - **`src/cli.js`** is assigned-to RESP-001 and exposes the `init`, `status`, and `update` command interface.
 - **`src/project.js`** is assigned-to RESP-002 and RESP-003. It owns local filesystem interactions within the target project.
-- **Shared package artifacts** expose the Knowledge Model and default schemas, rules, workflows, skills, and templates; project-local artifacts may replace only the documented replaceable types.
+- **Shared package artifacts** expose the Knowledge Model and default schemas, rules, workflows, skills, and templates. Templates are grouped by Problem, Solution, and Governance space; project-local artifacts may replace only the documented replaceable types.
 
 ### IFC-001 — Scaffold command-line interface
 
@@ -78,10 +78,19 @@ A bounded `<!-- scaffold:start -->` / `<!-- scaffold:end -->` block permits Scaf
 
 `update` records that review is complete but does not claim deterministic semantic validation or perform migration.
 
-## Verification Strategy
+## Verification Items
 
-- Run `npm test` to verify CLI behavior, artifact resolution, managed-block preservation, and default-document structure.
-- Run `node bin/scaffold.js status` in the target repository to verify active artifact sources, agent integration, and update-review state.
+### VER-001 — CLI lifecycle behavior
+
+Verifies:
+
+- PROB-001#REQ-001 — Portable initialization.
+- PROB-001#REQ-005 — Review-aware updates.
+
+Expected evidence:
+
+- `init`, `status`, and `update` preserve their documented lifecycle and artifact-resolution behavior.
+- Managed agent-instruction integration preserves host-owned content.
 
 ## Related Knowledge
 

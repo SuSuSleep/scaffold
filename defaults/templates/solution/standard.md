@@ -28,6 +28,16 @@ Realizes: CAP-001
 
 <Decision rationale and consequences.>
 
-## Verification Strategy
+## Verification Items
+
+### VER-001 — <Specific expectation to demonstrate>
+
+Verifies:
+
+- PROB-001#REQ-001 — <Observable obligation>
+
+Expected evidence:
+
+- <Observable result.>
 
 ## Related Knowledge

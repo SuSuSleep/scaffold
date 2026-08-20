@@ -50,6 +50,10 @@ Check applicable Project Rules and Governance constraints.
 
 Applicable constraints are satisfied and no unresolved material rule conflict remains.
 
+#### Relevant Governance
+
+- Applicable Governance strategy, controls, and constraints, including Verification Strategy when Solution verification items are affected.
+
 ### Phase — Establish Acceptance
 
 #### Goal

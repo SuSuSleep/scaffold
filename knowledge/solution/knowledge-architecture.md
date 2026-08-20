@@ -103,11 +103,18 @@ The shared Knowledge Model is the semantic contract. The active Knowledge Schema
 
 Knowledge objects may have independent semantic identities without requiring one physical file per object. The default representation favors sufficiently contextual Markdown documents; a project may adopt a more granular representation only through its active Knowledge Schema.
 
-## Verification Strategy
+## Verification Items
 
-- Review a proposed knowledge change to confirm that Problem obligations do not prescribe unmandated implementation, Findings are not promoted directly to Controls, and Decisions do not redefine Requirements.
-- Check that cross-document relationships use qualified document and object identifiers when durable traceability is needed.
-- Run `npm test` to verify the package ships the shared Knowledge Model, Schema, Rules, templates, and their artifact-resolution behavior.
+### VER-001 — Knowledge-authority boundaries
+
+Verifies:
+
+- CAP-001 — Durable knowledge separation.
+- CAP-002 — Deliberate guidance authority.
+
+Expected evidence:
+
+- A reviewed knowledge change preserves semantic, representation, policy, and project-ownership boundaries.
 
 ## Related Knowledge
 

@@ -6,6 +6,7 @@ const os = require('node:os');
 const path = require('node:path');
 const { spawnSync } = require('node:child_process');
 const test = require('node:test');
+const packageInfo = require('../package.json');
 
 const cli = path.resolve(__dirname, '../bin/scaffold.js');
 
@@ -22,9 +23,12 @@ test('init creates only Harness infrastructure without copying semantic defaults
   const result = run('init', directory);
   assert.equal(result.status, 0, result.stderr);
   assert.match(result.stdout, /agent-discovery guide/);
-  assert.match(fs.readFileSync(path.join(directory, '.scaffold/metadata.md'), 'utf8'), /Scaffold Version: 0.2.0/);
+  assert.ok(fs.readFileSync(path.join(directory, '.scaffold/metadata.md'), 'utf8').includes(`Scaffold Version: ${packageInfo.version}`));
   assert.equal(fs.existsSync(path.join(directory, 'knowledge/problem')), false);
   assert.equal(fs.existsSync(path.join(directory, '.scaffold/knowledge-schema.md')), false);
+  assert.ok(fs.existsSync(path.join(directory, '.scaffold/templates/problem')));
+  assert.ok(fs.existsSync(path.join(directory, '.scaffold/templates/solution')));
+  assert.ok(fs.existsSync(path.join(directory, '.scaffold/templates/governance')));
   assert.match(fs.readFileSync(path.join(directory, '.scaffold/agent-guide.md'), 'utf8'), /currently installed Scaffold package/);
   assert.match(fs.readFileSync(path.join(directory, 'AGENTS.md'), 'utf8'), /agent-guide/);
   assert.match(fs.readFileSync(path.join(directory, 'CLAUDE.md'), 'utf8'), /agent-guide/);
@@ -101,15 +105,14 @@ test('status resolves local and shared templates without implicit merging', () =
   const directory = temporaryDirectory();
   run('init', directory);
   const templates = path.join(directory, '.scaffold/templates');
-  fs.mkdirSync(templates, { recursive: true });
-  fs.writeFileSync(path.join(templates, 'solution.md'), '# Local Solution\n');
-  fs.writeFileSync(path.join(templates, 'api-contract.md'), '# API Contract\n');
+  fs.writeFileSync(path.join(templates, 'solution/standard.md'), '# Local Solution\n');
+  fs.writeFileSync(path.join(templates, 'governance/api-contract.md'), '# API Contract\n');
   const result = run('status', directory);
   assert.equal(result.status, 0, result.stderr);
-  assert.match(result.stdout, /Template: problem\n  source: shared/);
-  assert.match(result.stdout, /Template: solution\n  source: project/);
-  assert.match(result.stdout, /Template: api-contract\n  source: project/);
-  assert.match(result.stdout, /Shadowed shared artifacts:[\s\S]*defaults[\\/]templates[\\/]solution\.md/);
+  assert.match(result.stdout, /Template: problem\/standard\n  source: shared/);
+  assert.match(result.stdout, /Template: solution\/standard\n  source: project/);
+  assert.match(result.stdout, /Template: governance\/api-contract\n  source: project/);
+  assert.match(result.stdout, /Shadowed shared artifacts:[\s\S]*defaults[\\/]templates[\\/]solution[\\/]standard\.md/);
 });
 
 test('status reports a native project-local skill replacement', () => {
@@ -221,23 +224,41 @@ test('default templates conform exactly to the default Knowledge Schema structur
   assert.match(schema, /project-local Schema replaces this default representation contract in full/);
   const expectedSections = {
     problem: ['Intent', 'Actors and Goals', 'Use Cases', 'Requirements', 'Acceptance Criteria', 'Related Knowledge'],
-    solution: ['Capabilities', 'Responsibilities', 'Components and Boundaries', 'Satisfies', 'Design and Decisions', 'Verification Strategy', 'Related Knowledge'],
-    governance: ['Context', 'Obligation or Control', 'Applicability', 'Verification', 'Related Knowledge'],
+    solution: ['Capabilities', 'Responsibilities', 'Components and Boundaries', 'Satisfies', 'Design and Decisions', 'Verification Items', 'Related Knowledge'],
+    governance: ['Purpose', 'Applies When', 'Does Not Normally Apply When', 'Guidance', 'Verification', 'Related Knowledge'],
   };
   for (const [type, sections] of Object.entries(expectedSections)) {
-    const template = fs.readFileSync(path.resolve(__dirname, `../defaults/templates/${type}.md`), 'utf8');
+    const template = fs.readFileSync(path.resolve(__dirname, `../defaults/templates/${type}/standard.md`), 'utf8');
     const headings = [...template.matchAll(/^## (.+)$/gm)].map((match) => match[1]);
     assert.deepEqual(headings, sections, `${type} template sections`);
     for (const section of sections) assert.match(schema, new RegExp(`\\| ${section} \\|`), `${type} Schema maps ${section}`);
   }
 });
 
+test('default guidance supports selective Governance consumption', () => {
+  const schema = fs.readFileSync(path.resolve(__dirname, '../defaults/knowledge-schema.md'), 'utf8');
+  const workflow = (name) => fs.readFileSync(path.resolve(__dirname, '../workflows', name), 'utf8');
+  const contextSkill = fs.readFileSync(path.resolve(__dirname, '../skills/collect-context/SKILL.md'), 'utf8');
+  const root = path.resolve(__dirname, '../defaults/templates/governance');
+
+  assert.match(schema, /## Selective Governance Consumption/);
+  assert.match(schema, /must not hard-code project-specific Governance file paths/);
+  for (const name of ['initialize-project.md', 'implement-change.md', 'update-knowledge.md', 'reconstruct-project-knowledge.md']) {
+    assert.match(workflow(name), /^#### Relevant Governance$/m, name);
+  }
+  assert.match(contextSkill, /Do not load all Governance records by default/);
+  assert.doesNotMatch(contextSkill, /knowledge\/governance\//);
+  for (const name of ['documentation-standard.md', 'coding-standard.md', 'verification-strategy.md']) {
+    assert.ok(fs.existsSync(path.join(root, name)), name);
+  }
+});
+
 test('default knowledge representation demonstrates local IDs and qualified references', () => {
   const schema = fs.readFileSync(path.resolve(__dirname, '../defaults/knowledge-schema.md'), 'utf8');
   const guide = fs.readFileSync(path.resolve(__dirname, '../defaults/agent-guide.md'), 'utf8');
-  const problem = fs.readFileSync(path.resolve(__dirname, '../defaults/templates/problem.md'), 'utf8');
-  const solution = fs.readFileSync(path.resolve(__dirname, '../defaults/templates/solution.md'), 'utf8');
-  const governance = fs.readFileSync(path.resolve(__dirname, '../defaults/templates/governance.md'), 'utf8');
+  const problem = fs.readFileSync(path.resolve(__dirname, '../defaults/templates/problem/standard.md'), 'utf8');
+  const solution = fs.readFileSync(path.resolve(__dirname, '../defaults/templates/solution/standard.md'), 'utf8');
+  const governance = fs.readFileSync(path.resolve(__dirname, '../defaults/templates/governance/standard.md'), 'utf8');
 
   assert.match(schema, /## Identifiers and References/);
   assert.match(schema, /<TYPE>-<LOCAL_NUMBER> — <DESCRIPTIVE_TITLE>/);
@@ -254,7 +275,7 @@ test('default knowledge representation demonstrates local IDs and qualified refe
   assert.match(solution, /Document ID: SOL-001/);
   assert.match(solution, /PROB-001#REQ-001 — <Observable obligation>/);
   assert.match(governance, /Document ID: GOV-001/);
-  assert.match(governance, /CTRL-001 — <Reusable control or constraint>/);
+  assert.match(governance, /CTRL-001 — <Reusable control, constraint, or strategy>/);
 });
 
 test("the package ships a complete default Knowledge Model", () => {
@@ -269,6 +290,7 @@ test("the package ships a complete default Knowledge Model", () => {
     "### Requirement",
     "### Acceptance Criteria",
     "### External Contract",
+    "### Engineering Strategy",
     "### Finding",
     "### Policy or Standard",
     "### Control",
@@ -287,6 +309,7 @@ test("the package ships a complete default Knowledge Model", () => {
     "## Semantic Anti-Patterns",
   ]) assert.ok(model.includes(heading), heading);
   assert.match(model, /Finding must not automatically become a Control/);
+  assert.match(model, /Governance may be project-wide in scope without being relevant to every activity/);
   assert.match(model, /Relationships are many-to-many/);
   assert.match(model, /The Knowledge Model defines semantic concepts and relationships only/);
   assert.doesNotMatch(model, /\.scaffold\/knowledge-model\.md/);

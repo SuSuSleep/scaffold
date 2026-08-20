@@ -40,7 +40,7 @@ Provide concise methods for collecting context, analyzing impact, implementing w
 
 ## Components and Boundaries
 
-- **`defaults/`** is assigned-to RESP-001. It contains the non-replaceable Knowledge Model and shared default Schema, Rules, and templates.
+- **`defaults/`** is assigned-to RESP-001. It contains the non-replaceable Knowledge Model and shared default Schema, Rules, and templates, organized under `templates/problem/`, `templates/solution/`, and `templates/governance/`.
 - **`workflows/`** is assigned-to RESP-002. It defines project-work lifecycle sequencing, including `reconstruct-project-knowledge` and `learn-from-finding`.
 - **`skills/`** is assigned-to RESP-003. It supplies optional reusable methods; a project may explicitly replace a skill without merging it with the shared version.
 - The installed package exposes these artifacts to projects. `.scaffold/` is a project-local Harness integration area, not the source location of the package's shared guidance.
@@ -62,11 +62,28 @@ The active Knowledge Schema determines the project knowledge representation and 
 
 Workflows own ordered phases, phase intent, and required outcomes. Skills are reusable methods that a workflow may suggest and project rules may require, but they do not replace workflow sequencing.
 
-## Verification Strategy
+## Verification Items
 
-- Inspect the package contents to confirm the default artifacts, workflows, and skills ship with the package.
-- Run `npm test` to verify default document structure, artifact resolution, workflow phase structure, and knowledge-model availability.
-- Review reconstruction and learning records for explicit evidence, scope, and uncertainty before accepting them as durable knowledge.
+### VER-001 — Shared artifact availability
+
+Verifies:
+
+- CAP-001 — Shared guidance artifact provision.
+
+Expected evidence:
+
+- The package exposes the default artifacts, workflows, and skills that the active Schema selects.
+
+### VER-002 — Evidence-based knowledge handling
+
+Verifies:
+
+- CAP-002 — Evidence-based knowledge reconstruction.
+- CAP-003 — Finding-to-knowledge learning.
+
+Expected evidence:
+
+- Reconstruction and learning records preserve evidence, scope, and uncertainty.
 
 ## Related Knowledge
 

@@ -20,6 +20,10 @@ Understand the authoritative document, intended semantic change, and applicable 
 
 The authoritative records, intended semantic change, active Knowledge Schema, existing related project knowledge, and applicable rules are understood. The active Knowledge Model defines meaning, the Schema defines representation, and an applicable Template provides starting structure only.
 
+#### Relevant Governance
+
+- Documentation Standards and the Governance subject being created or updated, when applicable.
+
 #### Suggested Skills
 
 - collect-context
@@ -34,6 +38,10 @@ Identify knowledge that depends on or is contradicted by the intended change.
 
 Dependent knowledge, material relationship effects, and required consistency updates are identified according to the active Knowledge Model and Knowledge Schema.
 
+#### Relevant Governance
+
+- Any applicable Governance record that constrains or is affected by the intended change.
+
 #### Suggested Skills
 
 - analyze-impact
@@ -47,6 +55,10 @@ Make the semantic change while restoring internal knowledge consistency.
 #### Required Outcome
 
 Obsolete knowledge is corrected, removed, or explicitly superseded; the active Knowledge Schema is respected; and semantic consistency is restored. Schema or Template changes do not automatically rewrite project knowledge; use deliberate migration when semantic adaptation is required.
+
+#### Relevant Governance
+
+- Governance records remain independently evolvable and do not require Harness reinitialization.
 
 ## Required Outcomes
 

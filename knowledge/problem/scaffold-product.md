@@ -99,6 +99,17 @@ Acceptance Criteria:
 - `review-change` establishes semantic correctness, representation compliance, relationship consistency, project-constraint compliance, and acceptance before `implement-change` begins.
 - A Project Rule may require a method such as TDD without changing the Workflow's required outcomes.
 
+### REQ-010 — Selective Governance consumption
+
+The Harness must represent project-wide engineering strategy as durable Governance knowledge and enable agents to consume only the Governance relevant to the current Workflow Phase.
+
+Acceptance Criteria:
+
+- Governance records state when they apply and when they do not normally apply.
+- Solution records define solution-specific verification items; project-wide verification approach belongs to Governance unless a Solution has an exceptional constraint.
+- Shared Workflows and Skills refer to Governance by semantic subject rather than project-specific file paths.
+- No deterministic context-routing engine is required.
+
 ## Acceptance Criteria
 
 ## Related Knowledge
@@ -111,6 +122,8 @@ Acceptance Criteria:
 - SOL-003#CAP-002 — Deliberate guidance authority.
 - SOL-004#CAP-001 — Accepted-change lifecycle management.
 - SOL-004#CAP-002 — Method-flexible work guidance.
+- SOL-005#CAP-001 — Selective Governance context resolution.
+- GOV-003#CTRL-001 — Project verification strategy.
 - GOV-002#CON-001 — Markdown-first core operation.
 - GOV-002#CON-002 — Agent-mediated semantic validation.
 - GOV-002#CON-003 — Durable source-of-truth boundaries.

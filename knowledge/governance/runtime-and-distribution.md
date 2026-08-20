@@ -4,11 +4,19 @@ Document ID: GOV-001
 
 > Evidence source: [`package.json`](../../package.json) and [`README.md`](../../README.md), inspected 2026-08-20.
 
-## Context
+## Purpose
 
 Scaffold is distributed as a Node.js package with a `scaffold` command-line entry point. The package declares its supported runtime through the Node engine field.
 
-## Obligation or Control
+## Applies When
+
+The package is published, run from its command-line entry point, developed locally, or verified in automation.
+
+## Does Not Normally Apply When
+
+Documenting Problem-space intent that has no runtime or package-distribution consequence.
+
+## Guidance
 
 ### CON-001 — Supported Node.js runtime
 
@@ -18,10 +26,6 @@ Constrains:
 
 - SOL-001#IFC-001 — Scaffold command-line interface.
 - SOL-002#CAP-001 — Shared guidance artifact provision.
-
-## Applicability
-
-This constraint applies to the published package, command-line use, local development, and automated verification of Scaffold.
 
 ## Verification
 

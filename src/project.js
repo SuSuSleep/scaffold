@@ -75,7 +75,13 @@ function initProject({ directory, version, packageRoot, decideHostIntegration })
   }
 
   fs.mkdirSync(directory, { recursive: true });
-  for (const relative of ['.scaffold/workflows', '.scaffold/skills', '.scaffold/templates']) {
+  for (const relative of [
+    '.scaffold/workflows',
+    '.scaffold/skills',
+    '.scaffold/templates/problem',
+    '.scaffold/templates/solution',
+    '.scaffold/templates/governance',
+  ]) {
     fs.mkdirSync(path.join(directory, relative), { recursive: true });
   }
   const now = timestamp();
@@ -116,6 +122,16 @@ function directoryEntries(root, predicate) {
   return fs.readdirSync(root, { withFileTypes: true }).filter(predicate).map((entry) => entry.name);
 }
 
+function templateNames(root, relative = '') {
+  const directory = path.join(root, relative);
+  if (!fs.existsSync(directory)) return [];
+  return fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+    const name = path.join(relative, entry.name);
+    if (entry.isDirectory()) return templateNames(root, name);
+    return entry.isFile() && entry.name.endsWith('.md') ? [name] : [];
+  });
+}
+
 function resolvedArtifacts(directory, packageRoot) {
   const localRoot = scaffoldDirectory(directory);
   const artifacts = [
@@ -125,10 +141,12 @@ function resolvedArtifacts(directory, packageRoot) {
   const addNamed = (label, type, localPredicate, sharedPredicate, filePath) => {
     const localBase = path.join(localRoot, type);
     const sharedBase = path.join(packageRoot, type === 'templates' ? 'defaults/templates' : type);
-    const names = new Set([
-      ...directoryEntries(localBase, localPredicate),
-      ...directoryEntries(sharedBase, sharedPredicate),
-    ]);
+    const names = new Set(type === 'templates'
+      ? [...templateNames(localBase), ...templateNames(sharedBase)]
+      : [
+        ...directoryEntries(localBase, localPredicate),
+        ...directoryEntries(sharedBase, sharedPredicate),
+      ]);
     for (const name of [...names].sort()) artifacts.push({
       label: `${label}: ${name.replace(/\.md$/, '')}`,
       name: `${type}/${name}`,

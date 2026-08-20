@@ -67,11 +67,27 @@ A substantially different work category receives an explicit additional Workflow
 
 Shared Skills remain concise, tactical, and reusable across Workflows. A new Skill is added only when an activity needs independent reusable guidance; candidate activities may remain represented by Workflow phases or existing Skills rather than proliferating overlapping artifacts.
 
-## Verification Strategy
+## Verification Items
 
-- Inspect each shared Workflow for a Goal, Entry Conditions, Phases, and required outcomes, and confirm that the review Workflow establishes acceptance before implementation.
-- Verify that project rules can require a method without changing a Workflow's required outcomes.
-- Run `npm test` to verify shared workflow phase structure and the presence of the package's default Skills.
+### VER-001 — Accepted-change gate
+
+Verifies:
+
+- CAP-001 — Accepted-change lifecycle management.
+
+Expected evidence:
+
+- A proposed change is accepted through `review-change` before `implement-change` realizes it.
+
+### VER-002 — Method boundary
+
+Verifies:
+
+- CAP-002 — Method-flexible work guidance.
+
+Expected evidence:
+
+- A Project Rule can require a method without changing a Workflow's required outcome.
 
 ## Related Knowledge
 

@@ -20,6 +20,10 @@ Establish the request, constraints, and relevant project context.
 
 The requested change, applicable rules, relevant durable knowledge, and affected scope are understood.
 
+#### Relevant Governance
+
+- Applicable Coding Standards, Security Controls, Architecture Constraints, and Documentation Standards.
+
 #### Suggested Skills
 
 - collect-context
@@ -33,6 +37,10 @@ Determine the change's effects on behavior, interfaces, tests, and durable knowl
 #### Required Outcome
 
 Relevant obligations, constraints, implementation areas, verification needs, and durable knowledge updates are identified according to the active Knowledge Model and Knowledge Schema.
+
+#### Relevant Governance
+
+- Applicable Security Controls, Architecture Constraints, and Verification Strategy.
 
 #### Suggested Skills
 
@@ -48,6 +56,10 @@ Make the accepted change while preserving applicable constraints.
 
 The implementation satisfies the accepted change, applicable constraints are preserved, and required durable knowledge is updated according to the active Knowledge Model and Knowledge Schema.
 
+#### Relevant Governance
+
+- Applicable Coding Standards, Security Controls, and Architecture Constraints.
+
 #### Suggested Skills
 
 - implement-with-tdd
@@ -62,6 +74,10 @@ Demonstrate that the completed change satisfies its requirements without unaccep
 
 Proportionate verification is complete and any remaining limits or risks are known.
 
+#### Relevant Governance
+
+- Verification Strategy and applicable Security Controls.
+
 #### Suggested Skills
 
 - verify-change
@@ -75,6 +91,10 @@ Ensure durable project knowledge reflects discoveries made while realizing and v
 #### Required Outcome
 
 Durable discoveries are reconciled and obsolete or incomplete knowledge is corrected where needed, with evidence and relationships represented according to the active Knowledge Model and Knowledge Schema.
+
+#### Relevant Governance
+
+- Documentation Standards and any Governance subject affected by a durable discovery.
 
 ## Required Outcomes
 

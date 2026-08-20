@@ -9,8 +9,8 @@ This schema defines the default Markdown representation of durable project knowl
 The default representation stores durable knowledge in `knowledge/` using the following document types and locations:
 
 - `problem/`: business intent, actors, goals, use cases, requirements, and acceptance criteria.
-- `solution/`: capabilities, responsibilities, components and boundaries, interfaces, designs, decisions, and verification strategy.
-- `governance/`: external constraints, policies, security controls, operational concerns, and reusable findings.
+- `solution/`: capabilities, responsibilities, components and boundaries, interfaces, designs, decisions, and solution-specific verification items.
+- `governance/`: external constraints, policies, security controls, operational concerns, reusable findings, and project-wide engineering strategy.
 
 These are default representation choices, not Knowledge Model concepts. Projects may replace this organization through their active Knowledge Schema.
 
@@ -19,6 +19,8 @@ These are default representation choices, not Knowledge Model concepts. Projects
 Each section listed in the default document mappings below is a **required structural section**. A required section may remain empty when no applicable knowledge exists; its heading still provides deterministic document structure. The default Schema defines no optional or conditional sections.
 
 The default templates must contain every required section for their corresponding document type and must not introduce another required semantic section. Templates provide only a concrete starting structure; use this Schema for representation guidance and the shared Knowledge Model for concept meaning.
+
+Shared and project-local templates are organized by the knowledge space they start: `templates/problem/`, `templates/solution/`, and `templates/governance/`. This organization is a default representation choice; the active Knowledge Schema remains the authority for template applicability.
 
 Use stable identifiers for important knowledge objects when durable traceability is useful. Apply the identifier and reference conventions below; explicit relationship labels, Markdown links, and short relationship statements may supplement them.
 
@@ -159,17 +161,18 @@ Use these descriptions before creating or updating a document from a default tem
 | Components and Boundaries | Concrete architectural units, their assigned Responsibilities, and the Interfaces they expose. |
 | Satisfies | The Requirements, Controls, or Constraints this solution addresses. |
 | Design and Decisions | Durable technical behavior, structure, and the intentional choices that select or constrain it. |
-| Verification Strategy | The evidence, tests, checks, or reviews that should verify the solution's important expectations. |
+| Verification Items | Specific expectations the Solution must demonstrate. Link each important item to the Requirement, Control, Interface, or Design expectation it verifies. The project-wide verification approach belongs in Governance unless this Solution has an exceptional constraint. |
 | Related Knowledge | Identifiers or links to connected problem, governance, or solution records. |
 
 ### Governance Document
 
 | Section | Record |
 | --- | --- |
-| Context | The source, risk, external obligation, finding, policy, or operational condition that makes this governance knowledge necessary. |
-| Obligation or Control | The required constraint, control, or reusable rule. State it accurately without turning contextual risks into universal prohibitions. |
-| Applicability | The systems, data, conditions, or changes to which the obligation or control applies. |
-| Verification | Evidence, checks, reviews, or tests that establish adherence to the obligation or control. |
+| Purpose | The source, risk, external obligation, finding, policy, operational condition, or cross-cutting strategy this Governance record addresses. |
+| Applies When | The project activities, systems, data, conditions, or changes for which the record is relevant. Applicability is semantic; do not require agents to load every Governance record by default. |
+| Does Not Normally Apply When | Activities that normally do not require this context. State exceptions separately when they exist. |
+| Guidance | The applicable constraint, control, reusable rule, or engineering strategy. State mandatory obligations accurately without turning contextual risks into universal prohibitions. |
+| Verification | Evidence, checks, reviews, or tests that establish adherence to the Governance guidance. |
 | Related Knowledge | Identifiers or links to affected requirements, solutions, findings, or external contracts. |
 
 ## Relationship Representation
@@ -183,3 +186,11 @@ Represent relationships with stable identifiers, explicit labels, Markdown links
 - Capabilities should identify the Requirements, Controls, or Constraints they satisfy; Responsibilities should identify the Capabilities they realize; and Components should identify assigned Responsibilities and exposed Interfaces when useful.
 - Verification should identify the Requirement, Control, Interface expectation, or Design expectation it verifies.
 - Many-to-many relationships are allowed; do not force them into a tree.
+
+## Selective Governance Consumption
+
+Governance is durable Project Knowledge and may apply project-wide, but project-wide scope does not require universal context loading. A Workflow Phase identifies the semantic categories of Governance relevant to its Goal and Required Outcome; an agent locates and reads only the applicable records, expanding context only when dependencies or uncertainty require it.
+
+Shared Workflows and Skills must refer to Governance by semantic subject, such as Verification Strategy, Coding Standards, Security Controls, or Architecture Constraints. They must not hard-code project-specific Governance file paths. The active Knowledge Schema and the project’s Governance records determine physical representation.
+
+Project Rules remain distinct from Governance: Rules define mandatory project constraints; Governance records project-wide engineering strategy, controls, constraints, and their applicability.

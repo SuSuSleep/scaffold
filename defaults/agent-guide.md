@@ -38,6 +38,8 @@ When sources disagree, analyze the inconsistency. Do not automatically treat cod
 
 Classify durable knowledge before recording it: keep stakeholder intent and externally meaningful obligations in Problem Space; retain external contracts, findings, policies, controls, constraints, and applicability in Governance Space; and record solution capabilities, responsibilities, components, interfaces, designs, decisions, and verification in Solution Space. Preserve the Model invariants: do not turn a Finding directly into a universal Control, do not put unmandated implementation detail into a Requirement, and do not claim Verification evidence that has not occurred.
 
+Governance may be project-wide in scope without being relevant to every activity. Begin each Workflow Phase from its Goal and Required Outcome, identify the relevant Governance categories, and read only the applicable Governance records. Resolve categories semantically rather than from hard-coded project file paths; expand context only when dependencies or uncertainty require it. Project Rules define mandatory constraints, while Governance records cross-cutting strategy, controls, constraints, and their applicability.
+
 Templates provide starting structure only. Apply the active Schema when updating records and preserve existing project knowledge coherently rather than mechanically rewriting it for a Schema or Template change.
 
 ## Identifier and Reference Discipline
