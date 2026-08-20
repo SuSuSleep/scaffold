@@ -232,6 +232,31 @@ test('default templates conform exactly to the default Knowledge Schema structur
   }
 });
 
+test('default knowledge representation demonstrates local IDs and qualified references', () => {
+  const schema = fs.readFileSync(path.resolve(__dirname, '../defaults/knowledge-schema.md'), 'utf8');
+  const guide = fs.readFileSync(path.resolve(__dirname, '../defaults/agent-guide.md'), 'utf8');
+  const problem = fs.readFileSync(path.resolve(__dirname, '../defaults/templates/problem.md'), 'utf8');
+  const solution = fs.readFileSync(path.resolve(__dirname, '../defaults/templates/solution.md'), 'utf8');
+  const governance = fs.readFileSync(path.resolve(__dirname, '../defaults/templates/governance.md'), 'utf8');
+
+  assert.match(schema, /## Identifiers and References/);
+  assert.match(schema, /<TYPE>-<LOCAL_NUMBER> — <DESCRIPTIVE_TITLE>/);
+  assert.match(schema, /<DOCUMENT_ID>#<OBJECT_ID>/);
+  assert.match(schema, /Identifier = stable identity/);
+  assert.match(schema, /Title      = mutable semantic context/);
+  assert.match(schema, /Document ID: PROB-001/);
+  assert.match(schema, /PROB-001#REQ-001 — Preserve accepted queued work/);
+  assert.match(schema, /Semantic validation remains agent-only/);
+  assert.match(guide, /do not invent repository-global counters/);
+  assert.match(guide, /qualified `<DOCUMENT_ID>#<OBJECT_ID>` references/);
+  assert.match(problem, /Document ID: PROB-001/);
+  assert.match(problem, /REQ-001 — <Observable obligation>/);
+  assert.match(solution, /Document ID: SOL-001/);
+  assert.match(solution, /PROB-001#REQ-001 — <Observable obligation>/);
+  assert.match(governance, /Document ID: GOV-001/);
+  assert.match(governance, /CTRL-001 — <Reusable control or constraint>/);
+});
+
 test("the package ships a complete default Knowledge Model", () => {
   const model = fs.readFileSync(path.resolve(__dirname, "../defaults/knowledge-model.md"), "utf8");
   for (const heading of [

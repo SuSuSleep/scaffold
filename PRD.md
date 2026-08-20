@@ -1206,9 +1206,9 @@ Release
 They MAY contain references such as:
 
 ```text
-Implements: REQ-021
-Related Design: DES-004
-Verifies: TEST-018
+Implements: PROB-001#REQ-021
+Related Design: SOL-001#DES-004
+Verifies: SOL-001#VER-018
 ```
 
 Long-term system reasoning SHOULD NOT depend exclusively on these temporary records.

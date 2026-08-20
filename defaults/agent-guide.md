@@ -39,3 +39,11 @@ When sources disagree, analyze the inconsistency. Do not automatically treat cod
 Classify durable knowledge before recording it: keep stakeholder intent and externally meaningful obligations in Problem Space; retain external contracts, findings, policies, controls, constraints, and applicability in Governance Space; and record solution capabilities, responsibilities, components, interfaces, designs, decisions, and verification in Solution Space. Preserve the Model invariants: do not turn a Finding directly into a universal Control, do not put unmandated implementation detail into a Requirement, and do not claim Verification evidence that has not occurred.
 
 Templates provide starting structure only. Apply the active Schema when updating records and preserve existing project knowledge coherently rather than mechanically rewriting it for a Schema or Template change.
+
+## Identifier and Reference Discipline
+
+Use the active Knowledge Schema as the authority for identifier and reference representation. Under the default Schema, determine the containing document first, then allocate the next appropriate local typed ID; do not invent repository-global counters. Give every identified object a concise descriptive title.
+
+Use local IDs for same-document references and qualified `<DOCUMENT_ID>#<OBJECT_ID>` references for cross-document relationships. Include the copied title when practical, recognizing that it is a semantic hint rather than identity.
+
+Preserve an ID when ordinary wording changes retain the same knowledge object. Allocate a new ID when the semantic identity changes, and do not assign IDs merely because content appears in a list. Review identifier consistency semantically; the default representation deliberately has no deterministic semantic validator.

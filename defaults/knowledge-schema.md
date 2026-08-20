@@ -20,7 +20,120 @@ Each section listed in the default document mappings below is a **required struc
 
 The default templates must contain every required section for their corresponding document type and must not introduce another required semantic section. Templates provide only a concrete starting structure; use this Schema for representation guidance and the shared Knowledge Model for concept meaning.
 
-Use stable identifiers for important knowledge objects when durable traceability is useful. The default Schema does not require an identifier format: a project may use identifiers such as `REQ-001` or `DEC-001`, explicit relationship labels, Markdown links, or short relationship statements.
+Use stable identifiers for important knowledge objects when durable traceability is useful. Apply the identifier and reference conventions below; explicit relationship labels, Markdown links, and short relationship statements may supplement them.
+
+## Identifiers and References
+
+Identifiers, titles, and bodies have distinct roles:
+
+```text
+Identifier = stable identity
+Title      = mutable semantic context
+Body       = mutable authoritative meaning
+```
+
+### Identified Objects
+
+An object that needs stable identity uses this format:
+
+```text
+<TYPE>-<LOCAL_NUMBER> — <DESCRIPTIVE_TITLE>
+```
+
+For example:
+
+```markdown
+### REQ-001 — Preserve queued tasks after restart
+```
+
+Do not define an identified object as only `REQ-001`; every identified object has a concise descriptive title. The type is a meaningful abbreviation for the represented Knowledge Model concept, such as `REQ` for Requirement, `CAP` for Capability, `RESP` for Responsibility, `DEC` for Decision, or `CTRL` for Control.
+
+### Scope and Document Identity
+
+Object identifiers are local to their containing document, not repository-global. Each document that exposes externally referenceable objects has a stable typed document identifier near its title:
+
+```text
+Document ID: PROB-001
+```
+
+The default document identifiers are `PROB-<NUMBER>` for Problem documents, `SOL-<NUMBER>` for Solution documents, and `GOV-<NUMBER>` for Governance documents. Do not encode mutable semantic classifications in an ID: prefer `PROB-001` over `PROBLEM-GPU-SCHEDULING-001`.
+
+Local numbering may therefore repeat across documents. For example, both `PROB-001` and `PROB-002` may contain `REQ-001`. Do not invent a repository-wide counter.
+
+### References
+
+The canonical cross-document identity is:
+
+```text
+<DOCUMENT_ID>#<OBJECT_ID>
+```
+
+Use a qualified reference whenever a relationship crosses document boundaries, for example:
+
+```markdown
+- PROB-001#REQ-003 — Queue work when resources are unavailable
+- SOL-002#CAP-001 — Durable task scheduling
+- SOL-002#DEC-004 — Persist accepted pending work
+```
+
+Include the copied descriptive title when practical. It is intentionally denormalized semantic context, not part of identity. Within the containing document, a local identifier is sufficient when its namespace is already unambiguous: `REQ-003 is constrained by REQ-005.`
+
+### Stability, Replacement, and Titles
+
+An identifier remains unchanged when wording changes without changing the underlying object. For example, `REQ-003 — Preserve queued tasks after restart` may become `REQ-003 — Preserve accepted work across service recovery`.
+
+A semantically different obligation, decision, capability, or other object receives a new identifier. Do not reuse the old ID; retain it as deprecated or superseded when that history is useful. The `supersedes` relationship may express that connection, but is not required solely for this purpose.
+
+When an identified object's title changes, update copied titles in cross-document references when practical. A reference such as `PROB-001#REQ-003` remains valid even until its copied title is synchronized.
+
+### When to Assign an Identifier
+
+Assign an ID only when the object needs independent cross-reference, traceability, verification, lifecycle management, modification, deprecation or replacement, or durable relationship tracking. Ordinary explanatory bullets remain ordinary bullets.
+
+Acceptance Criteria normally remain unnumbered children of their Requirement:
+
+```markdown
+### REQ-001 — Preserve queued work
+
+Acceptance Criteria:
+
+- Queued work remains available after restart.
+- Completed work is not requeued.
+```
+
+Give a criterion its own ID only when it needs independent traceability or verification. If that is required, express ownership clearly, for example `REQ-001/AC-01`; this Schema does not require criterion-level IDs by default. Likewise, retain independent `RESP-*` objects only when a Responsibility has an independent lifecycle or relationships beyond one Capability; do not change Responsibility semantics merely to simplify numbering.
+
+### Agent Review Guidance
+
+Semantic validation remains agent-only. When reviewing knowledge, agents should detect and report duplicate object IDs in one document, missing document IDs for externally referenced objects, cross-document local-only references, identified objects without titles, conflicting copied titles, semantic ID reuse, and unnecessary IDs on explanatory bullets. Do not add a deterministic validator for these checks.
+
+### Complete Example
+
+```markdown
+# Task Lifecycle
+
+Document ID: PROB-001
+
+## Requirements
+
+### REQ-001 — Preserve accepted queued work
+
+The system must preserve accepted queued work across service recovery.
+```
+
+```markdown
+# Task Scheduling
+
+Document ID: SOL-001
+
+## Capabilities
+
+### CAP-001 — Durable task scheduling
+
+Satisfies:
+
+- PROB-001#REQ-001 — Preserve accepted queued work
+```
 
 ## Document Section Guidance
 
@@ -33,7 +146,7 @@ Use these descriptions before creating or updating a document from a default tem
 | Intent | The problem or opportunity, the desired outcome, and why it matters. Avoid solution design. |
 | Actors and Goals | The people, roles, systems, or external parties involved and the outcome each needs. |
 | Use Cases | Relevant externally meaningful interactions through which Actors pursue Goals. |
-| Requirements | Observable obligations. Give important requirements stable identifiers and state their origin when known. |
+| Requirements | Observable obligations. Give important requirements stable local identifiers and descriptive titles, and state their origin when known. |
 | Acceptance Criteria | Conditions and examples that demonstrate a requirement is satisfied from an external or stakeholder perspective. |
 | Related Knowledge | Identifiers or links to connected governance, solution, or problem records. |
 
@@ -61,7 +174,7 @@ Use these descriptions before creating or updating a document from a default tem
 
 ## Relationship Representation
 
-Represent relationships with stable identifiers, explicit labels, Markdown links, or short relationship statements as appropriate. When a specific shared Knowledge Model relationship is known, represent it explicitly: for example, prefer `Satisfies: REQ-021` to placing the same relationship only under Related Knowledge. Use `related-to` only when no more precise relationship applies.
+Represent relationships with stable identifiers, explicit labels, Markdown links, or short relationship statements as appropriate. When a specific shared Knowledge Model relationship is known, represent it explicitly: for example, prefer `Satisfies: PROB-001#REQ-021 — Submit an inference task` to placing the same relationship only under Related Knowledge. Use `related-to` only when no more precise relationship applies.
 
 ## Relationship Guidance
 
