@@ -52,6 +52,16 @@ Create the minimum durable project knowledge needed for useful future work.
 
 Initial project knowledge locations, document types, and applicable template types are established from the active Knowledge Schema and existing repository knowledge. The CLI's Harness directories are not treated as semantic knowledge-layout requirements, and obvious unknowns are recorded.
 
+### Phase — Establish Project Rule Baseline
+
+#### Goal
+
+Determine the project’s initial effective Rule set without inventing engineering conventions.
+
+#### Required Outcome
+
+Applicable existing engineering practices are retained through shared Rules, represented as local additions or same-identity replacements when strong evidence supports them, or deliberately left unresolved. Material shared/local Rule conflicts are reviewed.
+
 #### Relevant Rules
 
 - documentation.*
@@ -60,7 +70,7 @@ Initial project knowledge locations, document types, and applicable template typ
 - security.*
 - architecture.*
 
-Establish local Rules only from explicit repository instructions, existing engineering documentation, build or CI conventions, formatter or linter configuration, test structure, or other strong evidence. Do not invent a project convention: leave it undefined or record the uncertainty. Review every established local Rule against the effective shared set, distinguishing a local addition, same-identity replacement, compatible specialization, semantic contradiction, and unknown intent. Governance may evolve later through normal knowledge updates without reinitializing the Harness.
+Establish local Rules only from explicit repository instructions, existing engineering documentation, build or CI conventions, formatter or linter configuration, test structure, or other strong evidence. Do not invent a project convention: leave it undefined or record the uncertainty. Review every established local Rule against the effective shared set, distinguishing a local addition, same-identity replacement, compatible specialization, semantic contradiction, and unknown intent.
 
 ## Required Outcomes
 

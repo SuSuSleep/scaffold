@@ -1,8 +1,8 @@
 # <Solution Name>
 
-Document ID: SOL-001
+Document ID: SOL-<ALLOCATED_ID>
 
-> Follow the active Knowledge Schema for section guidance.
+> Follow the active Knowledge Schema for section guidance. Before creating this document, obtain its ID with `scaffold id next SOL`.
 
 ## Capabilities
 
@@ -20,7 +20,7 @@ Realizes: CAP-001
 
 ## Satisfies
 
-- PROB-001#REQ-001 — <Observable obligation>
+- PROB-<ID>#AC-001 — <Observable acceptance condition>
 
 ## Design and Decisions
 

@@ -67,7 +67,7 @@ Determine whether the proposed change may become authoritative project knowledge
 
 #### Required Outcome
 
-Material ambiguity or disagreement is resolved, appropriate explicit owner acceptance is obtained when needed, and the change is accepted for downstream work.
+Material ambiguity or disagreement is resolved, appropriate explicit owner acceptance is obtained when needed, and the accepted change is routed to `update-knowledge`, `implement-change`, `evolve-project-rules`, `evolve-project-artifact`, or an appropriate sequence of those Workflows.
 
 ## Required Outcomes
 
@@ -76,4 +76,4 @@ Material ambiguity or disagreement is resolved, appropriate explicit owner accep
 - Important relationships are consistent.
 - Applicable Project Rules are satisfied.
 - Material ambiguity is resolved.
-- The knowledge change is accepted for downstream work.
+- The accepted change has an explicit downstream Workflow route; implementation is not assumed to be the only destination.

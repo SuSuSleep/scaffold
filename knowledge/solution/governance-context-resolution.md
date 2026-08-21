@@ -2,7 +2,7 @@
 
 Document ID: SOL-005
 
-> Evidence source: [`PRD_delta2.md`](../../PRD_delta2.md), [`defaults/knowledge-schema.md`](../../defaults/knowledge-schema.md), [`defaults/rules/`](../../defaults/rules/), [`workflows/`](../../workflows/), and [`skills/`](../../skills/), inspected 2026-08-20.
+> Evidence source: [`defaults/knowledge-schema.md`](../../defaults/knowledge-schema.md), [`defaults/rules/`](../../defaults/rules/), [`workflows/`](../../workflows/), and [`skills/`](../../skills/), inspected 2026-08-21.
 
 ## Capabilities
 
@@ -50,7 +50,7 @@ Governance and Project Rules may be project-wide in scope without being loaded f
 
 ### DEC-002 — Verification approach and item separation
 
-Project Rules define how the project generally approaches verification. A Solution defines what it must demonstrate through verification items and expected evidence. A Solution may specify a verification method only when an exceptional solution-specific constraint requires it.
+Project Rules define how the project generally approaches verification. A Solution defines what it must demonstrate through Verification Items, which normally verify Acceptance Criteria and may directly verify technical expectations when needed. Execution results are not automatically durable knowledge. A Solution may specify a verification method only when an exceptional solution-specific constraint requires it.
 
 ## Verification Items
 
@@ -58,7 +58,7 @@ Project Rules define how the project generally approaches verification. A Soluti
 
 Verifies:
 
-- PROB-001#REQ-010 — Selective guidance consumption.
+- PROB-001#AC-003 — Durable knowledge is interpreted safely.
 
 Expected evidence:
 

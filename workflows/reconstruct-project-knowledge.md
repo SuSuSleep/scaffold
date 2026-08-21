@@ -54,7 +54,7 @@ Recover relevant durable knowledge from available evidence.
 
 #### Required Outcome
 
-Relevant Problem, Governance, and Solution knowledge is reconstructed from existing documentation, source code, tests, configuration, interfaces, deployment definitions, repository history, or user knowledge as appropriate. Important conclusions are explicitly classified as Known, Inferred, or Unknown. Existing code is not converted directly into Requirements without evidence that its behavior is intended.
+Relevant Problem, Governance, and Solution knowledge is reconstructed from existing documentation, source code, tests, configuration, interfaces, deployment definitions, repository history, or user knowledge as appropriate. Normal accepted Project Knowledge needs no status marker; exceptional conclusions are explicitly marked Inferred or Unknown. Existing code is not converted directly into Requirements without evidence that its behavior is intended.
 
 #### Relevant Rules
 
@@ -68,7 +68,7 @@ Resolve or make visible uncertainty that affects durable knowledge.
 
 #### Required Outcome
 
-Ambiguities that materially affect durable knowledge are resolved from authoritative evidence, clarified with the user, or explicitly recorded as Unknown.
+Ambiguities that materially affect durable knowledge are resolved from authoritative evidence, clarified with the user, or explicitly recorded as Unknown. Inferred or Unknown knowledge is not materially relied upon without review or clarification.
 
 ### Phase — Review Reconstructed Knowledge
 

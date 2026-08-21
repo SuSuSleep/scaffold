@@ -1,8 +1,8 @@
 # <Governance Topic>
 
-Document ID: GOV-001
+Document ID: GOV-<ALLOCATED_ID>
 
-> Follow the active Knowledge Schema for section guidance.
+> Follow the active Knowledge Schema for section guidance. Before creating this document, obtain its ID with `scaffold id next GOV`.
 
 ## Purpose
 
@@ -10,11 +10,7 @@ Document ID: GOV-001
 
 ## Does Not Normally Apply When
 
-## Guidance
-
-### CTRL-001 — <Reusable control, constraint, or strategy>
-
-<Authoritative guidance.>
+## Records
 
 ## Verification
 

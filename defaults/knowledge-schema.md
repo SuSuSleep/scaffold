@@ -58,7 +58,7 @@ Object identifiers are local to their containing document, not repository-global
 Document ID: PROB-001
 ```
 
-The default document identifiers are `PROB-<NUMBER>` for Problem documents, `SOL-<NUMBER>` for Solution documents, and `GOV-<NUMBER>` for Governance documents. Do not encode mutable semantic classifications in an ID: prefer `PROB-001` over `PROBLEM-GPU-SCHEDULING-001`.
+The default document identifiers are `PROB-<NUMBER>` for Problem documents, `SOL-<NUMBER>` for Solution documents, and `GOV-<NUMBER>` for Governance documents. A document ID is unique within its project-level type namespace: no two project documents may declare the same `PROB-*`, `SOL-*`, or `GOV-*` ID. Before creating a new default-Schema document, determine the prefix from this Schema and use `scaffold id next <PREFIX>` or `scaffold id check <DOCUMENT_ID>` to inspect availability. Do not encode mutable semantic classifications in an ID: prefer `PROB-001` over `PROBLEM-GPU-SCHEDULING-001`.
 
 Local numbering may therefore repeat across documents. For example, both `PROB-001` and `PROB-002` may contain `REQ-001`. Do not invent a repository-wide counter.
 
@@ -90,24 +90,28 @@ When an identified object's title changes, update copied titles in cross-documen
 
 ### When to Assign an Identifier
 
-Assign an ID only when the object needs independent cross-reference, traceability, verification, lifecycle management, modification, deprecation or replacement, or durable relationship tracking. Ordinary explanatory bullets remain ordinary bullets.
+Assign an ID only when the object needs independent cross-reference, traceability, verification, lifecycle management, modification, deprecation or replacement, or durable relationship tracking. Ordinary explanatory bullets remain ordinary bullets. Independently referenceable Acceptance Criteria use stable local `AC-<NUMBER>` identifiers; Verification Items use stable local `VER-<NUMBER>` identifiers.
 
-Acceptance Criteria normally remain unnumbered children of their Requirement:
+Acceptance Criteria are separate Problem-space objects and may cover one or more Requirements:
 
 ```markdown
-### REQ-001 — Preserve queued work
+### AC-001 — Accepted work survives recovery
 
-Acceptance Criteria:
+Coverage:
 
-- Queued work remains available after restart.
-- Completed work is not requeued.
+- REQ-001 — Accept queued work.
+- REQ-002 — Preserve queued work.
 ```
 
-Give a criterion its own ID only when it needs independent traceability or verification. If that is required, express ownership clearly, for example `REQ-001/AC-01`; this Schema does not require criterion-level IDs by default. Likewise, retain independent `RESP-*` objects only when a Responsibility has an independent lifecycle or relationships beyond one Capability; do not change Responsibility semantics merely to simplify numbering.
+Likewise, retain independent `RESP-*` objects only when a Responsibility has an independent lifecycle or relationships beyond one Capability; do not change Responsibility semantics merely to simplify numbering.
 
 ### Agent Review Guidance
 
 Semantic validation remains agent-only. When reviewing knowledge, agents should detect and report duplicate object IDs in one document, missing document IDs for externally referenced objects, cross-document local-only references, identified objects without titles, conflicting copied titles, semantic ID reuse, and unnecessary IDs on explanatory bullets. Do not add a deterministic validator for these checks.
+
+### Brownfield Trust States
+
+Normal Project Knowledge is accepted project truth and has no status marker. Use `Status: Inferred` only when evidence suggests a conclusion that has not been accepted, and `Status: Unknown` only when the project lacks sufficient trusted information. Do not materially rely on either state without review or clarification; once accepted or corrected, replace the exceptional state with normal authoritative knowledge.
 
 ### Complete Example
 
@@ -149,7 +153,7 @@ Use these descriptions before creating or updating a document from a default tem
 | Actors and Goals | The people, roles, systems, or external parties involved and the outcome each needs. |
 | Use Cases | Relevant externally meaningful interactions through which Actors pursue Goals. |
 | Requirements | Observable obligations. Give important requirements stable local identifiers and descriptive titles, and state their origin when known. |
-| Acceptance Criteria | Conditions and examples that demonstrate a requirement is satisfied from an external or stakeholder perspective. |
+| Acceptance Criteria | Independently identified observable conditions under which one or more Requirements work acceptably together. State the covered Requirements and expected behavior. |
 | Related Knowledge | Identifiers or links to connected governance, solution, or problem records. |
 
 ### Solution Document
@@ -161,7 +165,7 @@ Use these descriptions before creating or updating a document from a default tem
 | Components and Boundaries | Concrete architectural units, their assigned Responsibilities, and the Interfaces they expose. |
 | Satisfies | The Requirements, Controls, or Constraints this solution addresses. |
 | Design and Decisions | Durable technical behavior, structure, and the intentional choices that select or constrain it. |
-| Verification Items | Specific expectations the Solution must demonstrate. Link each important item to the Requirement, Control, Interface, or Design expectation it verifies. Applicable Project Rules guide the verification approach unless this Solution has an exceptional constraint. |
+| Verification Items | Specific durable expectations the Solution must demonstrate. Normally link each item to one or more Acceptance Criteria; directly verify a Control, Constraint, Interface, or Design expectation only when no appropriate Acceptance Criterion exists. Applicable Project Rules guide the verification approach. |
 | Related Knowledge | Identifiers or links to connected problem, governance, or solution records. |
 
 ### Governance Document
@@ -171,7 +175,7 @@ Use these descriptions before creating or updating a document from a default tem
 | Purpose | The source, risk, external obligation, finding, policy, or operational condition this Governance record addresses. |
 | Applies When | The project activities, systems, data, conditions, or changes for which the record is relevant. Applicability is semantic; do not require agents to load every Governance record by default. |
 | Does Not Normally Apply When | Activities that normally do not require this context. State exceptions separately when they exist. |
-| Guidance | The applicable constraint, control, or rationale. State mandatory obligations accurately without turning contextual risks into universal prohibitions. |
+| Records | The applicable External Contract, Finding, Policy or Standard, Control, Constraint, Compliance Obligation, Operational Constraint, or rationale. State mandatory obligations accurately without turning contextual risks into universal prohibitions. |
 | Verification | Evidence, checks, reviews, or tests that establish adherence to the Governance guidance. |
 | Related Knowledge | Identifiers or links to affected requirements, solutions, findings, or external contracts. |
 
@@ -184,7 +188,7 @@ Represent relationships with stable identifiers, explicit labels, Markdown links
 - Use the shared Knowledge Model relationship vocabulary (`motivates`, `derived-from`, `satisfies`, `realizes`, `constrains`, `assigned-to`, `exposes`, `verifies`, `supersedes`, and `related-to`) when it describes the connection.
 - Requirements should identify their origin when known.
 - Capabilities should identify the Requirements, Controls, or Constraints they satisfy; Responsibilities should identify the Capabilities they realize; and Components should identify assigned Responsibilities and exposed Interfaces when useful.
-- Verification should identify the Requirement, Control, Interface expectation, or Design expectation it verifies.
+- Verification Items should normally identify the Acceptance Criteria they verify. They may instead identify a Control, Constraint, Interface expectation, or Design expectation when appropriate.
 - Many-to-many relationships are allowed; do not force them into a tree.
 
 ## Selective Governance Consumption

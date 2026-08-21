@@ -57,7 +57,7 @@ flowchart LR
 
 - **Problem Space** owns stakeholder intent and externally meaningful obligations: actors, goals, use cases, requirements, and acceptance criteria. It answers why work matters and what must be true without prescribing unmandated implementation.
 - **Governance Space** owns reusable or external obligations and their applicability: policies, external contracts, findings, controls, and constraints. It can derive requirements or constrain Solution knowledge directly when appropriate.
-- **Solution Space** owns the intentional technical structure that realizes applicable obligations: capabilities, responsibilities, components, interfaces, designs, decisions, and verification strategy.
+- **Solution Space** owns the intentional technical structure that realizes applicable obligations: capabilities, responsibilities, components, interfaces, designs, decisions, and Verification Items. Project Rules own the project-wide verification approach; execution results are evidence rather than automatically durable Solution knowledge.
 - A finding is evidence, not automatically a control; a control, constraint, or requirement requires justified scope and applicability. A solution capability is not a business goal, and a decision does not redefine a requirement.
 
 ### IFC-002 — Guidance-authority relationship model
@@ -82,6 +82,7 @@ flowchart LR
 - **Project Rules** define how project work should or must be performed, such as coding, documentation, verification, architecture, and delivery practices. Shared and local Rules form an effective collection by stable identity; a matching local identity replaces the shared Rule in full, while a new local identity adds guidance. Rules do not redefine Model semantics or Schema representation.
 - **Templates** provide starting structure only. The active Schema—not template availability—determines whether a template type applies.
 - Existing project knowledge remains the project-owned durable record. When creating or updating it, apply the Model for meaning, the active Schema for representation, applicable Rules for constraints, and an applicable Template only as a starting structure.
+- No artifact overrides another outside its authority domain: Rules cannot redefine Schema representation, Skills cannot redefine Workflow completion, and Workflows cannot redefine Model semantics.
 
 ## Satisfies
 
@@ -97,7 +98,7 @@ Scaffold represents durable knowledge primarily in Problem, Governance, and Solu
 
 ### DEC-002 — Separate semantic, representation, and policy authority
 
-The shared Knowledge Model is the semantic contract. The active Knowledge Schema represents that contract, while Project Rules guide project work. Keeping these authorities distinct permits explicit local replacement of Schema and atomic Rule replacement without implicit merging or redefinition of shared semantics.
+The shared Knowledge Model is the semantic contract. The active Knowledge Schema encodes and decodes that contract, while Project Rules guide project work. Keeping these authorities distinct permits explicit local replacement of Schema and atomic Rule replacement without implicit merging or redefinition of shared semantics. Material cross-authority disagreement is reconciled in the artifact outside its authority rather than decided by a global precedence chain.
 
 ### DEC-003 — Conceptually structured, physically coherent knowledge
 

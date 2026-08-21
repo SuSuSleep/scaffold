@@ -25,103 +25,122 @@ Scaffold is a portable, knowledge-first development harness for human developers
 
 The CLI must initialize the Harness in a repository while preserving existing project structure.
 
-Acceptance Criteria:
-
-- A repository can be initialized and can use the default Scaffold without a custom schema.
-- An existing repository can adopt Scaffold without full restructuring.
-
 ### REQ-002 — Explicit artifact resolution
 
 A project-local Knowledge Schema, Workflow, Skill, or Template is authoritative in full; shared and local content must not be implicitly merged.
-
-Acceptance Criteria:
-
-- Local schemas, workflows, skills, and templates resolve as full replacements and are reported as shadowing shared equivalents.
-- The Knowledge Model, Harness resolution semantics, and agent bootstrap contract remain Harness-owned and non-replaceable.
 
 ### REQ-011 — Extensible Project Rule collection
 
 The Harness must represent Project Rules as a categorized effective collection. Rules have stable identities and applicability; local Rules may add identities or atomically replace matching shared identities without content merge.
 
-Acceptance Criteria:
-
-- Shared and local Rules coexist, with local additions and same-identity replacements reported distinctly.
-- The old monolithic `.scaffold/project-rules.md` is not silently interpreted as a Rule collection.
-- Agents review semantic conflict, redundancy, specialization, and unknown intent without a deterministic conflict engine.
-
 ### REQ-003 — Shared knowledge model
 
 The Knowledge Model is Harness-owned and non-replaceable; full-replacement artifacts include the Knowledge Schema, Workflows, Skills, and Templates. Project Rules are extensible with atomic same-identity replacement.
-
-Acceptance Criteria:
-
-- A local Knowledge Model is ignored and reported while the shared model remains active.
 
 ### REQ-004 — Safe agent integration
 
 `AGENTS.md` and `CLAUDE.md` remain host-owned; Scaffold must preserve surrounding content.
 
-Acceptance Criteria:
-
-- Initialization preserves non-Scaffold content in host-owned agent instruction files.
-
 ### REQ-005 — Review-aware updates
 
 Status must expose update-review drift, and update must record review completion without silently overwriting project-local replacements.
-
-Acceptance Criteria:
-
-- Updates preserve local replacement contents and record review attestation.
 
 ### REQ-006 — Incremental brownfield reconstruction
 
 The Harness must support incremental reconstruction of durable project knowledge from an existing repository without treating implementation as unquestionable project intent.
 
-Acceptance Criteria:
-
-- A project can identify coherent knowledge subjects and document them incrementally.
-- Reconstructed conclusions distinguish known evidence, inference, and unresolved uncertainty.
-
 ### REQ-007 — Evidence-based durable learning
 
 The Harness must guide a project to convert relevant security, operational, and engineering findings into appropriately scoped durable knowledge when analysis justifies doing so.
-
-Acceptance Criteria:
-
-- Finding analysis records the evidence, root cause, and affected scope before generalizing a reusable obligation.
-- A finding is not represented as a universal control or requirement without justified applicability.
 
 ### REQ-008 — Usable Markdown-first guidance
 
 The Harness must provide usable default guidance and project knowledge representation in human-readable Markdown without requiring structured configuration for core operation.
 
-Acceptance Criteria:
-
-- A new project can begin useful work with the default Knowledge Schema, Project Rules, Workflows, and Skills.
-- A project may customize replaceable guidance, but customization is not required before useful work begins.
-
 ### REQ-009 — Accepted-change lifecycle
 
-The Harness must support a lifecycle in which a meaningful change is defined and reviewed for acceptance before implementation, while allowing project-specific methods to satisfy the lifecycle outcomes.
-
-Acceptance Criteria:
-
-- `define-change` produces a sufficiently defined proposed durable change.
-- `review-change` establishes semantic correctness, representation compliance, relationship consistency, project-constraint compliance, and acceptance before `implement-change` begins.
-- A Project Rule may require a method such as TDD without changing the Workflow's required outcomes.
+The Harness must support a lifecycle in which a meaningful change is defined and reviewed for acceptance before downstream work, while allowing project-specific methods to satisfy the lifecycle outcomes.
 
 ### REQ-010 — Selective guidance consumption
 
 The Harness must keep durable Governance separate from Project Rules and enable agents to consume only the Governance and Rules relevant to the current Workflow Phase.
 
-Acceptance Criteria:
+### REQ-012 — Mechanical document-ID support
 
-- Governance records state when they apply and when they do not normally apply.
-- Solution records define solution-specific verification items; applicable verification Rules guide the project-wide approach unless a Solution has an exceptional constraint.
-- Shared Workflows and Skills refer to Governance and Rules by semantic subject rather than project-specific file paths.
-- No deterministic context-routing engine is required.
+The CLI must provide repository-level next-ID and availability checks for document IDs without interpreting Knowledge Model semantics or hard-coding knowledge directories.
+
+### REQ-013 — Authority-safe artifact evolution
+
+The Harness must support deliberate evolution of full-replacement artifacts and route accepted changes to the appropriate downstream Workflow without allowing an artifact to override a different authority domain.
 
 ## Acceptance Criteria
+
+### AC-001 — A project can adopt Scaffold without restructuring
+
+Covers:
+
+- REQ-001 — Portable initialization
+- REQ-004 — Safe agent integration
+- REQ-005 — Review-aware updates
+
+Expected behavior:
+
+- A new or existing repository initializes without a custom Schema or full restructuring.
+
+### AC-002 — Shared and local guidance resolves by its defined semantics
+
+Covers:
+
+- REQ-002 — Explicit artifact resolution
+- REQ-003 — Shared knowledge model
+- REQ-011 — Extensible Project Rule collection
+
+Expected behavior:
+
+- Full-replacement artifacts shadow shared equivalents; local Rules add or atomically replace identities; the Harness contracts remain shared.
+
+### AC-003 — Durable knowledge is interpreted safely
+
+Covers:
+
+- REQ-006 — Incremental brownfield reconstruction
+- REQ-010 — Selective guidance consumption
+
+Expected behavior:
+
+- Agents load the Schema for material knowledge work, select relevant guidance semantically, and do not treat Inferred or Unknown reconstruction as authoritative without review.
+
+### AC-004 — The CLI checks document-ID availability mechanically
+
+Covers:
+
+- REQ-012 — Mechanical document-ID support
+
+Expected behavior:
+
+- The CLI returns the next unused namespace ID and reports every path using an existing document ID.
+
+### AC-005 — Accepted changes reach the correct lifecycle
+
+Covers:
+
+- REQ-009 — Accepted-change lifecycle
+- REQ-013 — Authority-safe artifact evolution
+
+Expected behavior:
+
+- Review acceptance routes to implementation, knowledge update, Rule evolution, artifact evolution, or a necessary sequence.
+
+### AC-006 — Durable guidance remains usable and evidence-based
+
+Covers:
+
+- REQ-007 — Evidence-based durable learning
+- REQ-008 — Usable Markdown-first guidance
+
+Expected behavior:
+
+- Findings are generalized only with justified scope, and a project can begin using readable default guidance without mandatory structured configuration.
 
 ## Related Knowledge
 

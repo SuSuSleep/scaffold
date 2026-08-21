@@ -18,7 +18,7 @@ Understand the authoritative document, intended semantic change, and applicable 
 
 #### Required Outcome
 
-The authoritative records, intended semantic change, active Knowledge Schema, existing related project knowledge, and applicable rules are understood. The active Knowledge Model defines meaning, the Schema defines representation, and an applicable Template provides starting structure only.
+The authoritative records, intended semantic change, active Knowledge Schema, existing related project knowledge, and applicable rules are understood before material interpretation or change. The active Knowledge Model defines meaning, the Schema defines representation, and an applicable Template provides starting structure only.
 
 #### Relevant Governance
 

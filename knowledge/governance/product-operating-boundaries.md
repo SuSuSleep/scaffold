@@ -2,7 +2,7 @@
 
 Document ID: GOV-002
 
-> Evidence source: [`PRD.md`](../../PRD.md), [`PRD_delta2.md`](../../PRD_delta2.md), [`defaults/knowledge-model.md`](../../defaults/knowledge-model.md), [`defaults/knowledge-schema.md`](../../defaults/knowledge-schema.md), and [`defaults/rules/`](../../defaults/rules/), inspected 2026-08-20.
+> Evidence source: [`defaults/knowledge-model.md`](../../defaults/knowledge-model.md), [`defaults/knowledge-schema.md`](../../defaults/knowledge-schema.md), and [`defaults/rules/`](../../defaults/rules/), inspected 2026-08-21.
 
 ## Purpose
 
@@ -37,7 +37,7 @@ Constrains:
 
 ### CON-003 — Durable source-of-truth boundaries
 
-Project Knowledge is durable truth for intent, obligations, constraints, and reasoning; code is implementation; tests are executable verification evidence; and execution artifacts are temporary work history. When these sources disagree, the inconsistency must be analyzed rather than automatically resolved in favor of one source. Durable reasoning must not depend exclusively on execution artifacts.
+Project Knowledge is durable truth for intent, obligations, constraints, and reasoning; code is implementation; tests are executable verification mechanisms; and execution artifacts are temporary work history. Verification Items are durable expectations, while completed verification evidence is not automatically durable knowledge. When these sources disagree, the inconsistency must be analyzed rather than automatically resolved in favor of one source. Durable reasoning must not depend exclusively on execution artifacts.
 
 Constrains:
 

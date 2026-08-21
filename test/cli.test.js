@@ -173,6 +173,38 @@ test('commands requiring initialization fail clearly', () => {
   assert.match(result.stdout, /not initialized/);
 });
 
+test('document ID commands allocate and inspect IDs without requiring a fixed knowledge layout', () => {
+  const directory = temporaryDirectory();
+  const customKnowledge = path.join(directory, 'docs', 'domain');
+  fs.mkdirSync(customKnowledge, { recursive: true });
+  fs.writeFileSync(path.join(customKnowledge, 'first.md'), '# First\n\nDocument ID: PROB-001\n');
+  fs.writeFileSync(path.join(customKnowledge, 'third.md'), '# Third\n\nDocument ID: PROB-003\n');
+  fs.writeFileSync(path.join(customKnowledge, 'solution.md'), '# Solution\n\nDocument ID: SOL-001\n');
+
+  const nextProblem = run('id', 'next', 'PROB', directory);
+  assert.equal(nextProblem.status, 0, nextProblem.stderr);
+  assert.equal(nextProblem.stdout.trim(), 'PROB-002');
+  const nextGovernance = run('id', 'next', 'GOV', directory);
+  assert.equal(nextGovernance.status, 0, nextGovernance.stderr);
+  assert.equal(nextGovernance.stdout.trim(), 'GOV-001');
+  const used = run('id', 'check', 'PROB-001', directory);
+  assert.equal(used.status, 1);
+  assert.match(used.stdout, /already used:[\s\S]*docs[\\/]domain[\\/]first\.md/);
+  const available = run('id', 'check', 'PROB-002', directory);
+  assert.equal(available.status, 0, available.stderr);
+  assert.equal(available.stdout.trim(), 'available');
+});
+
+test('document ID inspection reports duplicate declarations', () => {
+  const directory = temporaryDirectory();
+  fs.writeFileSync(path.join(directory, 'one.md'), 'Document ID: GOV-001\n');
+  fs.writeFileSync(path.join(directory, 'two.md'), 'Document ID: GOV-001\n');
+  const result = run('id', 'check', 'GOV-001', directory);
+  assert.equal(result.status, 1);
+  assert.match(result.stdout, /one\.md/);
+  assert.match(result.stdout, /two\.md/);
+});
+
 test('the package provides an explicit migration workflow without a migrate command', () => {
   const workflow = path.resolve(__dirname, '../workflows/migrate-project.md');
   assert.match(fs.readFileSync(workflow, 'utf8'), /Safely adapt a project/);
@@ -185,6 +217,7 @@ test('the package provides an explicit migration workflow without a migrate comm
 test('shared workflows own explicit phase sequencing independent of suggested skills', () => {
   const workflows = [
     'define-change.md',
+    'evolve-project-artifact.md',
     'evolve-project-rules.md',
     'implement-change.md',
     'initialize-project.md',
@@ -214,7 +247,7 @@ test('shared workflows have entry conditions that do not pre-require their disco
   assert.match(workflow('adopt-harness-update.md'), /Mark Update Review Complete/);
 });
 
-test('review-change forms the acceptance gate before implementation', () => {
+test('review-change forms the acceptance gate and routes downstream work', () => {
   const workflow = fs.readFileSync(path.resolve(__dirname, '../workflows/review-change.md'), 'utf8');
   for (const phase of [
     'Review Semantic Correctness',
@@ -224,7 +257,7 @@ test('review-change forms the acceptance gate before implementation', () => {
     'Establish Acceptance',
   ]) assert.match(workflow, new RegExp(`### Phase — ${phase}`));
   assert.match(workflow, /A proposed durable knowledge change has been defined\./);
-  assert.match(workflow, /accepted for downstream work/);
+  for (const next of ['update-knowledge', 'implement-change', 'evolve-project-rules', 'evolve-project-artifact']) assert.match(workflow, new RegExp(next));
 });
 
 test('reconstruction workflow preserves evidence confidence and uncertainty', () => {
@@ -236,7 +269,8 @@ test('reconstruction workflow preserves evidence confidence and uncertainty', ()
     'Resolve Material Uncertainty',
     'Review Reconstructed Knowledge',
   ]) assert.match(workflow, new RegExp(`### Phase — ${phase}`));
-  assert.match(workflow, /Known, Inferred, or Unknown/);
+  assert.match(workflow, /Inferred or Unknown/);
+  assert.match(workflow, /not materially relied upon without review or clarification/);
   assert.match(workflow, /not converted directly into Requirements/);
 });
 
@@ -244,7 +278,7 @@ test('agent guidance routes brownfield reconstruction requests to the reconstruc
   const guide = fs.readFileSync(path.resolve(__dirname, '../defaults/agent-guide.md'), 'utf8');
   assert.match(guide, /Reconstruct documentation or recover durable knowledge from an existing repository area \| `reconstruct-project-knowledge`/);
   assert.match(guide, /reconstruct project documentation/);
-  assert.match(guide, /Known, Inferred, and Unknown/);
+  assert.match(guide, /exceptional `Inferred` and `Unknown` states/);
 });
 
 test('default templates conform exactly to the default Knowledge Schema structure', () => {
@@ -254,7 +288,7 @@ test('default templates conform exactly to the default Knowledge Schema structur
   const expectedSections = {
     problem: ['Intent', 'Actors and Goals', 'Use Cases', 'Requirements', 'Acceptance Criteria', 'Related Knowledge'],
     solution: ['Capabilities', 'Responsibilities', 'Components and Boundaries', 'Satisfies', 'Design and Decisions', 'Verification Items', 'Related Knowledge'],
-    governance: ['Purpose', 'Applies When', 'Does Not Normally Apply When', 'Guidance', 'Verification', 'Related Knowledge'],
+    governance: ['Purpose', 'Applies When', 'Does Not Normally Apply When', 'Records', 'Verification', 'Related Knowledge'],
   };
   for (const [type, sections] of Object.entries(expectedSections)) {
     const template = fs.readFileSync(path.resolve(__dirname, `../defaults/templates/${type}/standard.md`), 'utf8');
@@ -297,14 +331,16 @@ test('default knowledge representation demonstrates local IDs and qualified refe
   assert.match(schema, /Document ID: PROB-001/);
   assert.match(schema, /PROB-001#REQ-001 — Preserve accepted queued work/);
   assert.match(schema, /Semantic validation remains agent-only/);
-  assert.match(guide, /do not invent repository-global counters/);
+  assert.match(guide, /scaffold id next/);
   assert.match(guide, /qualified `<DOCUMENT_ID>#<OBJECT_ID>` references/);
-  assert.match(problem, /Document ID: PROB-001/);
+  assert.match(problem, /Document ID: PROB-<ALLOCATED_ID>/);
   assert.match(problem, /REQ-001 — <Observable obligation>/);
-  assert.match(solution, /Document ID: SOL-001/);
-  assert.match(solution, /PROB-001#REQ-001 — <Observable obligation>/);
-  assert.match(governance, /Document ID: GOV-001/);
-  assert.match(governance, /CTRL-001 — <Reusable control, constraint, or strategy>/);
+  assert.match(problem, /AC-001 — <Observable acceptance condition>/);
+  assert.match(solution, /Document ID: SOL-<ALLOCATED_ID>/);
+  assert.match(solution, /PROB-<ID>#AC-001 — <Observable acceptance condition>/);
+  assert.match(governance, /Document ID: GOV-<ALLOCATED_ID>/);
+  assert.match(governance, /^## Records$/m);
+  assert.doesNotMatch(governance, /CTRL-001/);
 });
 
 test("the package ships a complete default Knowledge Model", () => {
@@ -331,7 +367,7 @@ test("the package ships a complete default Knowledge Model", () => {
     "### Interface",
     "### Design",
     "### Decision",
-    "### Verification",
+    "### Verification Item",
     "## Relationship Semantics",
     "## Semantic Invariants",
     "## Semantic Anti-Patterns",

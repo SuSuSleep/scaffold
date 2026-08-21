@@ -149,6 +149,49 @@ function markdownFiles(root, relative = '') {
   });
 }
 
+function projectMarkdownFiles(root, relative = '') {
+  const directory = path.join(root, relative);
+  if (!fs.existsSync(directory)) return [];
+  return fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+    if (entry.isDirectory() && ['.git', '.scaffold', 'node_modules'].includes(entry.name)) return [];
+    const name = path.join(relative, entry.name);
+    if (entry.isDirectory()) return projectMarkdownFiles(root, name);
+    return entry.isFile() && entry.name.endsWith('.md') ? [name] : [];
+  });
+}
+
+function documentIds(directory) {
+  const ids = new Map();
+  for (const relative of projectMarkdownFiles(directory)) {
+    const file = path.join(directory, relative);
+    const matches = fs.readFileSync(file, 'utf8').matchAll(/^Document ID:\s*([A-Z][A-Z0-9]*-\d+)\s*$/gm);
+    for (const match of matches) {
+      const paths = ids.get(match[1]) || [];
+      paths.push(file);
+      ids.set(match[1], paths);
+    }
+  }
+  return ids;
+}
+
+function nextDocumentId({ directory, prefix }) {
+  const ids = documentIds(directory);
+  const used = new Set([...ids.keys()]
+    .map((id) => id.match(new RegExp(`^${prefix}-(\\d+)$`))?.[1])
+    .filter(Boolean)
+    .map(Number));
+  let number = 1;
+  while (used.has(number)) number += 1;
+  return { ok: true, lines: [`${prefix}-${String(number).padStart(3, '0')}`] };
+}
+
+function checkDocumentId({ directory, id }) {
+  const paths = documentIds(directory).get(id) || [];
+  return paths.length
+    ? { ok: false, lines: ['already used:', ...paths.map((file) => path.relative(directory, file))] }
+    : { ok: true, lines: ['available'] };
+}
+
 function ruleIdentity(file) {
   const heading = fs.readFileSync(file, 'utf8').match(/^# ([a-z][a-z0-9-]*(?:\.[a-z][a-z0-9-]*)+)\s*$/m)?.[1];
   return heading || null;
@@ -286,4 +329,4 @@ function updateProject({ directory, version, packageRoot }) {
   ] };
 }
 
-module.exports = { initProject, inspectProject, updateProject };
+module.exports = { checkDocumentId, initProject, inspectProject, nextDocumentId, updateProject };

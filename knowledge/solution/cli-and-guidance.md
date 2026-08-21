@@ -18,6 +18,10 @@ Resolve shared defaults, full project-local replacements, and the effective Proj
 
 Provide a package-resolved bootstrap guide and managed instruction blocks without owning surrounding host instructions.
 
+### CAP-004 — Mechanical document-ID inspection
+
+Provide next-unused and availability inspection for project document IDs without interpreting Knowledge Model concepts.
+
 ## Responsibilities
 
 ### RESP-001 — Command dispatcher
@@ -32,11 +36,15 @@ Create infrastructure, maintain metadata, resolve artifacts, and format lifecycl
 
 Create absent agent instruction files or update only an existing managed Scaffold block.
 
+### RESP-004 — Document-ID inspector
+
+Search Markdown document declarations recursively and report namespace availability without assuming a project knowledge directory.
+
 ## Components and Boundaries
 
 - **`bin/scaffold.js`** exposes the command-line entry point.
-- **`src/cli.js`** is assigned-to RESP-001 and exposes the `init`, `status`, and `update` command interface.
-- **`src/project.js`** is assigned-to RESP-002 and RESP-003. It owns local filesystem interactions within the target project.
+- **`src/cli.js`** is assigned-to RESP-001 and exposes the `init`, `status`, `update`, and `id` command interface.
+- **`src/project.js`** is assigned-to RESP-002, RESP-003, and RESP-004. It owns local filesystem interactions within the target project.
 - **Shared package artifacts** expose the Knowledge Model, default Schema, categorized Rules, workflows, skills, and templates. Templates are grouped by Problem, Solution, and Governance space. Schema, Workflows, Skills, and Templates are fully replaceable; local Rules add identities or atomically replace matching shared identities.
 
 ### IFC-001 — Scaffold command-line interface
@@ -46,6 +54,8 @@ Exposed by `bin/scaffold.js` through `src/cli.js`.
 - `scaffold init [directory]` initializes Harness infrastructure for the target repository.
 - `scaffold status [directory]` reports the effective artifacts and update-review state.
 - `scaffold update [directory]` records completed update-review attestation without overwriting project-local replacements.
+- `scaffold id next PREFIX [directory]` returns the next unused document ID in a namespace.
+- `scaffold id check ID [directory]` reports document-ID availability and every existing declaration.
 - `scaffold --help` and `scaffold --version` report usage and the running package version; an unknown command or more than one directory argument returns a nonzero exit status.
 - When existing `AGENTS.md` or `CLAUDE.md` lacks a managed Scaffold block, interactive execution may add or preview the block; non-interactive execution preserves the file and reports that integration remains incomplete.
 - A legacy `.scaffold/project-rules.md` is reported and ignored; it requires deliberate project migration.
@@ -61,6 +71,8 @@ Exposed by `bin/scaffold.js` through `src/cli.js`.
   - PROB-001#REQ-011 — Extensible Project Rule collection
 - CAP-003 — Agent guidance integration satisfies:
   - PROB-001#REQ-004 — Safe agent integration
+- CAP-004 — Mechanical document-ID inspection satisfies:
+  - PROB-001#REQ-012 — Mechanical document-ID support
 
 ## Design and Decisions
 
@@ -80,6 +92,10 @@ A bounded `<!-- scaffold:start -->` / `<!-- scaffold:end -->` block permits Scaf
 
 `update` records that review is complete but does not claim deterministic semantic validation or perform migration.
 
+### DEC-005 — Mechanical document-ID inspection
+
+The CLI scans Markdown `Document ID:` declarations and reports availability only. The active Schema remains responsible for selecting the document-ID prefix and representing Project Knowledge.
+
 ## Verification Items
 
 ### VER-001 — CLI lifecycle behavior
@@ -87,7 +103,8 @@ A bounded `<!-- scaffold:start -->` / `<!-- scaffold:end -->` block permits Scaf
 Verifies:
 
 - PROB-001#REQ-001 — Portable initialization.
-- PROB-001#REQ-005 — Review-aware updates.
+- PROB-001#AC-001 — A project can adopt Scaffold without restructuring.
+- PROB-001#AC-004 — The CLI checks document-ID availability mechanically.
 
 Expected evidence:
 

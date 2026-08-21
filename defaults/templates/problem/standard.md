@@ -1,8 +1,8 @@
 # <Problem Name>
 
-Document ID: PROB-001
+Document ID: PROB-<ALLOCATED_ID>
 
-> Follow the active Knowledge Schema for section guidance.
+> Follow the active Knowledge Schema for section guidance. Before creating this document, obtain its ID with `scaffold id next PROB`.
 
 ## Intent
 
@@ -16,11 +16,17 @@ Document ID: PROB-001
 
 <Authoritative requirement meaning.>
 
-Acceptance Criteria:
-
-- <Observable condition that demonstrates the requirement is satisfied.>
-
 ## Acceptance Criteria
+
+### AC-001 — <Observable acceptance condition>
+
+Covers:
+
+- REQ-001 — <Observable obligation>
+
+Expected behavior:
+
+- <Observable behavior that demonstrates the covered Requirements work together.>
 
 ## Related Knowledge
 

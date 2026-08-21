@@ -44,7 +44,7 @@ A **Requirement** is an obligation the system or solution must satisfy. It may b
 
 ### Acceptance Criteria
 
-**Acceptance Criteria** are observable conditions or examples demonstrating that a Requirement is satisfied. They provide satisfaction evidence rather than internal design detail.
+An **Acceptance Criterion** is an observable condition under which one or more Requirements are accepted as working correctly together. It is distinct from an individual Requirement, may cover multiple Requirements, and may be covered by multiple Verification Items.
 
 ## Governance Space
 
@@ -102,9 +102,9 @@ A **Design** defines durable technical structure or behavior needed to realize S
 
 A **Decision** records an intentional choice between meaningful alternatives. When relevant, capture context, selected choice, rationale, alternatives, trade-offs, and consequences. A Decision may select, explain, or constrain a Design, but must not redefine the obligation represented by a Requirement.
 
-### Verification
+### Verification Item
 
-**Verification** is evidence or a verification strategy used to establish that a Requirement, Control, Interface expectation, or Design expectation is satisfied. Do not represent it as completed evidence unless the corresponding verification actually occurred.
+A **Verification Item** is a durable Solution expectation describing what must be demonstrated. It normally verifies one or more Acceptance Criteria and may directly verify a Control, Constraint, Interface expectation, or Design expectation when no appropriate Acceptance Criterion exists. It is not a project-wide verification strategy or completed verification evidence.
 
 ## Relationship Semantics
 
@@ -119,7 +119,7 @@ Projects may use different representations through their Knowledge Schema, but t
 | `constrains` | Limits valid solution space, for example Constraint → Solution, External Contract → Interface, or Decision → Design. |
 | `assigned-to` | Assigns Responsibility ownership to a Component. |
 | `exposes` | States that a Component or system offers an Interface. |
-| `verifies` | States which expectation a Verification is intended to demonstrate. |
+| `verifies` | States which expectation a Verification Item is intended to demonstrate. |
 | `supersedes` | Intentionally replaces older durable knowledge. Superseded knowledge must not remain ambiguously active. |
 | `related-to` | Records a meaningful connection when no more specific relationship applies. |
 
@@ -132,7 +132,7 @@ Motivation → Goal → Use Case → Requirement
 Finding / Policy / External Contract → Control / Constraint → Requirement or Solution
 Requirement / Control / Constraint → Capability → Responsibility → Component / Interface / Design
 Decision → Design
-Verification → Requirement / Control / Interface expectation / Design expectation
+Requirement(s) → Acceptance Criterion → Verification Item → Test / Check / Runtime Verification → Verification Evidence
 ```
 
 This is a semantic map, not a required file structure, workflow sequence, or mandatory one-to-one hierarchy.
@@ -145,7 +145,8 @@ This is a semantic map, not a required file structure, workflow sequence, or man
 - A Finding must not automatically become a Control without root-cause analysis and justified generalization.
 - An internal Component must not be treated as an Actor solely because it communicates with another Component.
 - Responsibility describes ownership semantics; Component describes architectural assignment. They are not interchangeable.
-- Verification evidence must not be claimed before the verification occurs.
+- Verification Items are durable expectations; completed Verification Evidence must not be claimed before verification occurs and is not automatically durable knowledge.
+- Acceptance Criteria and Verification Items may each have many-to-many relationships with their covered or verified expectations.
 - Relationships must support many-to-many connections.
 
 ## Semantic Anti-Patterns

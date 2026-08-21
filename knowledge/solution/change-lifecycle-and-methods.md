@@ -2,13 +2,13 @@
 
 Document ID: SOL-004
 
-> Evidence source: [`workflows/`](../../workflows/), [`skills/`](../../skills/), [`defaults/agent-guide.md`](../../defaults/agent-guide.md), and [`PRD.md`](../../PRD.md), inspected 2026-08-20.
+> Evidence source: [`workflows/`](../../workflows/), [`skills/`](../../skills/), and [`defaults/agent-guide.md`](../../defaults/agent-guide.md), inspected 2026-08-21.
 
 ## Capabilities
 
 ### CAP-001 — Accepted-change lifecycle management
 
-Guide meaningful work from project initialization through change definition, review and acceptance, implementation, verification, knowledge update, and explicit migration when ordinary replacement is insufficient.
+Guide meaningful work from project initialization through change definition, review and acceptance, appropriate downstream routing, implementation, verification, knowledge update, artifact evolution, and explicit migration when ordinary replacement is insufficient.
 
 ### CAP-002 — Method-flexible work guidance
 
@@ -24,13 +24,13 @@ Provide reusable guidance for collecting sufficient project, implementation, ver
 
 Realizes: CAP-001
 
-Define lifecycle phases, entry conditions, and required outcomes for project initialization, change definition and review, implementation, knowledge updates, reconstruction, learning, local Rule evolution, and migration.
+Define lifecycle phases, entry conditions, and required outcomes for project initialization, change definition and review, implementation, knowledge updates, reconstruction, learning, local Rule evolution, full-replacement artifact evolution, and migration.
 
 ### RESP-002 — Acceptance-gate enforcement
 
 Realizes: CAP-001
 
-Require `review-change` to establish acceptance of a proposed durable change before `implement-change` realizes it.
+Require `review-change` to establish acceptance of a proposed durable change and route it to the appropriate downstream Workflow or sequence.
 
 ### RESP-003 — Reusable method guidance
 
@@ -41,7 +41,7 @@ Provide concise Skills for methods such as context collection, impact analysis, 
 ## Components and Boundaries
 
 - **`workflows/define-change.md`**, **`workflows/review-change.md`**, and **`workflows/implement-change.md`** are assigned-to RESP-001 and RESP-002. Together, they define the normal accepted-change path.
-- **`workflows/initialize-project.md`**, **`workflows/update-knowledge.md`**, **`workflows/reconstruct-project-knowledge.md`**, **`workflows/learn-from-finding.md`**, **`workflows/evolve-project-rules.md`**, **`workflows/adopt-harness-update.md`**, and **`workflows/migrate-project.md`** are assigned-to RESP-001 for their specialized work categories.
+- **`workflows/initialize-project.md`**, **`workflows/update-knowledge.md`**, **`workflows/reconstruct-project-knowledge.md`**, **`workflows/learn-from-finding.md`**, **`workflows/evolve-project-rules.md`**, **`workflows/evolve-project-artifact.md`**, **`workflows/adopt-harness-update.md`**, and **`workflows/migrate-project.md`** are assigned-to RESP-001 for their specialized work categories.
 - **`skills/collect-context/`**, **`skills/analyze-impact/`**, **`skills/analyze-rule-conflicts/`**, **`skills/implement-with-tdd/`**, and **`skills/verify-change/`** are assigned-to RESP-003.
 - A Workflow may suggest a Skill, but a phase is complete when its required outcome is achieved. Project Rules may require a method, such as TDD, without changing the Workflow.
 
@@ -57,7 +57,7 @@ Provide concise Skills for methods such as context collection, impact analysis, 
 
 ### DEC-001 — Workflow owns outcomes; Skill owns method
 
-Workflows own sequence, phase intent, entry conditions, and completion outcomes. Skills are tactical, reusable method guidance. This keeps a project free to require or replace an implementation method without creating hidden workflow branches or changing the intended work result.
+Workflows own sequence, phase intent, entry conditions, and completion outcomes. Skills are tactical, reusable method guidance. This keeps a project free to require or replace an implementation method without creating hidden workflow branches or changing the intended work result. Accepted review routes downstream work to implementation, knowledge update, Rule evolution, artifact evolution, or an appropriate sequence.
 
 ### DEC-002 — Explicit specialization and migration
 
@@ -77,7 +77,7 @@ Verifies:
 
 Expected evidence:
 
-- A proposed change is accepted through `review-change` before `implement-change` realizes it.
+- A proposed change is accepted through `review-change` before its selected downstream Workflow or Workflows begin.
 
 ### VER-002 — Method boundary
 
