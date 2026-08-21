@@ -73,7 +73,11 @@ Shared Skills remain concise, tactical, and reusable across Workflows. A new Ski
 
 Verifies:
 
-- CAP-001 — Accepted-change lifecycle management.
+- PROB-001#AC-016 — Accepted changes are reviewed before downstream work.
+
+Scope:
+
+- review acceptance as the gate before downstream Workflow routing.
 
 Expected evidence:
 
@@ -83,7 +87,11 @@ Expected evidence:
 
 Verifies:
 
-- CAP-002 — Method-flexible work guidance.
+- PROB-001#AC-016 — Accepted changes are reviewed before downstream work.
+
+Scope:
+
+- separation between Workflow outcomes and project-selected methods.
 
 Expected evidence:
 

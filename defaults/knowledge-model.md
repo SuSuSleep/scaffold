@@ -40,11 +40,13 @@ A **Use Case** is a coherent, externally meaningful interaction through which an
 
 ### Requirement
 
-A **Requirement** is an obligation the system or solution must satisfy. It may be derived from a Goal, Use Case, Governance Control, External Contract, Constraint, compliance obligation, or another Requirement. Preserve enough context to explain why it exists, and do not assume every Requirement originates from business intent.
+A **Requirement** is one durable obligation the system or solution must satisfy. It may be derived from a Goal, Use Case, Governance Control, External Contract, Constraint, compliance obligation, or another Requirement. A Requirement owns its Acceptance Criteria. Preserve enough context to explain why it exists, and do not assume every Requirement originates from business intent.
 
 ### Acceptance Criteria
 
-An **Acceptance Criterion** is an observable condition under which one or more Requirements are accepted as working correctly together. It is distinct from an individual Requirement, may cover multiple Requirements, and may be covered by multiple Verification Items.
+An **Acceptance Criterion** is an observable scenario under which its one primary parent Requirement is accepted as satisfied. It states explicit, observable preconditions, a trigger or action, and expected observations without prescribing implementation. A Requirement may own multiple Acceptance Criteria, and an Acceptance Criterion may be demonstrated through multiple Verification Items.
+
+Dependency context does not imply acceptance ownership. Express a prerequisite as a concrete, observable scenario precondition rather than sharing an Acceptance Criterion between Requirements. If cross-Requirement behavior is itself an obligation, represent it as its own Requirement rather than hiding it in a precondition.
 
 ## Governance Space
 
@@ -104,7 +106,9 @@ A **Decision** records an intentional choice between meaningful alternatives. Wh
 
 ### Verification Item
 
-A **Verification Item** is a durable Solution expectation describing what must be demonstrated. It normally verifies one or more Acceptance Criteria and may directly verify a Control, Constraint, Interface expectation, or Design expectation when no appropriate Acceptance Criterion exists. It is not a project-wide verification strategy or completed verification evidence.
+A **Verification Item** is a bounded durable Solution expectation describing evidence that contributes to demonstrating one Acceptance Criterion. One Acceptance Criterion may require multiple Verification Items; the existence or completion of one item does not alone demonstrate the whole criterion. It is not a project-wide verification strategy or completed verification evidence.
+
+Its verification boundary identifies the behavior being demonstrated. Dependencies outside that boundary may be substituted when doing so preserves meaningful evidence; an interaction that is itself the target must remain real enough to verify. Verification techniques, framework syntax, and temporary test setup are implementation or Project Rule concerns rather than default durable Solution knowledge.
 
 ## Relationship Semantics
 
@@ -132,7 +136,7 @@ Motivation → Goal → Use Case → Requirement
 Finding / Policy / External Contract → Control / Constraint → Requirement or Solution
 Requirement / Control / Constraint → Capability → Responsibility → Component / Interface / Design
 Decision → Design
-Requirement(s) → Acceptance Criterion → Verification Item → Test / Check / Runtime Verification → Verification Evidence
+Requirement → Acceptance Criterion → Verification Item → Test / Check / Runtime Verification → Verification Evidence
 ```
 
 This is a semantic map, not a required file structure, workflow sequence, or mandatory one-to-one hierarchy.
@@ -146,7 +150,8 @@ This is a semantic map, not a required file structure, workflow sequence, or man
 - An internal Component must not be treated as an Actor solely because it communicates with another Component.
 - Responsibility describes ownership semantics; Component describes architectural assignment. They are not interchangeable.
 - Verification Items are durable expectations; completed Verification Evidence must not be claimed before verification occurs and is not automatically durable knowledge.
-- Acceptance Criteria and Verification Items may each have many-to-many relationships with their covered or verified expectations.
+- Each Acceptance Criterion has exactly one primary Requirement owner; a Requirement may own many Acceptance Criteria.
+- Each normal Verification Item has exactly one primary Acceptance Criterion target; multiple Verification Items may collectively demonstrate that criterion.
 - Relationships must support many-to-many connections.
 
 ## Semantic Anti-Patterns
@@ -157,6 +162,8 @@ This is a semantic map, not a required file structure, workflow sequence, or man
 - Do not use a Decision to rewrite expected behavior represented by a Requirement.
 - Do not use a Component where ownership semantics require a Responsibility.
 - Do not use `related-to` when a known, more precise relationship applies.
+- Do not use a multi-owner Acceptance Criterion merely because other Requirements are prerequisites.
+- Do not substitute an interaction while claiming to verify that interaction.
 
 
 ## Schema Integration and Customization

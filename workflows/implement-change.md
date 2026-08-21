@@ -43,7 +43,7 @@ Determine the change's effects on behavior, interfaces, tests, and durable knowl
 
 #### Required Outcome
 
-Relevant obligations, constraints, implementation areas, verification needs, and durable knowledge updates are identified according to the active Knowledge Model and Knowledge Schema.
+Relevant obligations, owned Acceptance Criteria, their `Given` / `When` / `Then` scenarios, constraints, implementation areas, verification boundaries, and durable knowledge updates are identified according to the active Knowledge Model and Knowledge Schema.
 
 #### Relevant Governance
 
@@ -66,7 +66,7 @@ Make the accepted change while preserving applicable constraints.
 
 #### Required Outcome
 
-The implementation satisfies the accepted change, applicable constraints are preserved, and required durable knowledge is updated according to the active Knowledge Model and Knowledge Schema.
+The implementation satisfies the accepted change, applicable constraints are preserved, and required durable knowledge is updated according to the active Knowledge Model and Knowledge Schema. Dependencies outside a Verification Item boundary may be controlled or substituted; interactions that are verification targets retain meaningful real behavior.
 
 #### Relevant Governance
 

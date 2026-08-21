@@ -33,7 +33,7 @@ Determine the semantic impact and the knowledge relationships affected by the in
 
 #### Required Outcome
 
-Affected durable knowledge, material relationships, and potentially stale records are identified according to the active Knowledge Model and Knowledge Schema. Existing authoritative records are considered before creating duplicates.
+Affected durable knowledge, material relationships, and potentially stale records are identified according to the active Knowledge Model and Knowledge Schema. For Requirement changes, owned Acceptance Criteria, observable preconditions, and any independently required cross-Requirement interaction are identified. Existing authoritative records are considered before creating duplicates.
 
 #### Suggested Skills
 

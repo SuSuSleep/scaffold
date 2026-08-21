@@ -68,22 +68,43 @@ Workflows own ordered phases, phase intent, and required outcomes. Skills are re
 
 Verifies:
 
-- CAP-001 — Shared guidance artifact provision.
+- PROB-001#AC-019 — Default guidance remains usable as Markdown.
+
+Scope:
+
+- availability of human-readable default artifacts selected by the active Schema.
 
 Expected evidence:
 
 - The package exposes the default artifacts, workflows, and skills that the active Schema selects.
 
-### VER-002 — Evidence-based knowledge handling
+### VER-002 — Brownfield reconstruction preserves confidence
 
 Verifies:
 
-- CAP-002 — Evidence-based knowledge reconstruction.
-- CAP-003 — Finding-to-knowledge learning.
+- PROB-001#AC-013 — Brownfield knowledge is reconstructed with warranted confidence.
+
+Scope:
+
+- evidence and uncertainty treatment during reconstruction.
 
 Expected evidence:
 
-- Reconstruction and learning records preserve evidence, scope, and uncertainty.
+- reconstruction guidance preserves evidence, scope, and uncertainty.
+
+### VER-003 — Findings are generalized with justified scope
+
+Verifies:
+
+- PROB-001#AC-018 — Findings become durable knowledge only with justified scope.
+
+Scope:
+
+- evidence-based conversion of a finding into durable knowledge.
+
+Expected evidence:
+
+- learning guidance requires analysis before a finding becomes a Control, Constraint, or Requirement.
 
 ## Related Knowledge
 

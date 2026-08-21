@@ -8,7 +8,7 @@ description: Analyze the impact of a requested project change in Scaffold. Use w
 1. Read the request and the active Knowledge Schema and Project Rules.
 2. Locate the smallest relevant requirements, knowledge records, implementation, tests, interfaces, and repository instructions.
 3. Map each affected concern to the requested change. Separate direct effects from consequential effects.
-4. Identify changed behavior, interfaces, responsibilities, constraints, verification, and durable knowledge.
+4. Identify changed behavior, interfaces, responsibilities, constraints, verification, and durable knowledge. For Requirement changes, identify owned Acceptance Criteria and their `Given` / `When` / `Then` scenarios; distinguish prerequisite context from a new cross-Requirement obligation. For Verification Items, identify the evidence boundary, dependencies that may be substituted, and interactions that require integration evidence.
 5. Classify each finding as:
    - **Mechanical:** implementation or test work that does not change durable knowledge.
    - **Knowledge update:** a change that makes a documented fact, decision, rule, or relationship stale or incomplete.

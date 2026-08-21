@@ -343,6 +343,51 @@ test('default knowledge representation demonstrates local IDs and qualified refe
   assert.doesNotMatch(governance, /CTRL-001/);
 });
 
+test('default guidance uses single-owner acceptance and bounded verification items', () => {
+  const read = (relative) => fs.readFileSync(path.resolve(__dirname, '..', relative), 'utf8');
+  const model = read('defaults/knowledge-model.md');
+  const schema = read('defaults/knowledge-schema.md');
+  const problemTemplate = read('defaults/templates/problem/standard.md');
+  const solutionTemplate = read('defaults/templates/solution/standard.md');
+  const rule = read('defaults/rules/verification/dependency-isolation.md');
+  const product = read('knowledge/problem/scaffold-product.md');
+  const solutionRecords = [
+    'knowledge/solution/cli-and-guidance.md',
+    'knowledge/solution/change-lifecycle-and-methods.md',
+    'knowledge/solution/governance-context-resolution.md',
+    'knowledge/solution/knowledge-architecture.md',
+    'knowledge/solution/default-artifacts.md',
+  ].map(read).join('\n');
+
+  assert.match(model, /one primary parent Requirement/);
+  assert.match(model, /one Acceptance Criterion/);
+  assert.match(model, /Dependencies outside that boundary may be substituted/);
+  assert.doesNotMatch(model, /may cover multiple Requirements/);
+  assert.match(schema, /represented by `For`/);
+  assert.doesNotMatch(schema, /may cover one or more Requirements/);
+  assert.match(problemTemplate, /^For:$/m);
+  assert.match(problemTemplate, /^Given:$/m);
+  assert.match(problemTemplate, /^When:$/m);
+  assert.match(problemTemplate, /^Then:$/m);
+  assert.match(solutionTemplate, /PROB-001#AC-001/);
+  assert.match(solutionTemplate, /^Scope:$/m);
+  assert.match(solutionTemplate, /^Assumptions:$/m);
+  assert.match(rule, /Do not substitute an interaction when that interaction itself is the verification target/);
+  assert.doesNotMatch(product, /^Covers:$/m);
+  assert.doesNotMatch(solutionRecords, /PROB-001#AC-00[1-6]/);
+
+  for (const criterion of product.matchAll(/^### AC-[^\n]+\n\n([\s\S]*?)(?=^### AC-|^## Related Knowledge)/gm)) {
+    assert.match(criterion[1], /^For:\n\n- REQ-\d+/m, criterion[0]);
+    assert.match(criterion[1], /^Given:$/m, criterion[0]);
+    assert.match(criterion[1], /^When:$/m, criterion[0]);
+    assert.match(criterion[1], /^Then:$/m, criterion[0]);
+  }
+  for (const item of solutionRecords.matchAll(/^### VER-[^\n]+\n\n([\s\S]*?)(?=^### VER-|^## Related Knowledge)/gm)) {
+    assert.match(item[1], /^Verifies:\n\n- PROB-001#AC-\d+/m, item[0]);
+    assert.match(item[1], /^Scope:$/m, item[0]);
+  }
+});
+
 test("the package ships a complete default Knowledge Model", () => {
   const model = fs.readFileSync(path.resolve(__dirname, "../defaults/knowledge-model.md"), "utf8");
   for (const heading of [

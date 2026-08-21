@@ -58,12 +58,20 @@ Project Rules define how the project generally approaches verification. A Soluti
 
 Verifies:
 
-- PROB-001#AC-003 — Durable knowledge is interpreted safely.
+- PROB-001#AC-014 — Agents consume only relevant durable guidance.
+
+Scope:
+
+- phase-relevant Governance and Rule resolution.
 
 Expected evidence:
 
 - Workflow and Skill guidance refers to Governance and Rules by semantic category and never requires a project-specific path.
 - Agents can identify phase-relevant guidance without loading every Governance record or Rule.
+
+Assumptions:
+
+- applicable Governance and Rules have been recorded with enough semantic context to resolve their applicability.
 
 ## Related Knowledge
 

@@ -18,7 +18,7 @@ Validate use of Knowledge Model concepts and their semantic boundaries.
 
 #### Required Outcome
 
-Requirements are not confused with Designs, Capabilities with Goals, Findings with Controls, Responsibilities with Components, or Decisions with redefinitions of Requirements.
+Requirements are not confused with Designs, Capabilities with Goals, Findings with Controls, Responsibilities with Components, or Decisions with redefinitions of Requirements. Each Acceptance Criterion has one Requirement owner; prerequisites are observable conditions rather than shared Criterion ownership, and required interactions become explicit Requirements.
 
 ### Phase — Review Representation
 
@@ -38,7 +38,7 @@ Validate important semantic relationships affected by the proposal.
 
 #### Required Outcome
 
-Affected `derived-from`, `satisfies`, `realizes`, `constrains`, `assigned-to`, `exposes`, `verifies`, and `supersedes` relationships are internally consistent.
+Affected `derived-from`, `satisfies`, `realizes`, `constrains`, `assigned-to`, `exposes`, `verifies`, and `supersedes` relationships are internally consistent. Normal Verification Items target one Acceptance Criterion and state bounded evidence scope.
 
 ### Phase — Review Project Constraints
 

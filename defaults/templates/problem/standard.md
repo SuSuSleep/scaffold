@@ -20,13 +20,21 @@ Document ID: PROB-<ALLOCATED_ID>
 
 ### AC-001 — <Observable acceptance condition>
 
-Covers:
+For:
 
 - REQ-001 — <Observable obligation>
 
-Expected behavior:
+Given:
 
-- <Observable behavior that demonstrates the covered Requirements work together.>
+- <Observable precondition.>
+
+When:
+
+- <Trigger or action.>
+
+Then:
+
+- <Observable expected outcome.>
 
 ## Related Knowledge
 

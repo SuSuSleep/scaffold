@@ -98,18 +98,61 @@ The CLI scans Markdown `Document ID:` declarations and reports availability only
 
 ## Verification Items
 
-### VER-001 — CLI lifecycle behavior
+### VER-001 — Repository initialization preserves structure
 
 Verifies:
 
-- PROB-001#REQ-001 — Portable initialization.
-- PROB-001#AC-001 — A project can adopt Scaffold without restructuring.
-- PROB-001#AC-004 — The CLI checks document-ID availability mechanically.
+- PROB-001#AC-007 — A repository initializes without restructuring.
+
+Scope:
+
+- `init` creates only Scaffold infrastructure in a selected repository.
 
 Expected evidence:
 
-- `init`, `status`, and `update` preserve their documented lifecycle and artifact-resolution behavior.
-- Managed agent-instruction integration preserves host-owned content.
+- `init` preserves the existing repository structure and does not copy semantic defaults.
+
+### VER-002 — Managed agent integration preserves host content
+
+Verifies:
+
+- PROB-001#AC-008 — Host-owned agent instructions are preserved.
+
+Scope:
+
+- replacement of the bounded Scaffold-managed instruction block.
+
+Expected evidence:
+
+- managed updates preserve surrounding `AGENTS.md` and `CLAUDE.md` content.
+
+### VER-003 — Update review is reported and recorded
+
+Verifies:
+
+- PROB-001#AC-009 — Update review is visible and attested safely.
+
+Scope:
+
+- `status` and `update` review-attestation behavior.
+
+Expected evidence:
+
+- review drift is reported and update attestation preserves local replacements.
+
+### VER-004 — Document-ID commands remain mechanical
+
+Verifies:
+
+- PROB-001#AC-015 — Document IDs are inspected mechanically.
+
+Scope:
+
+- next-ID and availability inspection across repository Markdown files.
+
+Expected evidence:
+
+- ID commands report available and duplicate declarations without requiring a fixed knowledge layout.
 
 ## Related Knowledge
 

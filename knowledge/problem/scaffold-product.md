@@ -75,72 +75,239 @@ The Harness must support deliberate evolution of full-replacement artifacts and 
 
 ## Acceptance Criteria
 
-### AC-001 — A project can adopt Scaffold without restructuring
+### AC-007 — A repository initializes without restructuring
 
-Covers:
+For:
 
 - REQ-001 — Portable initialization
+
+Given:
+
+- a new or existing repository is selected.
+
+When:
+
+- the maintainer runs `scaffold init`.
+
+Then:
+
+- Scaffold infrastructure is initialized without restructuring the repository.
+
+### AC-008 — Host-owned agent instructions are preserved
+
+For:
+
 - REQ-004 — Safe agent integration
+
+Given:
+
+- `AGENTS.md` or `CLAUDE.md` contains host-owned content.
+
+When:
+
+- Scaffold initializes or refreshes its managed instruction.
+
+Then:
+
+- surrounding host-owned content remains preserved.
+
+### AC-009 — Update review is visible and attested safely
+
+For:
+
 - REQ-005 — Review-aware updates
 
-Expected behavior:
+Given:
 
-- A new or existing repository initializes without a custom Schema or full restructuring.
+- a Scaffold project has a recorded reviewed version.
 
-### AC-002 — Shared and local guidance resolves by its defined semantics
+When:
 
-Covers:
+- a maintainer checks status or records an update review.
+
+Then:
+
+- review drift is visible and local replacements are not overwritten.
+
+### AC-010 — Full-replacement artifacts resolve explicitly
+
+For:
 
 - REQ-002 — Explicit artifact resolution
+
+Given:
+
+- a project supplies a local replacement for a shared artifact.
+
+When:
+
+- Scaffold resolves that artifact.
+
+Then:
+
+- the local artifact replaces the shared artifact in full without implicit merging.
+
+### AC-011 — The shared Knowledge Model remains authoritative
+
+For:
+
 - REQ-003 — Shared knowledge model
+
+Given:
+
+- a project has local Scaffold customizations.
+
+When:
+
+- an agent resolves knowledge semantics.
+
+Then:
+
+- it uses the shared Knowledge Model while applying local artifact replacement only where supported.
+
+### AC-012 — Project Rules form an effective collection
+
+For:
+
 - REQ-011 — Extensible Project Rule collection
 
-Expected behavior:
+Given:
 
-- Full-replacement artifacts shadow shared equivalents; local Rules add or atomically replace identities; the Harness contracts remain shared.
+- shared Rules and optional local Rules have stable identities.
 
-### AC-003 — Durable knowledge is interpreted safely
+When:
 
-Covers:
+- Scaffold resolves the active Rule set.
+
+Then:
+
+- local Rules add identities or atomically replace matching shared identities without content merge.
+
+### AC-013 — Brownfield knowledge is reconstructed with warranted confidence
+
+For:
 
 - REQ-006 — Incremental brownfield reconstruction
+
+Given:
+
+- an existing repository provides incomplete documentation and implementation evidence.
+
+When:
+
+- an agent reconstructs durable knowledge.
+
+Then:
+
+- it distinguishes accepted, Inferred, and Unknown conclusions without treating implementation as unquestionable intent.
+
+### AC-014 — Agents consume only relevant durable guidance
+
+For:
+
 - REQ-010 — Selective guidance consumption
 
-Expected behavior:
+Given:
 
-- Agents load the Schema for material knowledge work, select relevant guidance semantically, and do not treat Inferred or Unknown reconstruction as authoritative without review.
+- a Workflow Phase has a defined goal and required outcome.
 
-### AC-004 — The CLI checks document-ID availability mechanically
+When:
 
-Covers:
+- an agent collects work context.
+
+Then:
+
+- it resolves the applicable Governance and Rules semantically without loading all guidance by default.
+
+### AC-015 — Document IDs are inspected mechanically
+
+For:
 
 - REQ-012 — Mechanical document-ID support
 
-Expected behavior:
+Given:
 
-- The CLI returns the next unused namespace ID and reports every path using an existing document ID.
+- a repository contains Markdown document identifiers.
 
-### AC-005 — Accepted changes reach the correct lifecycle
+When:
 
-Covers:
+- a maintainer asks Scaffold for the next ID or checks an ID.
+
+Then:
+
+- Scaffold reports availability and declarations without interpreting knowledge semantics or requiring a fixed knowledge layout.
+
+### AC-016 — Accepted changes are reviewed before downstream work
+
+For:
 
 - REQ-009 — Accepted-change lifecycle
+
+Given:
+
+- a meaningful change has been sufficiently defined.
+
+When:
+
+- the change enters the lifecycle.
+
+Then:
+
+- review establishes acceptance before its selected downstream Workflow begins.
+
+### AC-017 — Artifact evolution preserves authority boundaries
+
+For:
+
 - REQ-013 — Authority-safe artifact evolution
 
-Expected behavior:
+Given:
 
-- Review acceptance routes to implementation, knowledge update, Rule evolution, artifact evolution, or a necessary sequence.
+- an accepted change affects a full-replacement artifact.
 
-### AC-006 — Durable guidance remains usable and evidence-based
+When:
 
-Covers:
+- the change is routed downstream.
+
+Then:
+
+- it uses the appropriate evolution path without allowing an artifact to override another authority domain.
+
+### AC-018 — Findings become durable knowledge only with justified scope
+
+For:
 
 - REQ-007 — Evidence-based durable learning
+
+Given:
+
+- a relevant security, operational, or engineering finding exists.
+
+When:
+
+- the finding is analyzed.
+
+Then:
+
+- any resulting durable knowledge has justified scope and semantic classification.
+
+### AC-019 — Default guidance remains usable as Markdown
+
+For:
+
 - REQ-008 — Usable Markdown-first guidance
 
-Expected behavior:
+Given:
 
-- Findings are generalized only with justified scope, and a project can begin using readable default guidance without mandatory structured configuration.
+- a project begins using Scaffold defaults.
+
+When:
+
+- a maintainer or agent reads the available guidance.
+
+Then:
+
+- it can use human-readable Markdown without structured configuration for core operation.
 
 ## Related Knowledge
 

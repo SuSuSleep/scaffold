@@ -34,10 +34,18 @@ Realizes: CAP-001
 
 Verifies:
 
-- PROB-001#REQ-001 — <Observable obligation>
+- PROB-001#AC-001 — <Observable acceptance condition>
+
+Scope:
+
+- <Bounded behavior demonstrated by this item.>
 
 Expected evidence:
 
 - <Observable result.>
+
+Assumptions:
+
+- <Optional observable dependency outside this verification boundary.>
 
 ## Related Knowledge

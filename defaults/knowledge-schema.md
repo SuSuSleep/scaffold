@@ -92,18 +92,29 @@ When an identified object's title changes, update copied titles in cross-documen
 
 Assign an ID only when the object needs independent cross-reference, traceability, verification, lifecycle management, modification, deprecation or replacement, or durable relationship tracking. Ordinary explanatory bullets remain ordinary bullets. Independently referenceable Acceptance Criteria use stable local `AC-<NUMBER>` identifiers; Verification Items use stable local `VER-<NUMBER>` identifiers.
 
-Acceptance Criteria are separate Problem-space objects and may cover one or more Requirements:
+Acceptance Criteria are separate Problem-space objects. Each has exactly one primary Requirement owner, represented by `For`:
 
 ```markdown
 ### AC-001 — Accepted work survives recovery
 
-Coverage:
+For:
 
 - REQ-001 — Accept queued work.
-- REQ-002 — Preserve queued work.
+
+Given:
+
+- a valid work request is available.
+
+When:
+
+- the request is accepted.
+
+Then:
+
+- the work is accepted for processing.
 ```
 
-Likewise, retain independent `RESP-*` objects only when a Responsibility has an independent lifecycle or relationships beyond one Capability; do not change Responsibility semantics merely to simplify numbering.
+Dependencies are concrete observable `Given` preconditions, not additional Requirement owners. If an interaction is itself an obligation, define a separate Requirement and its own Acceptance Criteria. Likewise, retain independent `RESP-*` objects only when a Responsibility has an independent lifecycle or relationships beyond one Capability; do not change Responsibility semantics merely to simplify numbering.
 
 ### Agent Review Guidance
 
@@ -153,7 +164,7 @@ Use these descriptions before creating or updating a document from a default tem
 | Actors and Goals | The people, roles, systems, or external parties involved and the outcome each needs. |
 | Use Cases | Relevant externally meaningful interactions through which Actors pursue Goals. |
 | Requirements | Observable obligations. Give important requirements stable local identifiers and descriptive titles, and state their origin when known. |
-| Acceptance Criteria | Independently identified observable conditions under which one or more Requirements work acceptably together. State the covered Requirements and expected behavior. |
+| Acceptance Criteria | Independently identified observable scenarios for exactly one primary Requirement. State `For`, observable `Given` preconditions, `When` trigger, and `Then` outcomes. |
 | Related Knowledge | Identifiers or links to connected governance, solution, or problem records. |
 
 ### Solution Document
@@ -165,7 +176,7 @@ Use these descriptions before creating or updating a document from a default tem
 | Components and Boundaries | Concrete architectural units, their assigned Responsibilities, and the Interfaces they expose. |
 | Satisfies | The Requirements, Controls, or Constraints this solution addresses. |
 | Design and Decisions | Durable technical behavior, structure, and the intentional choices that select or constrain it. |
-| Verification Items | Specific durable expectations the Solution must demonstrate. Normally link each item to one or more Acceptance Criteria; directly verify a Control, Constraint, Interface, or Design expectation only when no appropriate Acceptance Criterion exists. Applicable Project Rules guide the verification approach. |
+| Verification Items | Bounded durable evidence responsibilities. Each normal item links to one Acceptance Criterion and records its scope and expected evidence; multiple items may collectively demonstrate a criterion. Applicable Project Rules guide the verification approach. |
 | Related Knowledge | Identifiers or links to connected problem, governance, or solution records. |
 
 ### Governance Document
@@ -188,8 +199,8 @@ Represent relationships with stable identifiers, explicit labels, Markdown links
 - Use the shared Knowledge Model relationship vocabulary (`motivates`, `derived-from`, `satisfies`, `realizes`, `constrains`, `assigned-to`, `exposes`, `verifies`, `supersedes`, and `related-to`) when it describes the connection.
 - Requirements should identify their origin when known.
 - Capabilities should identify the Requirements, Controls, or Constraints they satisfy; Responsibilities should identify the Capabilities they realize; and Components should identify assigned Responsibilities and exposed Interfaces when useful.
-- Verification Items should normally identify the Acceptance Criteria they verify. They may instead identify a Control, Constraint, Interface expectation, or Design expectation when appropriate.
-- Many-to-many relationships are allowed; do not force them into a tree.
+- Verification Items should normally identify one Acceptance Criterion they verify, together with bounded scope and expected evidence. `Assumptions` may clarify dependencies outside the verification boundary; do not persist framework-specific mocking mechanics without a durable reason.
+- Many-to-many relationships remain valid where their semantics allow them; Acceptance Criterion ownership and normal Verification Item targets are deliberately one-primary-owner relationships.
 
 ## Selective Governance Consumption
 

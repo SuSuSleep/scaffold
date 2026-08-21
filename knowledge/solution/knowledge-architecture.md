@@ -110,12 +110,15 @@ Knowledge objects may have independent semantic identities without requiring one
 
 Verifies:
 
-- CAP-001 — Durable knowledge separation.
-- CAP-002 — Deliberate guidance authority.
+- PROB-001#AC-010 — Full-replacement artifacts resolve explicitly.
+
+Scope:
+
+- authority boundaries between the shared Knowledge Model and replaceable artifacts.
 
 Expected evidence:
 
-- A reviewed knowledge change preserves semantic, representation, policy, and project-ownership boundaries.
+- a reviewed knowledge change preserves semantic, representation, policy, and project-ownership boundaries.
 
 ## Related Knowledge
 
