@@ -223,6 +223,7 @@ test('shared workflows own explicit phase sequencing independent of suggested sk
     'initialize-project.md',
     'learn-from-finding.md',
     'migrate-project.md',
+    'reconcile-project-change.md',
     'reconstruct-project-knowledge.md',
     'review-change.md',
     'update-knowledge.md',
@@ -242,22 +243,23 @@ test('shared workflows have entry conditions that do not pre-require their disco
   const workflow = (name) => fs.readFileSync(path.resolve(__dirname, '../workflows', name), 'utf8');
   assert.match(workflow('learn-from-finding.md'), /## Entry Conditions\n\n- A relevant finding or observed problem exists\./);
   assert.match(workflow('migrate-project.md'), /## Entry Conditions\n\n- A Scaffold update requires deliberate project migration\./);
-  assert.match(workflow('update-knowledge.md'), /- A specific durable knowledge change is already sufficiently known\./);
+  assert.match(workflow('update-knowledge.md'), /- A sufficiently understood Project Knowledge delta is being reconciled\./);
   assert.match(workflow('define-change.md'), /sufficiently defined proposed knowledge change/);
   assert.match(workflow('adopt-harness-update.md'), /Mark Update Review Complete/);
 });
 
-test('review-change forms the acceptance gate and routes downstream work', () => {
+test('Project Knowledge reconciliation separates writer, reviewer, and owner acceptance', () => {
+  const reconciliation = fs.readFileSync(path.resolve(__dirname, '../workflows/reconcile-project-change.md'), 'utf8');
   const workflow = fs.readFileSync(path.resolve(__dirname, '../workflows/review-change.md'), 'utf8');
-  for (const phase of [
-    'Review Semantic Correctness',
-    'Review Representation',
-    'Review Relationships',
-    'Review Project Constraints',
-    'Establish Acceptance',
-  ]) assert.match(workflow, new RegExp(`### Phase — ${phase}`));
-  assert.match(workflow, /A proposed durable knowledge change has been defined\./);
-  for (const next of ['update-knowledge', 'implement-change', 'evolve-project-rules', 'evolve-project-artifact']) assert.match(workflow, new RegExp(next));
+  assert.match(reconciliation, /Git baseline/);
+  assert.match(reconciliation, /fresh writer subagent/);
+  assert.match(reconciliation, /distinct fresh reviewer subagent/);
+  assert.match(reconciliation, /AWAITING_OWNER_REVIEW/);
+  assert.match(reconciliation, /REVIEW_UNAVAILABLE/);
+  assert.match(workflow, /read-only/);
+  assert.match(workflow, /ACCEPTABLE/);
+  assert.match(workflow, /NOT ACCEPTABLE/);
+  assert.match(workflow, /does not modify Project Knowledge/);
 });
 
 test('reconstruction workflow preserves evidence confidence and uncertainty', () => {
@@ -272,6 +274,7 @@ test('reconstruction workflow preserves evidence confidence and uncertainty', ()
   assert.match(workflow, /Inferred or Unknown/);
   assert.match(workflow, /not materially relied upon without review or clarification/);
   assert.match(workflow, /not converted directly into Requirements/);
+  assert.match(workflow, /reconcile-project-change/);
 });
 
 test('agent guidance routes brownfield reconstruction requests to the reconstruction workflow', () => {
@@ -279,6 +282,7 @@ test('agent guidance routes brownfield reconstruction requests to the reconstruc
   assert.match(guide, /Reconstruct documentation or recover durable knowledge from an existing repository area \| `reconstruct-project-knowledge`/);
   assert.match(guide, /reconstruct project documentation/);
   assert.match(guide, /exceptional `Inferred` and `Unknown` states/);
+  assert.match(guide, /reconcile-project-change/);
 });
 
 test('default templates conform exactly to the default Knowledge Schema structure', () => {

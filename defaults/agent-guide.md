@@ -16,9 +16,10 @@
 | Establish or adopt Scaffold in a repository | `initialize-project` | `collect-context` |
 | Reconstruct documentation or recover durable knowledge from an existing repository area | `reconstruct-project-knowledge` | `collect-context` |
 | Define an ambiguous request, problem, requirement, or discovered need | `define-change` | `collect-context`, `analyze-impact` |
-| Review a proposed durable change before implementation | `review-change` | `collect-context`, `analyze-impact` |
+| Reconcile a proposed Project Knowledge change | `reconcile-project-change` | `collect-context`, `analyze-impact` |
+| Independently review a reconciliation candidate | `review-change` | `collect-context`, `analyze-impact` |
 | Implement an accepted change | `implement-change` | `collect-context`, `analyze-impact`, `verify-change` |
-| Change requirements, design, or governance knowledge | `update-knowledge` | `collect-context`, `analyze-impact` |
+| Mutate Project Knowledge during reconciliation | `update-knowledge` | `collect-context`, `analyze-impact` |
 | Deliberately add, replace, or retire project-local Rules | `evolve-project-rules` | `analyze-rule-conflicts` |
 | Deliberately replace or add a Schema, Workflow, Skill, or Template | `evolve-project-artifact` | `collect-context`, `analyze-impact` |
 | Turn a defect, incident, or security finding into reusable knowledge | `learn-from-finding` | `collect-context`, `analyze-impact`, `verify-change` |
@@ -26,11 +27,11 @@
 
 Workflows define the ordered Phases and their required outcomes. A Phase defines its local intent and can be completed without a Skill. Skills provide reusable, suggested methods; project rules may require or prohibit a particular method. A project may replace a workflow or skill with a local artifact.
 
-Use `define-change` when the requested semantics are not sufficiently defined. Its output is a sufficiently defined proposed knowledge change, not acceptance. Route proposed-but-not-yet-accepted durable changes through `review-change`. Acceptance selects the appropriate downstream Workflow: `update-knowledge`, `implement-change`, `evolve-project-rules`, `evolve-project-artifact`, or a necessary sequence.
+Use `define-change` when the requested Project Knowledge semantics are not sufficiently defined. Its output is a sufficiently defined proposed Project Knowledge delta, not acceptance. Route it through `reconcile-project-change`: a fresh writer subagent runs `update-knowledge`, then a distinct fresh reviewer subagent runs read-only `review-change`. Use Git to identify the accepted baseline and the candidate Project-Knowledge diff. A clean review completes reconciliation; when required, project-owner review occurs afterwards before acceptance. Only accepted Project Knowledge enters `implement-change` when implementation is needed.
 
-Use `update-knowledge` when the exact durable knowledge change is already known.
+Use `update-knowledge` only as the writer step in `reconcile-project-change`; it produces candidate state and cannot accept it.
 
-Use `reconstruct-project-knowledge` for requests such as “reconstruct project documentation,” “document this existing subsystem,” or “recover knowledge from this codebase.” Treat implementation as evidence, not unquestionable intent; record exceptional `Inferred` and `Unknown` states. Do not materially rely on either state without review or clarification.
+Use `reconstruct-project-knowledge` for requests such as “reconstruct project documentation,” “document this existing subsystem,” or “recover knowledge from this codebase.” Treat implementation as evidence, not unquestionable intent; record exceptional `Inferred` and `Unknown` states. When reconstruction changes normal Project Knowledge, send its proposed delta through `reconcile-project-change`. A link to an `Inferred` or `Unknown` record requires project-owner review before material reliance or acceptance.
 
 ## Knowledge Discipline
 

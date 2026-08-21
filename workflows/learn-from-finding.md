@@ -46,7 +46,7 @@ Preserve the learning as governance knowledge or requirements when appropriate.
 
 #### Required Outcome
 
-Applicable governance knowledge or requirements are updated.
+The proposed Governance knowledge or Requirements are defined with their evidence and justified scope, then supplied to `reconcile-project-change`. This Workflow does not directly accept the resulting Project Knowledge.
 
 ### Phase — Link Resolution and Evidence
 

@@ -8,7 +8,7 @@ Document ID: SOL-004
 
 ### CAP-001 — Accepted-change lifecycle management
 
-Guide meaningful work from project initialization through change definition, review and acceptance, appropriate downstream routing, implementation, verification, knowledge update, artifact evolution, and explicit migration when ordinary replacement is insufficient.
+Guide meaningful work from project initialization through change definition, iterative Project Knowledge reconciliation, required owner review, appropriate downstream routing, implementation, verification, knowledge update, artifact evolution, and explicit migration when ordinary replacement is insufficient.
 
 ### CAP-002 — Method-flexible work guidance
 
@@ -18,19 +18,29 @@ Support reusable methods without allowing a selected method or Skill to redefine
 
 Provide reusable guidance for collecting sufficient project, implementation, verification, instruction, and external context before a meaningful decision or change.
 
+### CAP-004 — Project Knowledge reconciliation
+
+Converge a proposed Project Knowledge delta through separate fresh writer and reviewer subagent executions, using Git to distinguish the accepted baseline from candidate knowledge.
+
 ## Responsibilities
 
 ### RESP-001 — Workflow lifecycle definition
 
 Realizes: CAP-001
 
-Define lifecycle phases, entry conditions, and required outcomes for project initialization, change definition and review, implementation, knowledge updates, reconstruction, learning, local Rule evolution, full-replacement artifact evolution, and migration.
+Define lifecycle phases, entry conditions, and required outcomes for project initialization, change definition, Project Knowledge reconciliation, implementation, knowledge updates, reconstruction, learning, local Rule evolution, full-replacement artifact evolution, and migration.
 
 ### RESP-002 — Acceptance-gate enforcement
 
 Realizes: CAP-001
 
-Require `review-change` to establish acceptance of a proposed durable change and route it to the appropriate downstream Workflow or sequence.
+Require `reconcile-project-change` to obtain a clean independent review of candidate Project Knowledge and route required owner review or implementation. A writer cannot accept its own change and a reviewer cannot modify the candidate it reviews.
+
+### RESP-004 — Candidate-state boundary
+
+Realizes: CAP-004
+
+Use a recorded Git baseline for accepted Project Knowledge and the current Project-Knowledge diff for the candidate state. Preserve findings as review output rather than as inherited reviewer confidence.
 
 ### RESP-003 — Reusable method guidance
 
@@ -40,7 +50,7 @@ Provide concise Skills for methods such as context collection, impact analysis, 
 
 ## Components and Boundaries
 
-- **`workflows/define-change.md`**, **`workflows/review-change.md`**, and **`workflows/implement-change.md`** are assigned-to RESP-001 and RESP-002. Together, they define the normal accepted-change path.
+- **`workflows/define-change.md`**, **`workflows/reconcile-project-change.md`**, **`workflows/update-knowledge.md`**, **`workflows/review-change.md`**, and **`workflows/implement-change.md`** are assigned-to RESP-001, RESP-002, and RESP-004. Together, they define the normal Project Knowledge path: define, reconcile candidate knowledge, obtain required owner review, and implement when needed.
 - **`workflows/initialize-project.md`**, **`workflows/update-knowledge.md`**, **`workflows/reconstruct-project-knowledge.md`**, **`workflows/learn-from-finding.md`**, **`workflows/evolve-project-rules.md`**, **`workflows/evolve-project-artifact.md`**, **`workflows/adopt-harness-update.md`**, and **`workflows/migrate-project.md`** are assigned-to RESP-001 for their specialized work categories.
 - **`skills/collect-context/`**, **`skills/analyze-impact/`**, **`skills/analyze-rule-conflicts/`**, **`skills/implement-with-tdd/`**, and **`skills/verify-change/`** are assigned-to RESP-003.
 - A Workflow may suggest a Skill, but a phase is complete when its required outcome is achieved. Project Rules may require a method, such as TDD, without changing the Workflow.
@@ -52,12 +62,18 @@ Provide concise Skills for methods such as context collection, impact analysis, 
 - CAP-002 — Method-flexible work guidance satisfies:
   - PROB-001#REQ-009 — Accepted-change lifecycle
 - CAP-003 — Context and impact collection supports CAP-001 and CAP-002.
+- CAP-004 — Project Knowledge reconciliation satisfies:
+  - PROB-001#REQ-014 — Independently reconciled Project Knowledge
 
 ## Design and Decisions
 
 ### DEC-001 — Workflow owns outcomes; Skill owns method
 
-Workflows own sequence, phase intent, entry conditions, and completion outcomes. Skills are tactical, reusable method guidance. This keeps a project free to require or replace an implementation method without creating hidden workflow branches or changing the intended work result. Accepted review routes downstream work to implementation, knowledge update, Rule evolution, artifact evolution, or an appropriate sequence.
+Workflows own sequence, phase intent, entry conditions, and completion outcomes. Skills are tactical, reusable method guidance. This keeps a project free to require or replace an implementation method without creating hidden workflow branches or changing the intended work result. Project Knowledge review is read-only and feeds reconciliation; artifact and Rule evolution retain their own workflows.
+
+### DEC-004 — Git-backed candidate knowledge and independent reconciliation
+
+For Project Knowledge, reconciliation records a Git baseline that represents the accepted state and reviews the candidate Project-Knowledge diff against that baseline. Every writer and reviewer iteration uses a fresh subagent context; the two roles must be distinct. “Fresh” means the cleanest available context: the agent independently reads the current repository and receives findings as evidence, not the previous agent’s confidence. A clean review completes reconciliation, but required owner review occurs afterwards and is the promotion boundary to accepted Project Knowledge. The four terminal reconciliation states are `ACCEPTED`, `AWAITING_OWNER_REVIEW`, `AWAITING_USER_DECISION`, and `REVIEW_UNAVAILABLE`; a loop with unresolved findings remains non-accepted until an owner decides how to proceed.
 
 ### DEC-002 — Explicit specialization and migration
 
@@ -69,7 +85,7 @@ Shared Skills remain concise, tactical, and reusable across Workflows. A new Ski
 
 ## Verification Items
 
-### VER-001 — Accepted-change gate
+### VER-001 — Project Knowledge reconciliation gate
 
 Verifies:
 
@@ -77,11 +93,11 @@ Verifies:
 
 Scope:
 
-- review acceptance as the gate before downstream Workflow routing.
+- independent review and required owner review as the gate before downstream implementation routing.
 
 Expected evidence:
 
-- A proposed change is accepted through `review-change` before its selected downstream Workflow or Workflows begin.
+- A proposed Project Knowledge delta is reconciled through distinct fresh writer and reviewer subagents before required owner review and any implementation begin.
 
 ### VER-002 — Method boundary
 
@@ -105,3 +121,4 @@ Expected evidence:
 - SOL-002#CAP-002 — Evidence-based knowledge reconstruction.
 - SOL-002#CAP-003 — Finding-to-knowledge learning.
 - GOV-002#CON-002 — Agent-mediated semantic validation.
+- GOV-002#CON-006 — Git-backed candidate-state boundary.

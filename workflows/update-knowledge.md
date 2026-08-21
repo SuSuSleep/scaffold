@@ -2,11 +2,11 @@
 
 ## Goal
 
-Change durable project knowledge while preserving internal logical consistency.
+Mutate candidate Project Knowledge while restoring as much internal consistency as current evidence permits.
 
 ## Entry Conditions
 
-- A specific durable knowledge change is already sufficiently known.
+- A sufficiently understood Project Knowledge delta is being reconciled.
 
 ## Phases
 
@@ -14,11 +14,11 @@ Change durable project knowledge while preserving internal logical consistency.
 
 #### Goal
 
-Understand the authoritative document, intended semantic change, and applicable project rules.
+Understand the accepted Git baseline, current candidate state, intended semantic change, and applicable project rules.
 
 #### Required Outcome
 
-The authoritative records, intended semantic change, active Knowledge Schema, existing related project knowledge, and applicable rules are understood before material interpretation or change. The active Knowledge Model defines meaning, the Schema defines representation, and an applicable Template provides starting structure only.
+The accepted baseline, candidate diff, intended semantic change, active Knowledge Schema, existing related project knowledge, and applicable rules are understood before material interpretation or change. The active Knowledge Model defines meaning, the Schema defines representation, and an applicable Template provides starting structure only.
 
 #### Relevant Governance
 
@@ -54,11 +54,11 @@ Dependent knowledge, material relationship effects, and required consistency upd
 
 #### Goal
 
-Make the semantic change while restoring internal knowledge consistency.
+Make the semantic change while restoring candidate knowledge consistency.
 
 #### Required Outcome
 
-Obsolete knowledge is corrected, removed, or explicitly superseded; the active Knowledge Schema is respected; and semantic consistency is restored. Schema or Template changes do not automatically rewrite project knowledge; use deliberate migration when semantic adaptation is required.
+Resolvable stale knowledge is corrected, removed, or explicitly superseded; the active Knowledge Schema is respected; and the candidate is ready for independent review. Schema or Template changes do not automatically rewrite project knowledge; use deliberate migration when semantic adaptation is required. This Workflow does not accept candidate knowledge.
 
 #### Relevant Governance
 
@@ -66,4 +66,4 @@ Obsolete knowledge is corrected, removed, or explicitly superseded; the active K
 
 ## Required Outcomes
 
-- Durable project knowledge reflects the intended semantic change consistently.
+- Candidate Project Knowledge reflects the intended semantic change and addressed findings, ready for independent review.

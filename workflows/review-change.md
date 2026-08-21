@@ -2,11 +2,11 @@
 
 ## Goal
 
-Determine whether a defined knowledge change is semantically correct, internally consistent, compliant with the active representation rules, and acceptable for downstream work.
+Independently and read-only determine whether candidate Project Knowledge is semantically correct, internally consistent, and compliant with active representation rules.
 
 ## Entry Conditions
 
-- A proposed durable knowledge change has been defined.
+- A proposed Project Knowledge delta and candidate state exist within `reconcile-project-change`.
 
 ## Phases
 
@@ -59,15 +59,15 @@ Applicable constraints are satisfied and no unresolved material rule conflict re
 - verification.* when Solution verification items are affected
 - Other Rules applicable to the proposed change
 
-### Phase — Establish Acceptance
+### Phase — Report Review Result
 
 #### Goal
 
-Determine whether the proposed change may become authoritative project knowledge.
+Report whether the candidate can complete reconciliation; do not accept it, obtain owner approval, or mutate it.
 
 #### Required Outcome
 
-Material ambiguity or disagreement is resolved, appropriate explicit owner acceptance is obtained when needed, and the accepted change is routed to `update-knowledge`, `implement-change`, `evolve-project-rules`, `evolve-project-artifact`, or an appropriate sequence of those Workflows.
+The reviewer reports `ACCEPTABLE` only when, within the proposed change and materially affected scope, no material semantic contradiction, unresolved ambiguity, incoherent relationship, Schema or Model violation, applicable Governance or Rule violation, materially stale dependent knowledge, authoritative reliance on `Inferred` or `Unknown`, or required user decision remains. Otherwise it reports `NOT ACCEPTABLE` with findings classified as Resolvable, User Decision Required, Blocking Conflict, or Unresolved Ambiguity. The reviewer does not modify Project Knowledge or treat a writer summary as evidence.
 
 ## Required Outcomes
 
@@ -75,5 +75,5 @@ Material ambiguity or disagreement is resolved, appropriate explicit owner accep
 - The active Knowledge Schema is satisfied.
 - Important relationships are consistent.
 - Applicable Project Rules are satisfied.
-- Material ambiguity is resolved.
-- The accepted change has an explicit downstream Workflow route; implementation is not assumed to be the only destination.
+- The reviewer reports `ACCEPTABLE` or `NOT ACCEPTABLE` with concrete findings.
+- Reviewed Project Knowledge remains unmodified by this Workflow.

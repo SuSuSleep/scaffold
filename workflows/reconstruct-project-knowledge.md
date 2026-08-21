@@ -78,7 +78,7 @@ Confirm the reconstruction is coherent and usable.
 
 #### Required Outcome
 
-Reconstructed knowledge is semantically consistent with the Knowledge Model, represented according to the active Knowledge Schema, compliant with Project Rules, internally consistent, and explicit about unresolved uncertainty.
+Reconstructed knowledge is semantically consistent with the Knowledge Model, represented according to the active Knowledge Schema, compliant with Project Rules, internally consistent, and explicit about unresolved uncertainty. If it creates or changes normal Project Knowledge, it supplies a proposed delta to `reconcile-project-change`; reconstruction alone does not accept that knowledge.
 
 ## Required Outcomes
 

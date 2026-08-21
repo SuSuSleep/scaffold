@@ -67,7 +67,7 @@ Confirm the proposed knowledge change is sufficiently defined for its review Wor
 
 #### Required Outcome
 
-The proposed change is sufficiently defined for `review-change`; it is not accepted until that Workflow establishes acceptance.
+The proposed Project Knowledge delta is sufficiently defined for `reconcile-project-change`; it is not accepted until clean reconciliation and any required owner review are complete.
 
 ## Required Outcomes
 
@@ -76,7 +76,7 @@ The proposed change is sufficiently defined for `review-change`; it is not accep
 - Material ambiguities are resolved or explicitly recorded.
 - Conflicts with existing project knowledge are addressed.
 - The intended knowledge delta is established without assuming knowledge is append-only.
-- The proposed change is sufficiently defined for `review-change`.
+- The proposed Project Knowledge delta is sufficiently defined for `reconcile-project-change`.
 
 ## Conditional Outcomes
 

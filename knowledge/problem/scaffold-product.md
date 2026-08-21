@@ -73,6 +73,10 @@ The CLI must provide repository-level next-ID and availability checks for docume
 
 The Harness must support deliberate evolution of full-replacement artifacts and route accepted changes to the appropriate downstream Workflow without allowing an artifact to override a different authority domain.
 
+### REQ-014 — Independently reconciled Project Knowledge
+
+The Harness must support Git-backed, iterative reconciliation of a Project Knowledge change. A fresh writer execution may update candidate knowledge, and a distinct fresh reviewer execution must inspect the resulting repository state before reconciliation can complete. Candidate knowledge becomes accepted only after a clean independent review and any required project-owner review.
+
 ## Acceptance Criteria
 
 ### AC-007 — A repository initializes without restructuring
@@ -309,6 +313,28 @@ Then:
 
 - it can use human-readable Markdown without structured configuration for core operation.
 
+### AC-020 — Project Knowledge is independently reconciled
+
+For:
+
+- REQ-014 — Independently reconciled Project Knowledge
+
+Given:
+
+- a proposed Project Knowledge delta and a Git baseline representing accepted Project Knowledge.
+
+When:
+
+- reconciliation runs one or more writer/reviewer iterations.
+
+Then:
+
+- each writer and reviewer uses a distinct fresh subagent context;
+- the reviewer inspects the candidate knowledge diff and current repository state without modifying reviewed Project Knowledge;
+- unresolved findings repeat the loop;
+- a clean review completes reconciliation; and
+- required project-owner review occurs before the candidate is accepted.
+
 ## Related Knowledge
 
 - SOL-001#CAP-001 — Harness lifecycle management.
@@ -320,6 +346,7 @@ Then:
 - SOL-004#CAP-001 — Accepted-change lifecycle management.
 - SOL-004#CAP-002 — Method-flexible work guidance.
 - SOL-005#CAP-001 — Selective guidance context resolution.
+- SOL-004#CAP-004 — Project Knowledge reconciliation.
 - GOV-002#CON-001 — Markdown-first core operation.
 - GOV-002#CON-002 — Agent-mediated semantic validation.
 - GOV-002#CON-003 — Durable source-of-truth boundaries.

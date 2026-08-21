@@ -122,7 +122,7 @@ Semantic validation remains agent-only. When reviewing knowledge, agents should 
 
 ### Brownfield Trust States
 
-Normal Project Knowledge is accepted project truth and has no status marker. Use `Status: Inferred` only when evidence suggests a conclusion that has not been accepted, and `Status: Unknown` only when the project lacks sufficient trusted information. Do not materially rely on either state without review or clarification; once accepted or corrected, replace the exceptional state with normal authoritative knowledge.
+Normal Project Knowledge is accepted project truth and has no status marker. During reconciliation, Git distinguishes a recorded accepted baseline from the current candidate Project-Knowledge diff; candidate state is not a document status marker and is not authoritative merely because it is present in the working tree. Use `Status: Inferred` only when evidence suggests a conclusion that has not been accepted, and `Status: Unknown` only when the project lacks sufficient trusted information. A link to either state requires project-owner review before material reliance or acceptance; once accepted or corrected, replace the exceptional state with normal authoritative knowledge.
 
 ### Complete Example
 

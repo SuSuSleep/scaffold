@@ -82,6 +82,7 @@ flowchart LR
 - **Project Rules** define how project work should or must be performed, such as coding, documentation, verification, architecture, and delivery practices. Shared and local Rules form an effective collection by stable identity; a matching local identity replaces the shared Rule in full, while a new local identity adds guidance. Rules do not redefine Model semantics or Schema representation.
 - **Templates** provide starting structure only. The active Schema—not template availability—determines whether a template type applies.
 - Existing project knowledge remains the project-owned durable record. When creating or updating it, apply the Model for meaning, the active Schema for representation, applicable Rules for constraints, and an applicable Template only as a starting structure.
+- During Project Knowledge reconciliation, a Git baseline identifies the accepted record and the resulting Project-Knowledge diff is candidate state. Candidate state is not authoritative merely because it appears in the working repository; it becomes accepted only after clean independent reconciliation and any required owner review.
 - No artifact overrides another outside its authority domain: Rules cannot redefine Schema representation, Skills cannot redefine Workflow completion, and Workflows cannot redefine Model semantics.
 
 ## Satisfies

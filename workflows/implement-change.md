@@ -6,7 +6,7 @@ Bring the implementation into compliance with an accepted change while preservin
 
 ## Entry Conditions
 
-- An accepted change request exists.
+- `reconcile-project-change` has produced `ACCEPTED` Project Knowledge for an implementation-affecting change.
 
 ## Phases
 
@@ -113,7 +113,7 @@ Ensure durable project knowledge reflects discoveries made while realizing and v
 
 #### Required Outcome
 
-Durable discoveries are reconciled and obsolete or incomplete knowledge is corrected where needed, with evidence and relationships represented according to the active Knowledge Model and Knowledge Schema.
+Mechanical durable synchronization is completed where needed, with evidence and relationships represented according to the active Knowledge Model and Knowledge Schema. A discovery that materially changes Project Knowledge semantics returns through `reconcile-project-change`; the implementation agent must not silently accept it.
 
 #### Relevant Governance
 

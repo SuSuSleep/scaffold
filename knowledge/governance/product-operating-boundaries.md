@@ -62,6 +62,14 @@ Constrains:
 - SOL-004#CAP-001 — Accepted-change lifecycle management.
 - SOL-004#CAP-003 — Context and impact collection.
 
+### CON-006 — Git-backed candidate-state boundary
+
+When reconciling a Project Knowledge change, Git must distinguish the accepted baseline from candidate Project Knowledge. A writer’s repository edits are candidate state, not accepted truth, until a distinct fresh reviewer completes a clean review and any required project-owner review is obtained. This integration does not replace Git’s normal branching, commit, or review practices.
+
+Constrains:
+
+- SOL-004#CAP-004 — Project Knowledge reconciliation.
+
 ## Verification
 
 - Review product changes for a Markdown-readable representation and absence of a mandatory deterministic semantic-validation engine.
@@ -77,3 +85,4 @@ Constrains:
 - SOL-002#CAP-001 — Shared guidance artifact provision.
 - SOL-003#CAP-001 — Durable knowledge separation.
 - SOL-004#CAP-001 — Accepted-change lifecycle management.
+- SOL-004#CAP-004 — Project Knowledge reconciliation.
