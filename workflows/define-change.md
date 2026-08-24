@@ -33,7 +33,7 @@ Determine the semantic impact and the knowledge relationships affected by the in
 
 #### Required Outcome
 
-Affected durable knowledge, material relationships, and potentially stale records are identified according to the active Knowledge Model and Knowledge Schema. For Requirement changes, owned Acceptance Criteria, observable preconditions, and any independently required cross-Requirement interaction are identified. Existing authoritative records are considered before creating duplicates.
+Affected durable knowledge, material relationships, and potentially stale records are identified according to the active Knowledge Model and Knowledge Schema. The active Model's ownership, evidence, and relationship rules are applied. Existing authoritative records are considered before creating duplicates.
 
 #### Suggested Skills
 
@@ -72,7 +72,7 @@ The proposed Project Knowledge delta is sufficiently defined for `reconcile-proj
 ## Required Outcomes
 
 - Intent and expected outcome are understood.
-- Relevant existing knowledge, Project Rules, and Governance knowledge are considered.
+- Relevant existing knowledge and Project Rules are considered.
 - Material ambiguities are resolved or explicitly recorded.
 - Conflicts with existing project knowledge are addressed.
 - The intended knowledge delta is established without assuming knowledge is append-only.
@@ -80,7 +80,6 @@ The proposed Project Knowledge delta is sufficiently defined for `reconcile-proj
 
 ## Conditional Outcomes
 
-- Update Problem Space when externally expected behavior, stakeholder goals, Use Cases, requirements, or acceptance criteria change.
-- Update Governance when external contracts, policies, security controls, operational constraints, findings, or rationale change. Use `evolve-project-rules` when project-wide engineering practices change.
-- Update Solution Space only when a durable solution-level decision is part of the proposed change.
+- Update the active Model's applicable knowledge records when their durable meaning changes.
+- Use `evolve-project-rules` when project-wide engineering practices change.
 - Identify implementation impact without requiring production code changes.

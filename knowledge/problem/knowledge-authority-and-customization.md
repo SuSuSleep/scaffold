@@ -4,7 +4,7 @@ Document ID: PROB-002
 
 ## Intent
 
-Scaffold must let projects customize operational guidance deliberately without diluting the shared semantic contract or implicitly combining incompatible sources of authority.
+Scaffold must let projects customize knowledge and operational guidance deliberately without implicitly combining incompatible sources of authority.
 
 ## Actors and Goals
 
@@ -23,9 +23,9 @@ Scaffold must let projects customize operational guidance deliberately without d
 
 A project-local Knowledge Schema, Workflow, Skill, or Template is authoritative in full; shared and local content must not be implicitly merged.
 
-### REQ-003 — Shared knowledge model
+### REQ-003 — Replaceable knowledge model
 
-The Knowledge Model is Harness-owned and non-replaceable; full-replacement artifacts include the Knowledge Schema, Workflows, Skills, and Templates. Project Rules are extensible with atomic same-identity replacement.
+The installed default Knowledge Model is used when no local Model exists. `.scaffold/knowledge-model.md` fully replaces it when present; Knowledge Schema, Workflows, Skills, and Templates use the same full-replacement behavior. Project Rules are extensible with atomic same-identity replacement.
 
 ### REQ-011 — Extensible Project Rule collection
 
@@ -55,11 +55,11 @@ Then:
 
 - the local artifact replaces the shared artifact in full without implicit merging.
 
-### AC-011 — The shared Knowledge Model remains authoritative
+### AC-011 — The active Knowledge Model resolves explicitly
 
 For:
 
-- REQ-003 — Shared knowledge model
+- REQ-003 — Replaceable knowledge model
 
 Given:
 
@@ -71,7 +71,7 @@ When:
 
 Then:
 
-- it uses the shared Knowledge Model while applying local artifact replacement only where supported.
+- it uses the project-local Knowledge Model when present, otherwise the installed default, without implicit content merging.
 
 ### AC-012 — Project Rules form an effective collection
 

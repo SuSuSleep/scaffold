@@ -42,11 +42,11 @@ Root cause, affected scope, and safe generalization are identified.
 
 #### Goal
 
-Preserve the learning as governance knowledge or requirements when appropriate.
+Preserve the learning in the active Model's appropriate durable knowledge category when appropriate.
 
 #### Required Outcome
 
-The proposed Governance knowledge or Requirements are defined with their evidence and justified scope, then supplied to `reconcile-project-change`. This Workflow does not directly accept the resulting Project Knowledge.
+The proposed durable knowledge is defined with its evidence and justified scope according to the active Model, then supplied to `reconcile-project-change`. This Workflow does not directly accept the resulting Project Knowledge.
 
 ### Phase — Link Resolution and Evidence
 

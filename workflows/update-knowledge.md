@@ -20,9 +20,9 @@ Understand the accepted Git baseline, current candidate state, intended semantic
 
 The accepted baseline, candidate diff, intended semantic change, active Knowledge Schema, existing related project knowledge, and applicable rules are understood before material interpretation or change. The active Knowledge Model defines meaning, the Schema defines representation, and an applicable Template provides starting structure only.
 
-#### Relevant Governance
+#### Relevant Knowledge
 
-- The Governance subject being created or updated, when applicable.
+- Active-Model records being created or updated, when applicable.
 
 #### Relevant Rules
 
@@ -42,9 +42,9 @@ Identify knowledge that depends on or is contradicted by the intended change.
 
 Dependent knowledge, material relationship effects, and required consistency updates are identified according to the active Knowledge Model and Knowledge Schema.
 
-#### Relevant Governance
+#### Relevant Knowledge
 
-- Any applicable Governance record that constrains or is affected by the intended change.
+- Any applicable active-Model record that constrains or is affected by the intended change.
 
 #### Suggested Skills
 
@@ -60,9 +60,9 @@ Make the semantic change while restoring candidate knowledge consistency.
 
 Resolvable stale knowledge is corrected, removed, or explicitly superseded; the active Knowledge Schema is respected; and the candidate is ready for independent review. Schema or Template changes do not automatically rewrite project knowledge; use deliberate migration when semantic adaptation is required. This Workflow does not accept candidate knowledge.
 
-#### Relevant Governance
+#### Relevant Knowledge
 
-- Governance records remain independently evolvable and do not require Harness reinitialization.
+- Durable project knowledge remains independently evolvable and does not require Harness reinitialization.
 
 ## Required Outcomes
 

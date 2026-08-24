@@ -2,11 +2,11 @@
 
 ## Purpose
 
-This model defines the shared meaning of durable Scaffold knowledge. It is the authoritative Harness-level semantic contract for every Scaffold project; project-local replacement is not supported.
+This model defines Scaffold's default meaning of durable project knowledge. It is authoritative when a project does not provide `.scaffold/knowledge-model.md`; that project-local Model fully replaces this default and is never implicitly merged with it.
 
-> The Knowledge Model defines semantic concepts and relationships only. The active Knowledge Schema defines how those concepts are organized, represented, identified, and linked in project artifacts.
+> The active Knowledge Model defines semantic concepts and relationships. The active Knowledge Schema defines how those concepts are organized, represented, identified, and linked in project artifacts.
 
-The Knowledge Model defines what knowledge means. The active Knowledge Schema may change its representation without redefining its concepts or relationships. This model is independent of document types, filenames, folder layout, Markdown headings and ordering, field layouts, identifier formatting, relationship encoding, templates, validation syntax, implementation workflow, coding standards, and project-specific policy.
+The active Knowledge Model defines what knowledge means. The active Knowledge Schema may change its representation without redefining the active Model's concepts or relationships. This default model is independent of document types, filenames, folder layout, Markdown headings and ordering, field layouts, identifier formatting, relationship encoding, templates, validation syntax, implementation workflow, coding standards, and project-specific policy.
 
 ## Knowledge Architecture
 
@@ -156,10 +156,10 @@ Relationships are many-to-many. A Capability may satisfy multiple Requirements, 
 
 ## Schema Integration and Customization
 
-The active Knowledge Schema should reference this model for concept meanings rather than redefine them. It may change representation, organization, identifiers, and linking without changing core concepts or relationship semantics.
+The active Knowledge Schema should reference the active Knowledge Model for concept meanings rather than redefine them. It may change representation, organization, identifiers, and linking without changing that Model's concepts or relationship semantics.
 
-This contract should evolve more conservatively than the Knowledge Schema, Project Rules, Workflows, Skills, or Templates. Normal project customization belongs in those artifacts or in project knowledge. Projects may introduce domain-specific concepts that reference this model, but must not redefine core concepts. A formal extension mechanism is intentionally unsupported initially.
+Projects that need different concepts or relationship semantics may provide a complete local Knowledge Model. A local Model is responsible for its own concepts, relationships, invariants, and compatibility with its Schema, Workflows, Skills, Templates, Rules, and existing project knowledge.
 
 ## Deferred Scope
 
-This model does not provide deterministic ontology validation, machine-readable relation schemas, a formal extension syntax, knowledge-graph storage, automatic graph construction, automated semantic migration, or project replacement of core semantics.
+This default model does not provide deterministic ontology validation, machine-readable relation schemas, a formal extension syntax, knowledge-graph storage, automatic graph construction, or automated semantic migration.

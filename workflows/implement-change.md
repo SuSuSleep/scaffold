@@ -20,9 +20,9 @@ Establish the request, constraints, and relevant project context.
 
 The requested change, applicable rules, relevant durable knowledge, and affected scope are understood.
 
-#### Relevant Governance
+#### Relevant Knowledge
 
-- Applicable Security Controls and Architecture Constraints.
+- Applicable active-Model constraints.
 
 #### Relevant Rules
 
@@ -43,11 +43,11 @@ Determine the change's effects on behavior, interfaces, tests, and durable knowl
 
 #### Required Outcome
 
-Relevant obligations, owned Acceptance Criteria, their `Given` / `When` / `Then` scenarios, constraints, implementation areas, verification boundaries, and durable knowledge updates are identified according to the active Knowledge Model and Knowledge Schema.
+Relevant active-Model obligations or other durable expectations, constraints, implementation areas, evidence boundaries, and durable knowledge updates are identified according to the active Knowledge Model and Knowledge Schema.
 
-#### Relevant Governance
+#### Relevant Knowledge
 
-- Applicable Security Controls and Architecture Constraints.
+- Applicable active-Model constraints.
 
 #### Relevant Rules
 
@@ -66,11 +66,11 @@ Make the accepted change while preserving applicable constraints.
 
 #### Required Outcome
 
-The implementation satisfies the accepted change, applicable constraints are preserved, and required durable knowledge is updated according to the active Knowledge Model and Knowledge Schema. Dependencies outside a Verification Item boundary may be controlled or substituted; interactions that are verification targets retain meaningful real behavior.
+The implementation satisfies the accepted change, applicable constraints are preserved, and required durable knowledge is updated according to the active Knowledge Model and Knowledge Schema. Evidence and dependency handling follow the active Model and applicable Project Rules.
 
-#### Relevant Governance
+#### Relevant Knowledge
 
-- Applicable Security Controls and Architecture Constraints.
+- Applicable active-Model constraints.
 
 #### Relevant Rules
 
@@ -86,15 +86,15 @@ The implementation satisfies the accepted change, applicable constraints are pre
 
 #### Goal
 
-Demonstrate that the completed change satisfies its requirements without unacceptable regression risk.
+Demonstrate that the completed change satisfies its accepted expectations without unacceptable regression risk.
 
 #### Required Outcome
 
 Proportionate verification is complete and any remaining limits or risks are known.
 
-#### Relevant Governance
+#### Relevant Knowledge
 
-- Applicable Security Controls.
+- Applicable active-Model constraints.
 
 #### Relevant Rules
 
@@ -115,9 +115,9 @@ Ensure durable project knowledge reflects discoveries made while realizing and v
 
 Mechanical durable synchronization is completed where needed, with evidence and relationships represented according to the active Knowledge Model and Knowledge Schema. A discovery that materially changes Project Knowledge semantics returns through `reconcile-project-change`; the implementation agent must not silently accept it.
 
-#### Relevant Governance
+#### Relevant Knowledge
 
-- Any Governance subject affected by a durable discovery.
+- Any active-Model knowledge affected by a durable discovery.
 
 #### Relevant Rules
 

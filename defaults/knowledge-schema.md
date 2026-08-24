@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This schema defines the default Markdown representation of durable project knowledge. It is authoritative only when `.scaffold/knowledge-schema.md` does not exist. A project-local Schema replaces this default representation contract in full and is never implicitly merged with it. The shared Knowledge Model defines the concepts and relationship semantics used here; this schema does not redefine them.
+This schema defines the default Markdown representation of durable project knowledge. It is authoritative only when `.scaffold/knowledge-schema.md` does not exist. A project-local Schema replaces this default representation contract in full and is never implicitly merged with it. The active Knowledge Model defines the concepts and relationship semantics used here; this schema does not redefine them.
 
 ## Documents
 
@@ -18,7 +18,7 @@ These are default representation choices, not Knowledge Model concepts. Projects
 
 Each section listed in the default document mappings below is a **required structural section**. A required section may remain empty when no applicable knowledge exists; its heading still provides deterministic document structure. The default Schema defines no optional or conditional sections.
 
-The default templates must contain every required section for their corresponding document type and must not introduce another required semantic section. Templates provide only a concrete starting structure; use this Schema for representation guidance and the shared Knowledge Model for concept meaning.
+The default templates must contain every required section for their corresponding document type and must not introduce another required semantic section. Templates provide only a concrete starting structure; use this Schema for representation guidance and the active Knowledge Model for concept meaning.
 
 Shared and project-local templates are organized by the knowledge space they start: `templates/problem/`, `templates/solution/`, and `templates/governance/`. This organization is a default representation choice; the active Knowledge Schema remains the authority for template applicability.
 
@@ -192,11 +192,11 @@ Use these descriptions before creating or updating a document from a default tem
 
 ## Relationship Representation
 
-Represent relationships with stable identifiers, explicit labels, Markdown links, or short relationship statements as appropriate. When a specific shared Knowledge Model relationship is known, represent it explicitly: for example, prefer `Satisfies: PROB-001#REQ-021 — Submit an inference task` to placing the same relationship only under Related Knowledge. Use `related-to` only when no more precise relationship applies.
+Represent relationships with stable identifiers, explicit labels, Markdown links, or short relationship statements as appropriate. When a specific default Knowledge Model relationship is known, represent it explicitly: for example, prefer `Satisfies: PROB-001#REQ-021 — Submit an inference task` to placing the same relationship only under Related Knowledge. Use `related-to` only when no more precise relationship applies.
 
 ## Relationship Guidance
 
-- Use the shared Knowledge Model relationship vocabulary (`motivates`, `derived-from`, `satisfies`, `realizes`, `constrains`, `assigned-to`, `exposes`, `verifies`, `supersedes`, and `related-to`) when it describes the connection.
+- Use the default Knowledge Model relationship vocabulary (`motivates`, `derived-from`, `satisfies`, `realizes`, `constrains`, `assigned-to`, `exposes`, `verifies`, `supersedes`, and `related-to`) when it describes the connection.
 - Requirements should identify their origin when known.
 - Capabilities should identify the Requirements, Controls, or Constraints they satisfy; Responsibilities should identify the Capabilities they realize; and Components should identify assigned Responsibilities and exposed Interfaces when useful.
 - Verification Items should normally identify one Acceptance Criterion they verify, together with bounded scope and expected evidence. `Assumptions` may clarify dependencies outside the verification boundary; do not persist framework-specific mocking mechanics without a durable reason.

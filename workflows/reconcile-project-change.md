@@ -19,7 +19,7 @@ Establish the intended delta, accepted baseline, candidate scope, and applicable
 
 #### Required Outcome
 
-The proposed semantic delta, recorded Git baseline, materially affected Project Knowledge, applicable Governance and Project Rules, and unresolved user intent are known. The candidate state is the current Project-Knowledge diff from that baseline; unrelated repository changes are excluded from the review scope.
+The proposed semantic delta, recorded Git baseline, materially affected Project Knowledge, applicable active-Model knowledge and Project Rules, and unresolved user intent are known. The candidate state is the current Project-Knowledge diff from that baseline; unrelated repository changes are excluded from the review scope.
 
 ### Phase — Reconcile Candidate Knowledge
 
@@ -39,7 +39,7 @@ Determine whether the current candidate state is semantically acceptable.
 
 #### Required Outcome
 
-A distinct fresh reviewer subagent executes `review-change`. It independently inspects the Git baseline, candidate Project-Knowledge diff, current repository, proposed intent, materially affected knowledge, active Model and Schema, and applicable Governance and Rules. The reviewer does not modify reviewed Project Knowledge.
+A distinct fresh reviewer subagent executes `review-change`. It independently inspects the Git baseline, candidate Project-Knowledge diff, current repository, proposed intent, materially affected knowledge, active Model and Schema, and applicable active-Model knowledge and Rules. The reviewer does not modify reviewed Project Knowledge.
 
 ### Phase — Resolve Review Result
 

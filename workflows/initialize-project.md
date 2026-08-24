@@ -36,11 +36,11 @@ Repository context, existing knowledge, and relevant repository instructions are
 
 #### Goal
 
-Make the shared Knowledge Model and applicable replaceable Scaffold artifacts available to the project.
+Make the active Knowledge Model and applicable replaceable Scaffold artifacts available to the project.
 
 #### Required Outcome
 
-The shared Knowledge Model is available; full-replacement artifacts and the effective Project Rule collection are understood. Host-owned `AGENTS.md` and `CLAUDE.md` integration is preserved or deliberately completed without replacing surrounding host instructions.
+The active Knowledge Model is available; full-replacement artifacts and the effective Project Rule collection are understood. Host-owned `AGENTS.md` and `CLAUDE.md` integration is preserved or deliberately completed without replacing surrounding host instructions.
 
 ### Phase — Establish Initial Knowledge
 

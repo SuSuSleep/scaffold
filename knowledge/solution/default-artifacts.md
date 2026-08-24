@@ -8,7 +8,7 @@ Document ID: SOL-002
 
 ### CAP-001 — Shared guidance artifact provision
 
-Provide the shared Knowledge Model, default Knowledge Schema, categorized Project Rules, and templates that a Scaffold project resolves according to their defined artifact behavior.
+Provide the default Knowledge Model, default Knowledge Schema, categorized Project Rules, and templates that a Scaffold project resolves according to their defined artifact behavior.
 
 ### CAP-002 — Evidence-based knowledge reconstruction
 
@@ -40,7 +40,7 @@ Provide concise methods for collecting context, analyzing impact, implementing w
 
 ## Components and Boundaries
 
-- **`defaults/`** is assigned-to RESP-001. It contains the non-replaceable Knowledge Model, shared default Schema, categorized `rules/`, and templates, organized under `templates/problem/`, `templates/solution/`, and `templates/governance/`.
+- **`defaults/`** is assigned-to RESP-001. It contains the default Knowledge Model, shared default Schema, categorized `rules/`, and default templates.
 - **`workflows/`** is assigned-to RESP-002. It defines project-work lifecycle sequencing, including `reconstruct-project-knowledge` and `learn-from-finding`.
 - **`skills/`** is assigned-to RESP-003. It supplies optional reusable methods; a project may explicitly replace a skill without merging it with the shared version.
 - The installed package exposes these artifacts to projects. `.scaffold/` is a project-local Harness integration area, not the source location of the package's shared guidance.
@@ -109,7 +109,7 @@ Expected evidence:
 ## Related Knowledge
 
 - PROB-002#REQ-002 — Explicit replacement.
-- PROB-002#REQ-003 — Shared knowledge model.
+- PROB-002#REQ-003 — Replaceable knowledge model.
 - PROB-003#REQ-006 — Incremental brownfield reconstruction.
 - PROB-003#REQ-007 — Evidence-based durable learning.
 - PROB-003#REQ-008 — Usable Markdown-first guidance.

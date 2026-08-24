@@ -18,7 +18,7 @@ Validate use of Knowledge Model concepts and their semantic boundaries.
 
 #### Required Outcome
 
-Requirements are not confused with Designs, Capabilities with Goals, Findings with Controls, Responsibilities with Components, or Decisions with redefinitions of Requirements. Each Acceptance Criterion has one Requirement owner; prerequisites are observable conditions rather than shared Criterion ownership, and required interactions become explicit Requirements.
+The candidate uses the active Knowledge Model's concepts, distinctions, ownership rules, evidence boundaries, invariants, and relationship semantics correctly.
 
 ### Phase — Review Representation
 
@@ -38,21 +38,21 @@ Validate important semantic relationships affected by the proposal.
 
 #### Required Outcome
 
-Affected `derived-from`, `satisfies`, `realizes`, `constrains`, `assigned-to`, `exposes`, `verifies`, and `supersedes` relationships are internally consistent. Normal Verification Items target one Acceptance Criterion and state bounded evidence scope.
+Affected relationships are valid and internally consistent according to the active Knowledge Model.
 
 ### Phase — Review Project Constraints
 
 #### Goal
 
-Check applicable Project Rules and Governance constraints.
+Check applicable Project Rules and durable project constraints.
 
 #### Required Outcome
 
 Applicable constraints are satisfied and no unresolved material rule conflict remains.
 
-#### Relevant Governance
+#### Relevant Knowledge
 
-- Applicable Governance controls and constraints.
+- Applicable active-Model records that constrain the change.
 
 #### Relevant Rules
 
@@ -67,7 +67,7 @@ Report whether the candidate can complete reconciliation; do not accept it, obta
 
 #### Required Outcome
 
-The reviewer reports `ACCEPTABLE` only when, within the proposed change and materially affected scope, no material semantic contradiction, unresolved ambiguity, incoherent relationship, Schema or Model violation, applicable Governance or Rule violation, materially stale dependent knowledge, authoritative reliance on `Inferred` or `Unknown`, or required user decision remains. Otherwise it reports `NOT ACCEPTABLE` with findings classified as Resolvable, User Decision Required, Blocking Conflict, or Unresolved Ambiguity. The reviewer does not modify Project Knowledge or treat a writer summary as evidence.
+The reviewer reports `ACCEPTABLE` only when, within the proposed change and materially affected scope, no material semantic contradiction, unresolved ambiguity, incoherent relationship, Schema or Model violation, applicable knowledge or Rule violation, materially stale dependent knowledge, authoritative reliance on `Inferred` or `Unknown`, or required user decision remains. Otherwise it reports `NOT ACCEPTABLE` with findings classified as Resolvable, User Decision Required, Blocking Conflict, or Unresolved Ambiguity. The reviewer does not modify Project Knowledge or treat a writer summary as evidence.
 
 ## Required Outcomes
 

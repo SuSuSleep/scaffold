@@ -45,7 +45,7 @@ Search Markdown document declarations recursively and report namespace availabil
 - **`bin/scaffold.js`** exposes the command-line entry point.
 - **`src/cli.js`** is assigned-to RESP-001 and exposes the `init`, `status`, `update`, and `id` command interface.
 - **`src/project.js`** is assigned-to RESP-002, RESP-003, and RESP-004. It owns local filesystem interactions within the target project.
-- **Shared package artifacts** expose the Knowledge Model, default Schema, categorized Rules, workflows, skills, and templates. Templates are grouped by Problem, Solution, and Governance space. Schema, Workflows, Skills, and Templates are fully replaceable; local Rules add identities or atomically replace matching shared identities.
+- **Shared package artifacts** expose the default Knowledge Model, default Schema, categorized Rules, workflows, skills, and templates. Knowledge Model, Schema, Workflows, Skills, and Templates are fully replaceable; local Rules add identities or atomically replace matching shared identities.
 
 ### IFC-001 — Scaffold command-line interface
 
@@ -67,7 +67,7 @@ Exposed by `bin/scaffold.js` through `src/cli.js`.
   - PROB-001#REQ-005 — Review-aware updates
 - CAP-002 — Artifact resolution satisfies:
   - PROB-002#REQ-002 — Explicit artifact resolution
-  - PROB-002#REQ-003 — Shared knowledge model
+  - PROB-002#REQ-003 — Replaceable knowledge model
   - PROB-002#REQ-011 — Extensible Project Rule collection
 - CAP-003 — Agent guidance integration satisfies:
   - PROB-001#REQ-004 — Safe agent integration
@@ -159,7 +159,7 @@ Expected evidence:
 - PROB-001#REQ-001 — Portable initialization.
 - PROB-002#REQ-002 — Explicit artifact resolution.
 - PROB-002#REQ-011 — Extensible Project Rule collection.
-- PROB-002#REQ-003 — Shared knowledge model.
+- PROB-002#REQ-003 — Replaceable knowledge model.
 - PROB-001#REQ-004 — Safe agent integration.
 - PROB-001#REQ-005 — Review-aware updates.
 - GOV-001#CON-001 — Supported Node.js runtime.

@@ -2,7 +2,7 @@
 
 ## Goal
 
-Deliberately add or replace a project-local Knowledge Schema, Workflow, Skill, or Template without introducing implicit merge semantics.
+Deliberately add or replace a project-local Knowledge Model, Knowledge Schema, Workflow, Skill, or Template without introducing implicit merge semantics.
 
 ## Entry Conditions
 
@@ -42,7 +42,7 @@ Confirm the artifact’s defined replacement behavior.
 
 #### Required Outcome
 
-Knowledge Schema, Workflow, Skill, or Template is treated as a new identity or full replacement by identity. Project Rules are redirected to `evolve-project-rules` because their collection semantics differ.
+Knowledge Model, Knowledge Schema, Workflow, Skill, or Template is treated as a full replacement by identity. Project Rules are redirected to `evolve-project-rules` because their collection semantics differ.
 
 ### Phase — Review Dependency and Shadow Impact
 

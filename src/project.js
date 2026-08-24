@@ -239,6 +239,7 @@ function resolvedRules(directory, packageRoot) {
 function resolvedArtifacts(directory, packageRoot) {
   const localRoot = scaffoldDirectory(directory);
   const artifacts = [
+    { label: 'Knowledge Model:', name: 'knowledge-model', local: path.join(localRoot, 'knowledge-model.md'), shared: path.join(packageRoot, 'defaults/knowledge-model.md') },
     { label: 'Knowledge Schema:', name: 'knowledge-schema', local: path.join(localRoot, 'knowledge-schema.md'), shared: path.join(packageRoot, 'defaults/knowledge-schema.md') },
   ];
   const addNamed = (label, type, localPredicate, sharedPredicate, filePath) => {
@@ -275,12 +276,7 @@ function inspectProject({ directory, version, packageRoot }) {
   const ruleSet = resolvedRules(directory, packageRoot);
   const found = localReplacements(directory, packageRoot);
   const reviewRequired = details.lastReviewedVersion !== version;
-  const sharedKnowledgeModel = path.join(packageRoot, 'defaults', 'knowledge-model.md');
-  const localKnowledgeModel = path.join(scaffoldDirectory(directory), 'knowledge-model.md');
   const artifactLines = [
-    'Knowledge Model:',
-    '  source: shared',
-    `  path: ${sharedKnowledgeModel}`,
     ...artifacts.flatMap((artifact) => [artifact.label, `  source: ${artifact.source}`, `  path: ${artifact.path}`]),
     'Project Rules:',
     ...(ruleSet.rules.length ? ruleSet.rules.flatMap((rule) => [
@@ -302,7 +298,6 @@ function inspectProject({ directory, version, packageRoot }) {
     ...AGENT_FILES.map((filename) => `  ${filename}: ${fs.existsSync(path.join(directory, filename)) && MANAGED_BLOCK.test(fs.readFileSync(path.join(directory, filename), 'utf8')) ? 'configured' : 'integration required'}`),
     `Project-local replacements: ${found.length ? found.map((artifact) => path.relative(scaffoldDirectory(directory), artifact.local)).join(', ') : 'none'}`,
     `Project-local Rules: ${ruleSet.rules.filter((rule) => rule.local).length ? ruleSet.rules.filter((rule) => rule.local).map((rule) => path.relative(scaffoldDirectory(directory), rule.local.path)).join(', ') : 'none'}`,
-    ...(fs.existsSync(localKnowledgeModel) ? [`Unsupported project-local Knowledge Model ignored: ${localKnowledgeModel}`] : []),
     ...(fs.existsSync(ruleSet.legacy) ? [`Legacy monolithic Project Rules require deliberate migration and are ignored: ${ruleSet.legacy}`] : []),
     ...ruleSet.invalid.map((rule) => `Invalid Project Rule identity (expected a dotted identity in the H1 heading): ${rule.path}`),
     ...ruleSet.duplicates.map((duplicate) => `Duplicate ${duplicate.source} Project Rule identity ${duplicate.identity}: ${duplicate.paths.join(', ')}`),
@@ -319,12 +314,10 @@ function updateProject({ directory, version, packageRoot }) {
   synchronizeAgentGuide(directory);
   const found = localReplacements(directory, packageRoot);
   const ruleSet = resolvedRules(directory, packageRoot);
-  const localKnowledgeModel = path.join(scaffoldDirectory(directory), 'knowledge-model.md');
   return { ok: true, lines: [
     `Recorded your attestation that Scaffold version ${version} has been reviewed.`,
     `Project-local replacements preserved: ${found.length ? found.map((artifact) => path.relative(scaffoldDirectory(directory), artifact.local)).join(', ') : 'none'}.`,
     `Project-local Rules preserved: ${ruleSet.rules.filter((rule) => rule.local).length ? ruleSet.rules.filter((rule) => rule.local).map((rule) => path.relative(scaffoldDirectory(directory), rule.local.path)).join(', ') : 'none'}.`,
-    ...(fs.existsSync(localKnowledgeModel) ? [`Unsupported project-local Knowledge Model preserved but ignored: ${localKnowledgeModel}.`] : []),
     'This command records review completion; semantic validation remains agent-driven. Shared defaults are supplied by the currently running package and were not copied or overwritten.',
   ] };
 }

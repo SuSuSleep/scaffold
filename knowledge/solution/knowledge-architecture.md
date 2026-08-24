@@ -12,7 +12,7 @@ Provide a shared structure that separates intended outcomes, reusable constraint
 
 ### CAP-002 — Deliberate guidance authority
 
-Provide distinct semantic, representation, and operating-policy authorities so a project can customize replaceable guidance without redefining the shared knowledge vocabulary.
+Provide distinct semantic, representation, and operating-policy authorities so a project can customize its knowledge vocabulary and guidance deliberately.
 
 ## Responsibilities
 
@@ -26,13 +26,13 @@ Classify durable records by their primary meaning and preserve the relationships
 
 Realizes: CAP-002
 
-Maintain the shared Knowledge Model as the non-replaceable authority for concepts and relationship meaning.
+Resolve the active Knowledge Model as the authority for concepts and relationship meaning.
 
 ### RESP-003 — Representation and policy resolution
 
 Realizes: CAP-002
 
-Resolve the active Knowledge Schema as a full replacement and Project Rules as an effective collection with atomic same-identity replacement, and apply each within its own authority.
+Resolve the active Knowledge Model and Knowledge Schema as full replacements and Project Rules as an effective collection with atomic same-identity replacement, and apply each within its own authority.
 
 ## Components and Boundaries
 
@@ -64,7 +64,7 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-  model["Knowledge Model<br/>shared and non-replaceable"]
+  model["Knowledge Model<br/>default or project-local"]
   schema["Knowledge Schema<br/>fully replaceable"]
   template["Applicable Template<br/>starting structure only"]
   rules["Project Rules<br/>extensible; atomic replacement"]
@@ -77,19 +77,19 @@ flowchart LR
   rules -->|constrain project work and verification| knowledge
 ```
 
-- The **Knowledge Model** defines the meaning of durable concepts and relationships. It is shared, Harness-owned, and non-replaceable; it does not dictate document layout or workflow mechanics.
-- The **Knowledge Schema** defines how project knowledge is represented: document types, sections, identifiers, and references. A project-local Schema replaces the shared Schema in full; it does not redefine Model concepts.
+- The **Knowledge Model** defines the meaning of durable concepts and relationships. The installed default applies when no local Model exists; `.scaffold/knowledge-model.md` replaces it in full. It does not dictate document layout or workflow mechanics.
+- The **Knowledge Schema** defines how project knowledge is represented: document types, sections, identifiers, and references. A project-local Schema replaces the shared Schema in full; it does not redefine the active Model's concepts.
 - **Project Rules** define how project work should or must be performed, such as coding, documentation, verification, architecture, and delivery practices. Shared and local Rules form an effective collection by stable identity; a matching local identity replaces the shared Rule in full, while a new local identity adds guidance. Rules do not redefine Model semantics or Schema representation.
 - **Templates** provide starting structure only. The active Schema—not template availability—determines whether a template type applies.
 - Existing project knowledge remains the project-owned durable record. When creating or updating it, apply the Model for meaning, the active Schema for representation, applicable Rules for constraints, and an applicable Template only as a starting structure.
 - During Project Knowledge reconciliation, a Git baseline identifies the accepted record and the resulting Project-Knowledge diff is candidate state. Candidate state is not authoritative merely because it appears in the working repository; it becomes accepted only after clean independent reconciliation and any required owner review.
-- No artifact overrides another outside its authority domain: Rules cannot redefine Schema representation, Skills cannot redefine Workflow completion, and Workflows cannot redefine Model semantics.
+- No artifact overrides another outside its authority domain: Rules cannot redefine Schema representation, Skills cannot redefine Workflow completion, and Workflows cannot redefine the active Model's semantics.
 
 ## Satisfies
 
 - CAP-002 — Deliberate guidance authority satisfies:
   - PROB-002#REQ-002 — Explicit replacement
-  - PROB-002#REQ-003 — Shared knowledge model
+  - PROB-002#REQ-003 — Replaceable knowledge model
 
 ## Design and Decisions
 
@@ -99,7 +99,7 @@ Scaffold represents durable knowledge primarily in Problem, Governance, and Solu
 
 ### DEC-002 — Separate semantic, representation, and policy authority
 
-The shared Knowledge Model is the semantic contract. The active Knowledge Schema encodes and decodes that contract, while Project Rules guide project work. Keeping these authorities distinct permits explicit local replacement of Schema and atomic Rule replacement without implicit merging or redefinition of shared semantics. Material cross-authority disagreement is reconciled in the artifact outside its authority rather than decided by a global precedence chain.
+The active Knowledge Model is the semantic contract. The active Knowledge Schema encodes and decodes that contract, while Project Rules guide project work. Keeping these authorities distinct permits explicit local replacement of Model and Schema and atomic Rule replacement without implicit merging. Material cross-authority disagreement is reconciled in the artifact outside its authority rather than decided by a global precedence chain.
 
 ### DEC-003 — Conceptually structured, physically coherent knowledge
 
@@ -115,7 +115,7 @@ Verifies:
 
 Scope:
 
-- authority boundaries between the shared Knowledge Model and replaceable artifacts.
+- authority boundaries among the active Knowledge Model and replaceable artifacts.
 
 Expected evidence:
 
@@ -124,7 +124,7 @@ Expected evidence:
 ## Related Knowledge
 
 - PROB-002#REQ-002 — Explicit replacement.
-- PROB-002#REQ-003 — Shared knowledge model.
+- PROB-002#REQ-003 — Replaceable knowledge model.
 - SOL-002#CAP-001 — Shared guidance artifact provision.
 - SOL-002#DEC-001 — Schema-selected template applicability.
 - GOV-002#CON-003 — Durable source-of-truth boundaries.

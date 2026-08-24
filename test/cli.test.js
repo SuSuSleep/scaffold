@@ -273,7 +273,7 @@ test('reconstruction workflow preserves evidence confidence and uncertainty', ()
   ]) assert.match(workflow, new RegExp(`### Phase — ${phase}`));
   assert.match(workflow, /Inferred or Unknown/);
   assert.match(workflow, /not materially relied upon without review or clarification/);
-  assert.match(workflow, /not converted directly into Requirements/);
+  assert.match(workflow, /not converted directly into durable obligations or other intended knowledge/);
   assert.match(workflow, /reconcile-project-change/);
 });
 
@@ -313,7 +313,7 @@ test('default guidance supports selective Governance and Project Rule consumptio
   for (const name of ['initialize-project.md', 'implement-change.md', 'update-knowledge.md', 'reconstruct-project-knowledge.md']) {
     assert.match(workflow(name), /^#### Relevant Rules$/m, name);
   }
-  assert.match(contextSkill, /Do not load all Governance records by default/);
+  assert.match(contextSkill, /Do not load all project knowledge by default/);
   assert.doesNotMatch(contextSkill, /knowledge\/governance\//);
   assert.ok(fs.existsSync(path.join(rules, 'core/knowledge-discipline.md')));
   assert.ok(fs.existsSync(path.join(rules, 'verification/risk-proportionate.md')));
@@ -387,7 +387,7 @@ test('default guidance uses single-owner acceptance and bounded verification ite
     assert.match(criterion[1], /^Then:$/m, criterion[0]);
   }
   for (const item of solutionRecords.matchAll(/^### VER-[^\n]+\n\n([\s\S]*?)(?=^### VER-|^## Related Knowledge)/gm)) {
-    assert.match(item[1], /^Verifies:\n\n- PROB-001#AC-\d+/m, item[0]);
+    assert.match(item[1], /^Verifies:\n\n- PROB-\d+#AC-\d+/m, item[0]);
     assert.match(item[1], /^Scope:$/m, item[0]);
   }
 });
@@ -425,11 +425,11 @@ test("the package ships a complete default Knowledge Model", () => {
   assert.match(model, /Governance may be project-wide in scope without being relevant to every activity/);
   assert.doesNotMatch(model, /### Engineering Strategy/);
   assert.match(model, /Relationships are many-to-many/);
-  assert.match(model, /The Knowledge Model defines semantic concepts and relationships only/);
-  assert.doesNotMatch(model, /\.scaffold\/knowledge-model\.md/);
+  assert.match(model, /The active Knowledge Model defines semantic concepts and relationships/);
+  assert.match(model, /\.scaffold\/knowledge-model\.md/);
 });
 
-test("status always resolves the Knowledge Model from shared defaults", () => {
+test("status resolves a local Knowledge Model against its shared default", () => {
   const directory = temporaryDirectory();
   run("init", directory);
 
@@ -442,7 +442,8 @@ test("status always resolves the Knowledge Model from shared defaults", () => {
   fs.writeFileSync(localModel, "# Local Knowledge Model\n");
   const local = run("status", directory);
   assert.equal(local.status, 0, local.stderr);
-  assert.match(local.stdout, /Knowledge Model:\n  source: shared/);
-  assert.match(local.stdout, /Unsupported project-local Knowledge Model ignored:/);
+  assert.match(local.stdout, /Knowledge Model:\n  source: project/);
+  assert.match(local.stdout, /Project-local replacements: knowledge-model\.md/);
+  assert.match(local.stdout, /Shadowed shared artifacts:[\s\S]*defaults[\\/]knowledge-model\.md/);
   assert.ok(local.stdout.includes(localModel));
 });

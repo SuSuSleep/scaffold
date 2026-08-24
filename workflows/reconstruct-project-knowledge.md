@@ -20,9 +20,9 @@ Understand the relevant repository area and its available evidence.
 
 Relevant repository structure, existing documentation, instructions, implementation areas, and available evidence are understood.
 
-#### Relevant Governance
+#### Relevant Knowledge
 
-- Existing Security Controls and Architecture Constraints when they are evidence for reconstruction.
+- Existing durable project constraints when they are evidence for reconstruction.
 
 #### Relevant Rules
 
@@ -54,7 +54,7 @@ Recover relevant durable knowledge from available evidence.
 
 #### Required Outcome
 
-Relevant Problem, Governance, and Solution knowledge is reconstructed from existing documentation, source code, tests, configuration, interfaces, deployment definitions, repository history, or user knowledge as appropriate. Reconstructed Acceptance Criteria receive one Requirement owner and concrete scenario preconditions; an independently required cross-Requirement interaction is reconstructed as a Requirement rather than hidden in `Given`. Verification Items identify one bounded Acceptance Criterion evidence responsibility. Normal accepted Project Knowledge needs no status marker; exceptional conclusions are explicitly marked Inferred or Unknown. Existing code is not converted directly into Requirements without evidence that its behavior is intended.
+Relevant active-Model knowledge is reconstructed from existing documentation, source code, tests, configuration, interfaces, deployment definitions, repository history, or user knowledge as appropriate. The active Model's ownership, evidence, and relationship rules are preserved. Normal accepted Project Knowledge needs no status marker; exceptional conclusions are explicitly marked Inferred or Unknown. Existing code is not converted directly into durable obligations or other intended knowledge without supporting evidence.
 
 #### Relevant Rules
 
