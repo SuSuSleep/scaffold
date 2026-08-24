@@ -79,9 +79,9 @@ Constrains:
 
 ## Related Knowledge
 
-- PROB-001#REQ-002 — Explicit replacement.
-- PROB-001#REQ-008 — Usable Markdown-first guidance.
-- PROB-001#REQ-009 — Accepted-change lifecycle.
+- PROB-002#REQ-002 — Explicit replacement.
+- PROB-003#REQ-008 — Usable Markdown-first guidance.
+- PROB-004#REQ-009 — Accepted-change lifecycle.
 - SOL-002#CAP-001 — Shared guidance artifact provision.
 - SOL-003#CAP-001 — Durable knowledge separation.
 - SOL-004#CAP-001 — Accepted-change lifecycle management.

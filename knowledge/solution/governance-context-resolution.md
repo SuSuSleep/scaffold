@@ -38,9 +38,9 @@ Keep test methodology and evidence-selection strategy in Project Rules while Sol
 ## Satisfies
 
 - CAP-001 — Selective guidance context resolution satisfies:
-  - PROB-001#REQ-010 — Selective guidance consumption
+  - PROB-005#REQ-010 — Selective guidance consumption
 - CAP-002 — Rule-guided verification approach satisfies:
-  - PROB-001#REQ-010 — Selective guidance consumption
+  - PROB-005#REQ-010 — Selective guidance consumption
 
 ## Design and Decisions
 
@@ -58,7 +58,7 @@ Project Rules define how the project generally approaches verification. A Soluti
 
 Verifies:
 
-- PROB-001#AC-014 — Agents consume only relevant durable guidance.
+- PROB-005#AC-014 — Agents consume only relevant durable guidance.
 
 Scope:
 
@@ -75,5 +75,5 @@ Assumptions:
 
 ## Related Knowledge
 
-- PROB-001#REQ-010 — Selective guidance consumption.
+- PROB-005#REQ-010 — Selective guidance consumption.
 - SOL-003#CAP-002 — Deliberate guidance authority.

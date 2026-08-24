@@ -58,12 +58,12 @@ Provide concise Skills for methods such as context collection, impact analysis, 
 ## Satisfies
 
 - CAP-001 — Accepted-change lifecycle management satisfies:
-  - PROB-001#REQ-009 — Accepted-change lifecycle
+  - PROB-004#REQ-009 — Accepted-change lifecycle
 - CAP-002 — Method-flexible work guidance satisfies:
-  - PROB-001#REQ-009 — Accepted-change lifecycle
+  - PROB-004#REQ-009 — Accepted-change lifecycle
 - CAP-003 — Context and impact collection supports CAP-001 and CAP-002.
 - CAP-004 — Project Knowledge reconciliation satisfies:
-  - PROB-001#REQ-014 — Independently reconciled Project Knowledge
+  - PROB-004#REQ-014 — Independently reconciled Project Knowledge
 
 ## Design and Decisions
 
@@ -89,7 +89,7 @@ Shared Skills remain concise, tactical, and reusable across Workflows. A new Ski
 
 Verifies:
 
-- PROB-001#AC-016 — Accepted changes are reviewed before downstream work.
+- PROB-004#AC-016 — Accepted changes are reviewed before downstream work.
 
 Scope:
 
@@ -103,7 +103,7 @@ Expected evidence:
 
 Verifies:
 
-- PROB-001#AC-016 — Accepted changes are reviewed before downstream work.
+- PROB-004#AC-016 — Accepted changes are reviewed before downstream work.
 
 Scope:
 
@@ -115,9 +115,9 @@ Expected evidence:
 
 ## Related Knowledge
 
-- PROB-001#REQ-006 — Incremental brownfield reconstruction.
-- PROB-001#REQ-007 — Evidence-based durable learning.
-- PROB-001#REQ-009 — Accepted-change lifecycle.
+- PROB-003#REQ-006 — Incremental brownfield reconstruction.
+- PROB-003#REQ-007 — Evidence-based durable learning.
+- PROB-004#REQ-009 — Accepted-change lifecycle.
 - SOL-002#CAP-002 — Evidence-based knowledge reconstruction.
 - SOL-002#CAP-003 — Finding-to-knowledge learning.
 - GOV-002#CON-002 — Agent-mediated semantic validation.

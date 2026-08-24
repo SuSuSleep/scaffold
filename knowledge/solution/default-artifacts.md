@@ -48,9 +48,9 @@ Provide concise methods for collecting context, analyzing impact, implementing w
 ## Satisfies
 
 - CAP-002 — Evidence-based knowledge reconstruction satisfies:
-  - PROB-001#REQ-006 — Incremental brownfield reconstruction
+  - PROB-003#REQ-006 — Incremental brownfield reconstruction
 - CAP-003 — Finding-to-knowledge learning satisfies:
-  - PROB-001#REQ-007 — Evidence-based durable learning
+  - PROB-003#REQ-007 — Evidence-based durable learning
 
 ## Design and Decisions
 
@@ -68,7 +68,7 @@ Workflows own ordered phases, phase intent, and required outcomes. Skills are re
 
 Verifies:
 
-- PROB-001#AC-019 — Default guidance remains usable as Markdown.
+- PROB-003#AC-019 — Default guidance remains usable as Markdown.
 
 Scope:
 
@@ -82,7 +82,7 @@ Expected evidence:
 
 Verifies:
 
-- PROB-001#AC-013 — Brownfield knowledge is reconstructed with warranted confidence.
+- PROB-003#AC-013 — Brownfield knowledge is reconstructed with warranted confidence.
 
 Scope:
 
@@ -96,7 +96,7 @@ Expected evidence:
 
 Verifies:
 
-- PROB-001#AC-018 — Findings become durable knowledge only with justified scope.
+- PROB-003#AC-018 — Findings become durable knowledge only with justified scope.
 
 Scope:
 
@@ -108,11 +108,11 @@ Expected evidence:
 
 ## Related Knowledge
 
-- PROB-001#REQ-002 — Explicit replacement.
-- PROB-001#REQ-003 — Shared knowledge model.
-- PROB-001#REQ-006 — Incremental brownfield reconstruction.
-- PROB-001#REQ-007 — Evidence-based durable learning.
-- PROB-001#REQ-008 — Usable Markdown-first guidance.
+- PROB-002#REQ-002 — Explicit replacement.
+- PROB-002#REQ-003 — Shared knowledge model.
+- PROB-003#REQ-006 — Incremental brownfield reconstruction.
+- PROB-003#REQ-007 — Evidence-based durable learning.
+- PROB-003#REQ-008 — Usable Markdown-first guidance.
 - SOL-001#CAP-002 — Artifact resolution.
 - SOL-003#CAP-001 — Durable knowledge separation.
 - SOL-003#CAP-002 — Deliberate guidance authority.

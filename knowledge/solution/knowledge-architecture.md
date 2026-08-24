@@ -88,8 +88,8 @@ flowchart LR
 ## Satisfies
 
 - CAP-002 — Deliberate guidance authority satisfies:
-  - PROB-001#REQ-002 — Explicit replacement
-  - PROB-001#REQ-003 — Shared knowledge model
+  - PROB-002#REQ-002 — Explicit replacement
+  - PROB-002#REQ-003 — Shared knowledge model
 
 ## Design and Decisions
 
@@ -111,7 +111,7 @@ Knowledge objects may have independent semantic identities without requiring one
 
 Verifies:
 
-- PROB-001#AC-010 — Full-replacement artifacts resolve explicitly.
+- PROB-002#AC-010 — Full-replacement artifacts resolve explicitly.
 
 Scope:
 
@@ -123,8 +123,8 @@ Expected evidence:
 
 ## Related Knowledge
 
-- PROB-001#REQ-002 — Explicit replacement.
-- PROB-001#REQ-003 — Shared knowledge model.
+- PROB-002#REQ-002 — Explicit replacement.
+- PROB-002#REQ-003 — Shared knowledge model.
 - SOL-002#CAP-001 — Shared guidance artifact provision.
 - SOL-002#DEC-001 — Schema-selected template applicability.
 - GOV-002#CON-003 — Durable source-of-truth boundaries.

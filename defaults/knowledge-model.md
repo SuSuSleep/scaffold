@@ -129,18 +129,6 @@ Projects may use different representations through their Knowledge Schema, but t
 
 Relationships are many-to-many. A Capability may satisfy multiple Requirements, and a Requirement may require multiple Capabilities. Do not force knowledge into a one-Requirement → one-Capability → one-Component tree.
 
-## Default Cross-Space Flow
-
-```text
-Motivation → Goal → Use Case → Requirement
-Finding / Policy / External Contract → Control / Constraint → Requirement or Solution
-Requirement / Control / Constraint → Capability → Responsibility → Component / Interface / Design
-Decision → Design
-Requirement → Acceptance Criterion → Verification Item → Test / Check / Runtime Verification → Verification Evidence
-```
-
-This is a semantic map, not a required file structure, workflow sequence, or mandatory one-to-one hierarchy.
-
 ## Semantic Invariants
 
 - Problem Requirements must not prescribe implementation unless that implementation is externally mandated.

@@ -66,9 +66,9 @@ Exposed by `bin/scaffold.js` through `src/cli.js`.
   - PROB-001#REQ-001 — Portable initialization
   - PROB-001#REQ-005 — Review-aware updates
 - CAP-002 — Artifact resolution satisfies:
-  - PROB-001#REQ-002 — Explicit artifact resolution
-  - PROB-001#REQ-003 — Shared knowledge model
-  - PROB-001#REQ-011 — Extensible Project Rule collection
+  - PROB-002#REQ-002 — Explicit artifact resolution
+  - PROB-002#REQ-003 — Shared knowledge model
+  - PROB-002#REQ-011 — Extensible Project Rule collection
 - CAP-003 — Agent guidance integration satisfies:
   - PROB-001#REQ-004 — Safe agent integration
 - CAP-004 — Mechanical document-ID inspection satisfies:
@@ -157,9 +157,9 @@ Expected evidence:
 ## Related Knowledge
 
 - PROB-001#REQ-001 — Portable initialization.
-- PROB-001#REQ-002 — Explicit artifact resolution.
-- PROB-001#REQ-011 — Extensible Project Rule collection.
-- PROB-001#REQ-003 — Shared knowledge model.
+- PROB-002#REQ-002 — Explicit artifact resolution.
+- PROB-002#REQ-011 — Extensible Project Rule collection.
+- PROB-002#REQ-003 — Shared knowledge model.
 - PROB-001#REQ-004 — Safe agent integration.
 - PROB-001#REQ-005 — Review-aware updates.
 - GOV-001#CON-001 — Supported Node.js runtime.
