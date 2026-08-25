@@ -40,7 +40,7 @@ Provide concise methods for collecting context, analyzing impact, implementing w
 
 ## Components and Boundaries
 
-- **`defaults/`** is assigned-to RESP-001. It contains the default Knowledge Model, shared default Schema, categorized `rules/`, and default templates.
+- **`defaults/`** is assigned-to RESP-001. It contains the default Knowledge Model as the sole source of default semantic meaning, the shared default Schema for representation only, categorized `rules/`, and default templates.
 - **`workflows/`** is assigned-to RESP-002. It defines project-work lifecycle sequencing, including `reconstruct-project-knowledge` and `learn-from-finding`.
 - **`skills/`** is assigned-to RESP-003. It supplies optional reusable methods; a project may explicitly replace a skill without merging it with the shared version.
 - The installed package exposes these artifacts to projects. `.scaffold/` is a project-local Harness integration area, not the source location of the package's shared guidance.

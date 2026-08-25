@@ -78,7 +78,7 @@ flowchart LR
 ```
 
 - The **Knowledge Model** defines the meaning of durable concepts and relationships. The installed default applies when no local Model exists; `.scaffold/knowledge-model.md` replaces it in full. It does not dictate document layout or workflow mechanics.
-- The **Knowledge Schema** defines how project knowledge is represented: document types, sections, identifiers, and references. A project-local Schema replaces the shared Schema in full; it does not redefine the active Model's concepts.
+- The **Knowledge Schema** defines how project knowledge is represented: document types, heading names and order, identifiers, and references. A project-local Schema replaces the shared Schema in full; it does not describe or redefine the active Model's concepts.
 - **Project Rules** define how project work should or must be performed, such as coding, documentation, verification, architecture, and delivery practices. Shared and local Rules form an effective collection by stable identity; a matching local identity replaces the shared Rule in full, while a new local identity adds guidance. Rules do not redefine Model semantics or Schema representation.
 - **Templates** provide starting structure only. The active Schema—not template availability—determines whether a template type applies.
 - Existing project knowledge remains the project-owned durable record. When creating or updating it, apply the Model for meaning, the active Schema for representation, applicable Rules for constraints, and an applicable Template only as a starting structure.
@@ -99,7 +99,7 @@ Scaffold represents durable knowledge primarily in Problem, Governance, and Solu
 
 ### DEC-002 — Separate semantic, representation, and policy authority
 
-The active Knowledge Model is the semantic contract. The active Knowledge Schema encodes and decodes that contract, while Project Rules guide project work. Keeping these authorities distinct permits explicit local replacement of Model and Schema and atomic Rule replacement without implicit merging. Material cross-authority disagreement is reconciled in the artifact outside its authority rather than decided by a global precedence chain.
+The active Knowledge Model is the semantic contract and the sole source of concept and relationship meaning. The active Knowledge Schema encodes and decodes that contract without duplicating its semantic descriptions, while Project Rules guide project work. Keeping these authorities distinct permits explicit local replacement of Model and Schema and atomic Rule replacement without implicit merging. Material cross-authority disagreement is reconciled in the artifact outside its authority rather than decided by a global precedence chain.
 
 ### DEC-003 — Conceptually structured, physically coherent knowledge
 

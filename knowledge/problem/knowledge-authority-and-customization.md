@@ -21,7 +21,7 @@ Scaffold must let projects customize knowledge and operational guidance delibera
 
 ### REQ-002 — Explicit artifact resolution
 
-A project-local Knowledge Schema, Workflow, Skill, or Template is authoritative in full; shared and local content must not be implicitly merged.
+Each project-local Knowledge Model, Knowledge Schema, Workflow, Skill, or Template is authoritative in full; shared and local content must not be implicitly merged. The active Model is the sole authority for concept and relationship meaning; the active Schema defines only representation.
 
 ### REQ-003 — Replaceable knowledge model
 

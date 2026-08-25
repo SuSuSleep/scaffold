@@ -6,17 +6,17 @@ This schema defines the default Markdown representation of durable project knowl
 
 ## Documents
 
-The default representation stores durable knowledge in `knowledge/` using the following document types and locations:
+The default representation stores durable knowledge in `knowledge/` using these locations:
 
-- `problem/`: business intent, actors, goals, use cases, requirements, and acceptance criteria.
-- `solution/`: capabilities, responsibilities, components and boundaries, interfaces, designs, decisions, and solution-specific verification items.
-- `governance/`: external contracts, policies or external standards, security controls, operational constraints, reusable findings, and their rationale.
+- `problem/`: default Problem-document location.
+- `solution/`: default Solution-document location.
+- `governance/`: default Governance-document location.
 
 These are default representation choices, not Knowledge Model concepts. Projects may replace this organization through their active Knowledge Schema.
 
 ## Structural Requirements
 
-Each section listed in the default document mappings below is a **required structural section**. A required section may remain empty when no applicable knowledge exists; its heading still provides deterministic document structure. The default Schema defines no optional or conditional sections.
+Each section listed in the default document structures below is a **required structural section**. A required section may remain empty when no applicable knowledge exists; its heading still provides deterministic document structure. The default Schema defines no optional or conditional sections.
 
 The default templates must contain every required section for their corresponding document type and must not introduce another required semantic section. Templates provide only a concrete starting structure; use this Schema for representation guidance and the active Knowledge Model for concept meaning.
 
@@ -92,7 +92,7 @@ When an identified object's title changes, update copied titles in cross-documen
 
 Assign an ID only when the object needs independent cross-reference, traceability, verification, lifecycle management, modification, deprecation or replacement, or durable relationship tracking. Ordinary explanatory bullets remain ordinary bullets. Independently referenceable Acceptance Criteria use stable local `AC-<NUMBER>` identifiers; Verification Items use stable local `VER-<NUMBER>` identifiers.
 
-Acceptance Criteria are separate Problem-space objects. Each has exactly one primary Requirement owner, represented by `For`:
+Default Acceptance-Criterion records use the following fields. The default Knowledge Model defines their ownership, semantics, and dependency rules.
 
 ```markdown
 ### AC-001 — Accepted work survives recovery
@@ -113,8 +113,6 @@ Then:
 
 - the work is accepted for processing.
 ```
-
-Dependencies are concrete observable `Given` preconditions, not additional Requirement owners. If an interaction is itself an obligation, define a separate Requirement and its own Acceptance Criteria. Likewise, retain independent `RESP-*` objects only when a Responsibility has an independent lifecycle or relationships beyond one Capability; do not change Responsibility semantics merely to simplify numbering.
 
 ### Agent Review Guidance
 
@@ -152,60 +150,54 @@ Satisfies:
 - PROB-001#REQ-001 — Preserve accepted queued work
 ```
 
-## Document Section Guidance
+## Default Document Structures
 
-Use these descriptions before creating or updating a document from a default template. Keep the document focused on durable knowledge; link to related records rather than duplicating them.
+These lists define only required heading names and order. The default Knowledge Model defines the meaning and appropriate content of each section.
 
 ### Problem Document
 
-| Section | Record |
-| --- | --- |
-| Intent | The problem or opportunity, the desired outcome, and why it matters. Avoid solution design. |
-| Actors and Goals | The people, roles, systems, or external parties involved and the outcome each needs. |
-| Use Cases | Relevant externally meaningful interactions through which Actors pursue Goals. |
-| Requirements | Observable obligations. Give important requirements stable local identifiers and descriptive titles, and state their origin when known. |
-| Acceptance Criteria | Independently identified observable scenarios for exactly one primary Requirement. State `For`, observable `Given` preconditions, `When` trigger, and `Then` outcomes. |
-| Related Knowledge | Identifiers or links to connected governance, solution, or problem records. |
+#### Intent
+
+#### Actors and Goals
+
+#### Use Cases
+
+#### Requirements
+
+#### Acceptance Criteria
+
+#### Related Knowledge
 
 ### Solution Document
 
-| Section | Record |
-| --- | --- |
-| Capabilities | Solution abilities that satisfy one or more obligations. |
-| Responsibilities | Ownership semantics that realize Capabilities before physical decomposition. |
-| Components and Boundaries | Concrete architectural units, their assigned Responsibilities, and the Interfaces they expose. |
-| Satisfies | The Requirements, Controls, or Constraints this solution addresses. |
-| Design and Decisions | Durable technical behavior, structure, and the intentional choices that select or constrain it. |
-| Verification Items | Bounded durable evidence responsibilities. Each normal item links to one Acceptance Criterion and records its scope and expected evidence; multiple items may collectively demonstrate a criterion. Applicable Project Rules guide the verification approach. |
-| Related Knowledge | Identifiers or links to connected problem, governance, or solution records. |
+#### Capabilities
+
+#### Responsibilities
+
+#### Components and Boundaries
+
+#### Satisfies
+
+#### Design and Decisions
+
+#### Verification Items
+
+#### Related Knowledge
 
 ### Governance Document
 
-| Section | Record |
-| --- | --- |
-| Purpose | The source, risk, external obligation, finding, policy, or operational condition this Governance record addresses. |
-| Applies When | The project activities, systems, data, conditions, or changes for which the record is relevant. Applicability is semantic; do not require agents to load every Governance record by default. |
-| Does Not Normally Apply When | Activities that normally do not require this context. State exceptions separately when they exist. |
-| Records | The applicable External Contract, Finding, Policy or Standard, Control, Constraint, Compliance Obligation, Operational Constraint, or rationale. State mandatory obligations accurately without turning contextual risks into universal prohibitions. |
-| Verification | Evidence, checks, reviews, or tests that establish adherence to the Governance guidance. |
-| Related Knowledge | Identifiers or links to affected requirements, solutions, findings, or external contracts. |
+#### Purpose
+
+#### Applies When
+
+#### Does Not Normally Apply When
+
+#### Records
+
+#### Verification
+
+#### Related Knowledge
 
 ## Relationship Representation
 
-Represent relationships with stable identifiers, explicit labels, Markdown links, or short relationship statements as appropriate. When a specific default Knowledge Model relationship is known, represent it explicitly: for example, prefer `Satisfies: PROB-001#REQ-021 — Submit an inference task` to placing the same relationship only under Related Knowledge. Use `related-to` only when no more precise relationship applies.
-
-## Relationship Guidance
-
-- Use the default Knowledge Model relationship vocabulary (`motivates`, `derived-from`, `satisfies`, `realizes`, `constrains`, `assigned-to`, `exposes`, `verifies`, `supersedes`, and `related-to`) when it describes the connection.
-- Requirements should identify their origin when known.
-- Capabilities should identify the Requirements, Controls, or Constraints they satisfy; Responsibilities should identify the Capabilities they realize; and Components should identify assigned Responsibilities and exposed Interfaces when useful.
-- Verification Items should normally identify one Acceptance Criterion they verify, together with bounded scope and expected evidence. `Assumptions` may clarify dependencies outside the verification boundary; do not persist framework-specific mocking mechanics without a durable reason.
-- Many-to-many relationships remain valid where their semantics allow them; Acceptance Criterion ownership and normal Verification Item targets are deliberately one-primary-owner relationships.
-
-## Selective Governance Consumption
-
-Governance is durable Project Knowledge and may apply project-wide, but project-wide scope does not require universal context loading. A Workflow Phase identifies the semantic categories of Governance relevant to its Goal and Required Outcome; an agent locates and reads only the applicable records, expanding context only when dependencies or uncertainty require it.
-
-Shared Workflows and Skills must refer to Governance by semantic subject, such as external contracts, security controls, or architecture constraints. They must not hard-code project-specific Governance file paths. The active Knowledge Schema and the project’s Governance records determine physical representation.
-
-Project Rules remain distinct from Governance: Rules define how work should or must be performed; Governance records durable constraints, evidence, obligations, rationale, and their applicability.
+Represent relationships with stable identifiers, explicit labels, Markdown links, or short relationship statements as appropriate. The default Knowledge Model defines which relationships exist and what they mean; this Schema only defines permitted representation forms. For example, use `Satisfies: PROB-001#REQ-021 — Submit an inference task` rather than placing a relationship only under `Related Knowledge`.

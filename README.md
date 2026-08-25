@@ -1,6 +1,6 @@
 # Scaffold
 
-Scaffold is a portable, knowledge-first software development harness. Its artifact-resolution semantics and agent bootstrap contract are shared Harness contracts. It supplies a default Knowledge Model, which a project may replace in full along with the Markdown Knowledge Schema, Workflows, Skills, and Templates. Project Rules are an extensible collection: local Rules add new identities and atomically replace shared Rules with the same stable identity.
+Scaffold is a portable, knowledge-first software development harness. Its artifact-resolution semantics and agent bootstrap contract are shared Harness contracts. It supplies a default Knowledge Model, which is the sole source of default concept and relationship meaning; a project may replace it in full along with the Markdown Knowledge Schema, Workflows, Skills, and Templates. The Schema defines representation only. Project Rules are an extensible collection: local Rules add new identities and atomically replace shared Rules with the same stable identity.
 
 Workflows own the sequence of work through ordered Phases. Each Phase states its goal and required outcome; Skills are reusable, optional method guidance suggested by a Phase. Project Rules may require a particular method, such as TDD, without changing the Workflow. In short: workflow owns sequencing, phase owns intent, outcome owns completion, and skill owns method.
 

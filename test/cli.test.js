@@ -298,18 +298,21 @@ test('default templates conform exactly to the default Knowledge Schema structur
     const template = fs.readFileSync(path.resolve(__dirname, `../defaults/templates/${type}/standard.md`), 'utf8');
     const headings = [...template.matchAll(/^## (.+)$/gm)].map((match) => match[1]);
     assert.deepEqual(headings, sections, `${type} template sections`);
-    for (const section of sections) assert.match(schema, new RegExp(`\\| ${section} \\|`), `${type} Schema maps ${section}`);
+    for (const section of sections) assert.match(schema, new RegExp(`^#### ${section}$`, 'm'), `${type} Schema requires ${section}`);
   }
 });
 
-test('default guidance supports selective Governance and Project Rule consumption', () => {
+test('default guidance keeps semantic meaning out of the Schema', () => {
   const schema = fs.readFileSync(path.resolve(__dirname, '../defaults/knowledge-schema.md'), 'utf8');
   const workflow = (name) => fs.readFileSync(path.resolve(__dirname, '../workflows', name), 'utf8');
   const contextSkill = fs.readFileSync(path.resolve(__dirname, '../skills/collect-context/SKILL.md'), 'utf8');
   const rules = path.resolve(__dirname, '../defaults/rules');
 
-  assert.match(schema, /## Selective Governance Consumption/);
-  assert.match(schema, /must not hard-code project-specific Governance file paths/);
+  assert.match(schema, /## Default Document Structures/);
+  assert.doesNotMatch(schema, /## Document Section Guidance/);
+  assert.doesNotMatch(schema, /\| Section \| Record \|/);
+  assert.doesNotMatch(schema, /## Relationship Guidance/);
+  assert.doesNotMatch(schema, /## Selective Governance Consumption/);
   for (const name of ['initialize-project.md', 'implement-change.md', 'update-knowledge.md', 'reconstruct-project-knowledge.md']) {
     assert.match(workflow(name), /^#### Relevant Rules$/m, name);
   }
@@ -367,7 +370,7 @@ test('default guidance uses single-owner acceptance and bounded verification ite
   assert.match(model, /one Acceptance Criterion/);
   assert.match(model, /Dependencies outside that boundary may be substituted/);
   assert.doesNotMatch(model, /may cover multiple Requirements/);
-  assert.match(schema, /represented by `For`/);
+  assert.match(schema, /default Knowledge Model defines their ownership, semantics, and dependency rules/);
   assert.doesNotMatch(schema, /may cover one or more Requirements/);
   assert.match(problemTemplate, /^For:$/m);
   assert.match(problemTemplate, /^Given:$/m);
