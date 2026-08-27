@@ -16,11 +16,17 @@ These are default representation choices, not Knowledge Model concepts. Projects
 
 ## Structural Requirements
 
-Each section listed in the default document structures below is a **required structural section**. A required section may remain empty when no applicable knowledge exists; its heading still provides deterministic document structure. The default Schema defines no optional or conditional sections.
+The default structural heading names and order are defined once, in the applicable standard template and incorporated here by reference:
 
-The default templates must contain every required section for their corresponding document type and must not introduce another required semantic section. Templates provide only a concrete starting structure; use this Schema for representation guidance and the active Knowledge Model for concept meaning.
+- Problem documents: `templates/problem/standard.md`.
+- Solution documents: `templates/solution/standard.md`.
+- Governance documents: `templates/governance/standard.md`.
 
-Shared and project-local templates are organized by the knowledge space they start: `templates/problem/`, `templates/solution/`, and `templates/governance/`. This organization is a default representation choice; the active Knowledge Schema remains the authority for template applicability.
+Every `##` heading in an applicable standard template is a **required structural section**, in the order shown. A required section may remain empty when no applicable knowledge exists; its heading still provides deterministic document structure. The default Schema defines no optional or conditional sections.
+
+The standard templates are canonical structural manifests, not a second source of semantic meaning. They must retain the required heading sequence and must not introduce another required semantic section. Use this Schema for representation guidance and the active Knowledge Model for concept meaning.
+
+Shared and project-local templates are organized by the knowledge space they start: `templates/problem/`, `templates/solution/`, and `templates/governance/`. This organization is a default representation choice; the active Knowledge Schema selects these standard templates as applicable and remains the authority for template applicability.
 
 Use stable identifiers for important knowledge objects when durable traceability is useful. Apply the identifier and reference conventions below; explicit relationship labels, Markdown links, and short relationship statements may supplement them.
 
@@ -150,54 +156,14 @@ Satisfies:
 - PROB-001#REQ-001 — Preserve accepted queued work
 ```
 
-## Default Document Structures
-
-These lists define only required heading names and order. The default Knowledge Model defines the meaning and appropriate content of each section.
-
-### Problem Document
-
-#### Intent
-
-#### Actors and Goals
-
-#### Use Cases
-
-#### Requirements
-
-#### Acceptance Criteria
-
-#### Related Knowledge
-
-### Solution Document
-
-#### Capabilities
-
-#### Responsibilities
-
-#### Components and Boundaries
-
-#### Satisfies
-
-#### Design and Decisions
-
-#### Verification Items
-
-#### Related Knowledge
-
-### Governance Document
-
-#### Purpose
-
-#### Applies When
-
-#### Does Not Normally Apply When
-
-#### Records
-
-#### Verification
-
-#### Related Knowledge
-
 ## Relationship Representation
 
 Represent relationships with stable identifiers, explicit labels, Markdown links, or short relationship statements as appropriate. The default Knowledge Model defines which relationships exist and what they mean; this Schema only defines permitted representation forms. For example, use `Satisfies: PROB-001#REQ-021 — Submit an inference task` rather than placing a relationship only under `Related Knowledge`.
+
+## Model Migration Crosswalk Representation
+
+Record a Model Migration Crosswalk as a Governance record when a Knowledge Model or Knowledge Schema replacement requires deliberate migration. It is an optional `Records` entry, not a required document section.
+
+The default Crosswalk field names and order are defined once in `templates/governance/model-migration-crosswalk.md` and incorporated here by reference. Use its `MAP-<NUMBER>` entry when a Crosswalk mapping must be independently reviewed or referenced.
+
+The active Knowledge Model defines the mapping semantics. Under the default Model, a concept or relationship mapping identifies the source and target Models; a represented-field mapping also identifies the source and target Schemas. Use `maps-to` for a reviewed correspondence when a relationship is useful; use `supersedes` only when an older durable knowledge object is intentionally replaced. A Crosswalk never activates two Models, supplies an implicit fallback, or authorizes automatic semantic rewrites.

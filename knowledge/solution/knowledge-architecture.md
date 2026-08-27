@@ -14,6 +14,10 @@ Provide a shared structure that separates intended outcomes, reusable constraint
 
 Provide distinct semantic, representation, and operating-policy authorities so a project can customize its knowledge vocabulary and guidance deliberately.
 
+### CAP-003 — Deliberate model migration mapping
+
+Provide a Markdown-readable, project-owned crosswalk for reviewing semantic correspondences and non-correspondences while replacing a Knowledge Model.
+
 ## Responsibilities
 
 ### RESP-001 — Knowledge-space classification
@@ -33,6 +37,12 @@ Resolve the active Knowledge Model as the authority for concepts and relationshi
 Realizes: CAP-002
 
 Resolve the active Knowledge Model and Knowledge Schema as full replacements and Project Rules as an effective collection with atomic same-identity replacement, and apply each within its own authority.
+
+### RESP-004 — Model migration crosswalk stewardship
+
+Realizes: CAP-003
+
+Define and review mappings between source and target Model concepts and relationships, and between Schema-owned represented fields with their source and target Schemas identified. Record mapping kind, cardinality, identity and reference treatment, migration disposition, and unresolved ambiguity. Keep one Model active and require deliberate project-owned migration decisions.
 
 ## Components and Boundaries
 
@@ -90,6 +100,8 @@ flowchart LR
 - CAP-002 — Deliberate guidance authority satisfies:
   - PROB-002#REQ-002 — Explicit replacement
   - PROB-002#REQ-003 — Replaceable knowledge model
+- CAP-003 — Deliberate model migration mapping satisfies:
+  - PROB-002#REQ-015 — Deliberate Knowledge Model migration mapping
 
 ## Design and Decisions
 
@@ -104,6 +116,10 @@ The active Knowledge Model is the semantic contract and the sole source of conce
 ### DEC-003 — Conceptually structured, physically coherent knowledge
 
 Knowledge objects may have independent semantic identities without requiring one physical file per object. The default representation favors sufficiently contextual Markdown documents; a project may adopt a more granular representation only through its active Knowledge Schema.
+
+### DEC-005 — Explicit model-migration crosswalks
+
+A Knowledge Model replacement may require a project-owned Crosswalk that maps concepts or relationships as equivalent, renamed, split, merged, superseded, retired, or unmapped. A Schema replacement may map represented fields only with the source and target Schemas identified. Each mapping records cardinality and identity treatment so many-to-many correspondences remain expressible. The Crosswalk informs a deliberate migration; it neither combines Model authority nor enables automatic semantic rewriting.
 
 ## Verification Items
 
@@ -125,6 +141,7 @@ Expected evidence:
 
 - PROB-002#REQ-002 — Explicit replacement.
 - PROB-002#REQ-003 — Replaceable knowledge model.
+- PROB-002#REQ-015 — Deliberate Knowledge Model migration mapping.
 - SOL-002#CAP-001 — Shared guidance artifact provision.
 - SOL-002#DEC-001 — Schema-selected template applicability.
 - GOV-002#CON-003 — Durable source-of-truth boundaries.

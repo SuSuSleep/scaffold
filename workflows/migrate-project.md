@@ -24,6 +24,16 @@ The old and new shared behavior and all affected project-local Knowledge Schema,
 
 - collect-context
 
+### Phase — Define Model Migration Crosswalk
+
+#### Goal
+
+Make semantic correspondences and non-correspondences between a retiring and target Knowledge Model explicit before adapting project knowledge.
+
+#### Required Outcome
+
+When a Knowledge Model changes, a project-owned Model Migration Crosswalk identifies source and target Model identities for concept and relationship mappings. When represented fields require migration, it also identifies the source and target Schema identities that own those fields. Each entry records mapping kinds and cardinalities, ID and reference treatment, migration disposition, review decisions, and unresolved ambiguity. The Crosswalk does not activate both Models or authorize automatic semantic rewriting.
+
 ### Phase — Determine Migration Impact
 
 #### Goal
@@ -32,7 +42,7 @@ Determine which project-owned artifacts and knowledge require deliberate adaptat
 
 #### Required Outcome
 
-Project-local schemas, workflows, and skills are reviewed as explicit replacements; Project Rules are reviewed as an effective collection with local additions and atomic replacements. Schema shadow drift caused by default Schema or template changes, Rule migration, and necessary knowledge changes are identified.
+Project-local schemas, workflows, and skills are reviewed as explicit replacements; Project Rules are reviewed as an effective collection with local additions and atomic replacements. Schema shadow drift caused by default Schema or template changes, Rule migration, necessary knowledge changes, and any Model Migration Crosswalk are identified.
 
 #### Suggested Skills
 

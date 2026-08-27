@@ -35,6 +35,10 @@ The Harness must represent Project Rules as a categorized effective collection. 
 
 The Harness must support deliberate evolution of full-replacement artifacts and route accepted changes to the appropriate downstream Workflow without allowing an artifact to override a different authority domain.
 
+### REQ-015 — Deliberate Knowledge Model migration mapping
+
+When a project replaces its Knowledge Model, the Harness must support a project-owned, reviewable crosswalk between source and target concepts or relationships. When a Schema replacement requires represented-field migration, the crosswalk must identify the source and target Schemas that own those fields. Every entry must state mapping kind, cardinality, identity and reference treatment, migration disposition, and unresolved ambiguity without making both Models active or automating semantic migration.
+
 ## Acceptance Criteria
 
 ### AC-010 — Full-replacement artifacts resolve explicitly
@@ -109,9 +113,28 @@ Then:
 
 - it uses the appropriate evolution path without allowing an artifact to override another authority domain.
 
+### AC-021 — Knowledge Model migration is mapped deliberately
+
+For:
+
+- REQ-015 — Deliberate Knowledge Model migration mapping
+
+Given:
+
+- a project replaces a Knowledge Model with concepts or relationships that require adaptation, or replaces a Schema with represented fields that require adaptation.
+
+When:
+
+- it prepares the migration.
+
+Then:
+
+- it records a reviewable crosswalk with source and target Models for semantic mappings and source and target Schemas for represented-field mappings, plus mapping kinds and cardinalities, identity and reference treatment, migration disposition, and unresolved ambiguity; no automatic semantic rewrite occurs.
+
 ## Related Knowledge
 
 - SOL-001#CAP-002 — Artifact resolution.
 - SOL-002#CAP-001 — Shared guidance artifact provision.
 - SOL-003#CAP-002 — Deliberate guidance authority.
+- SOL-003#CAP-003 — Deliberate model migration mapping.
 - GOV-002#CON-003 — Durable source-of-truth boundaries.

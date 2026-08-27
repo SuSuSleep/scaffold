@@ -46,7 +46,7 @@ Constrains:
 
 ### CON-004 — Initial product scope boundaries
 
-The initial product does not replace Git, issue tracking, CI/CD, or project-management systems; require Scrum, TDD, a knowledge graph, or a vector database; automatically reconcile conflicting documentation; preserve every temporary execution artifact as durable knowledge; or maintain compatibility through configuration inheritance. Migration and conflict resolution remain deliberate, project-owned work.
+The initial product does not replace Git, issue tracking, CI/CD, or project-management systems; require Scrum, TDD, a knowledge graph, or a vector database; automatically reconcile conflicting documentation; preserve every temporary execution artifact as durable knowledge; or maintain compatibility through configuration inheritance. Model Migration Crosswalks record project-owned decisions but do not automate semantic migration. Migration and conflict resolution remain deliberate, project-owned work.
 
 Constrains:
 

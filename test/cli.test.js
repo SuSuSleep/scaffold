@@ -285,10 +285,15 @@ test('agent guidance routes brownfield reconstruction requests to the reconstruc
   assert.match(guide, /reconcile-project-change/);
 });
 
-test('default templates conform exactly to the default Knowledge Schema structure', () => {
+test('default templates are the single source for default document structures', () => {
   const schema = fs.readFileSync(path.resolve(__dirname, '../defaults/knowledge-schema.md'), 'utf8');
   assert.match(schema, /required structural section.*may remain empty/s);
   assert.match(schema, /project-local Schema replaces this default representation contract in full/);
+  assert.match(schema, /structural heading names and order are defined once/);
+  assert.match(schema, /templates\/problem\/standard\.md/);
+  assert.match(schema, /templates\/solution\/standard\.md/);
+  assert.match(schema, /templates\/governance\/standard\.md/);
+  assert.doesNotMatch(schema, /## Default Document Structures/);
   const expectedSections = {
     problem: ['Intent', 'Actors and Goals', 'Use Cases', 'Requirements', 'Acceptance Criteria', 'Related Knowledge'],
     solution: ['Capabilities', 'Responsibilities', 'Components and Boundaries', 'Satisfies', 'Design and Decisions', 'Verification Items', 'Related Knowledge'],
@@ -298,7 +303,6 @@ test('default templates conform exactly to the default Knowledge Schema structur
     const template = fs.readFileSync(path.resolve(__dirname, `../defaults/templates/${type}/standard.md`), 'utf8');
     const headings = [...template.matchAll(/^## (.+)$/gm)].map((match) => match[1]);
     assert.deepEqual(headings, sections, `${type} template sections`);
-    for (const section of sections) assert.match(schema, new RegExp(`^#### ${section}$`, 'm'), `${type} Schema requires ${section}`);
   }
 });
 
@@ -308,7 +312,7 @@ test('default guidance keeps semantic meaning out of the Schema', () => {
   const contextSkill = fs.readFileSync(path.resolve(__dirname, '../skills/collect-context/SKILL.md'), 'utf8');
   const rules = path.resolve(__dirname, '../defaults/rules');
 
-  assert.match(schema, /## Default Document Structures/);
+  assert.match(schema, /## Structural Requirements/);
   assert.doesNotMatch(schema, /## Document Section Guidance/);
   assert.doesNotMatch(schema, /\| Section \| Record \|/);
   assert.doesNotMatch(schema, /## Relationship Guidance/);
@@ -412,6 +416,7 @@ test("the package ships a complete default Knowledge Model", () => {
     "### Control",
     "### Constraint",
     "### Applicability",
+    "### Model Migration Crosswalk",
     "## Solution Space",
     "### Capability",
     "### Responsibility",
@@ -428,8 +433,33 @@ test("the package ships a complete default Knowledge Model", () => {
   assert.match(model, /Governance may be project-wide in scope without being relevant to every activity/);
   assert.doesNotMatch(model, /### Engineering Strategy/);
   assert.match(model, /Relationships are many-to-many/);
+  assert.match(model, /`maps-to`/);
   assert.match(model, /The active Knowledge Model defines semantic concepts and relationships/);
   assert.match(model, /\.scaffold\/knowledge-model\.md/);
+});
+
+test('model migrations use explicit project-owned crosswalks without automatic semantic rewriting', () => {
+  const read = (relative) => fs.readFileSync(path.resolve(__dirname, '..', relative), 'utf8');
+  const model = read('defaults/knowledge-model.md');
+  const schema = read('defaults/knowledge-schema.md');
+  const template = read('defaults/templates/governance/model-migration-crosswalk.md');
+  const migration = read('workflows/migrate-project.md');
+  const evolution = read('workflows/evolve-project-artifact.md');
+
+  assert.match(model, /only one Knowledge Model is active at a time/);
+  assert.match(model, /must not cause automatic semantic rewriting/);
+  assert.match(schema, /## Model Migration Crosswalk Representation/);
+  assert.match(schema, /field names and order are defined once/);
+  assert.match(schema, /MAP-<NUMBER>/);
+  assert.match(schema, /source and target Schemas/);
+  assert.doesNotMatch(schema, /^### MAP-001 — /m);
+  assert.match(template, /^### MAP-001 — /m);
+  assert.match(template, /Identity and references:/);
+  assert.match(template, /Source Schema:/);
+  assert.match(template, /many-to-many/);
+  assert.match(migration, /### Phase — Define Model Migration Crosswalk/);
+  assert.match(migration, /does not activate both Models/);
+  assert.match(evolution, /Model Migration Crosswalk/);
 });
 
 test("status resolves a local Knowledge Model against its shared default", () => {

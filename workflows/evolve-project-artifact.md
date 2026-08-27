@@ -52,7 +52,7 @@ Identify drift and affected knowledge or guidance before activating the local ar
 
 #### Required Outcome
 
-Affected workflows, skills, templates, project knowledge, and shadowed shared changes are reviewed. Cross-authority inconsistency is identified for reconciliation rather than solved through an invented precedence rule.
+Affected workflows, skills, templates, project knowledge, and shadowed shared changes are reviewed. A Knowledge Model replacement identifies whether a project-owned Model Migration Crosswalk is required for concepts or relationships; a Schema replacement identifies whether one is required for represented fields. Cross-authority inconsistency is identified for reconciliation rather than solved through an invented precedence rule.
 
 #### Suggested Skills
 

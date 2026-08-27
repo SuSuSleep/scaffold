@@ -76,6 +76,10 @@ A **Constraint** is a condition within which the solution must operate, such as 
 
 **Applicability** states the scope and conditions under which Governance knowledge applies. It may refer to components, data classes, trust boundaries, runtime environments, programming contexts, or types of change. Governance knowledge must not be interpreted as universal when correctness or safety depends on context.
 
+### Model Migration Crosswalk
+
+A **Model Migration Crosswalk** is a project-owned, durable record for deliberate knowledge migration. It maps concepts and relationships between a retiring and target Knowledge Model; it may also map represented fields, but those entries must identify the source and target Knowledge Schemas that own the fields. It identifies the relevant source and target artifact identities, mapping kind (`equivalent`, `renamed`, `split`, `merged`, `superseded`, `retired`, or `unmapped`), source and target subjects, cardinality, identity and reference treatment, migration disposition, review decision, and unresolved ambiguity. It is a migration aid, not an authority bridge: only one Knowledge Model is active at a time, and a Crosswalk must not cause automatic semantic rewriting or implicit merging.
+
 ## Solution Space
 
 Solution Space answers which ability must be provided, what responsibilities exist, where they are assigned, which boundaries and interactions exist, what technical structure realizes them, why important choices were made, and how expectations will be verified.
@@ -125,6 +129,7 @@ Projects may use different representations through their Knowledge Schema, but t
 | `exposes` | States that a Component or system offers an Interface. |
 | `verifies` | States which expectation a Verification Item is intended to demonstrate. |
 | `supersedes` | Intentionally replaces older durable knowledge. Superseded knowledge must not remain ambiguously active. |
+| `maps-to` | States a reviewed migration correspondence between source and target Model concepts or relationships, or between Schema-owned fields with their source and target Schemas identified. |
 | `related-to` | Records a meaningful connection when no more specific relationship applies. |
 
 Relationships are many-to-many. A Capability may satisfy multiple Requirements, and a Requirement may require multiple Capabilities. Do not force knowledge into a one-Requirement → one-Capability → one-Component tree.
@@ -141,6 +146,7 @@ Relationships are many-to-many. A Capability may satisfy multiple Requirements, 
 - Each Acceptance Criterion has exactly one primary Requirement owner; a Requirement may own many Acceptance Criteria.
 - Each normal Verification Item has exactly one primary Acceptance Criterion target; multiple Verification Items may collectively demonstrate that criterion.
 - Relationships must support many-to-many connections.
+- A Model Migration Crosswalk must not make two Models concurrently authoritative or imply an automatic semantic migration.
 
 ## Semantic Anti-Patterns
 
