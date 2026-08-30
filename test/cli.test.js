@@ -18,11 +18,11 @@ function run(...args) {
   return spawnSync(process.execPath, [cli, ...args], { encoding: 'utf8' });
 }
 
-test('init creates only Harness infrastructure without copying semantic defaults', () => {
+test('init creates Harness infrastructure, project-owned skills, and agent discovery links', () => {
   const directory = temporaryDirectory();
   const result = run('init', directory);
   assert.equal(result.status, 0, result.stderr);
-  assert.match(result.stdout, /agent-discovery guide/);
+  assert.match(result.stdout, /agent-discovery integration/);
   assert.ok(fs.readFileSync(path.join(directory, '.scaffold/metadata.md'), 'utf8').includes(`Scaffold Version: ${packageInfo.version}`));
   assert.equal(fs.existsSync(path.join(directory, 'knowledge/problem')), false);
   assert.equal(fs.existsSync(path.join(directory, '.scaffold/knowledge-schema.md')), false);
@@ -35,6 +35,34 @@ test('init creates only Harness infrastructure without copying semantic defaults
   assert.match(fs.readFileSync(path.join(directory, '.scaffold/agent-guide.md'), 'utf8'), /currently installed Scaffold package/);
   assert.match(fs.readFileSync(path.join(directory, 'AGENTS.md'), 'utf8'), /agent-guide/);
   assert.match(fs.readFileSync(path.join(directory, 'CLAUDE.md'), 'utf8'), /agent-guide/);
+  assert.ok(fs.existsSync(path.join(directory, 'skills/define-change/SKILL.md')));
+  for (const agentSkills of ['.agents/skills', '.claude/skills']) {
+    const workflow = path.join(directory, agentSkills, 'define-change');
+    assert.ok(fs.lstatSync(workflow).isSymbolicLink());
+    assert.equal(fs.realpathSync(workflow), path.join(directory, 'skills/define-change'));
+    assert.equal(fs.existsSync(path.join(directory, agentSkills, 'collect-context')), false);
+  }
+});
+
+test('init preserves an existing project-owned skills directory', () => {
+  const directory = temporaryDirectory();
+  const skills = path.join(directory, 'skills');
+  fs.mkdirSync(skills, { recursive: true });
+  fs.writeFileSync(path.join(skills, 'README.md'), 'Project skills\n');
+  const result = run('init', directory);
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(fs.readFileSync(path.join(skills, 'README.md'), 'utf8'), 'Project skills\n');
+  assert.match(result.stdout, /Project-local skills were preserved/);
+});
+
+test('init preserves a conflicting agent skill entry', () => {
+  const directory = temporaryDirectory();
+  const destination = path.join(directory, '.agents/skills/define-change');
+  fs.mkdirSync(destination, { recursive: true });
+  const result = run('init', directory);
+  assert.equal(result.status, 0, result.stderr);
+  assert.ok(fs.lstatSync(destination).isDirectory());
+  assert.match(result.stdout, /Existing agent-skill entries preserved: .agents[\\/]skills[\\/]define-change/);
 });
 
 test('agent entry guidance remains a package-resolved bootstrap after an upgrade', () => {

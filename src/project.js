@@ -5,6 +5,7 @@ const path = require('node:path');
 
 const METADATA_FILE = 'metadata.md';
 const AGENT_FILES = ['AGENTS.md', 'CLAUDE.md'];
+const AGENT_SKILL_DIRECTORIES = ['.agents/skills', '.claude/skills'];
 const MANAGED_BLOCK = /<!-- scaffold:start -->[\s\S]*?<!-- scaffold:end -->/;
 
 function scaffoldDirectory(directory) {
@@ -68,6 +69,51 @@ function readMetadata(directory) {
   };
 }
 
+function workflowSkillNames(skillsRoot) {
+  return directoryEntries(skillsRoot, (entry) => entry.isDirectory()
+    && fs.existsSync(path.join(skillsRoot, entry.name, 'SKILL.md'))
+    && fs.existsSync(path.join(skillsRoot, entry.name, 'agents', 'openai.yaml'))).sort();
+}
+
+function seedProjectSkills(directory, packageRoot) {
+  const destination = path.join(directory, 'skills');
+  if (fs.existsSync(destination)) return { created: false, preserved: true };
+  fs.cpSync(path.join(packageRoot, 'skills'), destination, { recursive: true });
+  return { created: true, preserved: false };
+}
+
+function synchronizeAgentSkills(directory) {
+  const skillsRoot = path.join(directory, 'skills');
+  if (!fs.existsSync(skillsRoot)) return { linked: [], conflicts: [] };
+  const linked = [];
+  const conflicts = [];
+  for (const relativeDirectory of AGENT_SKILL_DIRECTORIES) {
+    const agentSkillsRoot = path.join(directory, relativeDirectory);
+    fs.mkdirSync(agentSkillsRoot, { recursive: true });
+    for (const name of workflowSkillNames(skillsRoot)) {
+      const destination = path.join(agentSkillsRoot, name);
+      const target = path.relative(agentSkillsRoot, path.join(skillsRoot, name));
+      let existing = null;
+      try {
+        existing = fs.lstatSync(destination);
+      } catch (error) {
+        if (error.code !== 'ENOENT') throw error;
+      }
+      if (existing) {
+        if (existing.isSymbolicLink() && fs.readlinkSync(destination) === target) {
+          linked.push(path.join(relativeDirectory, name));
+        } else {
+          conflicts.push(path.join(relativeDirectory, name));
+        }
+        continue;
+      }
+      fs.symlinkSync(target, destination, 'dir');
+      linked.push(path.join(relativeDirectory, name));
+    }
+  }
+  return { linked, conflicts };
+}
+
 function initProject({ directory, version, packageRoot, decideHostIntegration }) {
   const root = scaffoldDirectory(directory);
   if (fs.existsSync(metadataPath(directory))) {
@@ -93,6 +139,8 @@ function initProject({ directory, version, packageRoot, decideHostIntegration })
   const now = timestamp();
   fs.writeFileSync(metadataPath(directory), metadata({ lastReviewedVersion: version, installedAt: now }), 'utf8');
   synchronizeAgentGuide(directory);
+  const projectSkills = seedProjectSkills(directory, packageRoot);
+  const agentSkills = synchronizeAgentSkills(directory);
   const preserved = [];
   for (const filename of AGENT_FILES) {
     const destination = path.join(directory, filename);
@@ -117,7 +165,9 @@ function initProject({ directory, version, packageRoot, decideHostIntegration })
     : 'Created AGENTS.md and CLAUDE.md to direct coding agents to the Scaffold guide.';
   return { ok: true, lines: [
     `Initialized Scaffold in ${directory}.`,
-    'Shared defaults remain package-managed; only the local agent-discovery guide was created.',
+    `Project-local skills ${projectSkills.created ? 'were seeded from the installed Scaffold package' : 'were preserved'}.`,
+    `Linked ${agentSkills.linked.length} user-invoked skills for Codex and Claude Code.${agentSkills.conflicts.length ? ` Existing agent-skill entries preserved: ${agentSkills.conflicts.join(', ')}.` : ''}`,
+    'Shared defaults other than project-local skills remain package-managed; only local agent-discovery integration was created.',
     `Created ${path.relative(directory, root)}/metadata.md and Harness extension directories.`,
     integration,
   ] };
@@ -320,12 +370,16 @@ function updateProject({ directory, version, packageRoot }) {
   const now = timestamp();
   fs.writeFileSync(metadataPath(directory), metadata({ lastReviewedVersion: version, installedAt: details.installedAt || now, updatedAt: now }), 'utf8');
   synchronizeAgentGuide(directory);
+  const projectSkills = seedProjectSkills(directory, packageRoot);
+  const agentSkills = synchronizeAgentSkills(directory);
   const found = localReplacements(directory, packageRoot);
   const ruleSet = resolvedRules(directory, packageRoot);
   return { ok: true, lines: [
     `Recorded your attestation that Scaffold version ${version} has been reviewed.`,
     `Project-local replacements preserved: ${found.length ? found.map((artifact) => path.relative(scaffoldDirectory(directory), artifact.local)).join(', ') : 'none'}.`,
     `Project-local Rules preserved: ${ruleSet.rules.filter((rule) => rule.local).length ? ruleSet.rules.filter((rule) => rule.local).map((rule) => path.relative(scaffoldDirectory(directory), rule.local.path)).join(', ') : 'none'}.`,
+    `Project-local skills ${projectSkills.created ? 'were seeded from the installed Scaffold package' : 'were preserved'}.`,
+    `User-invoked skill links synchronized: ${agentSkills.linked.length}; existing agent-skill entries preserved: ${agentSkills.conflicts.length ? agentSkills.conflicts.join(', ') : 'none'}.`,
     'This command records review completion; semantic validation remains agent-driven. Shared defaults are supplied by the currently running package and were not copied or overwritten.',
   ] };
 }
