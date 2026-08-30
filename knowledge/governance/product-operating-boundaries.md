@@ -16,7 +16,7 @@ Product design, implementation, default guidance, documentation, automated check
 
 A record is purely temporary work history and has no durable project consequence.
 
-## Guidance
+## Records
 
 ### CON-001 — Markdown-first core operation
 

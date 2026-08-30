@@ -24,7 +24,7 @@ The default structural heading names and order are defined once, in the applicab
 
 Every `##` heading in an applicable standard template is a **required structural section**, in the order shown. A required section may remain empty when no applicable knowledge exists; its heading still provides deterministic document structure. The default Schema defines no optional or conditional sections.
 
-The standard templates are canonical structural manifests, not a second source of semantic meaning. They must retain the required heading sequence and must not introduce another required semantic section. Use this Schema for representation guidance and the active Knowledge Model for concept meaning.
+The standard templates are canonical structural manifests, not a second source of semantic meaning. They may provide template-local completion instructions that point to active-Model concepts; those instructions apply only to that template and must not redefine the concepts. Templates must retain the required heading sequence and must not introduce another required semantic section. Use this Schema for representation guidance and the active Knowledge Model for concept meaning.
 
 Shared and project-local templates are organized by the knowledge space they start: `templates/problem/`, `templates/solution/`, and `templates/governance/`. This organization is a default representation choice; the active Knowledge Schema selects these standard templates as applicable and remains the authority for template applicability.
 

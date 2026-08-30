@@ -52,6 +52,12 @@ Dependency context does not imply acceptance ownership. Express a prerequisite a
 
 Governance Space answers what reusable or external constraint, evidence, or rationale exists, why it exists, where it applies, and which project obligations follow from it. Governance may be project-wide in scope without being relevant to every activity; applicability determines selective consumption.
 
+### Sources of Governance Knowledge
+
+Governance knowledge may originate from external obligations, project evidence, or reusable project decisions. Typical sources include laws and regulations; organizational Policies and Standards; contracts and external-system specifications; customer, platform, or partner compatibility commitments; risk assessments and threat models; security, quality, or architecture reviews; production incidents, operational observations, and audit results; platform or runtime conditions; and deliberate model-migration decisions.
+
+Record the relevant source, authority, version or date, and rationale when they are needed to assess currency, applicability, or traceability. A source is not automatically a project-wide rule: analyze its scope and applicability before deriving a Control, Constraint, or Requirement.
+
 ### External Contract
 
 An **External Contract** is an obligation imposed by interaction with an external system or boundary, such as an API contract, event schema, authentication protocol, data format, or compatibility expectation. It may derive Integration Requirements or constrain Interfaces.

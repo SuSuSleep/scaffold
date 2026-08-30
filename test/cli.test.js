@@ -303,6 +303,7 @@ test('default templates are the single source for default document structures', 
     const template = fs.readFileSync(path.resolve(__dirname, `../defaults/templates/${type}/standard.md`), 'utf8');
     const headings = [...template.matchAll(/^## (.+)$/gm)].map((match) => match[1]);
     assert.deepEqual(headings, sections, `${type} template sections`);
+    assert.match(template, /Use this template only when selected by the active Knowledge Schema/, `${type} template lifecycle guidance`);
   }
 });
 
@@ -317,6 +318,7 @@ test('default guidance keeps semantic meaning out of the Schema', () => {
   assert.doesNotMatch(schema, /\| Section \| Record \|/);
   assert.doesNotMatch(schema, /## Relationship Guidance/);
   assert.doesNotMatch(schema, /## Selective Governance Consumption/);
+  assert.doesNotMatch(schema, /## Template-Specific Field Guidance/);
   for (const name of ['initialize-project.md', 'implement-change.md', 'update-knowledge.md', 'reconstruct-project-knowledge.md']) {
     assert.match(workflow(name), /^#### Relevant Rules$/m, name);
   }
@@ -325,6 +327,20 @@ test('default guidance keeps semantic meaning out of the Schema', () => {
   assert.ok(fs.existsSync(path.join(rules, 'core/knowledge-discipline.md')));
   assert.ok(fs.existsSync(path.join(rules, 'verification/risk-proportionate.md')));
   assert.equal(fs.existsSync(path.resolve(__dirname, '../defaults/project-rules.md')), false);
+});
+
+test('templates keep field completion guidance local to the selected template', () => {
+  const problem = fs.readFileSync(path.resolve(__dirname, '../defaults/templates/problem/standard.md'), 'utf8');
+  const governance = fs.readFileSync(path.resolve(__dirname, '../defaults/templates/governance/standard.md'), 'utf8');
+  const solution = fs.readFileSync(path.resolve(__dirname, '../defaults/templates/solution/standard.md'), 'utf8');
+  const crosswalk = fs.readFileSync(path.resolve(__dirname, '../defaults/templates/governance/model-migration-crosswalk.md'), 'utf8');
+  const workflow = fs.readFileSync(path.resolve(__dirname, '../workflows/update-knowledge.md'), 'utf8');
+
+  assert.match(problem, /Record the problem context, desired outcome, and relevant Motivation/);
+  assert.match(governance, /Record applicable Governance objects and durable source context/);
+  assert.match(solution, /Record Solution Capabilities that provide abilities intended to satisfy obligations/);
+  assert.match(crosswalk, /Record one or more independently reviewable MAP mappings/);
+  assert.match(workflow, /selected Template's local instructions/);
 });
 
 test('default knowledge representation demonstrates local IDs and qualified references', () => {

@@ -16,7 +16,7 @@ The package is published, run from its command-line entry point, developed local
 
 Documenting Problem-space intent that has no runtime or package-distribution consequence.
 
-## Guidance
+## Records
 
 ### CON-001 — Supported Node.js runtime
 
