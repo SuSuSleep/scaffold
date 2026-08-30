@@ -1,0 +1,4 @@
+interface:
+  display_name: "Evolve Project Rules"
+  short_description: "Change project Rules and review their effects"
+  default_prompt: "Use $evolve-project-rules to make this Project Rule change."

@@ -1,4 +1,0 @@
-interface:
-  display_name: "Verify Change"
-  short_description: "Verify software changes proportionately"
-  default_prompt: "Use $verify-change to validate this change and report coverage limits."

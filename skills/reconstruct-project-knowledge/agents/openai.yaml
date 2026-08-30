@@ -1,0 +1,4 @@
+interface:
+  display_name: "Reconstruct Project Knowledge"
+  short_description: "Recover durable knowledge from an existing repository"
+  default_prompt: "Use $reconstruct-project-knowledge to recover durable knowledge from this repository area."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Define Change"
+  short_description: "Turn an ambiguous request into a proposed change"
+  default_prompt: "Use $define-change to turn this request into a proposed Project Knowledge change."

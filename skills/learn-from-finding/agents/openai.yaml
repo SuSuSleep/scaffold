@@ -1,0 +1,4 @@
+interface:
+  display_name: "Learn From Finding"
+  short_description: "Turn a finding into durable reusable knowledge"
+  default_prompt: "Use $learn-from-finding to analyze this finding and capture warranted reusable knowledge."

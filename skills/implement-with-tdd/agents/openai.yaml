@@ -1,4 +1,0 @@
-interface:
-  display_name: "Implement with TDD"
-  short_description: "Implement changes with disciplined TDD"
-  default_prompt: "Use $implement-with-tdd to implement this change test-first."

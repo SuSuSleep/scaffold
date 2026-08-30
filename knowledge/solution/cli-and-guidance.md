@@ -45,7 +45,7 @@ Search Markdown document declarations recursively and report namespace availabil
 - **`bin/scaffold.js`** exposes the command-line entry point.
 - **`src/cli.js`** is assigned-to RESP-001 and exposes the `init`, `status`, `update`, and `id` command interface.
 - **`src/project.js`** is assigned-to RESP-002, RESP-003, and RESP-004. It owns local filesystem interactions within the target project.
-- **Shared package artifacts** expose the default Knowledge Model, default Schema, categorized Rules, workflows, skills, and templates. Knowledge Model, Schema, Workflows, Skills, and Templates are fully replaceable; local Rules add identities or atomically replace matching shared identities.
+- **Shared package artifacts** expose the default Knowledge Model, default Schema, categorized Rules, workflow Skills, model-invoked Skills, and templates. Knowledge Model, Schema, Skills, and Templates are fully replaceable; local Rules add identities or atomically replace matching shared identities.
 
 ### IFC-001 — Scaffold command-line interface
 

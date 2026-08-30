@@ -1,4 +1,0 @@
-interface:
-  display_name: "Collect Context"
-  short_description: "Gather context for Scaffold project work"
-  default_prompt: "Use $collect-context to identify the context needed for this request."

@@ -21,11 +21,11 @@ Scaffold must let projects customize knowledge and operational guidance delibera
 
 ### REQ-002 — Explicit artifact resolution
 
-Each project-local Knowledge Model, Knowledge Schema, Workflow, Skill, or Template is authoritative in full; shared and local content must not be implicitly merged. The active Model is the sole authority for concept and relationship meaning; the active Schema defines only representation.
+Each project-local Knowledge Model, Knowledge Schema, Skill, or Template is authoritative in full; shared and local content must not be implicitly merged. The active Model is the sole authority for concept and relationship meaning; the active Schema defines only representation.
 
 ### REQ-003 — Replaceable knowledge model
 
-The installed default Knowledge Model is used when no local Model exists. `.scaffold/knowledge-model.md` fully replaces it when present; Knowledge Schema, Workflows, Skills, and Templates use the same full-replacement behavior. Project Rules are extensible with atomic same-identity replacement.
+The installed default Knowledge Model is used when no local Model exists. `.scaffold/knowledge-model.md` fully replaces it when present; Knowledge Schema, Skills, and Templates use the same full-replacement behavior. Project Rules are extensible with atomic same-identity replacement.
 
 ### REQ-011 — Extensible Project Rule collection
 

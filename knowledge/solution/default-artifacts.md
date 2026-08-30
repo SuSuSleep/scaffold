@@ -2,7 +2,7 @@
 
 Document ID: SOL-002
 
-> Evidence source: [`defaults/`](../../defaults/), [`workflows/`](../../workflows/), [`skills/`](../../skills/), and [`test/cli.test.js`](../../test/cli.test.js), inspected 2026-08-20.
+> Evidence source: [`defaults/`](../../defaults/), [`skills/`](../../skills/), and [`test/cli.test.js`](../../test/cli.test.js), inspected 2026-08-30.
 
 ## Capabilities
 
@@ -26,11 +26,11 @@ Realizes: CAP-001
 
 Maintain the shared semantic model, representation defaults, categorized rules, and document templates as package-managed guidance.
 
-### RESP-002 — Workflow sequencing
+### RESP-002 — Workflow-Skill sequencing
 
 Realizes: CAP-002 and CAP-003
 
-Define the ordered phases and required outcomes for reconstruction and learning work without making a skill the authority for lifecycle sequencing.
+Provide user-invoked workflow Skills that define ordered phases and required outcomes for reconstruction and learning work.
 
 ### RESP-003 — Reusable activity guidance
 
@@ -41,8 +41,8 @@ Provide concise methods for collecting context, analyzing impact, implementing w
 ## Components and Boundaries
 
 - **`defaults/`** is assigned-to RESP-001. It contains the default Knowledge Model as the sole source of default semantic meaning, the shared default Schema for representation only, categorized `rules/`, and default templates.
-- **`workflows/`** is assigned-to RESP-002. It defines project-work lifecycle sequencing, including `reconstruct-project-knowledge` and `learn-from-finding`.
-- **`skills/`** is assigned-to RESP-003. It supplies optional reusable methods; a project may explicitly replace a skill without merging it with the shared version.
+- **User-invoked workflow Skills in `skills/`** are assigned-to RESP-002. Their `agents/openai.yaml` interfaces expose project-work lifecycle sequencing, including `reconstruct-project-knowledge` and `learn-from-finding`.
+- **Model-invoked Skills in `skills/`** are assigned-to RESP-003. They omit an interface and supply reusable methods; a project may explicitly replace a Skill without merging it with the shared version.
 - The installed package exposes these artifacts to projects. `.scaffold/` is a project-local Harness integration area, not the source location of the package's shared guidance.
 
 ## Satisfies
@@ -58,9 +58,9 @@ Provide concise methods for collecting context, analyzing impact, implementing w
 
 The active Knowledge Schema determines the project knowledge representation and which template types apply. Templates are starting structures only and do not independently impose a project knowledge layout.
 
-### DEC-002 — Workflows sequence; skills advise
+### DEC-002 — Workflow Skills sequence; model-invoked Skills advise
 
-Workflows own ordered phases, phase intent, and required outcomes. Skills are reusable methods that a workflow may suggest and Project Rules may require, but they do not replace workflow sequencing.
+User-invoked workflow Skills own ordered phases, phase intent, and required outcomes. Model-invoked Skills are reusable methods that a workflow Skill may use and Project Rules may require, but they do not replace workflow sequencing.
 
 ## Verification Items
 
@@ -76,7 +76,7 @@ Scope:
 
 Expected evidence:
 
-- The package exposes the default artifacts, workflows, and skills that the active Schema selects.
+- The package exposes the default artifacts and Skills, including user-invoked workflow interfaces and model-invoked methods.
 
 ### VER-002 — Brownfield reconstruction preserves confidence
 

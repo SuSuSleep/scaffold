@@ -2,7 +2,7 @@
 
 Document ID: SOL-004
 
-> Evidence source: [`workflows/`](../../workflows/), [`skills/`](../../skills/), and [`defaults/agent-guide.md`](../../defaults/agent-guide.md), inspected 2026-08-21.
+> Evidence source: [`skills/`](../../skills/) and [`defaults/agent-guide.md`](../../defaults/agent-guide.md), inspected 2026-08-30.
 
 ## Capabilities
 
@@ -12,7 +12,7 @@ Guide meaningful work from project initialization through change definition, ite
 
 ### CAP-002 — Method-flexible work guidance
 
-Support reusable methods without allowing a selected method or Skill to redefine the sequencing and required outcomes of a Workflow.
+Support reusable methods without allowing a model-invoked Skill to redefine a workflow Skill's sequence and required outcomes.
 
 ### CAP-003 — Context and impact collection
 
@@ -50,10 +50,9 @@ Provide concise Skills for methods such as context collection, impact analysis, 
 
 ## Components and Boundaries
 
-- **`workflows/define-change.md`**, **`workflows/reconcile-project-change.md`**, **`workflows/update-knowledge.md`**, **`workflows/review-change.md`**, and **`workflows/implement-change.md`** are assigned-to RESP-001, RESP-002, and RESP-004. Together, they define the normal Project Knowledge path: define, reconcile candidate knowledge, obtain required owner review, and implement when needed.
-- **`workflows/initialize-project.md`**, **`workflows/update-knowledge.md`**, **`workflows/reconstruct-project-knowledge.md`**, **`workflows/learn-from-finding.md`**, **`workflows/evolve-project-rules.md`**, **`workflows/evolve-project-artifact.md`**, **`workflows/adopt-harness-update.md`**, and **`workflows/migrate-project.md`** are assigned-to RESP-001 for their specialized work categories.
-- **`skills/collect-context/`**, **`skills/analyze-impact/`**, **`skills/analyze-rule-conflicts/`**, **`skills/implement-with-tdd/`**, and **`skills/verify-change/`** are assigned-to RESP-003.
-- A Workflow may suggest a Skill, but a phase is complete when its required outcome is achieved. Project Rules may require a method, such as TDD, without changing the Workflow.
+- **Workflow Skills in `skills/`** are assigned-to RESP-001, RESP-002, and RESP-004. Their user interfaces define the normal Project Knowledge path: define, reconcile candidate knowledge, obtain required owner review, and implement when needed, as well as specialized work categories.
+- **`skills/collect-context/`**, **`skills/analyze-impact/`**, **`skills/analyze-rule-conflicts/`**, **`skills/implement-with-tdd/`**, and **`skills/verify-change/`** are model-invoked and assigned-to RESP-003.
+- A workflow Skill may use a model-invoked Skill, but a phase is complete when its required outcome is achieved. Project Rules may require a method, such as TDD, without changing the workflow Skill.
 
 ## Satisfies
 
@@ -67,9 +66,9 @@ Provide concise Skills for methods such as context collection, impact analysis, 
 
 ## Design and Decisions
 
-### DEC-001 — Workflow owns outcomes; Skill owns method
+### DEC-001 — Workflow Skill owns outcomes; model-invoked Skill owns method
 
-Workflows own sequence, phase intent, entry conditions, and completion outcomes. Skills are tactical, reusable method guidance. This keeps a project free to require or replace an implementation method without creating hidden workflow branches or changing the intended work result. Project Knowledge review is read-only and feeds reconciliation; artifact and Rule evolution retain their own workflows.
+User-invoked workflow Skills own sequence, phase intent, entry conditions, and completion outcomes. Model-invoked Skills are tactical, reusable method guidance. This keeps a project free to require or replace an implementation method without creating hidden workflow branches or changing the intended work result. Project Knowledge review is read-only and feeds reconciliation; artifact and Rule evolution retain their own workflow Skills.
 
 ### DEC-004 — Git-backed candidate knowledge and independent reconciliation
 
@@ -77,11 +76,11 @@ For Project Knowledge, reconciliation records a Git baseline that represents the
 
 ### DEC-002 — Explicit specialization and migration
 
-A substantially different work category receives an explicit additional Workflow rather than implicit inheritance or conditional complexity. When a Scaffold update cannot be adopted through ordinary replacement, migration is a deliberate project-owned Workflow rather than an automatic semantic rewrite.
+A substantially different work category receives an explicit additional workflow Skill rather than implicit inheritance or conditional complexity. When a Scaffold update cannot be adopted through ordinary replacement, migration is a deliberate project-owned workflow Skill rather than an automatic semantic rewrite.
 
 ### DEC-003 — Small, evidence-driven Skill set
 
-Shared Skills remain concise, tactical, and reusable across Workflows. A new Skill is added only when an activity needs independent reusable guidance; candidate activities may remain represented by Workflow phases or existing Skills rather than proliferating overlapping artifacts.
+Model-invoked Skills remain concise, tactical, and reusable across workflow Skills. A new Skill is added only when an activity needs independent reusable guidance; candidate activities may remain represented by workflow phases or existing Skills rather than proliferating overlapping artifacts.
 
 ## Verification Items
 

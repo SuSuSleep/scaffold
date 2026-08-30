@@ -29,6 +29,7 @@ test('init creates only Harness infrastructure without copying semantic defaults
   assert.ok(fs.existsSync(path.join(directory, '.scaffold/templates/problem')));
   assert.ok(fs.existsSync(path.join(directory, '.scaffold/templates/solution')));
   assert.ok(fs.existsSync(path.join(directory, '.scaffold/templates/governance')));
+  assert.equal(fs.existsSync(path.join(directory, '.scaffold/workflows')), false);
   assert.ok(fs.existsSync(path.join(directory, '.scaffold/rules/core')));
   assert.ok(fs.existsSync(path.join(directory, '.scaffold/rules/verification')));
   assert.match(fs.readFileSync(path.join(directory, '.scaffold/agent-guide.md'), 'utf8'), /currently installed Scaffold package/);
@@ -114,19 +115,30 @@ test('status resolves a local Knowledge Schema against its shared default', () =
   assert.match(result.stdout, /Shadowed shared artifacts:[\s\S]*defaults[\\/]knowledge-schema\.md/);
 });
 
-test('status detects local workflow and skill replacements as shadowing their shared artifacts', () => {
+test('status detects local workflow-Skill and model-invoked Skill replacements as shadowing shared artifacts', () => {
   const directory = temporaryDirectory();
   run('init', directory);
-  fs.writeFileSync(path.join(directory, '.scaffold/workflows/define-change.md'), '# Local workflow\n');
+  const workflowSkill = path.join(directory, '.scaffold/skills/define-change');
+  fs.mkdirSync(workflowSkill);
+  fs.writeFileSync(path.join(workflowSkill, 'SKILL.md'), '# Local workflow Skill\n');
   const localSkill = path.join(directory, '.scaffold/skills/verify-change');
   fs.mkdirSync(localSkill);
   fs.writeFileSync(path.join(localSkill, 'SKILL.md'), '# Local skill\n');
   const result = run('status', directory);
   assert.equal(result.status, 0, result.stderr);
-  assert.match(result.stdout, /Workflow: define-change\n  source: project/);
+  assert.match(result.stdout, /Skill: define-change\n  source: project/);
   assert.match(result.stdout, /Skill: verify-change\n  source: project/);
-  assert.match(result.stdout, /Shadowed shared artifacts:[\s\S]*workflows[\\/]define-change\.md/);
+  assert.match(result.stdout, /Shadowed shared artifacts:[\s\S]*skills[\\/]define-change[\\/]SKILL\.md/);
   assert.match(result.stdout, /Shadowed shared artifacts:[\s\S]*skills[\\/]verify-change[\\/]SKILL\.md/);
+});
+
+test('status distinguishes user-invoked workflow Skills from model-invoked Skills', () => {
+  const directory = temporaryDirectory();
+  run('init', directory);
+  const result = run('status', directory);
+  assert.equal(result.status, 0, result.stderr);
+  assert.match(result.stdout, /Workflow Skill: define-change\n  source: shared/);
+  assert.match(result.stdout, /Skill: collect-context\n  source: shared/);
 });
 
 test('status resolves local and shared templates without implicit merging', () => {
@@ -205,8 +217,8 @@ test('document ID inspection reports duplicate declarations', () => {
   assert.match(result.stdout, /two\.md/);
 });
 
-test('the package provides an explicit migration workflow without a migrate command', () => {
-  const workflow = path.resolve(__dirname, '../workflows/migrate-project.md');
+test('the package provides an explicit migration workflow Skill without a migrate command', () => {
+  const workflow = path.resolve(__dirname, '../skills/migrate-project/SKILL.md');
   assert.match(fs.readFileSync(workflow, 'utf8'), /Safely adapt a project/);
   const result = run('migrate');
   assert.equal(result.status, 1);
@@ -214,43 +226,41 @@ test('the package provides an explicit migration workflow without a migrate comm
 });
 
 
-test('shared workflows own explicit phase sequencing independent of suggested skills', () => {
+test('lifecycle Skills own explicit phase sequencing and only high-level workflows are user-invokable', () => {
   const workflows = [
-    'define-change.md',
-    'evolve-project-artifact.md',
-    'evolve-project-rules.md',
-    'implement-change.md',
-    'initialize-project.md',
-    'learn-from-finding.md',
-    'migrate-project.md',
-    'reconcile-project-change.md',
-    'reconstruct-project-knowledge.md',
-    'review-change.md',
-    'update-knowledge.md',
+    'define-change', 'evolve-project-artifact', 'evolve-project-rules', 'implement-change',
+    'initialize-project', 'learn-from-finding', 'migrate-project', 'reconcile-project-change',
+    'reconstruct-project-knowledge', 'review-change', 'update-knowledge',
   ];
 
   for (const workflow of workflows) {
-    const contents = fs.readFileSync(path.resolve(__dirname, '../workflows', workflow), 'utf8');
+    const contents = fs.readFileSync(path.resolve(__dirname, '../skills', workflow, 'SKILL.md'), 'utf8');
     assert.match(contents, /^## Phases$/m, workflow + ' should define phases');
     assert.match(contents, /^### Phase — .+$/m, workflow + ' should name each phase');
     assert.match(contents, /^#### Goal$/m, workflow + ' phases should state their goal');
     assert.match(contents, /^#### Required Outcome$/m, workflow + ' phases should state their outcome');
     assert.doesNotMatch(contents, /^## Suggested Skills$/m, workflow + ' must not use skills to define its process');
   }
+  for (const skill of ['collect-context', 'analyze-impact', 'analyze-rule-conflicts', 'implement-with-tdd', 'verify-change', 'review-change', 'update-knowledge']) {
+    assert.equal(fs.existsSync(path.resolve(__dirname, '../skills', skill, 'agents/openai.yaml')), false, skill + ' must remain model-invoked');
+  }
+  for (const workflow of ['adopt-harness-update', 'define-change', 'evolve-project-artifact', 'evolve-project-rules', 'implement-change', 'initialize-project', 'learn-from-finding', 'migrate-project', 'reconcile-project-change', 'reconstruct-project-knowledge']) {
+    assert.equal(fs.existsSync(path.resolve(__dirname, '../skills', workflow, 'agents/openai.yaml')), true, workflow + ' must be user-invokable');
+  }
 });
 
-test('shared workflows have entry conditions that do not pre-require their discovery work', () => {
-  const workflow = (name) => fs.readFileSync(path.resolve(__dirname, '../workflows', name), 'utf8');
-  assert.match(workflow('learn-from-finding.md'), /## Entry Conditions\n\n- A relevant finding or observed problem exists\./);
-  assert.match(workflow('migrate-project.md'), /## Entry Conditions\n\n- A Scaffold update requires deliberate project migration\./);
-  assert.match(workflow('update-knowledge.md'), /- A sufficiently understood Project Knowledge delta is being reconciled\./);
-  assert.match(workflow('define-change.md'), /sufficiently defined proposed knowledge change/);
-  assert.match(workflow('adopt-harness-update.md'), /Mark Update Review Complete/);
+test('workflow Skills have entry conditions that do not pre-require discovery work', () => {
+  const workflow = (name) => fs.readFileSync(path.resolve(__dirname, '../skills', name, 'SKILL.md'), 'utf8');
+  assert.match(workflow('learn-from-finding'), /## Entry Conditions\n\n- A relevant finding or observed problem exists\./);
+  assert.match(workflow('migrate-project'), /## Entry Conditions\n\n- A Scaffold update requires deliberate project migration\./);
+  assert.match(workflow('update-knowledge'), /- A sufficiently understood Project Knowledge delta is being reconciled\./);
+  assert.match(workflow('define-change'), /sufficiently defined proposed knowledge change/);
+  assert.match(workflow('adopt-harness-update'), /Mark Update Review Complete/);
 });
 
 test('Project Knowledge reconciliation separates writer, reviewer, and owner acceptance', () => {
-  const reconciliation = fs.readFileSync(path.resolve(__dirname, '../workflows/reconcile-project-change.md'), 'utf8');
-  const workflow = fs.readFileSync(path.resolve(__dirname, '../workflows/review-change.md'), 'utf8');
+  const reconciliation = fs.readFileSync(path.resolve(__dirname, '../skills/reconcile-project-change/SKILL.md'), 'utf8');
+  const workflow = fs.readFileSync(path.resolve(__dirname, '../skills/review-change/SKILL.md'), 'utf8');
   assert.match(reconciliation, /Git baseline/);
   assert.match(reconciliation, /fresh writer subagent/);
   assert.match(reconciliation, /distinct fresh reviewer subagent/);
@@ -263,7 +273,7 @@ test('Project Knowledge reconciliation separates writer, reviewer, and owner acc
 });
 
 test('reconstruction workflow preserves evidence confidence and uncertainty', () => {
-  const workflow = fs.readFileSync(path.resolve(__dirname, '../workflows/reconstruct-project-knowledge.md'), 'utf8');
+  const workflow = fs.readFileSync(path.resolve(__dirname, '../skills/reconstruct-project-knowledge/SKILL.md'), 'utf8');
   for (const phase of [
     'Establish Repository Context',
     'Identify Knowledge Subjects',
@@ -309,7 +319,7 @@ test('default templates are the single source for default document structures', 
 
 test('default guidance keeps semantic meaning out of the Schema', () => {
   const schema = fs.readFileSync(path.resolve(__dirname, '../defaults/knowledge-schema.md'), 'utf8');
-  const workflow = (name) => fs.readFileSync(path.resolve(__dirname, '../workflows', name), 'utf8');
+  const workflow = (name) => fs.readFileSync(path.resolve(__dirname, '../skills', name.replace(/\.md$/, ''), 'SKILL.md'), 'utf8');
   const contextSkill = fs.readFileSync(path.resolve(__dirname, '../skills/collect-context/SKILL.md'), 'utf8');
   const rules = path.resolve(__dirname, '../defaults/rules');
 
@@ -334,7 +344,7 @@ test('templates keep field completion guidance local to the selected template', 
   const governance = fs.readFileSync(path.resolve(__dirname, '../defaults/templates/governance/standard.md'), 'utf8');
   const solution = fs.readFileSync(path.resolve(__dirname, '../defaults/templates/solution/standard.md'), 'utf8');
   const crosswalk = fs.readFileSync(path.resolve(__dirname, '../defaults/templates/governance/model-migration-crosswalk.md'), 'utf8');
-  const workflow = fs.readFileSync(path.resolve(__dirname, '../workflows/update-knowledge.md'), 'utf8');
+  const workflow = fs.readFileSync(path.resolve(__dirname, '../skills/update-knowledge/SKILL.md'), 'utf8');
 
   assert.match(problem, /Record the problem context, desired outcome, and relevant Motivation/);
   assert.match(governance, /Record applicable Governance objects and durable source context/);
@@ -459,8 +469,8 @@ test('model migrations use explicit project-owned crosswalks without automatic s
   const model = read('defaults/knowledge-model.md');
   const schema = read('defaults/knowledge-schema.md');
   const template = read('defaults/templates/governance/model-migration-crosswalk.md');
-  const migration = read('workflows/migrate-project.md');
-  const evolution = read('workflows/evolve-project-artifact.md');
+  const migration = read('skills/migrate-project/SKILL.md');
+  const evolution = read('skills/evolve-project-artifact/SKILL.md');
 
   assert.match(model, /only one Knowledge Model is active at a time/);
   assert.match(model, /must not cause automatic semantic rewriting/);

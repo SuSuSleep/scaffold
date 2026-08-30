@@ -1,0 +1,4 @@
+interface:
+  display_name: "Migrate Project"
+  short_description: "Migrate a project across incompatible Scaffold changes"
+  default_prompt: "Use $migrate-project to adapt this project to the installed Scaffold update."

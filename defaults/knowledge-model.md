@@ -170,7 +170,7 @@ Relationships are many-to-many. A Capability may satisfy multiple Requirements, 
 
 The active Knowledge Schema should reference the active Knowledge Model for concept meanings rather than redefine them. It may change representation, organization, identifiers, and linking without changing that Model's concepts or relationship semantics.
 
-Projects that need different concepts or relationship semantics may provide a complete local Knowledge Model. A local Model is responsible for its own concepts, relationships, invariants, and compatibility with its Schema, Workflows, Skills, Templates, Rules, and existing project knowledge.
+Projects that need different concepts or relationship semantics may provide a complete local Knowledge Model. A local Model is responsible for its own concepts, relationships, invariants, and compatibility with its Schema, workflow and method Skills, Templates, Rules, and existing project knowledge.
 
 ## Deferred Scope
 

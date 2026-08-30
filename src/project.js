@@ -46,7 +46,7 @@ function agentGuideBootstrap() {
 This Scaffold-owned integration file intentionally contains no copied Harness guidance.
 Before meaningful project work, run \`scaffold status\` and read the agent guide from
 the currently installed Scaffold package at the reported Shared Package Root. This
-keeps shared guidance, workflows, skills, and the agent entry guidance on the same
+keeps shared guidance, workflow Skills, model-invoked Skills, and the agent entry guidance on the same
 active Harness generation after package upgrades.
 `;
 }
@@ -76,7 +76,6 @@ function initProject({ directory, version, packageRoot, decideHostIntegration })
 
   fs.mkdirSync(directory, { recursive: true });
   for (const relative of [
-    '.scaffold/workflows',
     '.scaffold/skills',
     '.scaffold/rules/core',
     '.scaffold/rules/documentation',
@@ -258,10 +257,19 @@ function resolvedArtifacts(directory, packageRoot) {
       shared: path.join(sharedBase, filePath(name)),
     });
   };
-  addNamed('Workflow', 'workflows', (entry) => entry.isFile() && entry.name.endsWith('.md'), (entry) => entry.isFile() && entry.name.endsWith('.md'), (name) => name);
   addNamed('Skill', 'skills', (entry) => entry.isDirectory() && fs.existsSync(path.join(localRoot, 'skills', entry.name, 'SKILL.md')), (entry) => entry.isDirectory() && fs.existsSync(path.join(packageRoot, 'skills', entry.name, 'SKILL.md')), (name) => path.join(name, 'SKILL.md'));
   addNamed('Template', 'templates', (entry) => entry.isFile() && entry.name.endsWith('.md'), (entry) => entry.isFile() && entry.name.endsWith('.md'), (name) => name);
-  return artifacts.map((artifact) => ({ ...artifact, source: fs.existsSync(artifact.local) ? 'project' : 'shared', path: fs.existsSync(artifact.local) ? artifact.local : artifact.shared }));
+  return artifacts.map((artifact) => {
+    const artifactPath = fs.existsSync(artifact.local) ? artifact.local : artifact.shared;
+    const isSkill = artifact.name.startsWith('skills/');
+    const isWorkflowSkill = isSkill && fs.existsSync(path.join(path.dirname(artifactPath), 'agents', 'openai.yaml'));
+    return {
+      ...artifact,
+      label: isWorkflowSkill ? artifact.label.replace('Skill:', 'Workflow Skill:') : artifact.label,
+      source: fs.existsSync(artifact.local) ? 'project' : 'shared',
+      path: artifactPath,
+    };
+  });
 }
 
 function localReplacements(directory, packageRoot) {

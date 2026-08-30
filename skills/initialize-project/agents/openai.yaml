@@ -1,0 +1,4 @@
+interface:
+  display_name: "Initialize Project"
+  short_description: "Prepare a repository for Scaffold-guided work"
+  default_prompt: "Use $initialize-project to establish Scaffold guidance and initial project knowledge."
