@@ -5,6 +5,10 @@ description: Reconcile a proposed Project Knowledge change through independent w
 
 # Reconcile Project Change
 
+## Internal Skill Loading
+
+When a phase names a Suggested Skill, read and apply its project-local instruction at `.scaffold/skills/<skill-name>/SKILL.md` before proceeding. Replace `<skill-name>` with the named skill. Suggested Skills are internal methods, not native user-invoked skills; do not rely on agent skill discovery to load them.
+
 ## Goal
 
 Converge a proposed Project Knowledge delta into a reviewed candidate state, then obtain required project-owner review before it becomes accepted Project Knowledge.

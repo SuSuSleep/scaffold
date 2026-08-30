@@ -5,6 +5,10 @@ description: Safely adapt a project when an installed Scaffold update needs deli
 
 # Migrate Project
 
+## Internal Skill Loading
+
+When a phase names a Suggested Skill, read and apply its project-local instruction at `.scaffold/skills/<skill-name>/SKILL.md` before proceeding. Replace `<skill-name>` with the named skill. Suggested Skills are internal methods, not native user-invoked skills; do not rely on agent skill discovery to load them.
+
 ## Goal
 
 Safely adapt a project when a Scaffold upgrade cannot be represented by ordinary artifact replacement.

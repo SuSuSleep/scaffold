@@ -5,6 +5,10 @@ description: Establish trusted knowledge, Scaffold guidance, and project structu
 
 # Initialize Project
 
+## Internal Skill Loading
+
+When a phase names a Suggested Skill, read and apply its project-local instruction at `.scaffold/skills/<skill-name>/SKILL.md` before proceeding. Replace `<skill-name>` with the named skill. Suggested Skills are internal methods, not native user-invoked skills; do not rely on agent skill discovery to load them.
+
 ## Goal
 
 Establish sufficient trusted knowledge and project structure for useful work to begin.

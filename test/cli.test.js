@@ -282,6 +282,10 @@ test('lifecycle Skills own explicit phase sequencing and only high-level workflo
   }
   for (const workflow of ['adopt-harness-update', 'define-change', 'evolve-project-artifact', 'evolve-project-rules', 'implement-change', 'initialize-project', 'learn-from-finding', 'migrate-project', 'reconcile-project-change', 'reconstruct-project-knowledge']) {
     assert.equal(fs.existsSync(path.resolve(__dirname, '../skills', workflow, 'agents/openai.yaml')), true, workflow + ' must be user-invokable');
+    const contents = fs.readFileSync(path.resolve(__dirname, '../skills', workflow, 'SKILL.md'), 'utf8');
+    assert.match(contents, /^## Internal Skill Loading$/m, workflow + ' must explain how to load internal skills');
+    assert.match(contents, /\.scaffold\/skills\/<skill-name>\/SKILL\.md/, workflow + ' must use the project-local internal-skill path');
+    assert.equal(fs.readFileSync(path.resolve(__dirname, '../.scaffold/skills', workflow, 'SKILL.md'), 'utf8'), contents, workflow + ' project seed must match the package source');
   }
 });
 
