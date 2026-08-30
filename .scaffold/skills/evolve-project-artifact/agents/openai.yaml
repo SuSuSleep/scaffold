@@ -1,0 +1,4 @@
+interface:
+  display_name: "Evolve Project Artifact"
+  short_description: "Change a local Scaffold artifact deliberately"
+  default_prompt: "Use $evolve-project-artifact to make this local Scaffold artifact change."

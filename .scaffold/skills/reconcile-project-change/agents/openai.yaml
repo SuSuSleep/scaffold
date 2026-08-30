@@ -1,0 +1,4 @@
+interface:
+  display_name: "Reconcile Project Change"
+  short_description: "Reconcile a proposed Project Knowledge change"
+  default_prompt: "Use $reconcile-project-change to reconcile this proposed Project Knowledge delta."

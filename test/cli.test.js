@@ -35,18 +35,18 @@ test('init creates Harness infrastructure, project-owned skills, and agent disco
   assert.match(fs.readFileSync(path.join(directory, '.scaffold/agent-guide.md'), 'utf8'), /currently installed Scaffold package/);
   assert.match(fs.readFileSync(path.join(directory, 'AGENTS.md'), 'utf8'), /agent-guide/);
   assert.match(fs.readFileSync(path.join(directory, 'CLAUDE.md'), 'utf8'), /agent-guide/);
-  assert.ok(fs.existsSync(path.join(directory, 'skills/define-change/SKILL.md')));
+  assert.ok(fs.existsSync(path.join(directory, '.scaffold/skills/define-change/SKILL.md')));
   for (const agentSkills of ['.agents/skills', '.claude/skills']) {
     const workflow = path.join(directory, agentSkills, 'define-change');
     assert.ok(fs.lstatSync(workflow).isSymbolicLink());
-    assert.equal(fs.realpathSync(workflow), path.join(directory, 'skills/define-change'));
+    assert.equal(fs.realpathSync(workflow), path.join(directory, '.scaffold/skills/define-change'));
     assert.equal(fs.existsSync(path.join(directory, agentSkills, 'collect-context')), false);
   }
 });
 
 test('init preserves an existing project-owned skills directory', () => {
   const directory = temporaryDirectory();
-  const skills = path.join(directory, 'skills');
+  const skills = path.join(directory, '.scaffold/skills');
   fs.mkdirSync(skills, { recursive: true });
   fs.writeFileSync(path.join(skills, 'README.md'), 'Project skills\n');
   const result = run('init', directory);
@@ -63,6 +63,17 @@ test('init preserves a conflicting agent skill entry', () => {
   assert.equal(result.status, 0, result.stderr);
   assert.ok(fs.lstatSync(destination).isDirectory());
   assert.match(result.stdout, /Existing agent-skill entries preserved: .agents[\\/]skills[\\/]define-change/);
+});
+
+test('update migrates agent links created by the root-skills integration', () => {
+  const directory = temporaryDirectory();
+  run('init', directory);
+  const link = path.join(directory, '.agents/skills/define-change');
+  fs.unlinkSync(link);
+  fs.symlinkSync('../../skills/define-change', link, 'dir');
+  const result = run('update', directory);
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(fs.realpathSync(link), path.join(directory, '.scaffold/skills/define-change'));
 });
 
 test('agent entry guidance remains a package-resolved bootstrap after an upgrade', () => {
@@ -143,18 +154,16 @@ test('status resolves a local Knowledge Schema against its shared default', () =
   assert.match(result.stdout, /Shadowed shared artifacts:[\s\S]*defaults[\\/]knowledge-schema\.md/);
 });
 
-test('status detects local workflow-Skill and model-invoked Skill replacements as shadowing shared artifacts', () => {
+test('status reports seeded workflow and model-invoked Skills as project-owned', () => {
   const directory = temporaryDirectory();
   run('init', directory);
   const workflowSkill = path.join(directory, '.scaffold/skills/define-change');
-  fs.mkdirSync(workflowSkill);
   fs.writeFileSync(path.join(workflowSkill, 'SKILL.md'), '# Local workflow Skill\n');
   const localSkill = path.join(directory, '.scaffold/skills/verify-change');
-  fs.mkdirSync(localSkill);
   fs.writeFileSync(path.join(localSkill, 'SKILL.md'), '# Local skill\n');
   const result = run('status', directory);
   assert.equal(result.status, 0, result.stderr);
-  assert.match(result.stdout, /Skill: define-change\n  source: project/);
+  assert.match(result.stdout, /Workflow Skill: define-change\n  source: project/);
   assert.match(result.stdout, /Skill: verify-change\n  source: project/);
   assert.match(result.stdout, /Shadowed shared artifacts:[\s\S]*skills[\\/]define-change[\\/]SKILL\.md/);
   assert.match(result.stdout, /Shadowed shared artifacts:[\s\S]*skills[\\/]verify-change[\\/]SKILL\.md/);
@@ -165,8 +174,8 @@ test('status distinguishes user-invoked workflow Skills from model-invoked Skill
   run('init', directory);
   const result = run('status', directory);
   assert.equal(result.status, 0, result.stderr);
-  assert.match(result.stdout, /Workflow Skill: define-change\n  source: shared/);
-  assert.match(result.stdout, /Skill: collect-context\n  source: shared/);
+  assert.match(result.stdout, /Workflow Skill: define-change\n  source: project/);
+  assert.match(result.stdout, /Skill: collect-context\n  source: project/);
 });
 
 test('status resolves local and shared templates without implicit merging', () => {
@@ -187,7 +196,6 @@ test('status reports a native project-local skill replacement', () => {
   const directory = temporaryDirectory();
   run('init', directory);
   const localSkill = path.join(directory, '.scaffold/skills/verify-change');
-  fs.mkdirSync(localSkill);
   fs.writeFileSync(path.join(localSkill, 'SKILL.md'), '# Local Verify Change\n');
   const result = run('status', directory);
   assert.equal(result.status, 0, result.stderr);

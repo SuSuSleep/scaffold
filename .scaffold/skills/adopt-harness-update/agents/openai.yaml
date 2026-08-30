@@ -1,0 +1,4 @@
+interface:
+  display_name: "Adopt Harness Update"
+  short_description: "Review and adopt an installed Scaffold update"
+  default_prompt: "Use $adopt-harness-update to review and adopt the installed Scaffold update."

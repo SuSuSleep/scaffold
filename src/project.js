@@ -76,14 +76,17 @@ function workflowSkillNames(skillsRoot) {
 }
 
 function seedProjectSkills(directory, packageRoot) {
-  const destination = path.join(directory, 'skills');
-  if (fs.existsSync(destination)) return { created: false, preserved: true };
-  fs.cpSync(path.join(packageRoot, 'skills'), destination, { recursive: true });
+  const destination = path.join(scaffoldDirectory(directory), 'skills');
+  if (fs.existsSync(destination) && fs.readdirSync(destination).length) return { created: false, preserved: true };
+  fs.mkdirSync(destination, { recursive: true });
+  for (const name of fs.readdirSync(path.join(packageRoot, 'skills'))) {
+    fs.cpSync(path.join(packageRoot, 'skills', name), path.join(destination, name), { recursive: true });
+  }
   return { created: true, preserved: false };
 }
 
 function synchronizeAgentSkills(directory) {
-  const skillsRoot = path.join(directory, 'skills');
+  const skillsRoot = path.join(scaffoldDirectory(directory), 'skills');
   if (!fs.existsSync(skillsRoot)) return { linked: [], conflicts: [] };
   const linked = [];
   const conflicts = [];
@@ -93,6 +96,7 @@ function synchronizeAgentSkills(directory) {
     for (const name of workflowSkillNames(skillsRoot)) {
       const destination = path.join(agentSkillsRoot, name);
       const target = path.relative(agentSkillsRoot, path.join(skillsRoot, name));
+      const legacyTarget = path.relative(agentSkillsRoot, path.join(directory, 'skills', name));
       let existing = null;
       try {
         existing = fs.lstatSync(destination);
@@ -100,7 +104,12 @@ function synchronizeAgentSkills(directory) {
         if (error.code !== 'ENOENT') throw error;
       }
       if (existing) {
-        if (existing.isSymbolicLink() && fs.readlinkSync(destination) === target) {
+        const existingTarget = existing.isSymbolicLink() ? fs.readlinkSync(destination) : null;
+        if (existingTarget === target) {
+          linked.push(path.join(relativeDirectory, name));
+        } else if (existingTarget === legacyTarget) {
+          fs.unlinkSync(destination);
+          fs.symlinkSync(target, destination, 'dir');
           linked.push(path.join(relativeDirectory, name));
         } else {
           conflicts.push(path.join(relativeDirectory, name));
