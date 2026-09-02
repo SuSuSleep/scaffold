@@ -11,7 +11,7 @@ When a phase names a Suggested Skill, read and apply its project-local instructi
 
 ## Goal
 
-Ensure the project can safely operate with the currently installed shared Scaffold version.
+Help the project owner deliberately decide which changes from the installed Scaffold candidate bundle belong in its project-local Harness.
 
 ## Entry Conditions
 
@@ -23,11 +23,11 @@ Ensure the project can safely operate with the currently installed shared Scaffo
 
 #### Goal
 
-Identify the newly active shared guidance and affected active replacements.
+Identify the difference between the active project-local Harness and the installed candidate bundle.
 
 #### Required Outcome
 
-Relevant shared changes, including default Knowledge Schema, Template, and Project Rule changes, and affected project-local artifacts are identified. For changed shared Rules, the old shared set, new shared set, and local Rules are available for review.
+`scaffold update --diff` identifies added, changed, and package-removed candidate artifacts. The active local artifacts and the candidate versions are available for review; no artifact becomes active merely because it appears in the installed package.
 
 #### Suggested Skills
 
@@ -37,11 +37,11 @@ Relevant shared changes, including default Knowledge Schema, Template, and Proje
 
 #### Goal
 
-Classify conflicts and drift introduced by the newly active shared guidance.
+Explain the candidate's behavioral and capability changes, then determine which changes the project actually needs.
 
 #### Required Outcome
 
-Active Conflicts between authoritative artifacts are resolved. Changed shared Rules are resolved with local Rules and reviewed for new semantic contradiction, redundancy, specialization, or unresolved precedence. Shadow Drift—especially a default Schema change hidden by a project-local Schema—is reviewed for continued relevance. Project knowledge is not automatically rewritten; deliberate semantic migration follows the migration Workflow when needed.
+For each material difference, explain what it adds, changes, or retires; its effect on current project behavior; and relevant trade-offs. Discuss unresolved needs with the project owner. Project knowledge is not automatically rewritten; deliberate semantic migration follows the migration Workflow when needed.
 
 #### Suggested Skills
 
@@ -56,27 +56,27 @@ Deliberately adapt project-owned artifacts where the review established a need.
 
 #### Required Outcome
 
-Necessary project-local Schema, Rules, Skill, Template, or knowledge adjustments are made without automatically rewriting project knowledge solely because shared Schema or Template defaults changed.
+Only owner-approved decisions are applied. Record each artifact as `adopt`, `adapt`, `keep`, `retire`, or `defer`; do not perform an automatic content merge.
 
 ### Phase — Determine Migration Need
 
 #### Goal
 
-Decide whether ordinary replacement is sufficient for the adopted shared behavior.
+Decide whether the selected project-local changes require deliberate migration.
 
 #### Required Outcome
 
-When the update requires semantic project migration, `migrate-project` is selected and completed before this update review is marked complete.
+When an approved update requires semantic project migration, `migrate-project` is selected and completed before this update review is marked complete.
 
 ### Phase — Verify Project Consistency
 
 #### Goal
 
-Confirm the project remains coherent under the active Harness generation.
+Confirm the selected project-local Harness remains coherent.
 
 #### Required Outcome
 
-Relevant active artifacts, project knowledge, and applicable constraints have been reviewed and no Active Conflict remains unresolved.
+Relevant local artifacts, project knowledge, and applicable constraints have been reviewed and no selected change remains unresolved.
 
 #### Suggested Skills
 
@@ -94,7 +94,7 @@ The running Scaffold version is eligible to be recorded as reviewed with `scaffo
 
 ## Required Outcomes
 
-- Relevant changed shared guidance is identified.
-- Active Conflicts are resolved and Shadow Drift is deliberately reviewed.
-- Necessary project-owned adjustments and any required migration are completed deliberately.
+- Candidate differences and their behavior effects are identified.
+- The project owner has made necessary adopt/adapt/keep/retire/defer decisions.
+- Necessary project-local adjustments and any required migration are completed deliberately.
 - Project consistency is verified before the current Harness version is recorded as reviewed.

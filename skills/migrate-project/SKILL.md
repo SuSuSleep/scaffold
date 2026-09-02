@@ -1,6 +1,6 @@
 ---
 name: migrate-project
-description: Safely adapt a project when an installed Scaffold update needs deliberate migration beyond ordinary replacement.
+description: Safely adapt a project when an approved Scaffold candidate update needs deliberate migration.
 ---
 
 # Migrate Project
@@ -11,7 +11,7 @@ When a phase names a Suggested Skill, read and apply its project-local instructi
 
 ## Goal
 
-Safely adapt a project when a Scaffold upgrade cannot be represented by ordinary artifact replacement.
+Safely adapt a project when an approved candidate update requires more than deliberate project-local artifact changes.
 
 ## Entry Conditions
 
@@ -23,11 +23,11 @@ Safely adapt a project when a Scaffold upgrade cannot be represented by ordinary
 
 #### Goal
 
-Establish the versions, changed shared behavior, and affected local replacements.
+Establish the versions, candidate differences, and affected project-local artifacts.
 
 #### Required Outcome
 
-The old and new shared behavior and all affected project-local Knowledge Schema, Project Rules, workflows, and skills are identified. A legacy monolithic Project Rules file is treated as an explicit migration subject, not an effective Rule collection.
+The current project-local behavior, candidate differences, and all affected Knowledge Schema, Project Rules, workflows, and skills are identified. A legacy monolithic Project Rules file is treated as an explicit migration subject, not an active Rule collection.
 
 #### Suggested Skills
 
@@ -51,7 +51,7 @@ Determine which project-owned artifacts and knowledge require deliberate adaptat
 
 #### Required Outcome
 
-Project-local schemas, workflows, and skills are reviewed as explicit replacements; Project Rules are reviewed as an effective collection with local additions and atomic replacements. Schema shadow drift caused by default Schema or template changes, Rule migration, necessary knowledge changes, and any Model Migration Crosswalk are identified.
+Project-local schemas, workflows, skills, and Rules are reviewed as active artifacts; candidate differences, Rule migration, necessary knowledge changes, and any Model Migration Crosswalk are identified.
 
 #### Suggested Skills
 

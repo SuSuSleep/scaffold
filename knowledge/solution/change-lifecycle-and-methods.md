@@ -28,7 +28,7 @@ Converge a proposed Project Knowledge delta through separate fresh writer and re
 
 Realizes: CAP-001
 
-Define lifecycle phases, entry conditions, and required outcomes for project initialization, change definition, Project Knowledge reconciliation, implementation, knowledge updates, reconstruction, learning, local Rule evolution, full-replacement artifact evolution, and migration.
+Define lifecycle phases, entry conditions, and required outcomes for project initialization, change definition, Project Knowledge reconciliation, implementation, knowledge updates, reconstruction, learning, local Harness evolution, update adoption review, and migration.
 
 ### RESP-002 — Acceptance-gate enforcement
 
@@ -50,8 +50,8 @@ Provide concise Skills for methods such as context collection, impact analysis, 
 
 ## Components and Boundaries
 
-- **Workflow Skills in `skills/`** are assigned-to RESP-001, RESP-002, and RESP-004. Their user interfaces define the normal Project Knowledge path: define, reconcile candidate knowledge, obtain required owner review, and implement when needed, as well as specialized work categories.
-- **`skills/collect-context/`**, **`skills/analyze-impact/`**, **`skills/analyze-rule-conflicts/`**, **`skills/implement-with-tdd/`**, and **`skills/verify-change/`** are model-invoked and assigned-to RESP-003.
+- **Project-local workflow Skills in `.scaffold/skills/`** are assigned-to RESP-001, RESP-002, and RESP-004. Their user interfaces define the normal Project Knowledge path: define, reconcile candidate knowledge, obtain required owner review, and implement when needed, as well as specialized work categories. The update-review workflow examines the two-way package candidate diff, explains additions and behavioral changes, and discusses material adoption choices with the project owner.
+- **`.scaffold/skills/collect-context/`**, **`.scaffold/skills/analyze-impact/`**, **`.scaffold/skills/analyze-rule-conflicts/`**, **`.scaffold/skills/implement-with-tdd/`**, and **`.scaffold/skills/verify-change/`** are project-local model-invoked Skills assigned-to RESP-003. The installed package supplies corresponding candidate Skills only for initialization and update review.
 - A workflow Skill may use a model-invoked Skill, but a phase is complete when its required outcome is achieved. Project Rules may require a method, such as TDD, without changing the workflow Skill.
 
 ## Satisfies
@@ -74,9 +74,9 @@ User-invoked workflow Skills own sequence, phase intent, entry conditions, and c
 
 For Project Knowledge, reconciliation records a Git baseline that represents the accepted state and reviews the candidate Project-Knowledge diff against that baseline. Every writer and reviewer iteration uses a fresh subagent context; the two roles must be distinct. “Fresh” means the cleanest available context: the agent independently reads the current repository and receives findings as evidence, not the previous agent’s confidence. A clean review completes reconciliation, but required owner review occurs afterwards and is the promotion boundary to accepted Project Knowledge. The four terminal reconciliation states are `ACCEPTED`, `AWAITING_OWNER_REVIEW`, `AWAITING_USER_DECISION`, and `REVIEW_UNAVAILABLE`; a loop with unresolved findings remains non-accepted until an owner decides how to proceed.
 
-### DEC-002 — Explicit specialization and migration
+### DEC-002 — Explicit specialization, update adoption, and migration
 
-A substantially different work category receives an explicit additional workflow Skill rather than implicit inheritance or conditional complexity. When a Scaffold update cannot be adopted through ordinary replacement, migration is a deliberate project-owned workflow Skill rather than an automatic semantic rewrite.
+A substantially different work category receives an explicit additional workflow Skill rather than implicit inheritance or conditional complexity. An update-review Skill is an owner-facing adoption conversation: it analyzes what candidate artifacts add or change, what the project retains or loses by keeping local content, and whether each material difference serves the project's actual Harness needs. It asks the owner to choose `adopt`, `adapt`, `keep`, `retire`, or `defer`; it does not automatically merge. When an adopted Scaffold change requires durable semantic adaptation, migration is a deliberate project-owned workflow Skill rather than an automatic semantic rewrite.
 
 ### DEC-003 — Small, evidence-driven Skill set
 

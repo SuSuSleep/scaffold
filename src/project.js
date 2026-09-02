@@ -25,7 +25,7 @@ function metadata({ lastReviewedVersion, installedAt, updatedAt }) {
     '# Scaffold Metadata',
     '',
     `Last Reviewed Scaffold Version: ${lastReviewedVersion}`,
-    'Shared Defaults: package-managed',
+    'Harness Artifacts: project-local',
     `Installed At: ${installedAt}`,
   ];
   if (updatedAt) lines.push(`Last Updated: ${updatedAt}`);
@@ -39,21 +39,6 @@ function agentInstruction() {
 Read \`.scaffold/agent-guide.md\` before meaningful project work.
 <!-- scaffold:end -->
 `;
-}
-
-function agentGuideBootstrap() {
-  return `# Scaffold Agent Guide Bootstrap
-
-This Scaffold-owned integration file intentionally contains no copied Harness guidance.
-Before meaningful project work, run \`scaffold status\` and read the agent guide from
-the currently installed Scaffold package at the reported Shared Package Root. This
-keeps shared guidance, workflow Skills, model-invoked Skills, and the agent entry guidance on the same
-active Harness generation after package upgrades.
-`;
-}
-
-function synchronizeAgentGuide(directory) {
-  fs.writeFileSync(path.join(scaffoldDirectory(directory), 'agent-guide.md'), agentGuideBootstrap(), 'utf8');
 }
 
 function readMetadata(directory) {
@@ -75,14 +60,25 @@ function workflowSkillNames(skillsRoot) {
     && fs.existsSync(path.join(skillsRoot, entry.name, 'agents', 'openai.yaml'))).sort();
 }
 
-function seedProjectSkills(directory, packageRoot) {
-  const destination = path.join(scaffoldDirectory(directory), 'skills');
-  if (fs.existsSync(destination) && fs.readdirSync(destination).length) return { created: false, preserved: true };
-  fs.mkdirSync(destination, { recursive: true });
-  for (const name of fs.readdirSync(path.join(packageRoot, 'skills'))) {
-    fs.cpSync(path.join(packageRoot, 'skills', name), path.join(destination, name), { recursive: true });
-  }
-  return { created: true, preserved: false };
+function copyMissing(source, destination) {
+  if (fs.existsSync(destination)) return false;
+  fs.mkdirSync(path.dirname(destination), { recursive: true });
+  fs.cpSync(source, destination, { recursive: true });
+  return true;
+}
+
+function materializeHarness(directory, packageRoot) {
+  const root = scaffoldDirectory(directory);
+  const entries = [
+    ['defaults/agent-guide.md', 'agent-guide.md'],
+    ['defaults/knowledge-model.md', 'knowledge-model.md'],
+    ['defaults/knowledge-schema.md', 'knowledge-schema.md'],
+    ['defaults/rules', 'rules'],
+    ['defaults/templates', 'templates'],
+    ['skills', 'skills'],
+  ];
+  const created = entries.filter(([source, destination]) => copyMissing(path.join(packageRoot, source), path.join(root, destination)));
+  return { created, preserved: entries.length - created.length };
 }
 
 function synchronizeAgentSkills(directory) {
@@ -130,25 +126,10 @@ function initProject({ directory, version, packageRoot, decideHostIntegration })
   }
 
   fs.mkdirSync(directory, { recursive: true });
-  for (const relative of [
-    '.scaffold/skills',
-    '.scaffold/rules/core',
-    '.scaffold/rules/documentation',
-    '.scaffold/rules/coding',
-    '.scaffold/rules/verification',
-    '.scaffold/rules/security',
-    '.scaffold/rules/architecture',
-    '.scaffold/rules/delivery',
-    '.scaffold/templates/problem',
-    '.scaffold/templates/solution',
-    '.scaffold/templates/governance',
-  ]) {
-    fs.mkdirSync(path.join(directory, relative), { recursive: true });
-  }
+  fs.mkdirSync(root, { recursive: true });
   const now = timestamp();
   fs.writeFileSync(metadataPath(directory), metadata({ lastReviewedVersion: version, installedAt: now }), 'utf8');
-  synchronizeAgentGuide(directory);
-  const projectSkills = seedProjectSkills(directory, packageRoot);
+  const harness = materializeHarness(directory, packageRoot);
   const agentSkills = synchronizeAgentSkills(directory);
   const preserved = [];
   for (const filename of AGENT_FILES) {
@@ -174,10 +155,10 @@ function initProject({ directory, version, packageRoot, decideHostIntegration })
     : 'Created AGENTS.md and CLAUDE.md to direct coding agents to the Scaffold guide.';
   return { ok: true, lines: [
     `Initialized Scaffold in ${directory}.`,
-    `Project-local skills ${projectSkills.created ? 'were seeded from the installed Scaffold package' : 'were preserved'}.`,
+    `Materialized ${harness.created.length} Harness artifact groups in .scaffold/; preserved ${harness.preserved} existing groups.`,
     `Linked ${agentSkills.linked.length} user-invoked skills for Codex and Claude Code.${agentSkills.conflicts.length ? ` Existing agent-skill entries preserved: ${agentSkills.conflicts.join(', ')}.` : ''}`,
-    'Shared defaults other than project-local skills remain package-managed; only local agent-discovery integration was created.',
-    `Created ${path.relative(directory, root)}/metadata.md and Harness extension directories.`,
+    'All active Harness guidance is project-local; the installed package remains an initialization and update candidate bundle.',
+    `Created ${path.relative(directory, root)}/metadata.md and materialized Harness guidance.`,
     integration,
   ] };
 }
@@ -204,6 +185,16 @@ function markdownFiles(root, relative = '') {
     const name = path.join(relative, entry.name);
     if (entry.isDirectory()) return markdownFiles(root, name);
     return entry.isFile() && entry.name.endsWith('.md') ? [name] : [];
+  });
+}
+
+function filesAt(root, relative = '') {
+  const directory = path.join(root, relative);
+  if (!fs.existsSync(directory)) return [];
+  return fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+    const name = path.join(relative, entry.name);
+    if (entry.isDirectory()) return filesAt(root, name);
+    return entry.isFile() ? [name] : [];
   });
 }
 
@@ -255,142 +246,132 @@ function ruleIdentity(file) {
   return heading || null;
 }
 
-function rulesAt(root, source) {
+function rulesAt(root) {
   return markdownFiles(root).map((name) => {
     const file = path.join(root, name);
-    return { source, relative: name, path: file, identity: ruleIdentity(file) };
+    return { relative: name, path: file, identity: ruleIdentity(file) };
   });
 }
 
-function resolvedRules(directory, packageRoot) {
-  const shared = rulesAt(path.join(packageRoot, 'defaults/rules'), 'shared');
-  const local = rulesAt(path.join(scaffoldDirectory(directory), 'rules'), 'project');
-  const invalid = [...shared, ...local].filter((rule) => !rule.identity);
-  const duplicateIdentities = (rules) => rules.reduce((duplicates, rule) => {
+function resolvedRules(directory) {
+  const rules = rulesAt(path.join(scaffoldDirectory(directory), 'rules'));
+  const invalid = rules.filter((rule) => !rule.identity);
+  const duplicates = rules.reduce((duplicates, rule) => {
     if (!rule.identity) return duplicates;
     const matching = rules.filter((candidate) => candidate.identity === rule.identity);
-    if (matching.length > 1 && !duplicates.some((entry) => entry.identity === rule.identity && entry.source === rule.source)) {
-      duplicates.push({ identity: rule.identity, source: rule.source, paths: matching.map((entry) => entry.path) });
+    if (matching.length > 1 && !duplicates.some((entry) => entry.identity === rule.identity)) {
+      duplicates.push({ identity: rule.identity, paths: matching.map((entry) => entry.path) });
     }
     return duplicates;
   }, []);
-  const duplicates = [...duplicateIdentities(shared), ...duplicateIdentities(local)];
-  const sharedByIdentity = new Map(shared.filter((rule) => rule.identity).map((rule) => [rule.identity, rule]));
-  const localByIdentity = new Map(local.filter((rule) => rule.identity).map((rule) => [rule.identity, rule]));
-  const identities = new Set([...sharedByIdentity.keys(), ...localByIdentity.keys()]);
-  const rules = [...identities].sort().map((identity) => {
-    const sharedRule = sharedByIdentity.get(identity);
-    const localRule = localByIdentity.get(identity);
-    const active = localRule || sharedRule;
-    return {
-      identity,
-      source: active.source,
-      path: active.path,
-      disposition: sharedRule && localRule ? 'local replacement' : localRule ? 'local addition' : 'shared',
-      shared: sharedRule,
-      local: localRule,
-    };
-  });
   return { rules, invalid, duplicates, legacy: path.join(scaffoldDirectory(directory), 'project-rules.md') };
 }
 
-function resolvedArtifacts(directory, packageRoot) {
+function resolvedArtifacts(directory) {
   const localRoot = scaffoldDirectory(directory);
   const artifacts = [
-    { label: 'Knowledge Model:', name: 'knowledge-model', local: path.join(localRoot, 'knowledge-model.md'), shared: path.join(packageRoot, 'defaults/knowledge-model.md') },
-    { label: 'Knowledge Schema:', name: 'knowledge-schema', local: path.join(localRoot, 'knowledge-schema.md'), shared: path.join(packageRoot, 'defaults/knowledge-schema.md') },
+    { label: 'Knowledge Model:', name: 'knowledge-model.md', path: path.join(localRoot, 'knowledge-model.md') },
+    { label: 'Knowledge Schema:', name: 'knowledge-schema.md', path: path.join(localRoot, 'knowledge-schema.md') },
   ];
-  const addNamed = (label, type, localPredicate, sharedPredicate, filePath) => {
+  const addNamed = (label, type, predicate, filePath) => {
     const localBase = path.join(localRoot, type);
-    const sharedBase = path.join(packageRoot, type === 'templates' ? 'defaults/templates' : type);
-    const names = new Set(type === 'templates'
-      ? [...templateNames(localBase), ...templateNames(sharedBase)]
-      : [
-        ...directoryEntries(localBase, localPredicate),
-        ...directoryEntries(sharedBase, sharedPredicate),
-      ]);
-    for (const name of [...names].sort()) artifacts.push({
+    const names = type === 'templates' ? templateNames(localBase) : directoryEntries(localBase, predicate);
+    for (const name of names.sort()) artifacts.push({
       label: `${label}: ${name.replace(/\.md$/, '')}`,
       name: `${type}/${name}`,
-      local: path.join(localBase, filePath(name)),
-      shared: path.join(sharedBase, filePath(name)),
+      path: path.join(localBase, filePath(name)),
     });
   };
-  addNamed('Skill', 'skills', (entry) => entry.isDirectory() && fs.existsSync(path.join(localRoot, 'skills', entry.name, 'SKILL.md')), (entry) => entry.isDirectory() && fs.existsSync(path.join(packageRoot, 'skills', entry.name, 'SKILL.md')), (name) => path.join(name, 'SKILL.md'));
-  addNamed('Template', 'templates', (entry) => entry.isFile() && entry.name.endsWith('.md'), (entry) => entry.isFile() && entry.name.endsWith('.md'), (name) => name);
-  return artifacts.map((artifact) => {
-    const artifactPath = fs.existsSync(artifact.local) ? artifact.local : artifact.shared;
+  addNamed('Skill', 'skills', (entry) => entry.isDirectory() && fs.existsSync(path.join(localRoot, 'skills', entry.name, 'SKILL.md')), (name) => path.join(name, 'SKILL.md'));
+  addNamed('Template', 'templates', (entry) => entry.isFile() && entry.name.endsWith('.md'), (name) => name);
+  return artifacts.filter((artifact) => fs.existsSync(artifact.path)).map((artifact) => {
     const isSkill = artifact.name.startsWith('skills/');
-    const isWorkflowSkill = isSkill && fs.existsSync(path.join(path.dirname(artifactPath), 'agents', 'openai.yaml'));
+    const isWorkflowSkill = isSkill && fs.existsSync(path.join(path.dirname(artifact.path), 'agents', 'openai.yaml'));
     return {
       ...artifact,
       label: isWorkflowSkill ? artifact.label.replace('Skill:', 'Workflow Skill:') : artifact.label,
-      source: fs.existsSync(artifact.local) ? 'project' : 'shared',
-      path: artifactPath,
+      source: 'project',
     };
   });
 }
 
-function localReplacements(directory, packageRoot) {
-  return resolvedArtifacts(directory, packageRoot).filter((artifact) => artifact.source === 'project');
+function candidateFiles(packageRoot) {
+  const files = new Map();
+  const add = (root, prefix = '') => filesAt(root).forEach((name) => files.set(path.join(prefix, name), path.join(root, name)));
+  add(path.join(packageRoot, 'defaults'), '');
+  add(path.join(packageRoot, 'skills'), 'skills');
+  return files;
+}
+
+function projectArtifactFiles(directory) {
+  const root = scaffoldDirectory(directory);
+  const files = new Map();
+  const add = (base, prefix = '') => filesAt(base).forEach((name) => files.set(path.join(prefix, name), path.join(base, name)));
+  for (const name of ['agent-guide.md', 'knowledge-model.md', 'knowledge-schema.md']) {
+    const file = path.join(root, name);
+    if (fs.existsSync(file)) files.set(name, file);
+  }
+  add(path.join(root, 'rules'), 'rules');
+  add(path.join(root, 'templates'), 'templates');
+  add(path.join(root, 'skills'), 'skills');
+  return files;
+}
+
+function updateDiff(directory, packageRoot) {
+  if (!readMetadata(directory)) return { ok: false, lines: [`Scaffold is not initialized in ${directory}.`, 'Run "scaffold init" first.'] };
+  const project = projectArtifactFiles(directory);
+  const candidate = candidateFiles(packageRoot);
+  const names = new Set([...project.keys(), ...candidate.keys()]);
+  const lines = [...names].sort().flatMap((name) => {
+    if (!project.has(name)) return [`added: ${name}`];
+    if (!candidate.has(name)) return [`package-removed: ${name}`];
+    return fs.readFileSync(project.get(name), 'utf8') === fs.readFileSync(candidate.get(name), 'utf8') ? [] : [`changed: ${name}`];
+  });
+  return { ok: true, lines: lines.length ? lines : ['No Harness artifact differences.'] };
 }
 
 function inspectProject({ directory, version, packageRoot }) {
   const details = readMetadata(directory);
   if (!details) return { ok: false, lines: [`Scaffold is not initialized in ${directory}.`, 'Run "scaffold init" first.'] };
-  synchronizeAgentGuide(directory);
-  const artifacts = resolvedArtifacts(directory, packageRoot);
-  const ruleSet = resolvedRules(directory, packageRoot);
-  const found = localReplacements(directory, packageRoot);
+  const artifacts = resolvedArtifacts(directory);
+  const ruleSet = resolvedRules(directory);
   const reviewRequired = details.lastReviewedVersion !== version;
   const artifactLines = [
     ...artifacts.flatMap((artifact) => [artifact.label, `  source: ${artifact.source}`, `  path: ${artifact.path}`]),
     'Project Rules:',
     ...(ruleSet.rules.length ? ruleSet.rules.flatMap((rule) => [
       `  Rule: ${rule.identity}`,
-      `    source: ${rule.source}`,
-      `    disposition: ${rule.disposition}`,
+      '    source: project',
       `    path: ${rule.path}`,
     ]) : ['  none discovered']),
   ];
-  const shadowed = found.filter((artifact) => fs.existsSync(artifact.shared)).map((artifact) => path.relative(packageRoot, artifact.shared));
   return { ok: true, lines: [
     `Scaffold project: ${directory}`,
-    `Running Scaffold Version: ${version}`,
-    `Last Reviewed Scaffold Version: ${details.lastReviewedVersion || 'unknown'}`,
+    `Installed Scaffold Version: ${version}`,
+    `Project Harness Version: ${details.lastReviewedVersion || 'unknown'}`,
     `Update Review Status: ${reviewRequired ? 'required' : 'current'}`,
-    `Shared Package Root: ${packageRoot}`,
+    `Package Candidate Root: ${packageRoot}`,
     ...artifactLines,
     'Agent Integration:',
     ...AGENT_FILES.map((filename) => `  ${filename}: ${fs.existsSync(path.join(directory, filename)) && MANAGED_BLOCK.test(fs.readFileSync(path.join(directory, filename), 'utf8')) ? 'configured' : 'integration required'}`),
-    `Project-local replacements: ${found.length ? found.map((artifact) => path.relative(scaffoldDirectory(directory), artifact.local)).join(', ') : 'none'}`,
-    `Project-local Rules: ${ruleSet.rules.filter((rule) => rule.local).length ? ruleSet.rules.filter((rule) => rule.local).map((rule) => path.relative(scaffoldDirectory(directory), rule.local.path)).join(', ') : 'none'}`,
+    `Active Harness Artifacts: ${artifacts.length ? artifacts.map((artifact) => path.relative(scaffoldDirectory(directory), artifact.path)).join(', ') : 'none'}`,
+    `Project-local Rules: ${ruleSet.rules.length ? ruleSet.rules.map((rule) => path.relative(scaffoldDirectory(directory), rule.path)).join(', ') : 'none'}`,
     ...(fs.existsSync(ruleSet.legacy) ? [`Legacy monolithic Project Rules require deliberate migration and are ignored: ${ruleSet.legacy}`] : []),
     ...ruleSet.invalid.map((rule) => `Invalid Project Rule identity (expected a dotted identity in the H1 heading): ${rule.path}`),
-    ...ruleSet.duplicates.map((duplicate) => `Duplicate ${duplicate.source} Project Rule identity ${duplicate.identity}: ${duplicate.paths.join(', ')}`),
-    `Shadowed shared artifacts: ${shadowed.length ? shadowed.join(', ') : 'none'}`,
-    ...(reviewRequired ? ['Complete the shared adopt-harness-update review, then use "scaffold update" to attest and record completion.'] : []),
+    ...ruleSet.duplicates.map((duplicate) => `Duplicate project Project Rule identity ${duplicate.identity}: ${duplicate.paths.join(', ')}`),
+    ...(reviewRequired ? ['Run "scaffold update --diff", review the candidate changes with adopt-harness-update, then use "scaffold update" to record completion.'] : []),
   ] };
 }
 
-function updateProject({ directory, version, packageRoot }) {
+function updateProject({ directory, version }) {
   const details = readMetadata(directory);
   if (!details) return { ok: false, lines: [`Scaffold is not initialized in ${directory}.`, 'Run "scaffold init" first.'] };
   const now = timestamp();
   fs.writeFileSync(metadataPath(directory), metadata({ lastReviewedVersion: version, installedAt: details.installedAt || now, updatedAt: now }), 'utf8');
-  synchronizeAgentGuide(directory);
-  const projectSkills = seedProjectSkills(directory, packageRoot);
-  const agentSkills = synchronizeAgentSkills(directory);
-  const found = localReplacements(directory, packageRoot);
-  const ruleSet = resolvedRules(directory, packageRoot);
   return { ok: true, lines: [
     `Recorded your attestation that Scaffold version ${version} has been reviewed.`,
-    `Project-local replacements preserved: ${found.length ? found.map((artifact) => path.relative(scaffoldDirectory(directory), artifact.local)).join(', ') : 'none'}.`,
-    `Project-local Rules preserved: ${ruleSet.rules.filter((rule) => rule.local).length ? ruleSet.rules.filter((rule) => rule.local).map((rule) => path.relative(scaffoldDirectory(directory), rule.local.path)).join(', ') : 'none'}.`,
-    `Project-local skills ${projectSkills.created ? 'were seeded from the installed Scaffold package' : 'were preserved'}.`,
-    `User-invoked skill links synchronized: ${agentSkills.linked.length}; existing agent-skill entries preserved: ${agentSkills.conflicts.length ? agentSkills.conflicts.join(', ') : 'none'}.`,
-    'This command records review completion; semantic validation remains agent-driven. Shared defaults are supplied by the currently running package and were not copied or overwritten.',
+    'This command records review completion only; it does not copy, merge, delete, or otherwise change Harness artifacts.',
   ] };
 }
 
-module.exports = { checkDocumentId, initProject, inspectProject, nextDocumentId, updateProject };
+module.exports = { checkDocumentId, initProject, inspectProject, nextDocumentId, updateDiff, updateProject };

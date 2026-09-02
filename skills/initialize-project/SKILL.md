@@ -49,7 +49,7 @@ Make the active Knowledge Model and applicable replaceable Scaffold artifacts av
 
 #### Required Outcome
 
-The active Knowledge Model is available; full-replacement artifacts and the effective Project Rule collection are understood. Host-owned `AGENTS.md` and `CLAUDE.md` integration is preserved or deliberately completed without replacing surrounding host instructions.
+The complete active project-local Harness is available, including its Knowledge Model, Schema, Skills, Templates, and Rule collection. Host-owned `AGENTS.md` and `CLAUDE.md` integration is preserved or deliberately completed without replacing surrounding host instructions.
 
 ### Phase — Establish Initial Knowledge
 
@@ -65,11 +65,11 @@ Initial project knowledge locations, document types, and applicable template typ
 
 #### Goal
 
-Determine the project’s initial effective Rule set without inventing engineering conventions.
+Determine whether the materialized project-local Rule baseline needs project-specific adjustment without inventing engineering conventions.
 
 #### Required Outcome
 
-Applicable existing engineering practices are retained through shared Rules, represented as local additions or same-identity replacements when strong evidence supports them, or deliberately left unresolved. Material shared/local Rule conflicts are reviewed.
+Applicable existing engineering practices are compared with the materialized local Rule baseline and retained, revised, or deliberately left unresolved. Material Rule conflicts are reviewed.
 
 #### Relevant Rules
 
@@ -79,7 +79,7 @@ Applicable existing engineering practices are retained through shared Rules, rep
 - security.*
 - architecture.*
 
-Establish local Rules only from explicit repository instructions, existing engineering documentation, build or CI conventions, formatter or linter configuration, test structure, or other strong evidence. Do not invent a project convention: leave it undefined or record the uncertainty. Review every established local Rule against the effective shared set, distinguishing a local addition, same-identity replacement, compatible specialization, semantic contradiction, and unknown intent.
+Revise local Rules only from explicit repository instructions, existing engineering documentation, build or CI conventions, formatter or linter configuration, test structure, or other strong evidence. Do not invent a project convention: leave it undefined or record the uncertainty. Review overlapping local Rules for compatible specialization, semantic contradiction, redundancy, or unknown intent.
 
 ## Required Outcomes
 

@@ -22,17 +22,17 @@ test('init creates Harness infrastructure, project-owned skills, and agent disco
   const directory = temporaryDirectory();
   const result = run('init', directory);
   assert.equal(result.status, 0, result.stderr);
-  assert.match(result.stdout, /agent-discovery integration/);
+  assert.match(result.stdout, /Materialized 6 Harness artifact groups/);
   assert.ok(fs.readFileSync(path.join(directory, '.scaffold/metadata.md'), 'utf8').includes(`Scaffold Version: ${packageInfo.version}`));
   assert.equal(fs.existsSync(path.join(directory, 'knowledge/problem')), false);
-  assert.equal(fs.existsSync(path.join(directory, '.scaffold/knowledge-schema.md')), false);
+  assert.ok(fs.existsSync(path.join(directory, '.scaffold/knowledge-schema.md')));
   assert.ok(fs.existsSync(path.join(directory, '.scaffold/templates/problem')));
   assert.ok(fs.existsSync(path.join(directory, '.scaffold/templates/solution')));
   assert.ok(fs.existsSync(path.join(directory, '.scaffold/templates/governance')));
   assert.equal(fs.existsSync(path.join(directory, '.scaffold/workflows')), false);
   assert.ok(fs.existsSync(path.join(directory, '.scaffold/rules/core')));
   assert.ok(fs.existsSync(path.join(directory, '.scaffold/rules/verification')));
-  assert.match(fs.readFileSync(path.join(directory, '.scaffold/agent-guide.md'), 'utf8'), /currently installed Scaffold package/);
+  assert.match(fs.readFileSync(path.join(directory, '.scaffold/agent-guide.md'), 'utf8'), /project-local runtime authority/);
   assert.match(fs.readFileSync(path.join(directory, 'AGENTS.md'), 'utf8'), /agent-guide/);
   assert.match(fs.readFileSync(path.join(directory, 'CLAUDE.md'), 'utf8'), /agent-guide/);
   assert.ok(fs.existsSync(path.join(directory, '.scaffold/skills/define-change/SKILL.md')));
@@ -44,6 +44,31 @@ test('init creates Harness infrastructure, project-owned skills, and agent disco
   }
 });
 
+test('init materializes the complete local Harness and update --diff is non-mutating', () => {
+  const directory = temporaryDirectory();
+  const initialized = run('init', directory);
+  assert.equal(initialized.status, 0, initialized.stderr);
+
+  for (const file of [
+    'agent-guide.md',
+    'knowledge-model.md',
+    'knowledge-schema.md',
+    'templates/problem/standard.md',
+    'rules/verification/risk-proportionate.md',
+    'skills/define-change/SKILL.md',
+  ]) {
+    assert.ok(fs.existsSync(path.join(directory, '.scaffold', file)), file);
+  }
+
+  const model = path.join(directory, '.scaffold/knowledge-model.md');
+  fs.appendFileSync(model, '\nProject addition.\n');
+  const before = fs.readFileSync(model, 'utf8');
+  const diff = run('update', '--diff', directory);
+  assert.equal(diff.status, 0, diff.stderr);
+  assert.match(diff.stdout, /changed: knowledge-model\.md/);
+  assert.equal(fs.readFileSync(model, 'utf8'), before);
+});
+
 test('init preserves an existing project-owned skills directory', () => {
   const directory = temporaryDirectory();
   const skills = path.join(directory, '.scaffold/skills');
@@ -52,7 +77,7 @@ test('init preserves an existing project-owned skills directory', () => {
   const result = run('init', directory);
   assert.equal(result.status, 0, result.stderr);
   assert.equal(fs.readFileSync(path.join(skills, 'README.md'), 'utf8'), 'Project skills\n');
-  assert.match(result.stdout, /Project-local skills were preserved/);
+  assert.match(result.stdout, /preserved 1 existing groups/);
 });
 
 test('init preserves a conflicting agent skill entry', () => {
@@ -65,7 +90,7 @@ test('init preserves a conflicting agent skill entry', () => {
   assert.match(result.stdout, /Existing agent-skill entries preserved: .agents[\\/]skills[\\/]define-change/);
 });
 
-test('update migrates agent links created by the root-skills integration', () => {
+test('update records review without changing agent links', () => {
   const directory = temporaryDirectory();
   run('init', directory);
   const link = path.join(directory, '.agents/skills/define-change');
@@ -73,16 +98,16 @@ test('update migrates agent links created by the root-skills integration', () =>
   fs.symlinkSync('../../skills/define-change', link, 'dir');
   const result = run('update', directory);
   assert.equal(result.status, 0, result.stderr);
-  assert.equal(fs.realpathSync(link), path.join(directory, '.scaffold/skills/define-change'));
+  assert.equal(fs.readlinkSync(link), '../../skills/define-change');
 });
 
-test('agent entry guidance remains a package-resolved bootstrap after an upgrade', () => {
+test('agent entry guidance is materialized locally', () => {
   const directory = temporaryDirectory();
   run('init', directory);
   const guide = fs.readFileSync(path.join(directory, '.scaffold/agent-guide.md'), 'utf8');
-  assert.doesNotMatch(guide, /Choose Guidance by Request Type/);
-  assert.match(guide, /scaffold status/);
-  assert.match(guide, /currently installed Scaffold package/);
+  assert.match(guide, /Choose Guidance by Request Type/);
+  assert.match(guide, /project-local runtime authority/);
+  assert.doesNotMatch(guide, /currently installed Scaffold package/);
 });
 
 test('init preserves existing agent instructions and reports manual integration', () => {
@@ -108,16 +133,17 @@ test('init updates only an existing managed agent block and preserves surroundin
   assert.doesNotMatch(contents, /-->old<!--/);
 });
 
-test('status resolves local Project Rule additions and atomic replacements', () => {
+test('status reports the project-local Rule collection', () => {
   const directory = temporaryDirectory();
   run('init', directory);
   const rules = path.join(directory, '.scaffold/rules');
+  fs.mkdirSync(path.join(rules, 'coding'), { recursive: true });
   fs.writeFileSync(path.join(rules, 'verification/risk.md'), '# verification.risk-proportionate\n');
   fs.writeFileSync(path.join(rules, 'coding/formatting.md'), '# coding.formatting\n');
   const result = run('status', directory);
   assert.equal(result.status, 0, result.stderr);
-  assert.match(result.stdout, /Rule: verification\.risk-proportionate\n    source: project\n    disposition: local replacement/);
-  assert.match(result.stdout, /Rule: coding\.formatting\n    source: project\n    disposition: local addition/);
+  assert.match(result.stdout, /Rule: verification\.risk-proportionate\n    source: project/);
+  assert.match(result.stdout, /Rule: coding\.formatting\n    source: project/);
   assert.match(result.stdout, /Project-local Rules: [\s\S]*rules[\\/]coding[\\/]formatting\.md/);
   assert.doesNotMatch(result.stdout, /defaults[\\/]project-rules\.md/);
 });
@@ -135,6 +161,8 @@ test('status reports invalid and duplicate Project Rule identities', () => {
   const directory = temporaryDirectory();
   run('init', directory);
   const rules = path.join(directory, '.scaffold/rules');
+  fs.mkdirSync(path.join(rules, 'coding'), { recursive: true });
+  fs.mkdirSync(path.join(rules, 'documentation'), { recursive: true });
   fs.writeFileSync(path.join(rules, 'coding/a.md'), '# coding.formatting\n');
   fs.writeFileSync(path.join(rules, 'coding/b.md'), '# coding.formatting\n');
   fs.writeFileSync(path.join(rules, 'documentation/invalid.md'), '# Not A Rule\n');
@@ -144,14 +172,14 @@ test('status reports invalid and duplicate Project Rule identities', () => {
   assert.match(result.stdout, /Invalid Project Rule identity/);
 });
 
-test('status resolves a local Knowledge Schema against its shared default', () => {
+test('status resolves the materialized local Knowledge Schema', () => {
   const directory = temporaryDirectory();
   run('init', directory);
   fs.writeFileSync(path.join(directory, '.scaffold/knowledge-schema.md'), '# Local Schema\n');
   const result = run('status', directory);
   assert.equal(result.status, 0, result.stderr);
   assert.match(result.stdout, /Knowledge Schema:\n  source: project/);
-  assert.match(result.stdout, /Shadowed shared artifacts:[\s\S]*defaults[\\/]knowledge-schema\.md/);
+  assert.doesNotMatch(result.stdout, /Shadowed shared artifacts/);
 });
 
 test('status reports seeded workflow and model-invoked Skills as project-owned', () => {
@@ -165,8 +193,7 @@ test('status reports seeded workflow and model-invoked Skills as project-owned',
   assert.equal(result.status, 0, result.stderr);
   assert.match(result.stdout, /Workflow Skill: define-change\n  source: project/);
   assert.match(result.stdout, /Skill: verify-change\n  source: project/);
-  assert.match(result.stdout, /Shadowed shared artifacts:[\s\S]*skills[\\/]define-change[\\/]SKILL\.md/);
-  assert.match(result.stdout, /Shadowed shared artifacts:[\s\S]*skills[\\/]verify-change[\\/]SKILL\.md/);
+  assert.doesNotMatch(result.stdout, /Shadowed shared artifacts/);
 });
 
 test('status distinguishes user-invoked workflow Skills from model-invoked Skills', () => {
@@ -178,7 +205,7 @@ test('status distinguishes user-invoked workflow Skills from model-invoked Skill
   assert.match(result.stdout, /Skill: collect-context\n  source: project/);
 });
 
-test('status resolves local and shared templates without implicit merging', () => {
+test('status resolves the materialized local templates', () => {
   const directory = temporaryDirectory();
   run('init', directory);
   const templates = path.join(directory, '.scaffold/templates');
@@ -186,10 +213,10 @@ test('status resolves local and shared templates without implicit merging', () =
   fs.writeFileSync(path.join(templates, 'governance/api-contract.md'), '# API Contract\n');
   const result = run('status', directory);
   assert.equal(result.status, 0, result.stderr);
-  assert.match(result.stdout, /Template: problem\/standard\n  source: shared/);
+  assert.match(result.stdout, /Template: problem\/standard\n  source: project/);
   assert.match(result.stdout, /Template: solution\/standard\n  source: project/);
   assert.match(result.stdout, /Template: governance\/api-contract\n  source: project/);
-  assert.match(result.stdout, /Shadowed shared artifacts:[\s\S]*defaults[\\/]templates[\\/]solution[\\/]standard\.md/);
+  assert.doesNotMatch(result.stdout, /Shadowed shared artifacts/);
 });
 
 test('status reports a native project-local skill replacement', () => {
@@ -212,7 +239,7 @@ test('update preserves project-local replacement content', () => {
   assert.equal(fs.readFileSync(override, 'utf8'), '# Local Schema\n');
   assert.match(fs.readFileSync(path.join(directory, '.scaffold/metadata.md'), 'utf8'), /Last Updated:/);
   assert.match(result.stdout, /attestation/);
-  assert.match(result.stdout, /semantic validation remains agent-driven/);
+  assert.match(result.stdout, /does not copy, merge, delete/);
 });
 
 test('commands requiring initialization fail clearly', () => {
@@ -528,21 +555,20 @@ test('model migrations use explicit project-owned crosswalks without automatic s
   assert.match(evolution, /Model Migration Crosswalk/);
 });
 
-test("status resolves a local Knowledge Model against its shared default", () => {
+test("status resolves the materialized local Knowledge Model", () => {
   const directory = temporaryDirectory();
   run("init", directory);
 
   const shared = run("status", directory);
   assert.equal(shared.status, 0, shared.stderr);
-  assert.match(shared.stdout, /Knowledge Model:\n  source: shared/);
-  assert.match(shared.stdout, /defaults[\/]knowledge-model\.md/);
+  assert.match(shared.stdout, /Knowledge Model:\n  source: project/);
 
   const localModel = path.join(directory, ".scaffold/knowledge-model.md");
   fs.writeFileSync(localModel, "# Local Knowledge Model\n");
   const local = run("status", directory);
   assert.equal(local.status, 0, local.stderr);
   assert.match(local.stdout, /Knowledge Model:\n  source: project/);
-  assert.match(local.stdout, /Project-local replacements: knowledge-model\.md/);
-  assert.match(local.stdout, /Shadowed shared artifacts:[\s\S]*defaults[\\/]knowledge-model\.md/);
+  assert.match(local.stdout, /Active Harness Artifacts: knowledge-model\.md/);
+  assert.doesNotMatch(local.stdout, /Shadowed shared artifacts/);
   assert.ok(local.stdout.includes(localModel));
 });

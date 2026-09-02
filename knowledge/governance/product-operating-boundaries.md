@@ -24,7 +24,7 @@ Core Harness guidance and project knowledge representation must be usable as hum
 
 Constrains:
 
-- SOL-002#CAP-001 — Shared guidance artifact provision.
+- SOL-002#CAP-004 — Package candidate and starter artifact provision.
 
 ### CON-002 — Agent-mediated semantic validation
 
@@ -50,7 +50,7 @@ The initial product does not replace Git, issue tracking, CI/CD, or project-mana
 
 Constrains:
 
-- SOL-001#CAP-001 — Harness lifecycle management.
+- SOL-001#CAP-005 — Materialized Harness lifecycle management.
 - SOL-004#CAP-001 — Accepted-change lifecycle management.
 
 ### CON-005 — Durable knowledge update threshold
@@ -79,10 +79,10 @@ Constrains:
 
 ## Related Knowledge
 
-- PROB-002#REQ-002 — Explicit replacement.
+- PROB-002#REQ-016 — Project-local active Harness authority.
 - PROB-003#REQ-008 — Usable Markdown-first guidance.
 - PROB-004#REQ-009 — Accepted-change lifecycle.
-- SOL-002#CAP-001 — Shared guidance artifact provision.
+- SOL-002#CAP-004 — Package candidate and starter artifact provision.
 - SOL-003#CAP-001 — Durable knowledge separation.
 - SOL-004#CAP-001 — Accepted-change lifecycle management.
 - SOL-004#CAP-004 — Project Knowledge reconciliation.

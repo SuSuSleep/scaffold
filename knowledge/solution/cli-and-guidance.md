@@ -2,7 +2,7 @@
 
 Document ID: SOL-001
 
-> Evidence source: [`src/cli.js`](../../src/cli.js), [`src/project.js`](../../src/project.js), and [`test/cli.test.js`](../../test/cli.test.js), inspected 2026-08-20.
+> Evidence source: [`src/cli.js`](../../src/cli.js), [`src/project.js`](../../src/project.js), and [`test/cli.test.js`](../../test/cli.test.js), inspected 2026-08-30. These sources currently evidence the older shared-runtime implementation; they do not establish the materialized-local design proposed in this candidate knowledge change.
 
 ## Capabilities
 
@@ -10,17 +10,21 @@ Document ID: SOL-001
 
 Initialize, inspect, and record update-review state for a target repository.
 
-### CAP-002 — Artifact resolution
+### CAP-002 — Superseded: shared/local artifact resolution
 
-Resolve shared defaults, full project-local replacements, and the effective Project Rule collection deterministically.
+Superseded by CAP-005 — Materialized Harness lifecycle management. This historical capability described shared runtime defaults and an effective shared-plus-local Rule collection; it is not an active solution capability.
 
 ### CAP-003 — Agent guidance integration
 
-Provide a package-resolved bootstrap guide and managed instruction blocks without owning surrounding host instructions.
+Provide a materialized project-local agent guide and managed instruction blocks without owning surrounding host instructions.
 
 ### CAP-004 — Mechanical document-ID inspection
 
 Provide next-unused and availability inspection for project document IDs without interpreting Knowledge Model concepts.
+
+### CAP-005 — Materialized Harness lifecycle management
+
+Initialize a complete project-local Harness, inspect it, mechanically compare it with an installed candidate bundle, and record completion of owner-directed update review.
 
 ## Responsibilities
 
@@ -45,15 +49,16 @@ Search Markdown document declarations recursively and report namespace availabil
 - **`bin/scaffold.js`** exposes the command-line entry point.
 - **`src/cli.js`** is assigned-to RESP-001 and exposes the `init`, `status`, `update`, and `id` command interface.
 - **`src/project.js`** is assigned-to RESP-002, RESP-003, and RESP-004. It owns local filesystem interactions within the target project.
-- **Shared package artifacts** expose the default Knowledge Model, default Schema, categorized Rules, workflow Skills, model-invoked Skills, and templates. Knowledge Model, Schema, Skills, and Templates are fully replaceable; local Rules add identities or atomically replace matching shared identities.
+- **Project-local Harness artifacts** expose the active Knowledge Model, Schema, categorized Rules, workflow Skills, model-invoked Skills, templates, and agent guide. The agent guide directs meaningful work to the other materialized local guidance. The installed package distributes candidate artifacts for initialization and comparison only; it is never a runtime fallback.
 
 ### IFC-001 — Scaffold command-line interface
 
 Exposed by `bin/scaffold.js` through `src/cli.js`.
 
-- `scaffold init [directory]` initializes Harness infrastructure for the target repository.
-- `scaffold status [directory]` reports the effective artifacts and update-review state.
-- `scaffold update [directory]` records completed update-review attestation without overwriting project-local replacements.
+- `scaffold init [directory]` initializes Harness infrastructure and materializes the required active artifacts for the target repository.
+- `scaffold status [directory]` reports the project-local active artifacts and update-review state.
+- `scaffold update --diff [directory]` reports a two-way add/change/removal comparison between project-local active artifacts and the installed package candidate bundle, without edits or merge decisions.
+- `scaffold update [directory]` records completed owner-directed update review without changing project-local artifacts.
 - `scaffold id next PREFIX [directory]` returns the next unused document ID in a namespace.
 - `scaffold id check ID [directory]` reports document-ID availability and every existing declaration.
 - `scaffold --help` and `scaffold --version` report usage and the running package version; an unknown command or more than one directory argument returns a nonzero exit status.
@@ -62,13 +67,12 @@ Exposed by `bin/scaffold.js` through `src/cli.js`.
 
 ## Satisfies
 
-- CAP-001 — Harness lifecycle management satisfies:
+- CAP-005 — Materialized Harness lifecycle management satisfies:
   - PROB-001#REQ-001 — Portable initialization
-  - PROB-001#REQ-005 — Review-aware updates
-- CAP-002 — Artifact resolution satisfies:
-  - PROB-002#REQ-002 — Explicit artifact resolution
-  - PROB-002#REQ-003 — Replaceable knowledge model
-  - PROB-002#REQ-011 — Extensible Project Rule collection
+  - PROB-001#REQ-013 — Diff-led, project-owned update adoption
+  - PROB-002#REQ-016 — Project-local active Harness authority
+  - PROB-002#REQ-017 — Materialized Harness initialization
+  - PROB-002#REQ-018 — Project-local Project Rule collection
 - CAP-003 — Agent guidance integration satisfies:
   - PROB-001#REQ-004 — Safe agent integration
 - CAP-004 — Mechanical document-ID inspection satisfies:
@@ -76,25 +80,29 @@ Exposed by `bin/scaffold.js` through `src/cli.js`.
 
 ## Design and Decisions
 
-### DEC-001 — Package-managed shared defaults
+### DEC-001 — Project-local active Harness with package candidates
 
-Shared defaults are read from the running package rather than copied into a project. This keeps shared guidance current while preserving full artifact replacements and effective Project Rule resolution.
+Initialization materializes the complete active Harness in `.scaffold/`; ordinary operation resolves only those project-local artifacts. The package ships a starter/candidate bundle used to seed initialization and produce update diffs, but it never becomes a runtime fallback.
 
-### DEC-002 — Metadata-only CLI initialization
+### DEC-002 — Materialized CLI initialization
 
-`init` creates `.scaffold/metadata.md`, extension directories, and agent-discovery infrastructure; representation-specific project knowledge is established through the active schema and initialization workflow.
+`init` creates `.scaffold/` metadata, materializes the active Harness artifacts, and establishes agent-discovery infrastructure; representation-specific project knowledge is established through the active local Schema and initialization workflow.
 
 ### DEC-003 — Managed-block integration
 
 A bounded `<!-- scaffold:start -->` / `<!-- scaffold:end -->` block permits Scaffold to refresh its own instruction while preserving host-owned content. In a non-interactive terminal, an unintegrated existing host file is left unchanged.
 
-### DEC-004 — Attestation-based updates
+### DEC-004 — Diff-led, agent-mediated updates
 
-`update` records that review is complete but does not claim deterministic semantic validation or perform migration.
+The CLI produces only the current-project versus installed-package two-way diff and never merges artifacts or stores a baseline snapshot. The update-review Skill analyzes new capabilities and behavioral changes, discusses the project's actual needs with the owner, and records no artifact changes unless the owner decides to adopt, adapt, keep, retire, or defer them. `update` records the package version only after review.
 
 ### DEC-005 — Mechanical document-ID inspection
 
 The CLI scans Markdown `Document ID:` declarations and reports availability only. The active Schema remains responsible for selecting the document-ID prefix and representing Project Knowledge.
+
+### DEC-006 — Pending local-only lifecycle implementation
+
+CAP-005 and DEC-001 through DEC-004 intentionally define the target design, not current source behavior. Current source and tests still initialize project-local Skills only, resolve package defaults and shared Rules as runtime authority, use a package-resolved bootstrap guide, and lack the specified `update --diff` behavior. After this Project Knowledge change is accepted, implementation must materialize and resolve the complete local Harness, provide the mechanical two-way diff, and revise bootstrap and update behavior; verification must demonstrate the active Acceptance Criteria rather than infer them from the current implementation.
 
 ## Verification Items
 
@@ -110,7 +118,7 @@ Scope:
 
 Expected evidence:
 
-- `init` preserves the existing repository structure and does not copy semantic defaults.
+- `init` preserves the existing repository structure while materializing the required active Harness guidance.
 
 ### VER-002 — Managed agent integration preserves host content
 
@@ -126,7 +134,21 @@ Expected evidence:
 
 - managed updates preserve surrounding `AGENTS.md` and `CLAUDE.md` content.
 
-### VER-003 — Update review is reported and recorded
+### VER-003 — Update differences are reported and recorded safely
+
+Verifies:
+
+- PROB-001#AC-016 — Update differences are visible and adopted deliberately.
+
+Scope:
+
+- `status`, `update --diff`, and update-review attestation behavior.
+
+Expected evidence:
+
+- `status` reports review drift; `update --diff` reports only the two-way artifact differences and causes no edits; and `update` records attestation only after owner-directed review, without changing project-local artifacts.
+
+### VER-005 — Legacy update-review attestation remains safe
 
 Verifies:
 
@@ -134,11 +156,11 @@ Verifies:
 
 Scope:
 
-- `status` and `update` review-attestation behavior.
+- `status` review-drift reporting and `update` review attestation for existing project-local replacements.
 
 Expected evidence:
 
-- review drift is reported and update attestation preserves local replacements.
+- review drift is visible, and recording a review does not overwrite project-local replacements.
 
 ### VER-004 — Document-ID commands remain mechanical
 
@@ -157,11 +179,12 @@ Expected evidence:
 ## Related Knowledge
 
 - PROB-001#REQ-001 — Portable initialization.
-- PROB-002#REQ-002 — Explicit artifact resolution.
-- PROB-002#REQ-011 — Extensible Project Rule collection.
-- PROB-002#REQ-003 — Replaceable knowledge model.
+- PROB-002#REQ-016 — Project-local active Harness authority.
+- PROB-002#REQ-018 — Project-local Project Rule collection.
+- PROB-002#REQ-017 — Materialized Harness initialization.
 - PROB-001#REQ-004 — Safe agent integration.
-- PROB-001#REQ-005 — Review-aware updates.
+- PROB-001#REQ-013 — Diff-led, project-owned update adoption.
 - GOV-001#CON-001 — Supported Node.js runtime.
 - [Project metadata](../../.scaffold/metadata.md).
 - **Known governance**: GOV-001#CON-001 constrains the supported runtime. No external contracts or reusable security controls have been established for this project.
+- CAP-005 supersedes CAP-002. CAP-002 remains as historical traceability only; active implementation and verification target CAP-005 and its listed current Requirements.

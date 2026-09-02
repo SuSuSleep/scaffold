@@ -2,7 +2,7 @@
 
 const fs = require('node:fs');
 const path = require('node:path');
-const { checkDocumentId, initProject, inspectProject, nextDocumentId, updateProject } = require('./project');
+const { checkDocumentId, initProject, inspectProject, nextDocumentId, updateDiff, updateProject } = require('./project');
 const packageInfo = require('../package.json');
 
 const HELP = `Scaffold ${packageInfo.version}
@@ -10,12 +10,13 @@ const HELP = `Scaffold ${packageInfo.version}
 Usage:
   scaffold init [directory]     Initialize Scaffold in a repository
   scaffold status [directory]   Inspect effective artifacts and update-review state
+  scaffold update --diff [directory]  Compare local Harness artifacts with the installed package bundle
   scaffold update [directory]   Record your attestation that update review is complete
   scaffold id next PREFIX [directory]  Return the next unused document ID
   scaffold id check ID [directory]     Check document ID availability
 
-Scaffold keeps shared defaults in the installed package. Project-specific
-replacements live in .scaffold/ and are never overwritten by update.`;
+Scaffold materializes active Harness guidance in .scaffold/. The installed package
+is only an initialization and update candidate bundle; update never merges it automatically.`;
 
 function decideHostIntegration(filename, proposed) {
   if (!process.stdin.isTTY || !process.stdout.isTTY) return 'leave';
@@ -66,16 +67,19 @@ async function run(args, { cwd = process.cwd(), output = console } = {}) {
     output.error('Run "scaffold --help" for usage.');
     return 1;
   }
-  if (rest.length > 1 || rest[0]?.startsWith('-')) {
-    output.error(`${command} accepts at most one directory path.`);
+  const diff = command === 'update' && rest[0] === '--diff';
+  const directoryArgument = diff ? rest[1] : rest[0];
+  if (rest.length > (diff ? 2 : 1) || (!diff && rest[0]?.startsWith('-')) || (diff && directoryArgument?.startsWith('-'))) {
+    output.error(`${command} accepts at most one directory path${command === 'update' ? ' (optionally after --diff)' : ''}.`);
     return 1;
   }
 
-  const directory = path.resolve(cwd, rest[0] || '.');
+  const directory = path.resolve(cwd, directoryArgument || '.');
   const options = { directory, version: packageInfo.version, packageRoot: path.resolve(__dirname, '..'), decideHostIntegration };
   const result = command === 'init' ? initProject(options)
     : command === 'status' ? inspectProject(options)
-      : updateProject(options);
+      : diff ? updateDiff(directory, options.packageRoot)
+        : updateProject(options);
 
   for (const line of result.lines) output.log(line);
   return result.ok ? 0 : 1;

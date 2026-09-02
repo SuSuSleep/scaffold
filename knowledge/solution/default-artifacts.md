@@ -1,14 +1,18 @@
-# Shared Guidance Artifacts
+# Package Candidate and Starter Artifacts
 
 Document ID: SOL-002
 
-> Evidence source: [`defaults/`](../../defaults/), [`skills/`](../../skills/), and [`test/cli.test.js`](../../test/cli.test.js), inspected 2026-08-30.
+> Evidence source: [`defaults/`](../../defaults/), [`skills/`](../../skills/), and [`test/cli.test.js`](../../test/cli.test.js), inspected 2026-08-30. These sources currently evidence the older shared-runtime bundle behavior; they do not establish the candidate-only package role proposed in this knowledge change.
 
 ## Capabilities
 
-### CAP-001 — Shared guidance artifact provision
+### CAP-001 — Superseded: shared guidance artifact provision
 
-Provide the default Knowledge Model, default Knowledge Schema, categorized Project Rules, and templates that a Scaffold project resolves according to their defined artifact behavior.
+Superseded by CAP-004 — Package candidate and starter artifact provision. This historical capability described package guidance as active runtime provision; it is not an active solution capability.
+
+### CAP-004 — Package candidate and starter artifact provision
+
+Provide a Markdown-readable Harness bundle that initializes a project's local active artifacts and serves as the installed-package candidate set for update comparison.
 
 ### CAP-002 — Evidence-based knowledge reconstruction
 
@@ -20,11 +24,11 @@ Provide a workflow for analyzing an observed finding and recording a reusable go
 
 ## Responsibilities
 
-### RESP-001 — Default artifact stewardship
+### RESP-001 — Candidate artifact stewardship
 
-Realizes: CAP-001
+Realizes: CAP-004
 
-Maintain the shared semantic model, representation defaults, categorized rules, and document templates as package-managed guidance.
+Maintain the package's candidate Knowledge Model, representation Schema, categorized Rules, document templates, Skills, and agent guide as a starter bundle, without making them runtime authority for initialized projects.
 
 ### RESP-002 — Workflow-Skill sequencing
 
@@ -40,13 +44,15 @@ Provide concise methods for collecting context, analyzing impact, implementing w
 
 ## Components and Boundaries
 
-- **`defaults/`** is assigned-to RESP-001. It contains the default Knowledge Model as the sole source of default semantic meaning, the shared default Schema for representation only, categorized `rules/`, and default templates.
+- **`defaults/`** is assigned-to RESP-001. It contains the candidate Knowledge Model, Schema, categorized `rules/`, templates, and agent guide. Package-root **`skills/`** supplies the candidate workflow and model-invoked Skills. Together these locations form the starter bundle that `init` materializes into a project's active Harness and `update --diff` compares with it.
 - **User-invoked workflow Skills in `skills/`** are assigned-to RESP-002. Their `agents/openai.yaml` interfaces expose project-work lifecycle sequencing, including `reconstruct-project-knowledge` and `learn-from-finding`.
-- **Model-invoked Skills in `skills/`** are assigned-to RESP-003. They omit an interface and supply reusable methods; a project may explicitly replace a Skill without merging it with the shared version.
-- The installed package exposes these artifacts to projects. `.scaffold/` is a project-local Harness integration area, not the source location of the package's shared guidance.
+- **Model-invoked Skills in `skills/`** are assigned-to RESP-003. They omit an interface and supply reusable methods in the candidate bundle; initialization materializes them locally for active use.
+- The installed package distributes these artifacts to projects. After initialization, `.scaffold/` is the source of active Harness guidance; the package bundle is only an initialization and update-review candidate.
 
 ## Satisfies
 
+- CAP-004 — Package candidate and starter artifact provision satisfies:
+  - PROB-002#REQ-017 — Materialized Harness initialization
 - CAP-002 — Evidence-based knowledge reconstruction satisfies:
   - PROB-003#REQ-006 — Incremental brownfield reconstruction
 - CAP-003 — Finding-to-knowledge learning satisfies:
@@ -62,21 +68,25 @@ The active Knowledge Schema determines the project knowledge representation and 
 
 User-invoked workflow Skills own ordered phases, phase intent, and required outcomes. Model-invoked Skills are reusable methods that a workflow Skill may use and Project Rules may require, but they do not replace workflow sequencing.
 
+### DEC-003 — Pending candidate-bundle materialization
+
+CAP-004 is intentional target design. The current package layout remains evidence of its prior shared-runtime role until implementation copies the complete candidate bundle into a project's active Harness and compares that local set mechanically during update review. This Decision does not claim that those changes have already been implemented or verified.
+
 ## Verification Items
 
-### VER-001 — Shared artifact availability
+### VER-001 — Materialized Markdown guidance availability
 
 Verifies:
 
-- PROB-003#AC-019 — Default guidance remains usable as Markdown.
+- PROB-003#AC-019 — Materialized guidance remains usable as Markdown.
 
 Scope:
 
-- availability of human-readable default artifacts selected by the active Schema.
+- availability of human-readable package candidate artifacts materialized into the active local Harness.
 
 Expected evidence:
 
-- The package exposes the default artifacts and Skills, including user-invoked workflow interfaces and model-invoked methods.
+- The package exposes the candidate artifacts and Skills, including user-invoked workflow interfaces and model-invoked methods, for initialization and update comparison.
 
 ### VER-002 — Brownfield reconstruction preserves confidence
 
@@ -108,12 +118,12 @@ Expected evidence:
 
 ## Related Knowledge
 
-- PROB-002#REQ-002 — Explicit replacement.
-- PROB-002#REQ-003 — Replaceable knowledge model.
+- PROB-002#REQ-016 — Project-local active Harness authority.
+- PROB-002#REQ-017 — Materialized Harness initialization.
 - PROB-003#REQ-006 — Incremental brownfield reconstruction.
 - PROB-003#REQ-007 — Evidence-based durable learning.
 - PROB-003#REQ-008 — Usable Markdown-first guidance.
-- SOL-001#CAP-002 — Artifact resolution.
 - SOL-003#CAP-001 — Durable knowledge separation.
 - SOL-003#CAP-002 — Deliberate guidance authority.
 - GOV-002#CON-001 — Markdown-first core operation.
+- CAP-004 supersedes CAP-001. CAP-001 remains as historical traceability only; package artifacts are candidates for initialization and update review rather than active runtime guidance.

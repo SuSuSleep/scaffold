@@ -25,7 +25,7 @@ Scaffold must support execution on Node.js 20 or later. Changes to package behav
 Constrains:
 
 - SOL-001#IFC-001 — Scaffold command-line interface.
-- SOL-002#CAP-001 — Shared guidance artifact provision.
+- SOL-002#CAP-004 — Package candidate and starter artifact provision.
 
 ## Verification
 
@@ -35,4 +35,4 @@ Constrains:
 ## Related Knowledge
 
 - SOL-001#IFC-001 — Scaffold command-line interface.
-- SOL-002#CAP-001 — Shared guidance artifact provision.
+- SOL-002#CAP-004 — Package candidate and starter artifact provision.

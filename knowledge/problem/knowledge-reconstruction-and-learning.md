@@ -8,7 +8,7 @@ Scaffold must make durable knowledge accessible in Markdown and help projects re
 
 ## Actors and Goals
 
-- **Project maintainer**: use readable default guidance without needing structured configuration for core operation.
+- **Project maintainer**: use readable materialized Harness guidance without needing structured configuration for core operation.
 - **Developer or coding agent**: reconstruct durable knowledge from an existing repository while distinguishing evidence from accepted intent.
 - **Project owner**: convert relevant findings into appropriately scoped durable knowledge when analysis warrants it.
 
@@ -16,7 +16,7 @@ Scaffold must make durable knowledge accessible in Markdown and help projects re
 
 - An agent reconstructs durable knowledge from incomplete documentation and repository evidence.
 - A project analyzes a security, operational, or engineering finding before recording a reusable obligation.
-- A maintainer or agent reads the default Scaffold guidance for core operation.
+- A maintainer or agent reads the project-local Scaffold guidance for core operation.
 
 ## Requirements
 
@@ -30,7 +30,7 @@ The Harness must guide a project to convert relevant security, operational, and 
 
 ### REQ-008 — Usable Markdown-first guidance
 
-The Harness must provide usable default guidance and project knowledge representation in human-readable Markdown without requiring structured configuration for core operation.
+The Harness must provide usable project-local guidance and project knowledge representation in human-readable Markdown without requiring structured configuration for core operation.
 
 ## Acceptance Criteria
 
@@ -70,7 +70,7 @@ Then:
 
 - any resulting durable knowledge has justified scope and semantic classification.
 
-### AC-019 — Default guidance remains usable as Markdown
+### AC-019 — Materialized guidance remains usable as Markdown
 
 For:
 
@@ -78,7 +78,7 @@ For:
 
 Given:
 
-- a project begins using Scaffold defaults.
+- a project begins using Scaffold.
 
 When:
 
@@ -90,7 +90,7 @@ Then:
 
 ## Related Knowledge
 
-- SOL-002#CAP-001 — Shared guidance artifact provision.
+- SOL-002#CAP-004 — Package candidate and starter artifact provision.
 - SOL-002#CAP-002 — Evidence-based knowledge reconstruction.
 - SOL-002#CAP-003 — Finding-to-knowledge learning.
 - GOV-002#CON-001 — Markdown-first core operation.

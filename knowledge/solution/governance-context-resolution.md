@@ -30,8 +30,8 @@ Keep test methodology and evidence-selection strategy in Project Rules while Sol
 
 ## Components and Boundaries
 
-- **Shared Workflows** are assigned-to RESP-001. They identify semantic Governance and Rule categories without naming project file paths.
-- **Shared Skills** are assigned-to RESP-001. They provide reusable methods and consult applicable project guidance without encoding project-specific strategy.
+- **Project-local workflow Skills in `.scaffold/skills/`** are assigned-to RESP-001. They identify semantic Governance and Rule categories without naming project file paths.
+- **Project-local model-invoked Skills in `.scaffold/skills/`** are assigned-to RESP-001. They provide reusable methods and consult applicable project guidance without encoding project-specific strategy. The installed package supplies candidate Skills only for initialization and update review.
 - **Solution documents** are assigned-to RESP-002 for Solution verification items.
 - **Project Rules** are assigned-to RESP-002 for project-wide verification approach and applicability guidance.
 

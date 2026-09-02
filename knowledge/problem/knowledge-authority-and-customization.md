@@ -8,32 +8,45 @@ Scaffold must let projects customize knowledge and operational guidance delibera
 
 ## Actors and Goals
 
-- **Project owner**: replace full-replacement artifacts and evolve Project Rules as the project matures.
-- **Developer or coding agent**: resolve the active knowledge and guidance authorities correctly before meaningful work.
+- **Project owner**: tailor the materialized active Harness and decide which package candidates to adopt during an update review.
+- **Developer or coding agent**: resolve the project-local knowledge and guidance authorities correctly before meaningful work.
 
 ## Use Cases
 
-- A project supplies a local replacement for a shared artifact and Scaffold resolves it.
-- Scaffold resolves shared and local Project Rules into the active Rule collection.
+- `init` materializes the necessary Harness guidance in a project-local location.
+- Scaffold resolves active guidance only from the project's materialized Harness.
+- A project reviews installed-package artifact candidates and deliberately selects changes to adopt or adapt.
 - A project routes an accepted artifact change through the appropriate evolution Workflow.
 
 ## Requirements
 
-### REQ-002 — Explicit artifact resolution
+### REQ-002 — Superseded: explicit artifact resolution
 
-Each project-local Knowledge Model, Knowledge Schema, Skill, or Template is authoritative in full; shared and local content must not be implicitly merged. The active Model is the sole authority for concept and relationship meaning; the active Schema defines only representation.
+Superseded by REQ-016 — Project-local active Harness authority. This historical requirement described local replacement of a shared runtime artifact. The materialized-local Harness has no shared runtime artifact to replace, so REQ-002 is not an active runtime obligation.
 
-### REQ-003 — Replaceable knowledge model
+### REQ-003 — Superseded: replaceable knowledge model
 
-The installed default Knowledge Model is used when no local Model exists. `.scaffold/knowledge-model.md` fully replaces it when present; Knowledge Schema, Skills, and Templates use the same full-replacement behavior. Project Rules are extensible with atomic same-identity replacement.
+Superseded by REQ-016 — Project-local active Harness authority. This historical requirement described the former installed-default fallback and shared-plus-local Rule behavior. It is not an active runtime obligation.
 
-### REQ-011 — Extensible Project Rule collection
+### REQ-011 — Superseded: extensible Project Rule collection
 
-The Harness must represent Project Rules as a categorized effective collection. Rules have stable identities and applicability; local Rules may add identities or atomically replace matching shared identities without content merge.
+Superseded by REQ-018 — Project-local Project Rule collection. This historical requirement described the former shared-plus-local Rule collection. It is not an active runtime obligation.
 
 ### REQ-013 — Authority-safe artifact evolution
 
 The Harness must support deliberate evolution of full-replacement artifacts and route accepted changes to the appropriate downstream Workflow without allowing an artifact to override a different authority domain.
+
+### REQ-016 — Project-local active Harness authority
+
+The active Harness is a complete project-local artifact set. Its Knowledge Model, Knowledge Schema, Skills, Templates, Project Rules, and agent guide are authoritative at runtime; shared package content is never a runtime fallback or co-authority. The active Model is the sole authority for concept and relationship meaning; the active Schema defines only representation.
+
+### REQ-017 — Materialized Harness initialization
+
+Initialization must materialize all necessary active Harness guidance into `.scaffold/`: Knowledge Model, Knowledge Schema, Skills, Templates, Project Rules, and agent guide. The installed package distributes a candidate starter bundle for initialization and update comparison but does not supply active guidance after initialization.
+
+### REQ-018 — Project-local Project Rule collection
+
+The Harness must represent Project Rules as the project's categorized local collection. Rules retain stable identities and applicability, but no shared-plus-local collection, shadowing, or same-identity replacement behavior applies at runtime.
 
 ### REQ-015 — Deliberate Knowledge Model migration mapping
 
@@ -41,59 +54,17 @@ When a project replaces its Knowledge Model, the Harness must support a project-
 
 ## Acceptance Criteria
 
-### AC-010 — Full-replacement artifacts resolve explicitly
+### AC-010 — Superseded: full-replacement artifacts resolve explicitly
 
-For:
+Historical acceptance criterion for superseded REQ-002. Superseded by AC-022 — Active artifacts resolve project-locally; it is not an active acceptance target.
 
-- REQ-002 — Explicit artifact resolution
+### AC-011 — Superseded: the active Knowledge Model resolves explicitly
 
-Given:
+Historical acceptance criterion for superseded REQ-003. Superseded by AC-022 — Active artifacts resolve project-locally; it is not an active acceptance target.
 
-- a project supplies a local replacement for a shared artifact.
+### AC-012 — Superseded: Project Rules form an effective collection
 
-When:
-
-- Scaffold resolves that artifact.
-
-Then:
-
-- the local artifact replaces the shared artifact in full without implicit merging.
-
-### AC-011 — The active Knowledge Model resolves explicitly
-
-For:
-
-- REQ-003 — Replaceable knowledge model
-
-Given:
-
-- a project has local Scaffold customizations.
-
-When:
-
-- an agent resolves knowledge semantics.
-
-Then:
-
-- it uses the project-local Knowledge Model when present, otherwise the installed default, without implicit content merging.
-
-### AC-012 — Project Rules form an effective collection
-
-For:
-
-- REQ-011 — Extensible Project Rule collection
-
-Given:
-
-- shared Rules and optional local Rules have stable identities.
-
-When:
-
-- Scaffold resolves the active Rule set.
-
-Then:
-
-- local Rules add identities or atomically replace matching shared identities without content merge.
+Historical acceptance criterion for superseded REQ-011. Superseded by AC-024 — Project Rules are locally authoritative; it is not an active acceptance target.
 
 ### AC-017 — Artifact evolution preserves authority boundaries
 
@@ -112,6 +83,60 @@ When:
 Then:
 
 - it uses the appropriate evolution path without allowing an artifact to override another authority domain.
+
+### AC-022 — Active artifacts resolve project-locally
+
+For:
+
+- REQ-016 — Project-local active Harness authority
+
+Given:
+
+- a project has been initialized with its materialized Harness.
+
+When:
+
+- Scaffold resolves that artifact.
+
+Then:
+
+- Scaffold resolves the project-local artifact as active and does not use package content as an implicit fallback or merge source.
+
+### AC-023 — Initialization materializes active guidance
+
+For:
+
+- REQ-017 — Materialized Harness initialization
+
+Given:
+
+- a repository is initialized with Scaffold.
+
+When:
+
+- initialization completes.
+
+Then:
+
+- the local Harness includes the Knowledge Model, Schema, Skills, Templates, Rules, and agent guide required for normal operation.
+
+### AC-024 — Project Rules are locally authoritative
+
+For:
+
+- REQ-018 — Project-local Project Rule collection
+
+Given:
+
+- project-local Rules have stable identities.
+
+When:
+
+- Scaffold resolves the active Rule set.
+
+Then:
+
+- the project resolves its local Rule collection without combining it with installed package Rules.
 
 ### AC-021 — Knowledge Model migration is mapped deliberately
 
@@ -133,8 +158,12 @@ Then:
 
 ## Related Knowledge
 
-- SOL-001#CAP-002 — Artifact resolution.
-- SOL-002#CAP-001 — Shared guidance artifact provision.
+- SOL-001#CAP-005 — Materialized Harness lifecycle management.
+- SOL-002#CAP-004 — Package candidate and starter artifact provision.
 - SOL-003#CAP-002 — Deliberate guidance authority.
 - SOL-003#CAP-003 — Deliberate model migration mapping.
 - GOV-002#CON-003 — Durable source-of-truth boundaries.
+- REQ-016 supersedes REQ-002; AC-022 supersedes AC-010.
+- REQ-016 supersedes REQ-003; AC-022 supersedes AC-011.
+- REQ-018 supersedes REQ-011; AC-024 supersedes AC-012.
+- The superseded records remain only as historical traceability. Active design, implementation, and verification target REQ-016 through REQ-018 and their current Acceptance Criteria.

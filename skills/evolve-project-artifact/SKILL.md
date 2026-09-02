@@ -23,7 +23,7 @@ Deliberately add or replace a project-local Knowledge Model, Knowledge Schema, S
 
 #### Goal
 
-Identify the shared artifact, active local artifact if any, and dependent knowledge or guidance.
+Identify the active project-local artifact, package candidate when relevant, and dependent knowledge or guidance.
 
 #### Required Outcome
 
@@ -53,7 +53,7 @@ Confirm the artifact’s defined replacement behavior.
 
 Knowledge Model, Knowledge Schema, Skill, or Template is treated as a full replacement by identity. Project Rules are redirected to `evolve-project-rules` because their collection semantics differ.
 
-### Phase — Review Dependency and Shadow Impact
+### Phase — Review Dependency and Update Impact
 
 #### Goal
 
@@ -61,7 +61,7 @@ Identify drift and affected knowledge or guidance before activating the local ar
 
 #### Required Outcome
 
-Affected workflows, skills, templates, project knowledge, and shadowed shared changes are reviewed. A Knowledge Model replacement identifies whether a project-owned Model Migration Crosswalk is required for concepts or relationships; a Schema replacement identifies whether one is required for represented fields. Cross-authority inconsistency is identified for reconciliation rather than solved through an invented precedence rule.
+Affected workflows, skills, templates, project knowledge, and package-candidate differences are reviewed. A Knowledge Model replacement identifies whether a project-owned Model Migration Crosswalk is required for concepts or relationships; a Schema replacement identifies whether one is required for represented fields. Cross-authority inconsistency is identified for reconciliation rather than solved through an invented precedence rule.
 
 #### Suggested Skills
 
@@ -75,7 +75,7 @@ Make the deliberate project-local artifact update.
 
 #### Required Outcome
 
-The local artifact is added or replaces the shared artifact in full, with no content-level merge.
+The project-local artifact is changed deliberately, with no automatic content-level merge from a package candidate.
 
 ### Phase — Reconcile Affected Knowledge or Guidance
 

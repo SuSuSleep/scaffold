@@ -3,9 +3,9 @@
 ## Start Every Meaningful Request Here
 
 1. Read the current user request and inspect the repository context.
-2. Read `.scaffold/metadata.md` and run `scaffold status` when the shared package location or active replacements are needed.
-3. Resolve the active Knowledge Model: `.scaffold/knowledge-model.md` fully replaces the installed default when present. Read that active Model before materially interpreting, creating, updating, or reviewing Project Knowledge.
-4. Resolve each Scaffold artifact explicitly. Knowledge Model, Knowledge Schema, Skill, and Template use full project-local replacement when present. Project Rules are an effective collection: combine shared and local rules by stable identity, with a local rule atomically replacing a shared rule of the same identity. Never merge artifact or rule content implicitly. Template availability does not make it applicable; the active Knowledge Schema selects applicable template types.
+2. Read `.scaffold/metadata.md` and run `scaffold status` when the installed candidate version or active project-local artifacts are needed.
+3. Resolve the active Knowledge Model from `.scaffold/knowledge-model.md`. Read that active Model before materially interpreting, creating, updating, or reviewing Project Knowledge.
+4. Resolve every active Scaffold artifact from `.scaffold/`: Knowledge Model, Knowledge Schema, Skills, Templates, and Project Rules are project-local runtime authority. The installed package is a candidate bundle for initialization and deliberate update review, never a runtime fallback. Template availability does not make it applicable; the active Knowledge Schema selects applicable template types.
 5. Resolve the active Knowledge Schema before materially interpreting, creating, updating, or reviewing Project Knowledge. When creating or updating it, use this precedence: active Knowledge Model for semantic meaning, active Knowledge Schema for representation, applicable Template for starting structure, then existing Project Knowledge for local coherence. Do not infer semantic meaning solely from template headings. A purely mechanical repository operation need not load the Schema.
 6. Resolve material ambiguity from authoritative project evidence first; ask the user only when unresolved ambiguity would materially change the durable knowledge outcome.
 

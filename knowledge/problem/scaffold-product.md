@@ -14,8 +14,9 @@ Scaffold must let a project adopt and operate the Harness safely in an existing 
 ## Use Cases
 
 - A maintainer initializes a new or existing repository with the `init` command.
-- A maintainer inspects active artifacts and update-review status with `status`.
-- A maintainer records completion of an update review with `update` without overwriting project-local replacements.
+- A maintainer inspects the materialized active Harness and update-review status with `status`.
+- A maintainer obtains a mechanical two-way diff between project-local Harness artifacts and the installed package candidate bundle.
+- A maintainer records completion of a user-reviewed update with `update`, after selecting project-local changes.
 - A maintainer obtains a next document ID or checks an ID declaration mechanically.
 
 ## Requirements
@@ -31,6 +32,10 @@ The CLI must initialize the Harness in a repository while preserving existing pr
 ### REQ-005 — Review-aware updates
 
 Status must expose update-review drift, and update must record review completion without silently overwriting project-local replacements.
+
+### REQ-013 — Diff-led, project-owned update adoption
+
+The CLI must expose update-review drift and mechanically compare the complete project-local Harness with the installed package candidate bundle. It must report additions, changes, and package removals without editing either artifact set or attempting a merge. An update-review workflow must analyze the behavioral implications and discuss material choices with the project owner; only after that review may `update` record the reviewed version. No update action may silently overwrite project-local artifacts.
 
 ### REQ-012 — Mechanical document-ID support
 
@@ -92,6 +97,26 @@ Then:
 
 - review drift is visible and local replacements are not overwritten.
 
+### AC-016 — Update differences are visible and adopted deliberately
+
+For:
+
+- REQ-013 — Diff-led, project-owned update adoption
+
+Given:
+
+- a Scaffold project has a recorded reviewed version.
+
+When:
+
+- a maintainer checks status, requests an update diff, or completes an owner-directed update review.
+
+Then:
+
+- `status` reports review drift.
+- `scaffold update --diff` reports the mechanical two-way add/change/package-removal differences between project-local active artifacts and the installed package candidate bundle, and changes no artifact.
+- After owner-directed decisions to adopt, adapt, keep, retire, or defer candidate content, `scaffold update` records the reviewed version without changing project-local artifacts.
+
 ### AC-015 — Document IDs are inspected mechanically
 
 For:
@@ -112,7 +137,7 @@ Then:
 
 ## Related Knowledge
 
-- SOL-001#CAP-001 — Harness lifecycle management.
+- SOL-001#CAP-005 — Materialized Harness lifecycle management.
 - SOL-001#CAP-003 — Agent guidance integration.
 - SOL-001#CAP-004 — Mechanical document-ID inspection.
 - GOV-001#CON-001 — Supported Node.js runtime.

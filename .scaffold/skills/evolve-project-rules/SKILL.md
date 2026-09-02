@@ -1,6 +1,6 @@
 ---
 name: evolve-project-rules
-description: Deliberately add, replace, revise, or retire project-local Rules while reviewing the effective Rule set.
+description: Deliberately add, revise, or retire project-local Rules while reviewing the local Rule collection.
 ---
 
 # Evolve Project Rules
@@ -23,11 +23,11 @@ Deliberately add, replace, revise, or retire project-local Rules while preservin
 
 #### Goal
 
-Identify the active shared and local Rules relevant to the intended change.
+Identify the active project-local Rules relevant to the intended change.
 
 #### Required Outcome
 
-The relevant effective Rules, evidence, applicability, and current local customization are understood.
+The relevant local Rules, evidence, applicability, and current project guidance are understood.
 
 #### Suggested Skills
 
@@ -41,9 +41,9 @@ Specify the stable identity, applicability, guidance, and evidence for the local
 
 #### Required Outcome
 
-The change is expressed as a local addition, same-identity atomic replacement, revision, or retirement without relying on implicit content merge.
+The change is expressed as a local addition, revision, or retirement without relying on implicit content merge.
 
-### Phase — Resolve Effective Rule Set
+### Phase — Resolve Local Rule Collection
 
 #### Goal
 
@@ -51,7 +51,7 @@ Determine the active collection after the proposed change.
 
 #### Required Outcome
 
-Shared-only Rules, local additions, and local replacements are identified by stable identity.
+Project-local Rules are identified by stable identity; duplicate local identities are resolved deliberately.
 
 ### Phase — Review Conflicts
 
@@ -61,7 +61,7 @@ Review the proposed effective set for material semantic conflict or drift.
 
 #### Required Outcome
 
-Overlapping Rules are classified as explicit replacement, compatible overlap, specialization, contradiction, redundancy, or unknown intent. Material unresolved conflict is surfaced rather than silently accepted.
+Overlapping Rules are classified as compatible overlap, specialization, contradiction, redundancy, or unknown intent. Material unresolved conflict is surfaced rather than silently accepted.
 
 #### Suggested Skills
 
@@ -80,5 +80,5 @@ The local Rule collection reflects the accepted change, affected guidance is rec
 ## Required Outcomes
 
 - Every independently resolvable Rule has a stable identity and applicability.
-- Local Rules extend the collection and replace same-identity shared Rules atomically.
+- The project-local Rule collection has unique stable identities.
 - Semantic conflict review is agent-driven and does not invent project intent.

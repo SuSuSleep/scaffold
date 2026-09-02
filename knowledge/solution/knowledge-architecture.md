@@ -2,7 +2,7 @@
 
 Document ID: SOL-003
 
-> Evidence source: [`defaults/knowledge-model.md`](../../defaults/knowledge-model.md), [`defaults/knowledge-schema.md`](../../defaults/knowledge-schema.md), [`defaults/rules/`](../../defaults/rules/), and [`defaults/agent-guide.md`](../../defaults/agent-guide.md), inspected 2026-08-20.
+> Evidence source: [`defaults/knowledge-model.md`](../../defaults/knowledge-model.md), [`defaults/knowledge-schema.md`](../../defaults/knowledge-schema.md), [`defaults/rules/`](../../defaults/rules/), and [`defaults/agent-guide.md`](../../defaults/agent-guide.md), inspected 2026-08-30. These sources evidence the current shared-runtime architecture; the project-local authority model below is intentional target design pending implementation.
 
 ## Capabilities
 
@@ -36,7 +36,7 @@ Resolve the active Knowledge Model as the authority for concepts and relationshi
 
 Realizes: CAP-002
 
-Resolve the active Knowledge Model and Knowledge Schema as full replacements and Project Rules as an effective collection with atomic same-identity replacement, and apply each within its own authority.
+Resolve the complete project-local active Harness and apply the Model, Schema, Rules, Templates, Skills, and guide within their distinct authority domains.
 
 ### RESP-004 — Model migration crosswalk stewardship
 
@@ -74,10 +74,10 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-  model["Knowledge Model<br/>default or project-local"]
-  schema["Knowledge Schema<br/>fully replaceable"]
+  model["Project-local Knowledge Model"]
+  schema["Project-local Knowledge Schema"]
   template["Applicable Template<br/>starting structure only"]
-  rules["Project Rules<br/>extensible; atomic replacement"]
+  rules["Project-local Project Rules"]
   knowledge["Project Knowledge<br/>project-owned durable record"]
 
   model -->|defines semantic meaning| schema
@@ -87,9 +87,9 @@ flowchart LR
   rules -->|constrain project work and verification| knowledge
 ```
 
-- The **Knowledge Model** defines the meaning of durable concepts and relationships. The installed default applies when no local Model exists; `.scaffold/knowledge-model.md` replaces it in full. It does not dictate document layout or workflow mechanics.
-- The **Knowledge Schema** defines how project knowledge is represented: document types, heading names and order, identifiers, references, and template selection. A project-local Schema replaces the shared Schema in full; it does not describe or redefine the active Model's concepts.
-- **Project Rules** define how project work should or must be performed, such as coding, documentation, verification, architecture, and delivery practices. Shared and local Rules form an effective collection by stable identity; a matching local identity replaces the shared Rule in full, while a new local identity adds guidance. Rules do not redefine Model semantics or Schema representation.
+- The **Knowledge Model** defines the meaning of durable concepts and relationships. The project-local Model is active after initialization; the installed package Model is an initialization and update candidate only. It does not dictate document layout or workflow mechanics.
+- The **Knowledge Schema** defines how project knowledge is represented: document types, heading names and order, identifiers, references, and template selection. The project-local Schema is active and does not describe or redefine the active Model's concepts.
+- **Project Rules** define how project work should or must be performed, such as coding, documentation, verification, architecture, and delivery practices. The project's local Rules form the active collection. Rules do not redefine Model semantics or Schema representation.
 - **Templates** provide starting structure and template-local completion instructions that refer to active-Model concepts. The active Schema—not template availability—determines whether a template type applies; a field name has no shared meaning outside its selected template.
 - Existing project knowledge remains the project-owned durable record. When creating or updating it, apply the Model for meaning, the active Schema for representation and template selection, the selected Template's local completion instructions, and applicable Rules for constraints.
 - During Project Knowledge reconciliation, a Git baseline identifies the accepted record and the resulting Project-Knowledge diff is candidate state. Candidate state is not authoritative merely because it appears in the working repository; it becomes accepted only after clean independent reconciliation and any required owner review.
@@ -98,8 +98,8 @@ flowchart LR
 ## Satisfies
 
 - CAP-002 — Deliberate guidance authority satisfies:
-  - PROB-002#REQ-002 — Explicit replacement
-  - PROB-002#REQ-003 — Replaceable knowledge model
+  - PROB-002#REQ-016 — Project-local active Harness authority
+  - PROB-002#REQ-017 — Materialized Harness initialization
 - CAP-003 — Deliberate model migration mapping satisfies:
   - PROB-002#REQ-015 — Deliberate Knowledge Model migration mapping
 
@@ -111,7 +111,7 @@ Scaffold represents durable knowledge primarily in Problem, Governance, and Solu
 
 ### DEC-002 — Separate semantic, representation, and policy authority
 
-The active Knowledge Model is the semantic contract and the sole source of concept and relationship meaning. The active Knowledge Schema encodes and decodes that contract without making a shared field name a second semantic definition. Each selected Template provides local completion instructions that refer to Model concepts. Project Rules guide project work. Keeping these authorities distinct permits explicit local replacement of Model and Schema and atomic Rule replacement without implicit merging. Material cross-authority disagreement is reconciled in the artifact outside its authority rather than decided by a global precedence chain.
+The active project-local Knowledge Model is the semantic contract and the sole source of concept and relationship meaning. The active project-local Knowledge Schema encodes and decodes that contract without making a field name a second semantic definition. Each selected local Template provides completion instructions that refer to Model concepts. Local Project Rules guide project work. Keeping these authorities distinct avoids shared/local resolution and implicit merging; material cross-authority disagreement is reconciled in the artifact outside its authority rather than decided by a global precedence chain.
 
 ### DEC-003 — Conceptually structured, physically coherent knowledge
 
@@ -123,11 +123,11 @@ A Knowledge Model replacement may require a project-owned Crosswalk that maps co
 
 ## Verification Items
 
-### VER-001 — Knowledge-authority boundaries
+### VER-001 — Project-local active-artifact authority
 
 Verifies:
 
-- PROB-002#AC-010 — Full-replacement artifacts resolve explicitly.
+- PROB-002#AC-022 — Active artifacts resolve project-locally.
 
 Scope:
 
@@ -135,13 +135,13 @@ Scope:
 
 Expected evidence:
 
-- a reviewed knowledge change preserves semantic, representation, policy, and project-ownership boundaries.
+- runtime resolution uses only the materialized project-local Model, Schema, Rules, Templates, Skills, and agent guide, without package fallback or merging.
 
 ## Related Knowledge
 
-- PROB-002#REQ-002 — Explicit replacement.
-- PROB-002#REQ-003 — Replaceable knowledge model.
+- PROB-002#REQ-016 — Project-local active Harness authority.
+- PROB-002#REQ-017 — Materialized Harness initialization.
 - PROB-002#REQ-015 — Deliberate Knowledge Model migration mapping.
-- SOL-002#CAP-001 — Shared guidance artifact provision.
+- SOL-002#CAP-004 — Package candidate and starter artifact provision.
 - SOL-002#DEC-001 — Schema-selected template applicability.
 - GOV-002#CON-003 — Durable source-of-truth boundaries.
