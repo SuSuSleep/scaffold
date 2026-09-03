@@ -406,6 +406,15 @@ test('default guidance keeps semantic meaning out of the Schema', () => {
   assert.equal(fs.existsSync(path.resolve(__dirname, '../defaults/project-rules.md')), false);
 });
 
+test('initialization guidance establishes only the foundational project baseline', () => {
+  const workflow = fs.readFileSync(path.resolve(__dirname, '../skills/initialize-project/SKILL.md'), 'utf8');
+
+  assert.match(workflow, /Project-specific domain terms and glossary plus stakeholder or project goals/);
+  assert.match(workflow, /code and style conventions, reusable testing practices and quality gates, and Git, pull-request, branching, and release conventions/);
+  assert.match(workflow, /requirements and acceptance scenarios, architecture, integrations and external contracts, security and operational constraints, or Harness customization/);
+  assert.match(workflow, /Do not invent a project convention/);
+});
+
 test('templates keep field completion guidance local to the selected template', () => {
   const problem = fs.readFileSync(path.resolve(__dirname, '../defaults/templates/problem/standard.md'), 'utf8');
   const governance = fs.readFileSync(path.resolve(__dirname, '../defaults/templates/governance/standard.md'), 'utf8');

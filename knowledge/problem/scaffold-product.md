@@ -9,11 +9,13 @@ Scaffold must let a project adopt and operate the Harness safely in an existing 
 ## Actors and Goals
 
 - **Project maintainer**: initialize and maintain Scaffold in a repository without restructuring existing work.
+- **Project maintainer**: establish a lightweight, evidence-based project baseline before undertaking later change work.
 - **Developer or coding agent**: discover the active Harness state before meaningful work.
 
 ## Use Cases
 
 - A maintainer initializes a new or existing repository with the `init` command.
+- A maintainer establishes the initial project baseline from existing repository evidence and known project context.
 - A maintainer inspects the materialized active Harness and update-review status with `status`.
 - A maintainer obtains a mechanical two-way diff between project-local Harness artifacts and the installed package candidate bundle.
 - A maintainer records completion of a user-reviewed update with `update`, after selecting project-local changes.
@@ -40,6 +42,12 @@ The CLI must expose update-review drift and mechanically compare the complete pr
 ### REQ-012 — Mechanical document-ID support
 
 The CLI must provide repository-level next-ID and availability checks for document IDs without interpreting Knowledge Model semantics or hard-coding knowledge directories.
+
+### REQ-014 — Foundational project baseline
+
+Initialization must guide the project to establish a lightweight, external-facing baseline for useful work: project-specific domain terms and glossary, stakeholder or project goals, code and style conventions, reusable testing practices and quality gates, and Git, pull-request, branching, and release conventions. Terms and goals are recorded as Project Knowledge in locations selected by the active Knowledge Schema. The reusable engineering and delivery practices are Project Rules; selected starter templates may support those Rules where the active Schema makes them applicable. The baseline must be grounded in existing repository evidence or explicit project context and must not invent conventions.
+
+Requirements and their acceptance scenarios, architecture, integrations and external contracts, security and operational constraints, and Harness customization are not required for this initial baseline. They are established later when discovery or a change workflow makes them relevant.
 
 ## Acceptance Criteria
 
@@ -134,6 +142,26 @@ When:
 Then:
 
 - Scaffold reports availability and declarations without interpreting knowledge semantics or requiring a fixed knowledge layout.
+
+### AC-017 — Initialization establishes the foundational baseline
+
+For:
+
+- REQ-014 — Foundational project baseline
+
+Given:
+
+- a maintainer is initializing a repository with available project evidence or explicit project context.
+
+When:
+
+- the maintainer establishes initial Project Knowledge and Project Rules through the initialization workflow.
+
+Then:
+
+- project-specific terms and goals are recorded in locations selected by the active Knowledge Schema.
+- code and style, reusable testing and quality-gate, and Git, pull-request, branching, and release practices are captured or explicitly left unresolved as Project Rules, without inventing them.
+- requirements, acceptance scenarios, architecture, integrations or external contracts, security or operational constraints, and Harness customization remain discovery- or change-driven unless already needed by available evidence.
 
 ## Related Knowledge
 

@@ -21,6 +21,8 @@ scaffold id check PROB-007 /path/to/project
 
 `init` creates `.scaffold/metadata.md` and materializes the complete Harness bundle. Templates are organized under `.scaffold/templates/`; Rules under `.scaffold/rules/`; and all active Skills under `.scaffold/skills/`. It does not impose a `knowledge/` layout: the active Knowledge Model, Knowledge Schema, and `initialize-project` workflow Skill establish project knowledge semantics and representation.
 
+The initialization workflow establishes only a lightweight project foundation: domain terms and glossary plus goals as Project Knowledge; and evidence-based code/style, testing/quality-gate, and Git/PR/branch/release practices as Project Rules. Requirements, architecture, integrations, operational constraints, and Harness customization remain change- or discovery-driven.
+
 Every independently resolvable Rule is a Markdown file whose H1 is its stable dotted identity, for example `# verification.risk-proportionate`. Rules state `Applies When` and `Guidance`. The local collection must not contain duplicate identities. `status` reports it mechanically; `analyze-rule-conflicts` provides agent-driven semantic review, and `evolve-project-rules` owns its lifecycle.
 
 Use `evolve-project-artifact` when deliberately adding or replacing a local Knowledge Schema, Skill, or Template. It reviews dependency and shadow impact while preserving full-replacement semantics; Rule changes remain in `evolve-project-rules`.

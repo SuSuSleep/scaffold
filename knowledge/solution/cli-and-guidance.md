@@ -69,6 +69,7 @@ Exposed by `bin/scaffold.js` through `src/cli.js`.
 
 - CAP-005 — Materialized Harness lifecycle management satisfies:
   - PROB-001#REQ-001 — Portable initialization
+  - PROB-001#REQ-014 — Foundational project baseline
   - PROB-001#REQ-013 — Diff-led, project-owned update adoption
   - PROB-002#REQ-016 — Project-local active Harness authority
   - PROB-002#REQ-017 — Materialized Harness initialization
@@ -86,7 +87,7 @@ Initialization materializes the complete active Harness in `.scaffold/`; ordinar
 
 ### DEC-002 — Materialized CLI initialization
 
-`init` creates `.scaffold/` metadata, materializes the active Harness artifacts, and establishes agent-discovery infrastructure; representation-specific project knowledge is established through the active local Schema and initialization workflow.
+`init` creates `.scaffold/` metadata, materializes the active Harness artifacts, and establishes agent-discovery infrastructure. The initialization workflow then establishes only the project's external-facing foundation: domain terms and glossary plus goals as Project Knowledge, and evidence-based code/style, reusable testing and quality-gate, and Git/pull-request/branching/release practices as Project Rules. It records applicable knowledge according to the active local Schema and may use selected starter templates where applicable. Requirements and acceptance scenarios, architecture, integrations and external contracts, security and operational constraints, and Harness customization remain discovery- or change-driven unless current evidence makes them necessary.
 
 ### DEC-003 — Managed-block integration
 
@@ -176,9 +177,24 @@ Expected evidence:
 
 - ID commands report available and duplicate declarations without requiring a fixed knowledge layout.
 
+### VER-006 — Initialization scopes the project baseline
+
+Verifies:
+
+- PROB-001#AC-017 — Initialization establishes the foundational baseline.
+
+Scope:
+
+- the initialization workflow's classification of initial Project Knowledge and Project Rules, and its deferral of non-foundational knowledge.
+
+Expected evidence:
+
+- initialization records project terms and goals as Project Knowledge; captures or explicitly leaves unresolved evidence-based engineering and delivery practices as Project Rules; and does not require later discovery- or change-driven concerns for a usable baseline.
+
 ## Related Knowledge
 
 - PROB-001#REQ-001 — Portable initialization.
+- PROB-001#REQ-014 — Foundational project baseline.
 - PROB-002#REQ-016 — Project-local active Harness authority.
 - PROB-002#REQ-018 — Project-local Project Rule collection.
 - PROB-002#REQ-017 — Materialized Harness initialization.
