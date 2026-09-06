@@ -59,7 +59,7 @@ Establish the minimum external-facing Project Knowledge that lets people work us
 
 #### Required Outcome
 
-Project-specific domain terms and glossary plus stakeholder or project goals are recorded from existing repository evidence or explicit project context, in locations, document types, and applicable template types selected by the active Knowledge Schema. The CLI's Harness directories are not treated as semantic knowledge-layout requirements, and obvious unknowns are recorded.
+Project purpose, stakeholder or project goals, project-specific domain terms and glossary, scope or exclusions, and material unknowns are recorded from existing repository evidence or explicit project context in the Project Context representation selected by the active Knowledge Schema. Under the default Schema, use its Project Context record; a replacement Schema selects its equivalent representation. Do not create a Problem document merely to record a project goal. The CLI's Harness directories are not treated as semantic knowledge-layout requirements.
 
 Do not require requirements and acceptance scenarios, architecture, integrations and external contracts, security and operational constraints, or Harness customization for this baseline. Establish them later when discovery or a change workflow makes them relevant.
 

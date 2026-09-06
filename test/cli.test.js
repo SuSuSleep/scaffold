@@ -27,6 +27,7 @@ test('init creates Harness infrastructure, project-owned skills, and agent disco
   assert.equal(fs.existsSync(path.join(directory, 'knowledge/problem')), false);
   assert.ok(fs.existsSync(path.join(directory, '.scaffold/knowledge-schema.md')));
   assert.ok(fs.existsSync(path.join(directory, '.scaffold/templates/problem')));
+  assert.ok(fs.existsSync(path.join(directory, '.scaffold/templates/project-context')));
   assert.ok(fs.existsSync(path.join(directory, '.scaffold/templates/solution')));
   assert.ok(fs.existsSync(path.join(directory, '.scaffold/templates/governance')));
   assert.equal(fs.existsSync(path.join(directory, '.scaffold/workflows')), false);
@@ -54,6 +55,7 @@ test('init materializes the complete local Harness and update --diff is non-muta
     'knowledge-model.md',
     'knowledge-schema.md',
     'templates/problem/standard.md',
+    'templates/project-context/standard.md',
     'rules/verification/risk-proportionate.md',
     'skills/define-change/SKILL.md',
   ]) {
@@ -373,6 +375,7 @@ test('default templates are the single source for default document structures', 
   assert.doesNotMatch(schema, /## Default Document Structures/);
   const expectedSections = {
     problem: ['Intent', 'Actors and Goals', 'Use Cases', 'Requirements', 'Acceptance Criteria', 'Related Knowledge'],
+    'project-context': ['Project Purpose', 'Project Goals', 'Domain Terms', 'Scope, Exclusions, and Unknowns'],
     solution: ['Capabilities', 'Responsibilities', 'Components and Boundaries', 'Satisfies', 'Design and Decisions', 'Verification Items', 'Related Knowledge'],
     governance: ['Purpose', 'Applies When', 'Does Not Normally Apply When', 'Records', 'Verification', 'Related Knowledge'],
   };
@@ -409,10 +412,24 @@ test('default guidance keeps semantic meaning out of the Schema', () => {
 test('initialization guidance establishes only the foundational project baseline', () => {
   const workflow = fs.readFileSync(path.resolve(__dirname, '../skills/initialize-project/SKILL.md'), 'utf8');
 
-  assert.match(workflow, /Project-specific domain terms and glossary plus stakeholder or project goals/);
+  assert.match(workflow, /Project Context/);
+  assert.match(workflow, /Do not create a Problem document merely to record a project goal/);
   assert.match(workflow, /code and style conventions, reusable testing practices and quality gates, and Git, pull-request, branching, and release conventions/);
   assert.match(workflow, /requirements and acceptance scenarios, architecture, integrations and external contracts, security and operational constraints, or Harness customization/);
   assert.match(workflow, /Do not invent a project convention/);
+});
+
+test('default guidance separates Project Context from coherent Problem-document subjects', () => {
+  const schema = fs.readFileSync(path.resolve(__dirname, '../defaults/knowledge-schema.md'), 'utf8');
+  const context = fs.readFileSync(path.resolve(__dirname, '../defaults/templates/project-context/standard.md'), 'utf8');
+
+  assert.match(schema, /Project Context record/);
+  assert.match(schema, /CTX-<NUMBER>/);
+  assert.match(schema, /one coherent subject/);
+  assert.match(schema, /do not by themselves establish document containment/);
+  assert.match(context, /Document ID: CTX-<ALLOCATED_ID>/);
+  assert.match(context, /^## Project Goals$/m);
+  assert.doesNotMatch(context, /^## (Actors and Goals|Use Cases|Requirements|Acceptance Criteria)$/m);
 });
 
 test('templates keep field completion guidance local to the selected template', () => {

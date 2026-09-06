@@ -43,9 +43,11 @@ The CLI must expose update-review drift and mechanically compare the complete pr
 
 The CLI must provide repository-level next-ID and availability checks for document IDs without interpreting Knowledge Model semantics or hard-coding knowledge directories.
 
-### REQ-014 — Foundational project baseline
+### REQ-014 — Foundational Project Context baseline
 
-Initialization must guide the project to establish a lightweight, external-facing baseline for useful work: project-specific domain terms and glossary, stakeholder or project goals, code and style conventions, reusable testing practices and quality gates, and Git, pull-request, branching, and release conventions. Terms and goals are recorded as Project Knowledge in locations selected by the active Knowledge Schema. The reusable engineering and delivery practices are Project Rules; selected starter templates may support those Rules where the active Schema makes them applicable. The baseline must be grounded in existing repository evidence or explicit project context and must not invent conventions.
+Initialization must guide the project to establish a lightweight, external-facing Project Context baseline for useful work. The context records the project's top-level purpose, stakeholder or project goals, project-specific domain terms and glossary, scope and exclusions, and material unknowns. The Project Context is an orientation representation selected by the active Knowledge Schema, not a Problem document or a fourth Knowledge Model space. It must not introduce Actors, Use Cases, Requirements, or Acceptance Criteria; Goals retain their Problem-space meaning.
+
+Initialization records the initial terms and goals in Project Context and must not create a Problem document merely to record a project goal. The reusable engineering and delivery practices—code and style conventions, reusable testing practices and quality gates, and Git, pull-request, branching, and release conventions—are Project Rules; selected starter templates may support those Rules where the active Schema makes them applicable. The baseline must be grounded in existing repository evidence or explicit project context and must not invent conventions.
 
 Requirements and their acceptance scenarios, architecture, integrations and external contracts, security and operational constraints, and Harness customization are not required for this initial baseline. They are established later when discovery or a change workflow makes them relevant.
 
@@ -143,11 +145,11 @@ Then:
 
 - Scaffold reports availability and declarations without interpreting knowledge semantics or requiring a fixed knowledge layout.
 
-### AC-017 — Initialization establishes the foundational baseline
+### AC-017 — Initialization establishes the foundational Project Context baseline
 
 For:
 
-- REQ-014 — Foundational project baseline
+- REQ-014 — Foundational Project Context baseline
 
 Given:
 
@@ -159,7 +161,9 @@ When:
 
 Then:
 
-- project-specific terms and goals are recorded in locations selected by the active Knowledge Schema.
+- Project Context records the project purpose, goals, terms or glossary, scope and exclusions, and material unknowns from the available evidence or explicit project context.
+- initial terms and goals are recorded in Project Context, without creating a Problem document merely to record a project goal.
+- Project Context remains an orientation representation and does not introduce Actors, Use Cases, Requirements, or Acceptance Criteria or a fourth Knowledge Model space.
 - code and style, reusable testing and quality-gate, and Git, pull-request, branching, and release practices are captured or explicitly left unresolved as Project Rules, without inventing them.
 - requirements, acceptance scenarios, architecture, integrations or external contracts, security or operational constraints, and Harness customization remain discovery- or change-driven unless already needed by available evidence.
 

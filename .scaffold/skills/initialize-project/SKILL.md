@@ -27,7 +27,7 @@ Understand the repository and its existing knowledge before introducing Scaffold
 
 #### Required Outcome
 
-Repository context, existing knowledge, and relevant repository instructions are identified.
+Repository context, existing knowledge, and relevant repository instructions are identified from the smallest sufficient available evidence, such as project documentation, source, tests, CI or build configuration, and team-maintained delivery material.
 
 #### Relevant Rules
 
@@ -51,15 +51,17 @@ Make the active Knowledge Model and applicable replaceable Scaffold artifacts av
 
 The complete active project-local Harness is available, including its Knowledge Model, Schema, Skills, Templates, and Rule collection. Host-owned `AGENTS.md` and `CLAUDE.md` integration is preserved or deliberately completed without replacing surrounding host instructions.
 
-### Phase — Establish Initial Knowledge
+### Phase — Establish Foundational Project Knowledge
 
 #### Goal
 
-Create the minimum durable project knowledge needed for useful future work.
+Establish the minimum external-facing Project Knowledge that lets people work usefully in the project.
 
 #### Required Outcome
 
-Initial project knowledge locations, document types, and applicable template types are established from the active Knowledge Schema and existing repository knowledge. The CLI's Harness directories are not treated as semantic knowledge-layout requirements, and obvious unknowns are recorded.
+Project purpose, stakeholder or project goals, project-specific domain terms and glossary, scope or exclusions, and material unknowns are recorded from existing repository evidence or explicit project context in the Project Context representation selected by the active Knowledge Schema. Under the default Schema, use its Project Context record; a replacement Schema selects its equivalent representation. Do not create a Problem document merely to record a project goal. The CLI's Harness directories are not treated as semantic knowledge-layout requirements.
+
+Do not require requirements and acceptance scenarios, architecture, integrations and external contracts, security and operational constraints, or Harness customization for this baseline. Establish them later when discovery or a change workflow makes them relevant.
 
 ### Phase — Establish Project Rule Baseline
 
@@ -69,7 +71,7 @@ Determine whether the materialized project-local Rule baseline needs project-spe
 
 #### Required Outcome
 
-Applicable existing engineering practices are compared with the materialized local Rule baseline and retained, revised, or deliberately left unresolved. Material Rule conflicts are reviewed.
+Applicable code and style conventions, reusable testing practices and quality gates, and Git, pull-request, branching, and release conventions are compared with the materialized local Rule baseline and retained, revised, or deliberately left unresolved. Material Rule conflicts are reviewed. Selected starter templates may support these Rules only where the active Knowledge Schema makes them applicable.
 
 #### Relevant Rules
 
@@ -83,4 +85,5 @@ Revise local Rules only from explicit repository instructions, existing engineer
 
 ## Required Outcomes
 
-- The project has sufficient trusted context and structure for useful work to begin.
+- The project has a lightweight, evidence-based foundation: terms and goals as Project Knowledge, plus code, testing, and delivery conventions as Project Rules.
+- Later discovery- or change-driven knowledge is not required before useful work begins.

@@ -69,7 +69,7 @@ Exposed by `bin/scaffold.js` through `src/cli.js`.
 
 - CAP-005 — Materialized Harness lifecycle management satisfies:
   - PROB-001#REQ-001 — Portable initialization
-  - PROB-001#REQ-014 — Foundational project baseline
+  - PROB-001#REQ-014 — Foundational Project Context baseline
   - PROB-001#REQ-013 — Diff-led, project-owned update adoption
   - PROB-002#REQ-016 — Project-local active Harness authority
   - PROB-002#REQ-017 — Materialized Harness initialization
@@ -87,7 +87,7 @@ Initialization materializes the complete active Harness in `.scaffold/`; ordinar
 
 ### DEC-002 — Materialized CLI initialization
 
-`init` creates `.scaffold/` metadata, materializes the active Harness artifacts, and establishes agent-discovery infrastructure. The initialization workflow then establishes only the project's external-facing foundation: domain terms and glossary plus goals as Project Knowledge, and evidence-based code/style, reusable testing and quality-gate, and Git/pull-request/branching/release practices as Project Rules. It records applicable knowledge according to the active local Schema and may use selected starter templates where applicable. Requirements and acceptance scenarios, architecture, integrations and external contracts, security and operational constraints, and Harness customization remain discovery- or change-driven unless current evidence makes them necessary.
+`init` creates `.scaffold/` metadata, materializes the active Harness artifacts, and establishes agent-discovery infrastructure. The initialization workflow then establishes only the project's external-facing foundation in the Schema-selected Project Context representation: project purpose, domain terms and glossary, goals, scope and exclusions, and material unknowns. That representation is orientation only; it does not create a fourth Knowledge Model space or make a Problem document necessary merely to record a project goal. Evidence-based code/style, reusable testing and quality-gate, and Git/pull-request/branching/release practices are Project Rules. Requirements and acceptance scenarios, architecture, integrations and external contracts, security and operational constraints, and Harness customization remain discovery- or change-driven unless current evidence makes them necessary.
 
 ### DEC-003 — Managed-block integration
 
@@ -181,7 +181,7 @@ Expected evidence:
 
 Verifies:
 
-- PROB-001#AC-017 — Initialization establishes the foundational baseline.
+- PROB-001#AC-017 — Initialization establishes the foundational Project Context baseline.
 
 Scope:
 
@@ -189,12 +189,12 @@ Scope:
 
 Expected evidence:
 
-- initialization records project terms and goals as Project Knowledge; captures or explicitly leaves unresolved evidence-based engineering and delivery practices as Project Rules; and does not require later discovery- or change-driven concerns for a usable baseline.
+- initialization records the project purpose, terms, goals, scope and exclusions, and material unknowns in Project Context without creating a Problem document merely to record a goal; captures or explicitly leaves unresolved evidence-based engineering and delivery practices as Project Rules; and does not require later discovery- or change-driven concerns for a usable baseline.
 
 ## Related Knowledge
 
 - PROB-001#REQ-001 — Portable initialization.
-- PROB-001#REQ-014 — Foundational project baseline.
+- PROB-001#REQ-014 — Foundational Project Context baseline.
 - PROB-002#REQ-016 — Project-local active Harness authority.
 - PROB-002#REQ-018 — Project-local Project Rule collection.
 - PROB-002#REQ-017 — Materialized Harness initialization.

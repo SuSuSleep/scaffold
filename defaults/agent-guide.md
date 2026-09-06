@@ -45,9 +45,11 @@ Begin each workflow Skill Phase from its Goal and Required Outcome, identify the
 
 Templates provide starting structure only. Apply the active Schema when updating records and preserve existing project knowledge coherently rather than mechanically rewriting it for a Schema or Template change.
 
+Under the default Schema, record project-wide purpose, top-level Goals, terms, scope or exclusions, and material unknowns in the Project Context record; do not create a Problem document merely to record a project goal. A Problem document represents one coherent subject: extend it only when the added knowledge concerns that same subject, otherwise create a new Problem document. Shared project membership, goals, actors, dependencies, implementation areas, or repository layout do not create document containment; represent material connections explicitly.
+
 ## Identifier and Reference Discipline
 
-Use the active Knowledge Schema as the authority for identifier and reference representation. Under the default Schema, determine the containing document first, then use `scaffold id next <PROB|SOL|GOV>` or `scaffold id check <DOCUMENT_ID>` before creating a document; document IDs are unique within their type namespace. Object IDs remain document-local. A replacement Schema defines its own identifier conventions. Give every identified object a concise descriptive title when its Schema requires one.
+Use the active Knowledge Schema as the authority for identifier and reference representation. Under the default Schema, determine the containing document first, then use `scaffold id next <CTX|PROB|SOL|GOV>` or `scaffold id check <DOCUMENT_ID>` before creating a document; document IDs are unique within their type namespace. Object IDs remain document-local. A replacement Schema defines its own identifier conventions. Give every identified object a concise descriptive title when its Schema requires one.
 
 Use local IDs for same-document references and qualified `<DOCUMENT_ID>#<OBJECT_ID>` references for cross-document relationships. Include the copied title when practical, recognizing that it is a semantic hint rather than identity.
 

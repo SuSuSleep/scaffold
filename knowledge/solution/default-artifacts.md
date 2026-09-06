@@ -28,7 +28,7 @@ Provide a workflow for analyzing an observed finding and recording a reusable go
 
 Realizes: CAP-004
 
-Maintain the package's candidate Knowledge Model, representation Schema, categorized Rules, document templates, Skills, and agent guide as a starter bundle, without making them runtime authority for initialized projects.
+Maintain the package's candidate Knowledge Model, representation Schema, categorized Rules, document templates, Skills, and agent guide as a starter bundle, without making them runtime authority for initialized projects. The candidate Schema and templates must be able to represent the Project Context baseline and coherent Problem documents required by PROB-001#REQ-014.
 
 ### RESP-002 — Workflow-Skill sequencing
 
@@ -64,6 +64,10 @@ Provide concise methods for collecting context, analyzing impact, implementing w
 
 The active Knowledge Schema determines the project knowledge representation and which template types apply. Templates are starting structures only and do not independently impose a project knowledge layout.
 
+The target Schema must select a lightweight Project Context representation for project-wide orientation: top-level purpose, goals, domain terms or glossary, scope and exclusions, and material unknowns. Project Context is a representation record, not a Knowledge Model concept or fourth semantic space. It must not use the Problem-document structure or represent Actors, Use Cases, Requirements, or Acceptance Criteria; Goals remain Problem-space concepts even when recorded for orientation in Project Context.
+
+The target Schema and Problem template must also make each Problem document a record of one coherent subject. A document is extended only when added knowledge concerns that same subject; a different subject receives a new Problem document. Shared project purpose, goals, actors, dependencies, implementation areas, or repository layout do not establish document containment. Any material connection between documents is recorded explicitly using the Schema's relationship representation.
+
 ### DEC-002 — Workflow Skills sequence; model-invoked Skills advise
 
 User-invoked workflow Skills own ordered phases, phase intent, and required outcomes. Model-invoked Skills are reusable methods that a workflow Skill may use and Project Rules may require, but they do not replace workflow sequencing.
@@ -71,6 +75,10 @@ User-invoked workflow Skills own ordered phases, phase intent, and required outc
 ### DEC-003 — Pending candidate-bundle materialization
 
 CAP-004 is intentional target design. The current package layout remains evidence of its prior shared-runtime role until implementation copies the complete candidate bundle into a project's active Harness and compares that local set mechanically during update review. This Decision does not claim that those changes have already been implemented or verified.
+
+### DEC-004 — Project Context representation
+
+The candidate Schema, Project Context template, Problem template guidance, and initialization guidance represent the accepted Project Context and coherent-Problem-document design. The active Knowledge Model remains unchanged: it retains the three semantic spaces and defines Goals as Problem-space concepts. An initialized project's active local Harness may replace that representation deliberately through its Schema and selected templates.
 
 ## Verification Items
 
@@ -120,6 +128,7 @@ Expected evidence:
 
 - PROB-002#REQ-016 — Project-local active Harness authority.
 - PROB-002#REQ-017 — Materialized Harness initialization.
+- PROB-001#REQ-014 — Foundational Project Context baseline.
 - PROB-003#REQ-006 — Incremental brownfield reconstruction.
 - PROB-003#REQ-007 — Evidence-based durable learning.
 - PROB-003#REQ-008 — Usable Markdown-first guidance.

@@ -115,7 +115,9 @@ The active project-local Knowledge Model is the semantic contract and the sole s
 
 ### DEC-003 — Conceptually structured, physically coherent knowledge
 
-Knowledge objects may have independent semantic identities without requiring one physical file per object. The default representation favors sufficiently contextual Markdown documents; a project may adopt a more granular representation only through its active Knowledge Schema.
+Knowledge objects may have independent semantic identities without requiring one physical file per object. The default representation favors sufficiently contextual Markdown documents; a project may adopt a more granular representation only through its active Knowledge Schema. A Problem document represents one coherent subject, not every item that happens to share a project, actor, dependency, implementation area, or repository layout. Connections among separate subjects remain explicit relationships rather than implicit document containment.
+
+Project Context is a lightweight, Schema-owned orientation representation for project-wide purpose, goals, terms, scope, exclusions, and material unknowns. It is distinct from a Problem document and does not add a semantic space or redefine Goals, which remain Problem-space concepts under the Knowledge Model.
 
 ### DEC-005 — Explicit model-migration crosswalks
 
@@ -144,4 +146,5 @@ Expected evidence:
 - PROB-002#REQ-015 — Deliberate Knowledge Model migration mapping.
 - SOL-002#CAP-004 — Package candidate and starter artifact provision.
 - SOL-002#DEC-001 — Schema-selected template applicability.
+- SOL-002#DEC-004 — Pending Project Context representation.
 - GOV-002#CON-003 — Durable source-of-truth boundaries.

@@ -9,6 +9,7 @@ This schema defines the default Markdown representation of durable project knowl
 The default representation stores durable knowledge in `knowledge/` using these locations:
 
 - `problem/`: default Problem-document location.
+- `project-context.md`: default Project Context record location.
 - `solution/`: default Solution-document location.
 - `governance/`: default Governance-document location.
 
@@ -19,6 +20,7 @@ These are default representation choices, not Knowledge Model concepts. Projects
 The default structural heading names and order are defined once, in the applicable standard template and incorporated here by reference:
 
 - Problem documents: `templates/problem/standard.md`.
+- Project Context records: `templates/project-context/standard.md`.
 - Solution documents: `templates/solution/standard.md`.
 - Governance documents: `templates/governance/standard.md`.
 
@@ -26,7 +28,13 @@ Every `##` heading in an applicable standard template is a **required structural
 
 The standard templates are canonical structural manifests, not a second source of semantic meaning. They may provide template-local completion instructions that point to active-Model concepts; those instructions apply only to that template and must not redefine the concepts. Templates must retain the required heading sequence and must not introduce another required semantic section. Use this Schema for representation guidance and the active Knowledge Model for concept meaning.
 
-Shared and project-local templates are organized by the knowledge space they start: `templates/problem/`, `templates/solution/`, and `templates/governance/`. This organization is a default representation choice; the active Knowledge Schema selects these standard templates as applicable and remains the authority for template applicability.
+Shared and project-local templates are organized by the knowledge space they start: `templates/problem/`, `templates/solution/`, and `templates/governance/`. `templates/project-context/` starts the project-wide orientation record; it does not introduce a fourth Knowledge Model space. This organization is a default representation choice; the active Knowledge Schema selects these standard templates as applicable and remains the authority for template applicability.
+
+## Document Organization
+
+The default representation uses one Project Context record for project-wide orientation. It records project purpose, top-level Goals, domain terms, scope or exclusions, and material unknowns. It is not a Problem document, does not own Actors, Use Cases, Requirements, or Acceptance Criteria, and creates no implicit containment relationship with other documents. Goals recorded there retain their active-Model Problem-space meaning.
+
+Each Problem document represents one coherent subject. Extend a Problem document when added knowledge concerns that same subject; create a new Problem document when it concerns a different subject. Shared project purpose, Goals, Actors, dependencies, implementation areas, or repository layout do not by themselves establish document containment. Record material connections between documents explicitly using the relationship representation below.
 
 Use stable identifiers for important knowledge objects when durable traceability is useful. Apply the identifier and reference conventions below; explicit relationship labels, Markdown links, and short relationship statements may supplement them.
 
@@ -64,7 +72,7 @@ Object identifiers are local to their containing document, not repository-global
 Document ID: PROB-001
 ```
 
-The default document identifiers are `PROB-<NUMBER>` for Problem documents, `SOL-<NUMBER>` for Solution documents, and `GOV-<NUMBER>` for Governance documents. A document ID is unique within its project-level type namespace: no two project documents may declare the same `PROB-*`, `SOL-*`, or `GOV-*` ID. Before creating a new default-Schema document, determine the prefix from this Schema and use `scaffold id next <PREFIX>` or `scaffold id check <DOCUMENT_ID>` to inspect availability. Do not encode mutable semantic classifications in an ID: prefer `PROB-001` over `PROBLEM-GPU-SCHEDULING-001`.
+The default document identifiers are `CTX-<NUMBER>` for Project Context records, `PROB-<NUMBER>` for Problem documents, `SOL-<NUMBER>` for Solution documents, and `GOV-<NUMBER>` for Governance documents. A document ID is unique within its project-level type namespace: no two project documents may declare the same `CTX-*`, `PROB-*`, `SOL-*`, or `GOV-*` ID. Before creating a new default-Schema document, determine the prefix from this Schema and use `scaffold id next <PREFIX>` or `scaffold id check <DOCUMENT_ID>` to inspect availability. Do not encode mutable semantic classifications in an ID: prefer `PROB-001` over `PROBLEM-GPU-SCHEDULING-001`.
 
 Local numbering may therefore repeat across documents. For example, both `PROB-001` and `PROB-002` may contain `REQ-001`. Do not invent a repository-wide counter.
 
