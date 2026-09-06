@@ -61,6 +61,8 @@ Establish the minimum external-facing Project Knowledge that lets people work us
 
 Project purpose, stakeholder or project goals, project-specific domain terms and glossary, scope or exclusions, and material unknowns are recorded from existing repository evidence or explicit project context in the Project Context representation selected by the active Knowledge Schema. Under the default Schema, use its Project Context record; a replacement Schema selects its equivalent representation. Do not create a Problem document merely to record a project goal. The CLI's Harness directories are not treated as semantic knowledge-layout requirements.
 
+When repository evidence sufficiently establishes proposed Project Context content, present the evidence-derived content to the project maintainer and ask them to confirm or correct it before recording. When evidence is insufficient, including for a greenfield repository, ask the maintainer direct questions for the needed context without inventing or suggesting project-specific answers. Do not create a Project Context record until the maintainer has supplied, confirmed, or corrected its content. These are agent-run workflow responsibilities; they do not change CLI behavior.
+
 Do not require requirements and acceptance scenarios, architecture, integrations and external contracts, security and operational constraints, or Harness customization for this baseline. Establish them later when discovery or a change workflow makes them relevant.
 
 ### Phase — Establish Project Rule Baseline

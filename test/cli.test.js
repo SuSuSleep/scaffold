@@ -417,6 +417,10 @@ test('initialization guidance establishes only the foundational project baseline
   assert.match(workflow, /code and style conventions, reusable testing practices and quality gates, and Git, pull-request, branching, and release conventions/);
   assert.match(workflow, /requirements and acceptance scenarios, architecture, integrations and external contracts, security and operational constraints, or Harness customization/);
   assert.match(workflow, /Do not invent a project convention/);
+  assert.match(workflow, /present the evidence-derived content to the project maintainer and ask them to confirm or correct it before recording/);
+  assert.match(workflow, /including for a greenfield repository, ask the maintainer direct questions/);
+  assert.match(workflow, /Do not create a Project Context record until the maintainer has supplied, confirmed, or corrected its content/);
+  assert.match(workflow, /they do not change CLI behavior/);
 });
 
 test('default guidance separates Project Context from coherent Problem-document subjects', () => {

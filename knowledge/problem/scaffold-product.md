@@ -51,6 +51,10 @@ Initialization records the initial terms and goals in Project Context and must n
 
 Requirements and their acceptance scenarios, architecture, integrations and external contracts, security and operational constraints, and Harness customization are not required for this initial baseline. They are established later when discovery or a change workflow makes them relevant.
 
+### REQ-015 — Confirmed foundational Project Context
+
+The agent-run initialization workflow must validate the proposed Project Context with the project maintainer before recording it. When repository evidence sufficiently establishes proposed Project Context content—purpose, goals, terms, scope, exclusions, or material unknowns—the workflow must present that evidence-derived context and ask the maintainer to confirm or correct it. When the repository does not supply sufficient context, including a greenfield repository, the workflow must ask the maintainer directly for the needed context without inventing or suggesting project-specific answers. It must not create a Project Context record until the maintainer has supplied, confirmed, or corrected its content.
+
 ## Acceptance Criteria
 
 ### AC-007 — A repository initializes without restructuring
@@ -166,6 +170,37 @@ Then:
 - Project Context remains an orientation representation and does not introduce Actors, Use Cases, Requirements, or Acceptance Criteria or a fourth Knowledge Model space.
 - code and style, reusable testing and quality-gate, and Git, pull-request, branching, and release practices are captured or explicitly left unresolved as Project Rules, without inventing them.
 - requirements, acceptance scenarios, architecture, integrations or external contracts, security or operational constraints, and Harness customization remain discovery- or change-driven unless already needed by available evidence.
+
+### AC-018 — Initialization confirms Project Context before recording it
+
+For:
+
+- REQ-015 — Confirmed foundational Project Context
+
+Given:
+
+- a maintainer starts the agent-run initialization workflow.
+
+When:
+
+- repository evidence is sufficient to propose Project Context content.
+
+Then:
+
+- the workflow presents the evidence-derived content and asks the maintainer to confirm or correct it before recording the Project Context.
+
+Given:
+
+- repository evidence is insufficient to establish Project Context content, including in a greenfield repository.
+
+When:
+
+- the workflow establishes the foundational context.
+
+Then:
+
+- it asks the maintainer directly for the required context without proposing invented project-specific answers.
+- it creates no Project Context record before the maintainer supplies, confirms, or corrects the content.
 
 ## Related Knowledge
 
