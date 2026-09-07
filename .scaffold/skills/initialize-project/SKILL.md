@@ -75,6 +75,8 @@ Determine whether the materialized project-local Rule baseline needs project-spe
 
 Applicable code and style conventions, reusable testing practices and quality gates, and Git, pull-request, branching, and release conventions are compared with the materialized local Rule baseline and retained, revised, or deliberately left unresolved. Material Rule conflicts are reviewed. Selected starter templates may support these Rules only where the active Knowledge Schema makes them applicable.
 
+Classify evidence-backed code-style, build or compiler, formatting or linting, testing or quality-gate, and Git, pull-request, branching, or release practices as Project Rules; create or revise the applicable Rule. Leave a practice undefined when neither repository evidence nor maintainer input establishes it. Project Context may record the absence only when material to orientation and must not serve as the authoritative procedure or configuration record.
+
 #### Relevant Rules
 
 - documentation.*

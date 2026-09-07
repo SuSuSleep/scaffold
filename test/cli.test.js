@@ -421,6 +421,9 @@ test('initialization guidance establishes only the foundational project baseline
   assert.match(workflow, /including for a greenfield repository, ask the maintainer direct questions/);
   assert.match(workflow, /Do not create a Project Context record until the maintainer has supplied, confirmed, or corrected its content/);
   assert.match(workflow, /they do not change CLI behavior/);
+  assert.match(workflow, /build or compiler, formatting or linting, testing or quality-gate/);
+  assert.match(workflow, /Leave a practice undefined when neither repository evidence nor maintainer input establishes it/);
+  assert.match(workflow, /must not serve as the authoritative procedure or configuration record/);
 });
 
 test('default guidance separates Project Context from coherent Problem-document subjects', () => {

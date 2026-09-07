@@ -55,6 +55,10 @@ Requirements and their acceptance scenarios, architecture, integrations and exte
 
 The agent-run initialization workflow must validate the proposed Project Context with the project maintainer before recording it. When repository evidence sufficiently establishes proposed Project Context content—purpose, goals, terms, scope, exclusions, or material unknowns—the workflow must present that evidence-derived context and ask the maintainer to confirm or correct it. When the repository does not supply sufficient context, including a greenfield repository, the workflow must ask the maintainer directly for the needed context without inventing or suggesting project-specific answers. It must not create a Project Context record until the maintainer has supplied, confirmed, or corrected its content.
 
+
+### REQ-016 — Rule-based engineering-practice baseline
+
+The agent-run initialization workflow must classify reusable engineering and delivery practices as Project Rules rather than Project Context content. When repository evidence or maintainer input establishes a code-style, build or compiler, formatting or linting, testing or quality-gate, or Git, pull-request, branching, or release practice, the workflow must create or revise the applicable Project Rule. When no reliable evidence or maintainer input establishes such a practice, the workflow must leave the corresponding Rule undefined rather than infer it. Project Context may identify the absence only when it is a material project-level unknown; it must not become the authoritative procedure or configuration record for an engineering or delivery practice.
 ## Acceptance Criteria
 
 ### AC-007 — A repository initializes without restructuring
@@ -199,8 +203,41 @@ When:
 
 Then:
 
+
 - it asks the maintainer directly for the required context without proposing invented project-specific answers.
 - it creates no Project Context record before the maintainer supplies, confirms, or corrects the content.
+
+### AC-019 — Initialization separates Project Context from Project Rules
+
+For:
+
+- REQ-016 — Rule-based engineering-practice baseline
+
+Given:
+
+- repository evidence or maintainer input establishes an engineering or delivery practice.
+
+When:
+
+- the agent-run initialization workflow establishes the baseline.
+
+Then:
+
+- it records the practice in an applicable Project Rule rather than Project Context.
+- Project Context contains no authoritative engineering or delivery procedure or configuration.
+
+Given:
+
+- no reliable evidence or maintainer input establishes a relevant engineering or delivery practice.
+
+When:
+
+- the workflow establishes the baseline.
+
+Then:
+
+- it leaves the corresponding Project Rule undefined rather than inferring a convention.
+- it records the absence in Project Context only when that absence is material to project orientation.
 
 ## Related Knowledge
 

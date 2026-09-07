@@ -71,6 +71,7 @@ Exposed by `bin/scaffold.js` through `src/cli.js`.
   - PROB-001#REQ-001 — Portable initialization
   - PROB-001#REQ-014 — Foundational Project Context baseline
   - PROB-001#REQ-015 — Confirmed foundational Project Context
+  - PROB-001#REQ-016 — Rule-based engineering-practice baseline
   - PROB-001#REQ-013 — Diff-led, project-owned update adoption
   - PROB-002#REQ-016 — Project-local active Harness authority
   - PROB-002#REQ-017 — Materialized Harness initialization
@@ -88,7 +89,7 @@ Initialization materializes the complete active Harness in `.scaffold/`; ordinar
 
 ### DEC-002 — Materialized CLI initialization
 
-`init` creates `.scaffold/` metadata, materializes the active Harness artifacts, and establishes agent-discovery infrastructure. The agent-run initialization workflow then establishes only the project's external-facing foundation in the Schema-selected Project Context representation: project purpose, domain terms and glossary, goals, scope and exclusions, and material unknowns. Before recording that representation, it presents evidence-derived context to the maintainer for confirmation or correction when repository evidence sufficiently establishes it. If repository evidence is insufficient, it asks the maintainer directly without suggesting invented project-specific content and does not create the Project Context before receiving the needed context. Project Context is orientation only; it does not create a fourth Knowledge Model space or make a Problem document necessary merely to record a project goal. Evidence-based code/style, reusable testing and quality-gate, and Git/pull-request/branching/release practices are Project Rules. Requirements and acceptance scenarios, architecture, integrations and external contracts, security and operational constraints, and Harness customization remain discovery- or change-driven unless current evidence makes them necessary.
+`init` creates `.scaffold/` metadata, materializes the active Harness artifacts, and establishes agent-discovery infrastructure. The agent-run initialization workflow then establishes only the project's external-facing foundation in the Schema-selected Project Context representation: project purpose, domain terms and glossary, goals, scope and exclusions, and material unknowns. Before recording that representation, it presents evidence-derived context to the maintainer for confirmation or correction when repository evidence sufficiently establishes it. If repository evidence is insufficient, it asks the maintainer directly without suggesting invented project-specific content and does not create the Project Context before receiving the needed context. Project Context is orientation only; it does not create a fourth Knowledge Model space or make a Problem document necessary merely to record a project goal. The workflow records evidence-backed code-style, build or compiler, formatting or linting, testing or quality-gate, and Git/pull-request/branching/release practices as Project Rules; it leaves a Rule undefined when no reliable evidence or maintainer input establishes the practice. Project Context may identify an absent practice only when that absence is material to orientation, and never serves as its authoritative procedure or configuration record. Requirements and acceptance scenarios, architecture, integrations and external contracts, security and operational constraints, and Harness customization remain discovery- or change-driven unless current evidence makes them necessary.
 
 ### DEC-003 — Managed-block integration
 
@@ -206,10 +207,26 @@ Expected evidence:
 
 - evidence-derived context is presented for maintainer confirmation or correction before recording; insufficient evidence causes direct maintainer questions without invented suggestions; and no Project Context is created before maintainer input.
 
+### VER-008 — Initialization classifies engineering practices as Rules
+
+Verifies:
+
+- PROB-001#AC-019 — Initialization separates Project Context from Project Rules.
+
+Scope:
+
+- the agent-run initialization workflow's classification of evidence-backed and unresolved engineering and delivery practices.
+
+Expected evidence:
+
+- evidence-backed practices are represented by applicable Project Rules; absent practices remain undefined rather than inferred; and Project Context is not used as an authoritative procedure or configuration record.
+
+
 ## Related Knowledge
 
 - PROB-001#REQ-001 — Portable initialization.
 - PROB-001#REQ-014 — Foundational Project Context baseline.
+- PROB-001#REQ-016 — Rule-based engineering-practice baseline.
 - PROB-001#REQ-015 — Confirmed foundational Project Context.
 - PROB-002#REQ-016 — Project-local active Harness authority.
 - PROB-002#REQ-018 — Project-local Project Rule collection.
