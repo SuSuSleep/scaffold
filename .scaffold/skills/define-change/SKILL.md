@@ -28,7 +28,7 @@ Understand the change intent, relevant existing knowledge, and applicable rules 
 
 #### Required Outcome
 
-The change intent, active Knowledge Schema, Project Rules, relevant durable knowledge, and authoritative project records are identified.
+The change intent, active Knowledge Schema, applicable `core.knowledge-space-partition` Rule, relevant durable knowledge, and authoritative project records are identified.
 
 #### Suggested Skills
 
@@ -50,6 +50,7 @@ The intent is represented as a decision tree. The user and agent share a detaile
 - Begin with decisions whose prerequisites are known. Ask the whole currently answerable frontier as one concise round, including a recommended answer and the trade-off when useful. Defer dependent questions until their prerequisites are settled.
 - Recompute the decision tree after each answer. Continue until every material branch is settled, explicitly unknown, or intentionally out of scope.
 - Explore the dimensions that apply: desired outcome and rationale; users or other affected parties; current and desired behavior; scope and non-goals; scenarios and observable acceptance conditions; constraints and dependencies; failure, boundary, and lifecycle cases; data, security, compatibility, operational, rollout, and migration implications; alternatives and their trade-offs.
+- Apply `core.knowledge-space-partition` when it is active. Partition material claims into Project Context, Problem, Governance, and Solution spaces, and retain the resulting disposition in the shared picture. For mixed externally meaningful behavior and technical realization, establish or reuse the Problem obligation and observable acceptance condition before proposing linked Solution knowledge.
 - Treat minor, reversible assumptions as assumptions. Treat an ambiguity as material when a reasonable answer would change durable knowledge, acceptance conditions, scope, or implementation direction.
 
 ### Phase — Determine Knowledge Impact
@@ -74,7 +75,7 @@ Provide `reconcile-project-change` with a sufficiently defined, non-mutating pro
 
 #### Required Outcome
 
-The handoff states the change intent and rationale; settled decisions, scenarios, and acceptance conditions; scope and non-goals; evidence and assumptions; unresolved material questions or conflicts; affected knowledge and relationships; potentially stale records; and the proposed semantic delta. It is sufficiently defined for `reconcile-project-change` and is not accepted Project Knowledge.
+The handoff states the change intent and rationale; settled decisions, scenarios, and acceptance conditions; the explicit knowledge-space partition and resulting relationships; scope and non-goals; evidence and assumptions; unresolved material questions or conflicts; affected knowledge and relationships; potentially stale records; and the proposed semantic delta. It is sufficiently defined for `reconcile-project-change` and is not accepted Project Knowledge.
 
 Do not create, edit, or draft Project Knowledge documents in this Workflow. `reconcile-project-change` owns candidate-document editing through its fresh `update-knowledge` writer, followed by independent review and any required owner decision.
 

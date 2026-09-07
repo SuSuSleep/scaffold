@@ -20,11 +20,11 @@ Provide a Markdown-readable, project-owned crosswalk for reviewing semantic corr
 
 ## Responsibilities
 
-### RESP-001 — Knowledge-space classification
+### RESP-001 — Operational knowledge-space classification
 
 Realizes: CAP-001
 
-Classify durable records by their primary meaning and preserve the relationships that connect Problem, Governance, and Solution knowledge.
+Before creating or changing durable knowledge, partition each claim into Project Context, Problem, Governance, or Solution according to its primary meaning, then preserve the explicit relationships that connect the resulting records. For mixed behavior-and-implementation claims, establish or reuse the Problem obligation and observable acceptance before linking the realizing Solution knowledge. Governance may derive a Problem obligation or directly constrain Solution knowledge when its applicability supports that relationship. Do not create a Problem record merely because a claim has been classified; keep a pure technical decision in Solution unless an external obligation or outcome changes.
 
 ### RESP-002 — Semantic authority stewardship
 
@@ -91,12 +91,14 @@ flowchart LR
 - The **Knowledge Schema** defines how project knowledge is represented: document types, heading names and order, identifiers, references, and template selection. The project-local Schema is active and does not describe or redefine the active Model's concepts.
 - **Project Rules** define how project work should or must be performed, such as coding, documentation, verification, architecture, and delivery practices. The project's local Rules form the active collection. Rules do not redefine Model semantics or Schema representation.
 - **Templates** provide starting structure and template-local completion instructions that refer to active-Model concepts. The active Schema—not template availability—determines whether a template type applies; a field name has no shared meaning outside its selected template.
-- Existing project knowledge remains the project-owned durable record. When creating or updating it, apply the Model for meaning, the active Schema for representation and template selection, the selected Template's local completion instructions, and applicable Rules for constraints.
+- Existing project knowledge remains the project-owned durable record. When creating or updating it, first partition each claim as Project Context, Problem, Governance, or Solution; then apply the Model for meaning, the active Schema for representation and template selection, the selected Template's local completion instructions, and active applicable Rules as policy authority for how the work is performed.
 - During Project Knowledge reconciliation, a Git baseline identifies the accepted record and the resulting Project-Knowledge diff is candidate state. Candidate state is not authoritative merely because it appears in the working repository; it becomes accepted only after clean independent reconciliation and any required owner review.
 - No artifact overrides another outside its authority domain: Rules cannot redefine Schema representation, Skills cannot redefine Workflow completion, and Workflows cannot redefine the active Model's semantics.
 
 ## Satisfies
 
+- CAP-001 — Durable knowledge separation satisfies:
+  - PROB-002#REQ-019 — Operational knowledge-space partitioning
 - CAP-002 — Deliberate guidance authority satisfies:
   - PROB-002#REQ-016 — Project-local active Harness authority
   - PROB-002#REQ-017 — Materialized Harness initialization
@@ -107,7 +109,7 @@ flowchart LR
 
 ### DEC-001 — Three connected knowledge spaces
 
-Scaffold represents durable knowledge primarily in Problem, Governance, and Solution spaces. Classification follows semantic meaning rather than folder structure, and the spaces remain many-to-many connected through explicit relationships.
+Scaffold represents durable knowledge primarily in Problem, Governance, and Solution spaces, with Project Context as the Schema-owned orientation representation. Classification follows semantic meaning rather than folder structure, and the spaces remain many-to-many connected through explicit relationships. Every claim is partitioned before it is recorded: mixed behavior and implementation first establishes or reuses a Problem obligation and observable acceptance, then links its realizing Solution knowledge; applicable Governance either derives that Problem obligation or directly constrains Solution knowledge; and pure technical decisions remain Solution-only unless they alter an external obligation or outcome. This is a classification policy, not a reason to manufacture Problem records.
 
 ### DEC-002 — Separate semantic, representation, and policy authority
 
@@ -122,6 +124,10 @@ Project Context is a lightweight, Schema-owned orientation representation for pr
 ### DEC-005 — Explicit model-migration crosswalks
 
 A Knowledge Model replacement may require a project-owned Crosswalk that maps concepts or relationships as equivalent, renamed, split, merged, superseded, retired, or unmapped. A Schema replacement may map represented fields only with the source and target Schemas identified. Each mapping records cardinality and identity treatment so many-to-many correspondences remain expressible. The Crosswalk informs a deliberate migration; it neither combines Model authority nor enables automatic semantic rewriting.
+
+### DEC-006 — Policy-guided partitioning without a semantic CLI validator
+
+The active Project Rules are the operating-policy authority for knowledge work, while the active Knowledge Model remains the authority for the meanings being partitioned. Default Rules and Skills will distribute this partitioning policy through the relevant workflows and their verification; the command-line interface remains limited to mechanical support and does not add a deterministic semantic-classification validator. Agents apply the policy and report material uncertainty rather than fabricate relationships.
 
 ## Verification Items
 
@@ -139,9 +145,28 @@ Expected evidence:
 
 - runtime resolution uses only the materialized project-local Model, Schema, Rules, Templates, Skills, and agent guide, without package fallback or merging.
 
+### VER-002 — Policy-guided knowledge-space partitioning
+
+Verifies:
+
+- PROB-002#AC-025 — Knowledge claims are partitioned before recording.
+
+Scope:
+
+- default Rules and Skills that guide creating and changing Project Knowledge.
+
+Expected evidence:
+
+- guidance requires claim classification before recording, uses active Project Rules as policy authority, preserves the Problem-first treatment for mixed behavior-and-implementation claims, permits Governance-derived Problems and direct Solution constraints, and keeps pure technical decisions Solution-only when no external obligation or outcome changes.
+
+Assumptions:
+
+- semantic assessment remains agent-mediated under GOV-002#CON-002; the CLI provides no deterministic semantic-classification validator.
+
 ## Related Knowledge
 
 - PROB-002#REQ-016 — Project-local active Harness authority.
+- PROB-002#REQ-019 — Operational knowledge-space partitioning.
 - PROB-002#REQ-017 — Materialized Harness initialization.
 - PROB-002#REQ-015 — Deliberate Knowledge Model migration mapping.
 - SOL-002#CAP-004 — Package candidate and starter artifact provision.

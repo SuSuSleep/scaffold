@@ -32,6 +32,7 @@ test('init creates Harness infrastructure, project-owned skills, and agent disco
   assert.ok(fs.existsSync(path.join(directory, '.scaffold/templates/governance')));
   assert.equal(fs.existsSync(path.join(directory, '.scaffold/workflows')), false);
   assert.ok(fs.existsSync(path.join(directory, '.scaffold/rules/core')));
+  assert.ok(fs.existsSync(path.join(directory, '.scaffold/rules/core/knowledge-space-partition.md')));
   assert.ok(fs.existsSync(path.join(directory, '.scaffold/rules/verification')));
   assert.match(fs.readFileSync(path.join(directory, '.scaffold/agent-guide.md'), 'utf8'), /project-local runtime authority/);
   assert.match(fs.readFileSync(path.join(directory, 'AGENTS.md'), 'utf8'), /agent-guide/);
@@ -57,6 +58,7 @@ test('init materializes the complete local Harness and update --diff is non-muta
     'templates/problem/standard.md',
     'templates/project-context/standard.md',
     'rules/verification/risk-proportionate.md',
+    'rules/core/knowledge-space-partition.md',
     'skills/define-change/SKILL.md',
   ]) {
     assert.ok(fs.existsSync(path.join(directory, '.scaffold', file)), file);
@@ -405,8 +407,22 @@ test('default guidance keeps semantic meaning out of the Schema', () => {
   assert.match(contextSkill, /Do not load all project knowledge by default/);
   assert.doesNotMatch(contextSkill, /knowledge\/governance\//);
   assert.ok(fs.existsSync(path.join(rules, 'core/knowledge-discipline.md')));
+  assert.ok(fs.existsSync(path.join(rules, 'core/knowledge-space-partition.md')));
   assert.ok(fs.existsSync(path.join(rules, 'verification/risk-proportionate.md')));
   assert.equal(fs.existsSync(path.resolve(__dirname, '../defaults/project-rules.md')), false);
+});
+
+test('default workflows apply the active knowledge-space partition Rule', () => {
+  const rule = fs.readFileSync(path.resolve(__dirname, '../defaults/rules/core/knowledge-space-partition.md'), 'utf8');
+  const workflow = (name) => fs.readFileSync(path.resolve(__dirname, `../skills/${name}/SKILL.md`), 'utf8');
+
+  assert.match(rule, /Project Context, Problem Space, Governance Space, or Solution Space/);
+  assert.match(rule, /externally meaningful behavior with an implementation approach/);
+  assert.match(rule, /Do not manufacture a Problem record/);
+  for (const name of ['define-change', 'reconcile-project-change', 'update-knowledge', 'review-change']) {
+    assert.match(workflow(name), /core\.knowledge-space-partition/, name);
+  }
+  assert.match(workflow('review-change'), /obligations hidden in Solution knowledge/);
 });
 
 test('initialization guidance establishes only the foundational project baseline', () => {

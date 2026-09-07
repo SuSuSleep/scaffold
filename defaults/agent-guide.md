@@ -41,6 +41,8 @@ When sources disagree, analyze the inconsistency. Do not automatically treat cod
 
 Classify durable knowledge according to the active Knowledge Model before recording it. Preserve that Model's distinctions, relationship semantics, ownership rules, evidence boundaries, and invariants. Do not infer concepts or constraints solely from a template heading or an implementation detail.
 
+For a proposed knowledge change, apply `core.knowledge-space-partition` when it is active. Partition material claims into Project Context, Problem, Governance, and Solution spaces before recording or reviewing them. Mixed externally meaningful behavior and technical realization require an established or reused Problem obligation and observable acceptance condition before linked Solution knowledge; Governance and purely technical changes follow the Rule's applicable paths. Workflows must read and apply the active Rule Markdown as operating policy rather than treating copied workflow prose as an independent policy authority.
+
 Begin each workflow Skill Phase from its Goal and Required Outcome, identify the active Model's relevant knowledge categories and Project Rule identities or categories, and read only the applicable records and rules. Resolve categories semantically rather than from hard-coded project file paths; expand context only when dependencies or uncertainty require it. Project Rules define how work should or must be performed; the active Model defines durable project knowledge.
 
 Templates provide starting structure only. Apply the active Schema when updating records and preserve existing project knowledge coherently rather than mechanically rewriting it for a Schema or Template change.

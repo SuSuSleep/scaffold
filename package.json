@@ -1,6 +1,6 @@
 {
   "name": "@sususleep/scaffold",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "A portable, knowledge-first software development harness",
   "license": "SEE LICENSE IN LICENSE",
   "type": "commonjs",

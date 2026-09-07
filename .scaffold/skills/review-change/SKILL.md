@@ -23,7 +23,7 @@ Validate use of Knowledge Model concepts and their semantic boundaries.
 
 #### Required Outcome
 
-The candidate uses the active Knowledge Model's concepts, distinctions, ownership rules, evidence boundaries, invariants, and relationship semantics correctly.
+The candidate uses the active Knowledge Model's concepts, distinctions, ownership rules, evidence boundaries, invariants, and relationship semantics correctly. Apply `core.knowledge-space-partition` when it is active: verify the proposal's partition, reject externally meaningful obligations hidden in Solution knowledge, unmandated technical realization prescribed in Problem knowledge, and missing material cross-space relationships.
 
 ### Phase — Review Representation
 
@@ -62,6 +62,7 @@ Applicable constraints are satisfied and no unresolved material rule conflict re
 #### Relevant Rules
 
 - verification.* when Solution verification items are affected
+- core.knowledge-space-partition when active
 - Other Rules applicable to the proposed change
 
 ### Phase — Report Review Result

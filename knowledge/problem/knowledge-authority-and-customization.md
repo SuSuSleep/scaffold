@@ -52,7 +52,11 @@ The Harness must represent Project Rules as the project's categorized local coll
 
 When a project replaces its Knowledge Model, the Harness must support a project-owned, reviewable crosswalk between source and target concepts or relationships. When a Schema replacement requires represented-field migration, the crosswalk must identify the source and target Schemas that own those fields. Every entry must state mapping kind, cardinality, identity and reference treatment, migration disposition, and unresolved ambiguity without making both Models active or automating semantic migration.
 
+### REQ-019 — Operational knowledge-space partitioning
+
+When creating or changing Project Knowledge, the Harness must make agents treat the active Knowledge Model's knowledge-space partitioning as operating policy: classify each claim as Project Context, Problem, Governance, or Solution before recording it; use the active Project Rules as the authority for how that work is performed; and retain explicit relationships between the resulting records. A claim that combines an externally meaningful behavior with an implementation consequence must establish or reuse the Problem obligation and observable acceptance first, then link the Solution knowledge that realizes it. Governance may derive a Problem obligation or constrain Solution knowledge directly according to applicability. A pure technical decision remains Solution-only unless it changes an external obligation or outcome, and classification must not manufacture Problem records solely to complete a partition.
 ## Acceptance Criteria
+
 
 ### AC-010 — Superseded: full-replacement artifacts resolve explicitly
 
@@ -156,8 +160,31 @@ Then:
 
 - it records a reviewable crosswalk with source and target Models for semantic mappings and source and target Schemas for represented-field mappings, plus mapping kinds and cardinalities, identity and reference treatment, migration disposition, and unresolved ambiguity; no automatic semantic rewrite occurs.
 
+### AC-025 — Knowledge claims are partitioned before recording
+
+For:
+
+- REQ-019 — Operational knowledge-space partitioning
+
+Given:
+
+- an agent is creating or changing one or more durable Project Knowledge claims.
+
+When:
+
+- it prepares the affected records under the active Harness.
+
+Then:
+
+- it classifies every claim as Project Context, Problem, Governance, or Solution before recording it and applies the active Project Rules as policy authority for that work;
+- for a mixed behavior-and-implementation claim, it establishes or reuses the Problem obligation and an observable acceptance criterion before linking the realizing Solution knowledge;
+- it records applicable Governance as a source of a Problem obligation or as a direct Solution constraint, rather than forcing either form; and
+- it leaves a pure technical decision in Solution unless an external obligation or outcome changes, without creating an artificial Problem record.
+
+
 ## Related Knowledge
 
+- SOL-003#CAP-001 — Durable knowledge separation.
 - SOL-001#CAP-005 — Materialized Harness lifecycle management.
 - SOL-002#CAP-004 — Package candidate and starter artifact provision.
 - SOL-003#CAP-002 — Deliberate guidance authority.
@@ -166,4 +193,4 @@ Then:
 - REQ-016 supersedes REQ-002; AC-022 supersedes AC-010.
 - REQ-016 supersedes REQ-003; AC-022 supersedes AC-011.
 - REQ-018 supersedes REQ-011; AC-024 supersedes AC-012.
-- The superseded records remain only as historical traceability. Active design, implementation, and verification target REQ-016 through REQ-018 and their current Acceptance Criteria.
+- The superseded records remain only as historical traceability. Active design, implementation, and verification target REQ-016 through REQ-019 and their current Acceptance Criteria.
