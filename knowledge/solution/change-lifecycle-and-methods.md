@@ -28,7 +28,7 @@ Converge a proposed Project Knowledge delta through separate fresh writer and re
 
 Realizes: CAP-001
 
-Define lifecycle phases, entry conditions, and required outcomes for project initialization, change definition, Project Knowledge reconciliation, implementation, knowledge updates, reconstruction, learning, local Harness evolution, update adoption review, and migration.
+Define lifecycle phases, entry conditions, and required outcomes for project initialization, evidence-led change definition, Project Knowledge reconciliation, implementation, knowledge updates, reconstruction, learning, local Harness evolution, update adoption review, and migration.
 
 ### RESP-002 — Acceptance-gate enforcement
 
@@ -74,6 +74,10 @@ User-invoked workflow Skills own sequence, phase intent, entry conditions, and c
 
 For Project Knowledge, reconciliation records a Git baseline that represents the accepted state and reviews the candidate Project-Knowledge diff against that baseline. Every writer and reviewer iteration uses a fresh subagent context; the two roles must be distinct. “Fresh” means the cleanest available context: the agent independently reads the current repository and receives findings as evidence, not the previous agent’s confidence. A clean review completes reconciliation, but required owner review occurs afterwards and is the promotion boundary to accepted Project Knowledge. The four terminal reconciliation states are `ACCEPTED`, `AWAITING_OWNER_REVIEW`, `AWAITING_USER_DECISION`, and `REVIEW_UNAVAILABLE`; a loop with unresolved findings remains non-accepted until an owner decides how to proceed.
 
+### DEC-005 — Evidence-led definition and non-mutating handoff
+
+`define-change` establishes a shared picture before proposing a Project Knowledge delta. It researches facts available in the repository, active knowledge, Rules, and tools; resolves material user decisions in prerequisite-aware rounds; and carries settled decisions, scenarios, assumptions, unknowns, and affected knowledge into its handoff. It does not create, edit, or draft Project Knowledge. Candidate knowledge mutation belongs only to a fresh `update-knowledge` writer within `reconcile-project-change`, followed by independent review and any required owner decision.
+
 ### DEC-002 — Explicit specialization, update adoption, and migration
 
 A substantially different work category receives an explicit additional workflow Skill rather than implicit inheritance or conditional complexity. An update-review Skill is an owner-facing adoption conversation: it analyzes what candidate artifacts add or change, what the project retains or loses by keeping local content, and whether each material difference serves the project's actual Harness needs. It asks the owner to choose `adopt`, `adapt`, `keep`, `retire`, or `defer`; it does not automatically merge. When an adopted Scaffold change requires durable semantic adaptation, migration is a deliberate project-owned workflow Skill rather than an automatic semantic rewrite.
@@ -111,6 +115,20 @@ Scope:
 Expected evidence:
 
 - A Project Rule can require a method without changing a Workflow's required outcome.
+
+### VER-003 — Definition-to-reconciliation mutation boundary
+
+Verifies:
+
+- PROB-004#AC-016 — Accepted changes are reviewed before downstream work.
+
+Scope:
+
+- evidence-led change definition, non-mutating proposal handoff, and reconciliation-owned candidate knowledge mutation.
+
+Expected evidence:
+
+- `define-change` gathers a sufficiently detailed shared picture and supplies a proposed delta without editing Project Knowledge; only a fresh `update-knowledge` writer within `reconcile-project-change` mutates the candidate before independent review.
 
 ## Related Knowledge
 
