@@ -80,6 +80,12 @@ CAP-004 is intentional target design. The current package layout remains evidenc
 
 The candidate Schema, Project Context template, Problem template guidance, and initialization guidance represent the accepted Project Context and coherent-Problem-document design. The active Knowledge Model remains unchanged: it retains the three semantic spaces and defines Goals as Problem-space concepts. An initialized project's active local Harness may replace that representation deliberately through its Schema and selected templates.
 
+### DEC-005 — Reconstruction separates domain evidence from representation
+
+Realizes: RESP-002 — Workflow-Skill sequencing.
+
+The reconstruction workflow is to apply the active `core.knowledge-space-partition` Rule to shared terminology and implementation evidence, using the classification design in SOL-003#DEC-006 — Policy-guided partitioning without a semantic CLI validator. Its evidence analysis must distinguish support for a stakeholder term, support for its domain meaning and intended behavior, and evidence of technical realization; these are not interchangeable. Established implementation-origin vocabulary can be retained without accepting the surrounding state machine as business intent. Unsupported meanings or obligations retain the existing Inferred or Unknown treatment and required owner review. This design requires subsequent guidance implementation and does not claim that it has been completed.
+
 ## Verification Items
 
 ### VER-001 — Materialized Markdown guidance availability
@@ -104,11 +110,13 @@ Verifies:
 
 Scope:
 
-- evidence and uncertainty treatment during reconstruction.
+- evidence and uncertainty treatment during reconstruction, including shared terms originating in implementation and ambiguous code-only states.
 
 Expected evidence:
 
-- reconstruction guidance preserves evidence, scope, and uncertainty.
+- reconstruction guidance preserves evidence, scope, and uncertainty;
+- established stakeholder terms retain their agreed meanings with the partitioning required by PROB-002#REQ-019, while current internal identifiers, enums, and transitions are not promoted to business obligations solely from code or shared usage; and
+- unsupported domain meanings and intended lifecycle behavior remain Inferred or Unknown even when names are familiar or have been reworded.
 
 ### VER-003 — Findings are generalized with justified scope
 
@@ -132,6 +140,7 @@ Expected evidence:
 - PROB-003#REQ-006 — Incremental brownfield reconstruction.
 - PROB-003#REQ-007 — Evidence-based durable learning.
 - PROB-003#REQ-008 — Usable Markdown-first guidance.
+- DEC-005 is constrained by PROB-002#REQ-019 — Operational knowledge-space partitioning.
 - SOL-003#CAP-001 — Durable knowledge separation.
 - SOL-003#CAP-002 — Deliberate guidance authority.
 - GOV-002#CON-001 — Markdown-first core operation.

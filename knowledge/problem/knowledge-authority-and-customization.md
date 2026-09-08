@@ -55,6 +55,9 @@ When a project replaces its Knowledge Model, the Harness must support a project-
 ### REQ-019 — Operational knowledge-space partitioning
 
 When creating or changing Project Knowledge, the Harness must make agents treat the active Knowledge Model's knowledge-space partitioning as operating policy: classify each claim as Project Context, Problem, Governance, or Solution before recording it; use the active Project Rules as the authority for how that work is performed; and retain explicit relationships between the resulting records. A claim that combines an externally meaningful behavior with an implementation consequence must establish or reuse the Problem obligation and observable acceptance first, then link the Solution knowledge that realizes it. Governance may derive a Problem obligation or constrain Solution knowledge directly according to applicability. A pure technical decision remains Solution-only unless it changes an external obligation or outcome, and classification must not manufacture Problem records solely to complete a partition.
+
+The Harness must distinguish shared domain terminology and observable meaning from technical representation, regardless of where a term originated. Under the default Schema, shared definitions belong once in Project Context's Domain Terms, intended behavior belongs in Problem requirements and acceptance criteria, and representations or mappings worth retaining for future reasoning belong in linked Solution knowledge. A Problem obligation may use a shared term without mandating an internal identifier, field, enum, or transition model. Knowledge impact must follow changes in domain meaning, intended behavior, applicable contracts, or durable technical knowledge; a vocabulary-only change updates definitions and references as appropriate without inventing a changed behavioral obligation. An external mandate for exact values must retain its source and applicability in Governance and derive requirements or constrain interfaces as appropriate.
+
 ## Acceptance Criteria
 
 
@@ -178,8 +181,68 @@ Then:
 
 - it classifies every claim as Project Context, Problem, Governance, or Solution before recording it and applies the active Project Rules as policy authority for that work;
 - for a mixed behavior-and-implementation claim, it establishes or reuses the Problem obligation and an observable acceptance criterion before linking the realizing Solution knowledge;
-- it records applicable Governance as a source of a Problem obligation or as a direct Solution constraint, rather than forcing either form; and
-- it leaves a pure technical decision in Solution unless an external obligation or outcome changes, without creating an artificial Problem record.
+- it records applicable Governance as a source of a Problem obligation or as a direct Solution constraint, rather than forcing either form;
+- it leaves a pure technical decision in Solution unless an external obligation or outcome changes, without creating an artificial Problem record; and
+- when claims use established shared terms, it keeps their shared definitions in the default Schema's Project Context / Domain Terms, uses the terms in Problem obligations according to their domain meanings, and links any durable technical representation or mapping in Solution without making that representation a business obligation solely through shared naming.
+
+### AC-026 — Internal representation changes preserve domain obligations
+
+For:
+
+- REQ-019 — Operational knowledge-space partitioning
+
+Given:
+
+- a project has accepted domain meanings, intended behavior, and applicable contracts.
+
+When:
+
+- an internal status identifier is renamed or an internal state is split without changing those meanings, behavior, or contracts.
+
+Then:
+
+- the change does not require a Problem-obligation change;
+- any affected durable Solution representation or mapping is reconciled; and
+- a mechanical change that makes no durable knowledge stale requires no knowledge update.
+
+### AC-027 — Domain changes and vocabulary changes have distinct impact
+
+For:
+
+- REQ-019 — Operational knowledge-space partitioning
+
+Given:
+
+- accepted knowledge records shared domain terms and intended lifecycle behavior.
+
+When:
+
+- stakeholders change the intended domain meaning or observable lifecycle, or only change the vocabulary used for the same meaning and behavior.
+
+Then:
+
+- a domain-meaning or observable-lifecycle change reconciles the affected requirements and acceptance criteria, together with dependent knowledge; and
+- a vocabulary-only change updates the shared definition and affected references as appropriate without changing behavioral obligations solely because the name changed.
+
+### AC-028 — Mandated exact values remain traceable obligations
+
+For:
+
+- REQ-019 — Operational knowledge-space partitioning
+
+Given:
+
+- an identified external contract requires exact status values at an applicable boundary.
+
+When:
+
+- the related domain and implementation claims are classified.
+
+Then:
+
+- Governance retains the contract's source and applicability;
+- derived requirements or constrained interfaces preserve the mandated values; and
+- abstraction of implementation details does not remove or weaken that external obligation.
 
 
 ## Related Knowledge
@@ -190,6 +253,8 @@ Then:
 - SOL-003#CAP-002 — Deliberate guidance authority.
 - SOL-003#CAP-003 — Deliberate model migration mapping.
 - GOV-002#CON-003 — Durable source-of-truth boundaries.
+- REQ-019 constrains PROB-003#REQ-006 — Incremental brownfield reconstruction.
+- REQ-019 is constrained by GOV-002#CON-005 — Durable knowledge update threshold.
 - REQ-016 supersedes REQ-002; AC-022 supersedes AC-010.
 - REQ-016 supersedes REQ-003; AC-022 supersedes AC-011.
 - REQ-018 supersedes REQ-011; AC-024 supersedes AC-012.

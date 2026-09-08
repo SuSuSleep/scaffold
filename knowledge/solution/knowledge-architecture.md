@@ -26,6 +26,8 @@ Realizes: CAP-001
 
 Before creating or changing durable knowledge, partition each claim into Project Context, Problem, Governance, or Solution according to its primary meaning, then preserve the explicit relationships that connect the resulting records. For mixed behavior-and-implementation claims, establish or reuse the Problem obligation and observable acceptance before linking the realizing Solution knowledge. Governance may derive a Problem obligation or directly constrain Solution knowledge when its applicability supports that relationship. Do not create a Problem record merely because a claim has been classified; keep a pure technical decision in Solution unless an external obligation or outcome changes.
 
+This responsibility includes distinguishing shared terminology and domain meaning from technical representation, with policy allocation defined by DEC-006.
+
 ### RESP-002 — Semantic authority stewardship
 
 Realizes: CAP-002
@@ -121,6 +123,8 @@ Knowledge objects may have independent semantic identities without requiring one
 
 Project Context is a lightweight, Schema-owned orientation representation for project-wide purpose, goals, terms, scope, exclusions, and material unknowns. It is distinct from a Problem document and does not add a semantic space or redefine Goals, which remain Problem-space concepts under the Knowledge Model.
 
+Under the default Schema, Project Context's Domain Terms provides the single shared definition of established domain vocabulary, including vocabulary that originated in implementation. Requirements and acceptance criteria use that definition to state intended behavior. Technical representations and mappings are retained in Solution only when they have durable reasoning value, with explicit links to the domain meaning or obligations they realize.
+
 ### DEC-005 — Explicit model-migration crosswalks
 
 A Knowledge Model replacement may require a project-owned Crosswalk that maps concepts or relationships as equivalent, renamed, split, merged, superseded, retired, or unmapped. A Schema replacement may map represented fields only with the source and target Schemas identified. Each mapping records cardinality and identity treatment so many-to-many correspondences remain expressible. The Crosswalk informs a deliberate migration; it neither combines Model authority nor enables automatic semantic rewriting.
@@ -128,6 +132,8 @@ A Knowledge Model replacement may require a project-owned Crosswalk that maps co
 ### DEC-006 — Policy-guided partitioning without a semantic CLI validator
 
 The active Project Rules are the operating-policy authority for knowledge work, while the active Knowledge Model remains the authority for the meanings being partitioned. Default Rules and Skills will distribute this partitioning policy through the relevant workflows and their verification; the command-line interface remains limited to mechanical support and does not add a deterministic semantic-classification validator. Agents apply the policy and report material uncertainty rather than fabricate relationships.
+
+The existing `core.knowledge-space-partition` Rule is the designated authority for applying the terminology distinction and change-impact cases in PROB-002#REQ-019. Reconstruction guidance consumes that Rule as described by SOL-002#DEC-005 — Reconstruction separates domain evidence from representation; it must not become a second copy of the policy. This extends the existing partition design without adding a Model concept, Schema category, or separate terminology Rule. The Rule and workflow guidance changes remain to be implemented.
 
 ## Verification Items
 
@@ -158,10 +164,53 @@ Scope:
 Expected evidence:
 
 - guidance requires claim classification before recording, uses active Project Rules as policy authority, preserves the Problem-first treatment for mixed behavior-and-implementation claims, permits Governance-derived Problems and direct Solution constraints, and keeps pure technical decisions Solution-only when no external obligation or outcome changes.
+- the default guidance locates shared definitions in Project Context / Domain Terms, permits Problem obligations to use their domain meanings, and keeps durable technical representations or mappings in linked Solution knowledge without making shared naming an implementation mandate.
 
 Assumptions:
 
 - semantic assessment remains agent-mediated under GOV-002#CON-002; the CLI provides no deterministic semantic-classification validator.
+
+### VER-003 — Internal representation changes preserve Problem obligations
+
+Verifies:
+
+- PROB-002#AC-026 — Internal representation changes preserve domain obligations.
+
+Scope:
+
+- guidance for knowledge impact when an internal status is renamed or split while domain meaning, behavior, and applicable contracts are unchanged.
+
+Expected evidence:
+
+- the guidance preserves Problem obligations and reconciles only affected durable Solution knowledge; a mechanical change with no stale durable knowledge requires no knowledge update.
+
+### VER-004 — Domain meaning and vocabulary changes are distinguished
+
+Verifies:
+
+- PROB-002#AC-027 — Domain changes and vocabulary changes have distinct impact.
+
+Scope:
+
+- guidance for changes to intended domain meaning or observable lifecycle compared with changes only to stakeholder vocabulary.
+
+Expected evidence:
+
+- meaning or lifecycle changes reconcile affected requirements, acceptance criteria, and dependent knowledge; vocabulary-only changes update definitions and affected references without manufacturing changed behavioral obligations.
+
+### VER-005 — External exact-value mandates survive classification
+
+Verifies:
+
+- PROB-002#AC-028 — Mandated exact values remain traceable obligations.
+
+Scope:
+
+- partition guidance applied to an identified external status-value contract.
+
+Expected evidence:
+
+- the guidance preserves the mandate's Governance source and applicability, together with the derived requirements or constrained interfaces that retain the exact values.
 
 ## Related Knowledge
 

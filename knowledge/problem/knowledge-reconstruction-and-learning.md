@@ -24,6 +24,8 @@ Scaffold must make durable knowledge accessible in Markdown and help projects re
 
 The Harness must support incremental reconstruction of durable project knowledge from an existing repository without treating implementation as unquestionable project intent.
 
+Reconstruction must preserve established stakeholder terminology, including terms that originated in implementation, while distinguishing its agreed domain meaning from internal identifiers and representations. Shared usage alone must not make the current enum, field, complete state set, or transitions an intended business obligation. Where domain meaning or intended behavior lacks sufficient evidence, that uncertainty remains Inferred or Unknown; retaining or renaming a term does not resolve it. Classification follows PROB-002#REQ-019 — Operational knowledge-space partitioning.
+
 ### REQ-007 — Evidence-based durable learning
 
 The Harness must guide a project to convert relevant security, operational, and engineering findings into appropriately scoped durable knowledge when analysis justifies doing so.
@@ -43,6 +45,7 @@ For:
 Given:
 
 - an existing repository provides incomplete documentation and implementation evidence.
+- some implementation-origin terms have established stakeholder usage and agreed domain meanings, while other code-only states lack evidence of intended domain behavior.
 
 When:
 
@@ -50,7 +53,9 @@ When:
 
 Then:
 
-- it distinguishes accepted, Inferred, and Unknown conclusions without treating implementation as unquestionable intent.
+- it distinguishes accepted, Inferred, and Unknown conclusions without treating implementation as unquestionable intent;
+- it retains established stakeholder terms and their agreed meanings without requiring the current internal spelling, representation, complete enum, or transitions solely because code or shared usage contains them; and
+- it leaves unsupported domain meanings or lifecycle obligations Inferred or Unknown instead of treating familiar names as evidence of accepted intent.
 
 ### AC-018 — Findings become durable knowledge only with justified scope
 
@@ -90,6 +95,7 @@ Then:
 
 ## Related Knowledge
 
+- REQ-006 is constrained by PROB-002#REQ-019 — Operational knowledge-space partitioning.
 - SOL-002#CAP-004 — Package candidate and starter artifact provision.
 - SOL-002#CAP-002 — Evidence-based knowledge reconstruction.
 - SOL-002#CAP-003 — Finding-to-knowledge learning.
