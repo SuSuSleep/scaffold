@@ -8,7 +8,7 @@ Document ID: SOL-004
 
 ### CAP-001 — Accepted-change lifecycle management
 
-Guide meaningful work from project initialization through change definition, iterative Project Knowledge reconciliation, required owner review, appropriate downstream routing, implementation, verification, knowledge update, artifact evolution, and explicit migration when ordinary replacement is insufficient.
+Guide meaningful work from project initialization through change definition, iterative Project Knowledge reconciliation, immediate conflict clarification when needed, automatic acceptance after clean independent review, appropriate downstream routing, implementation, verification, knowledge update, artifact evolution, and explicit migration when ordinary replacement is insufficient.
 
 ### CAP-002 — Method-flexible work guidance
 
@@ -34,7 +34,7 @@ Define lifecycle phases, entry conditions, and required outcomes for project ini
 
 Realizes: CAP-001
 
-Require `reconcile-project-change` to obtain a clean independent review of candidate Project Knowledge and route required owner review or implementation. A writer cannot accept its own change and a reviewer cannot modify the candidate it reviews.
+Require `reconcile-project-change` to obtain a clean independent review of candidate Project Knowledge, immediately seek user direction for unresolved conflicts or material ambiguities, and route a clean candidate to acceptance and implementation when applicable. A writer cannot accept its own change and a reviewer cannot modify the candidate it reviews.
 
 ### RESP-004 — Candidate-state boundary
 
@@ -50,7 +50,7 @@ Provide concise Skills for methods such as context collection, impact analysis, 
 
 ## Components and Boundaries
 
-- **Project-local workflow Skills in `.scaffold/skills/`** are assigned-to RESP-001, RESP-002, and RESP-004. Their user interfaces define the normal Project Knowledge path: define, reconcile candidate knowledge, obtain required owner review, and implement when needed, as well as specialized work categories. The update-review workflow examines the two-way package candidate diff, explains additions and behavioral changes, and discusses material adoption choices with the project owner.
+- **Project-local workflow Skills in `.scaffold/skills/`** are assigned-to RESP-001, RESP-002, and RESP-004. Their user interfaces define the normal Project Knowledge path: define, reconcile candidate knowledge, immediately clarify unresolved conflicts with the user, automatically accept a clean candidate, and implement when needed, as well as specialized work categories. The update-review workflow examines the two-way package candidate diff, explains additions and behavioral changes, and discusses material adoption choices with the project owner.
 - **`.scaffold/skills/collect-context/`**, **`.scaffold/skills/analyze-impact/`**, **`.scaffold/skills/analyze-rule-conflicts/`**, **`.scaffold/skills/implement-with-tdd/`**, and **`.scaffold/skills/verify-change/`** are project-local model-invoked Skills assigned-to RESP-003. The installed package supplies corresponding candidate Skills only for initialization and update review.
 - A workflow Skill may use a model-invoked Skill, but a phase is complete when its required outcome is achieved. Project Rules may require a method, such as TDD, without changing the workflow Skill.
 
@@ -72,11 +72,11 @@ User-invoked workflow Skills own sequence, phase intent, entry conditions, and c
 
 ### DEC-004 — Git-backed candidate knowledge and independent reconciliation
 
-For Project Knowledge, reconciliation records a Git baseline that represents the accepted state and reviews the candidate Project-Knowledge diff against that baseline. Every writer and reviewer iteration uses a fresh subagent context; the two roles must be distinct. “Fresh” means the cleanest available context: the agent independently reads the current repository and receives findings as evidence, not the previous agent’s confidence. A clean review completes reconciliation, but required owner review occurs afterwards and is the promotion boundary to accepted Project Knowledge. The four terminal reconciliation states are `ACCEPTED`, `AWAITING_OWNER_REVIEW`, `AWAITING_USER_DECISION`, and `REVIEW_UNAVAILABLE`; a loop with unresolved findings remains non-accepted until an owner decides how to proceed.
+For Project Knowledge, reconciliation records a Git baseline that represents the accepted state and reviews the candidate Project-Knowledge diff against that baseline. Every writer and reviewer iteration uses a fresh subagent context; the two roles must be distinct. “Fresh” means the cleanest available context: the agent independently reads the current repository and receives findings as evidence, not the previous agent’s confidence. A reviewer-discovered conflict or material ambiguity, including one missed in an earlier phase, makes the candidate `NOT ACCEPTABLE` until authoritative evidence resolves it or the user provides direction. When user direction is needed, the agent immediately asks how to resolve the matter, identifying the conflict and evidence, viable selectable alternatives and their effects, and affected candidate knowledge. The answer refreshes reconciliation context and begins a fresh writer/reviewer iteration. Blocking conflicts and unresolved ambiguities remain non-accepted. A clean independent review automatically accepts the candidate; `REVIEW_UNAVAILABLE` remains an operational result rather than an acceptance state. On completion, the workflow shows the changed Project Knowledge records and a concise semantic delta, while Git remains available for detailed inspection.
 
 ### DEC-005 — Evidence-led definition and non-mutating handoff
 
-`define-change` establishes a shared picture before proposing a Project Knowledge delta. It researches facts available in the repository, active knowledge, Rules, and tools; resolves material user decisions in prerequisite-aware rounds; and carries settled decisions, scenarios, assumptions, unknowns, and affected knowledge into its handoff. It does not create, edit, or draft Project Knowledge. Candidate knowledge mutation belongs only to a fresh `update-knowledge` writer within `reconcile-project-change`, followed by independent review and any required owner decision.
+`define-change` establishes a shared picture before proposing a Project Knowledge delta. It researches facts available in the repository, active knowledge, Rules, and tools; resolves material user decisions in prerequisite-aware rounds; and carries settled decisions, scenarios, assumptions, unknowns, and affected knowledge into its handoff. It does not create, edit, or draft Project Knowledge. Candidate knowledge mutation belongs only to a fresh `update-knowledge` writer within `reconcile-project-change`, followed by independent review; an unresolved conflict or material ambiguity prompts an immediate user question before a fresh iteration.
 
 ### DEC-002 — Explicit specialization, update adoption, and migration
 
@@ -96,11 +96,11 @@ Verifies:
 
 Scope:
 
-- independent review and required owner review as the gate before downstream implementation routing.
+- independent review as the gate before downstream implementation routing, with immediate user clarification only when a conflict or material ambiguity prevents a clean review.
 
 Expected evidence:
 
-- A proposed Project Knowledge delta is reconciled through distinct fresh writer and reviewer subagents before required owner review and any implementation begin.
+- A proposed Project Knowledge delta is reconciled through distinct fresh writer and reviewer subagents; a clean review automatically accepts it before any implementation begins.
 
 ### VER-002 — Method boundary
 
@@ -129,6 +129,20 @@ Scope:
 Expected evidence:
 
 - `define-change` gathers a sufficiently detailed shared picture and supplies a proposed delta without editing Project Knowledge; only a fresh `update-knowledge` writer within `reconcile-project-change` mutates the candidate before independent review.
+
+### VER-004 — Review-conflict decision routing
+
+Verifies:
+
+- PROB-004#AC-020 — Project Knowledge is independently reconciled.
+
+Scope:
+
+- reviewer-discovered conflicts or unresolved ambiguities during reconciliation, including immediate user decision routing and return to a fresh iteration.
+
+Expected evidence:
+
+- A reviewer reports a candidate with a conflict or material ambiguity, including one missed earlier, as `NOT ACCEPTABLE`; if authoritative evidence cannot resolve it, the agent immediately asks the user with the conflict and evidence, viable selectable alternatives and their effects, and affected candidate knowledge. The user clarification refreshes context and is followed by distinct fresh writer and reviewer executions. The conflict or ambiguity remains non-accepted until a clean review, which automatically accepts the candidate and shows the changed knowledge records with a concise semantic delta.
 
 ## Related Knowledge
 

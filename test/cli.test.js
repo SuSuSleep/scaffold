@@ -329,13 +329,16 @@ test('workflow Skills have entry conditions that do not pre-require discovery wo
   assert.match(workflow('adopt-harness-update'), /Mark Update Review Complete/);
 });
 
-test('Project Knowledge reconciliation separates writer, reviewer, and owner acceptance', () => {
+test('Project Knowledge reconciliation separates writer, reviewer, direct user input, and automatic acceptance', () => {
   const reconciliation = fs.readFileSync(path.resolve(__dirname, '../skills/reconcile-project-change/SKILL.md'), 'utf8');
   const workflow = fs.readFileSync(path.resolve(__dirname, '../skills/review-change/SKILL.md'), 'utf8');
   assert.match(reconciliation, /Git baseline/);
   assert.match(reconciliation, /fresh writer subagent/);
   assert.match(reconciliation, /distinct fresh reviewer subagent/);
-  assert.match(reconciliation, /AWAITING_OWNER_REVIEW/);
+  assert.doesNotMatch(reconciliation, /AWAITING_(?:OWNER_REVIEW|USER_DECISION)/);
+  assert.match(reconciliation, /immediately asks the user/);
+  assert.match(reconciliation, /clean independent review automatically accepts/);
+  assert.match(reconciliation, /shows the changed Project Knowledge/);
   assert.match(reconciliation, /REVIEW_UNAVAILABLE/);
   assert.match(workflow, /read-only/);
   assert.match(workflow, /ACCEPTABLE/);

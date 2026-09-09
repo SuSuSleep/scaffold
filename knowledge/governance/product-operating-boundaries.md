@@ -64,7 +64,7 @@ Constrains:
 
 ### CON-006 — Git-backed candidate-state boundary
 
-When reconciling a Project Knowledge change, Git must distinguish the accepted baseline from candidate Project Knowledge. A writer’s repository edits are candidate state, not accepted truth, until a distinct fresh reviewer completes a clean review and any required project-owner review is obtained. This integration does not replace Git’s normal branching, commit, or review practices.
+When reconciling a Project Knowledge change, Git must distinguish the accepted baseline from candidate Project Knowledge. A writer’s repository edits are candidate state, not accepted truth, until a distinct fresh reviewer completes a clean review, which automatically accepts the candidate. A reviewer-reported conflict or material ambiguity remains non-accepted and is immediately put to the user for resolution when authoritative evidence cannot resolve it. This integration does not replace Git’s normal branching, commit, or review practices.
 
 Constrains:
 

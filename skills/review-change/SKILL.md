@@ -69,11 +69,11 @@ Applicable constraints are satisfied and no unresolved material rule conflict re
 
 #### Goal
 
-Report whether the candidate can complete reconciliation; do not accept it, obtain owner approval, or mutate it.
+Report whether the candidate can complete reconciliation; do not accept it or mutate it.
 
 #### Required Outcome
 
-The reviewer reports `ACCEPTABLE` only when, within the proposed change and materially affected scope, no material semantic contradiction, unresolved ambiguity, incoherent relationship, Schema or Model violation, applicable knowledge or Rule violation, materially stale dependent knowledge, authoritative reliance on `Inferred` or `Unknown`, or required user decision remains. Otherwise it reports `NOT ACCEPTABLE` with findings classified as Resolvable, User Decision Required, Blocking Conflict, or Unresolved Ambiguity. The reviewer does not modify Project Knowledge or treat a writer summary as evidence.
+The reviewer reports `ACCEPTABLE` only when, within the proposed change and materially affected scope, no material semantic contradiction, unresolved ambiguity, incoherent relationship, Schema or Model violation, applicable knowledge or Rule violation, materially stale dependent knowledge, authoritative reliance on `Inferred` or `Unknown`, or a finding that needs user direction remains. Otherwise it reports `NOT ACCEPTABLE` with findings classified as Resolvable, User Input Needed, Blocking Conflict, or Unresolved Ambiguity. The reviewer does not modify Project Knowledge or treat a writer summary as evidence.
 
 ## Required Outcomes
 
