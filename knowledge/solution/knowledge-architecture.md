@@ -222,3 +222,4 @@ Expected evidence:
 - SOL-002#DEC-001 — Schema-selected template applicability.
 - SOL-002#DEC-004 — Pending Project Context representation.
 - GOV-002#CON-003 — Durable source-of-truth boundaries.
+- SOL-006#RESP-004 — Hybrid allocation guidance applies these knowledge authorities to hybrid Solution records.

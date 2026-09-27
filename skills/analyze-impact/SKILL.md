@@ -8,7 +8,7 @@ description: Analyze the impact of a requested project change in Scaffold. Use w
 1. Read the request and the active Knowledge Schema and Project Rules.
 2. Locate the smallest relevant active-Model knowledge records, implementation, tests, interfaces, and repository instructions.
 3. Map each affected concern to the requested change. Separate direct effects from consequential effects.
-4. Identify changed behavior, interfaces, responsibilities, constraints, verification, and durable knowledge. Apply the active Model's ownership, scenario, evidence-boundary, dependency, and relationship rules when they apply.
+4. Identify changed behavior, interfaces, responsibilities, constraints, verification, and durable knowledge. Apply the active Model's ownership, scenario, evidence-boundary, dependency, and relationship rules when they apply. For a hybrid solution, trace whether a change moves or alters responsibility among the executing agent host, Skill guidance, deterministic tools or bridges, and integration components, including their material interfaces and verification boundaries.
 5. Classify each finding as:
    - **Mechanical:** implementation or test work that does not change durable knowledge.
    - **Knowledge update:** a change that makes a documented fact, decision, rule, or relationship stale or incomplete.

@@ -46,7 +46,7 @@ Use a recorded Git baseline for accepted Project Knowledge and the current Proje
 
 Realizes: CAP-002 and CAP-003
 
-Provide concise Skills for methods such as context collection, impact analysis, optional TDD, and verification without embedding project policy or complete lifecycle logic in a Skill.
+Provide concise Skills for methods such as context collection, impact analysis, optional TDD, and verification without embedding project policy or complete lifecycle logic in a Skill. The external agent host executes these adaptive methods; the Skill supplies guidance rather than an independent runtime.
 
 ## Components and Boundaries
 
@@ -153,3 +153,4 @@ Expected evidence:
 - SOL-002#CAP-003 — Finding-to-knowledge learning.
 - GOV-002#CON-002 — Agent-mediated semantic validation.
 - GOV-002#CON-006 — Git-backed candidate-state boundary.
+- SOL-006#RESP-001 — Adaptive behavior guidance.

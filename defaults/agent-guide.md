@@ -47,6 +47,8 @@ Begin each workflow Skill Phase from its Goal and Required Outcome, identify the
 
 Templates provide starting structure only. Apply the active Schema when updating records and preserve existing project knowledge coherently rather than mechanically rewriting it for a Schema or Template change.
 
+When a solution combines an existing agent host, Skills, deterministic tools or bridges, or host integration, resolve applicable architecture guidance and make the material responsibility allocation explicit. Keep the agent that executes adaptive behavior distinct from the Skill that guides it; record tool and integration boundaries, dependencies, rationale, failure or authority concerns when applicable, and verification at the component and real interaction boundaries. Do not assume that hybrid architecture requires a project-owned agent runtime or a machine-readable tool manifest.
+
 Under the default Schema, record project-wide purpose, top-level Goals, terms, scope or exclusions, and material unknowns in the Project Context record; do not create a Problem document merely to record a project goal. A Problem document represents one coherent subject: extend it only when the added knowledge concerns that same subject, otherwise create a new Problem document. Shared project membership, goals, actors, dependencies, implementation areas, or repository layout do not create document containment; represent material connections explicitly.
 
 ## Identifier and Reference Discipline

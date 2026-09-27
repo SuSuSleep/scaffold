@@ -28,7 +28,7 @@ Provide a workflow for analyzing an observed finding and recording a reusable go
 
 Realizes: CAP-004
 
-Maintain the package's candidate Knowledge Model, representation Schema, categorized Rules, document templates, Skills, and agent guide as a starter bundle, without making them runtime authority for initialized projects. The candidate Schema and templates must be able to represent the Project Context baseline and coherent Problem documents required by PROB-001#REQ-014.
+Maintain the package's candidate Knowledge Model, representation Schema, categorized Rules, document templates, Skills, and agent guide as a starter bundle, without making them runtime authority for initialized projects. The candidate Schema and templates must be able to represent the Project Context baseline and coherent Problem documents required by PROB-001#REQ-014, and the bundle must guide the explicit hybrid responsibility allocation required by PROB-006#REQ-001.
 
 ### RESP-002 — Workflow-Skill sequencing
 
@@ -143,5 +143,7 @@ Expected evidence:
 - DEC-005 is constrained by PROB-002#REQ-019 — Operational knowledge-space partitioning.
 - SOL-003#CAP-001 — Durable knowledge separation.
 - SOL-003#CAP-002 — Deliberate guidance authority.
+- SOL-006#CAP-001 — Hybrid responsibility architecture.
+- PROB-006#REQ-001 — Explicit hybrid responsibility allocation.
 - GOV-002#CON-001 — Markdown-first core operation.
 - CAP-004 supersedes CAP-001. CAP-001 remains as historical traceability only; package artifacts are candidates for initialization and update review rather than active runtime guidance.

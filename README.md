@@ -4,6 +4,8 @@ Scaffold is a portable, knowledge-first software development harness. `init` mat
 
 Workflows are the high-level interface: each is a user-invoked Skill that owns an ordered sequence of Phases, their goals, and their required outcomes. Model-invoked Skills are lower-level reusable methods that a workflow Skill uses as needed. The `agents/openai.yaml` interface makes a Skill user-invoked; its absence keeps a Skill model-invoked. Project Rules may require a particular method, such as TDD, without changing a workflow's outcome.
 
+The default Harness can describe hybrid solutions without supplying a new AI runtime. Existing general-purpose agent hosts execute adaptive behavior under Skill guidance; deterministic tools or bridges provide exact operations; and bounded integration components install Skills, expose tools, or update host configuration. Hybrid Solution knowledge records the responsibility allocation, interfaces, dependencies, rationale, relevant authority and failure boundaries, and verification of both components and real agent-tool interactions. This guidance is vendor-neutral and does not require a machine-readable tool manifest.
+
 ## Requirements
 
 Node.js 20 or later.

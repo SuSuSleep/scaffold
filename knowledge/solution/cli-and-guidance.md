@@ -16,7 +16,7 @@ Superseded by CAP-005 — Materialized Harness lifecycle management. This histor
 
 ### CAP-003 — Agent guidance integration
 
-Provide a materialized project-local agent guide and managed instruction blocks without owning surrounding host instructions.
+Provide a materialized project-local agent guide and managed instruction blocks for supported existing agent hosts without owning surrounding host instructions or supplying an agent runtime.
 
 ### CAP-004 — Mechanical document-ID inspection
 
@@ -50,6 +50,7 @@ Search Markdown document declarations recursively and report namespace availabil
 - **`src/cli.js`** is assigned-to RESP-001 and exposes the `init`, `status`, `update`, and `id` command interface.
 - **`src/project.js`** is assigned-to RESP-002, RESP-003, and RESP-004. It owns local filesystem interactions within the target project.
 - **Project-local Harness artifacts** expose the active Knowledge Model, Schema, categorized Rules, workflow Skills, model-invoked Skills, templates, and agent guide. The agent guide directs meaningful work to the other materialized local guidance. The installed package distributes candidate artifacts for initialization and comparison only; it is never a runtime fallback.
+- **`AGENTS.md` and `CLAUDE.md` managed blocks** expose Scaffold guidance to the currently supported Codex and Claude Code host integrations. They preserve host-owned content and do not turn Scaffold into the agent runtime.
 
 ### IFC-001 — Scaffold command-line interface
 
@@ -234,6 +235,7 @@ Expected evidence:
 - PROB-001#REQ-004 — Safe agent integration.
 - PROB-001#REQ-013 — Diff-led, project-owned update adoption.
 - GOV-001#CON-001 — Supported Node.js runtime.
+- SOL-006#CAP-002 — Existing-agent tool integration.
 - [Project metadata](../../.scaffold/metadata.md).
 - **Known governance**: GOV-001#CON-001 constrains the supported runtime. No external contracts or reusable security controls have been established for this project.
 - CAP-005 supersedes CAP-002. CAP-002 remains as historical traceability only; active implementation and verification target CAP-005 and its listed current Requirements.

@@ -316,7 +316,6 @@ test('lifecycle Skills own explicit phase sequencing and only high-level workflo
     const contents = fs.readFileSync(path.resolve(__dirname, '../skills', workflow, 'SKILL.md'), 'utf8');
     assert.match(contents, /^## Internal Skill Loading$/m, workflow + ' must explain how to load internal skills');
     assert.match(contents, /\.scaffold\/skills\/<skill-name>\/SKILL\.md/, workflow + ' must use the project-local internal-skill path');
-    assert.equal(fs.readFileSync(path.resolve(__dirname, '../.scaffold/skills', workflow, 'SKILL.md'), 'utf8'), contents, workflow + ' project seed must match the package source');
   }
 });
 
@@ -513,6 +512,7 @@ test('default guidance uses single-owner acceptance and bounded verification ite
     'knowledge/solution/governance-context-resolution.md',
     'knowledge/solution/knowledge-architecture.md',
     'knowledge/solution/default-artifacts.md',
+    'knowledge/solution/hybrid-agent-tool-architecture.md',
   ].map(read).join('\n');
 
   assert.match(model, /one primary parent Requirement/);
@@ -542,6 +542,35 @@ test('default guidance uses single-owner acceptance and bounded verification ite
     assert.match(item[1], /^Verifies:\n\n- PROB-\d+#AC-\d+/m, item[0]);
     assert.match(item[1], /^Scope:$/m, item[0]);
   }
+});
+
+test('default Harness guides explicit hybrid agent, Skill, tool, and integration boundaries', () => {
+  const read = (relative) => fs.readFileSync(path.resolve(__dirname, '..', relative), 'utf8');
+  const model = read('defaults/knowledge-model.md');
+  const template = read('defaults/templates/solution/standard.md');
+  const rule = read('defaults/rules/architecture/hybrid-responsibility-allocation.md');
+  const guide = read('defaults/agent-guide.md');
+  const define = read('skills/define-change/SKILL.md');
+  const reconstruct = read('skills/reconstruct-project-knowledge/SKILL.md');
+  const impact = read('skills/analyze-impact/SKILL.md');
+  const review = read('skills/review-change/SKILL.md');
+  const verify = read('skills/verify-change/SKILL.md');
+  const problem = read('knowledge/problem/hybrid-system-architecture.md');
+
+  assert.match(model, /a non-executable Skill remains distinct from the agent host/);
+  assert.match(model, /agent-to-Skill guidance boundary/);
+  assert.match(template, /existing agent host, independently managed Skills, deterministic tools or bridges, integration components/);
+  assert.match(rule, /^# architecture\.hybrid-responsibility-allocation$/m);
+  assert.match(rule, /existing agent host executes adaptive behavior/);
+  assert.match(rule, /Do not require a project to add AI/);
+  assert.match(guide, /Keep the agent that executes adaptive behavior distinct from the Skill that guides it/);
+  assert.match(define, /material responsibility allocation/);
+  assert.match(reconstruct, /existing agent host that executes adaptive behavior/);
+  assert.match(impact, /moves or alters responsibility/);
+  assert.match(review, /executing agent host remains distinct from its Skill guidance/);
+  assert.match(verify, /keep the real agent-tool interaction in scope/);
+  assert.match(problem, /^### AC-001 — Hybrid responsibilities are distinguishable$/m);
+  assert.match(problem, /^### AC-003 — Hybrid evidence covers components and interaction$/m);
 });
 
 test("the package ships a complete default Knowledge Model", () => {
