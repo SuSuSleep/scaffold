@@ -2,7 +2,7 @@
 
 Document ID: SOL-001
 
-> Evidence source: [`src/cli.js`](../../src/cli.js), [`src/project.js`](../../src/project.js), and [`test/cli.test.js`](../../test/cli.test.js), inspected 2026-08-30. These sources currently evidence the older shared-runtime implementation; they do not establish the materialized-local design proposed in this candidate knowledge change.
+> Implementation context: [`src/cli.js`](../../src/cli.js), [`src/project.js`](../../src/project.js), and [`test/cli.test.js`](../../test/cli.test.js), inspected 2026-11-13. The source materializes project-local guidance and provides two-way update comparison using the single-source package layout in SOL-002#DEC-006. Extracted-package initialization and non-mutating comparison were verified on 2026-11-13.
 
 ## Capabilities
 
@@ -86,7 +86,7 @@ Exposed by `bin/scaffold.js` through `src/cli.js`.
 
 ### DEC-001 — Project-local active Harness with package candidates
 
-Initialization materializes the complete active Harness in `.scaffold/`; ordinary operation resolves only those project-local artifacts. The package ships a starter/candidate bundle used to seed initialization and produce update diffs, but it never becomes a runtime fallback.
+Initialization materializes the complete active Harness in `.scaffold/`; ordinary operation resolves only those project-local artifacts. The package ships a starter/candidate bundle used to seed initialization and produce update diffs, but it never becomes a runtime fallback. Its source is the Scaffold repository's active `.scaffold/`, as defined by SOL-002#DEC-006 — One source for active and distributed Harness artifacts; the package's `.scaffold/` is the copy source for target initialization and comparison, with local metadata excluded.
 
 ### DEC-002 — Materialized CLI initialization
 
@@ -104,9 +104,9 @@ The CLI produces only the current-project versus installed-package two-way diff 
 
 The CLI scans Markdown `Document ID:` declarations and reports availability only. The active Schema remains responsible for selecting the document-ID prefix and representing Project Knowledge.
 
-### DEC-006 — Pending local-only lifecycle implementation
+### DEC-006 — Superseded: pending local-only lifecycle implementation
 
-CAP-005 and DEC-001 through DEC-004 intentionally define the target design, not current source behavior. Current source and tests still initialize project-local Skills only, resolve package defaults and shared Rules as runtime authority, use a package-resolved bootstrap guide, and lack the specified `update --diff` behavior. After this Project Knowledge change is accepted, implementation must materialize and resolve the complete local Harness, provide the mechanical two-way diff, and revise bootstrap and update behavior; verification must demonstrate the active Acceptance Criteria rather than infer them from the current implementation.
+This historical implementation-stage note is superseded by DEC-001 — Project-local active Harness with package candidates. Source inspection shows complete local Harness materialization, project-local artifact resolution, and mechanical two-way update comparison. The implemented consolidation changes the package artifact source as defined by SOL-002#DEC-006; it does not restore shared-runtime resolution. Verification must still demonstrate the affected boundaries rather than infer success from source inspection.
 
 ## Verification Items
 

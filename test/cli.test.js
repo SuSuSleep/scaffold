@@ -51,6 +51,11 @@ test('init materializes the complete local Harness and update --diff is non-muta
   const initialized = run('init', directory);
   assert.equal(initialized.status, 0, initialized.stderr);
 
+  fs.appendFileSync(path.join(directory, '.scaffold/metadata.md'), '\nLocal metadata only.\n');
+  const unchanged = run('update', '--diff', directory);
+  assert.equal(unchanged.status, 0, unchanged.stderr);
+  assert.equal(unchanged.stdout.trim(), 'No Harness artifact differences.');
+
   for (const file of [
     'agent-guide.md',
     'knowledge-model.md',
@@ -99,10 +104,10 @@ test('update records review without changing agent links', () => {
   run('init', directory);
   const link = path.join(directory, '.agents/skills/define-change');
   fs.unlinkSync(link);
-  fs.symlinkSync('../../skills/define-change', link, 'dir');
+  fs.symlinkSync('../../.scaffold/skills/define-change', link, 'dir');
   const result = run('update', directory);
   assert.equal(result.status, 0, result.stderr);
-  assert.equal(fs.readlinkSync(link), '../../skills/define-change');
+  assert.equal(fs.readlinkSync(link), '../../.scaffold/skills/define-change');
 });
 
 test('agent entry guidance is materialized locally', () => {
@@ -285,7 +290,7 @@ test('document ID inspection reports duplicate declarations', () => {
 });
 
 test('the package provides an explicit migration workflow Skill without a migrate command', () => {
-  const workflow = path.resolve(__dirname, '../skills/migrate-project/SKILL.md');
+  const workflow = path.resolve(__dirname, '../.scaffold/skills/migrate-project/SKILL.md');
   assert.match(fs.readFileSync(workflow, 'utf8'), /Safely adapt a project/);
   const result = run('migrate');
   assert.equal(result.status, 1);
@@ -301,7 +306,7 @@ test('lifecycle Skills own explicit phase sequencing and only high-level workflo
   ];
 
   for (const workflow of workflows) {
-    const contents = fs.readFileSync(path.resolve(__dirname, '../skills', workflow, 'SKILL.md'), 'utf8');
+    const contents = fs.readFileSync(path.resolve(__dirname, '../.scaffold/skills', workflow, 'SKILL.md'), 'utf8');
     assert.match(contents, /^## Phases$/m, workflow + ' should define phases');
     assert.match(contents, /^### Phase — .+$/m, workflow + ' should name each phase');
     assert.match(contents, /^#### Goal$/m, workflow + ' phases should state their goal');
@@ -309,18 +314,18 @@ test('lifecycle Skills own explicit phase sequencing and only high-level workflo
     assert.doesNotMatch(contents, /^## Suggested Skills$/m, workflow + ' must not use skills to define its process');
   }
   for (const skill of ['collect-context', 'analyze-impact', 'analyze-rule-conflicts', 'implement-with-tdd', 'verify-change', 'review-change', 'update-knowledge']) {
-    assert.equal(fs.existsSync(path.resolve(__dirname, '../skills', skill, 'agents/openai.yaml')), false, skill + ' must remain model-invoked');
+    assert.equal(fs.existsSync(path.resolve(__dirname, '../.scaffold/skills', skill, 'agents/openai.yaml')), false, skill + ' must remain model-invoked');
   }
   for (const workflow of ['adopt-harness-update', 'define-change', 'evolve-project-artifact', 'evolve-project-rules', 'implement-change', 'initialize-project', 'learn-from-finding', 'migrate-project', 'reconcile-project-change', 'reconstruct-project-knowledge']) {
-    assert.equal(fs.existsSync(path.resolve(__dirname, '../skills', workflow, 'agents/openai.yaml')), true, workflow + ' must be user-invokable');
-    const contents = fs.readFileSync(path.resolve(__dirname, '../skills', workflow, 'SKILL.md'), 'utf8');
+    assert.equal(fs.existsSync(path.resolve(__dirname, '../.scaffold/skills', workflow, 'agents/openai.yaml')), true, workflow + ' must be user-invokable');
+    const contents = fs.readFileSync(path.resolve(__dirname, '../.scaffold/skills', workflow, 'SKILL.md'), 'utf8');
     assert.match(contents, /^## Internal Skill Loading$/m, workflow + ' must explain how to load internal skills');
     assert.match(contents, /\.scaffold\/skills\/<skill-name>\/SKILL\.md/, workflow + ' must use the project-local internal-skill path');
   }
 });
 
 test('workflow Skills have entry conditions that do not pre-require discovery work', () => {
-  const workflow = (name) => fs.readFileSync(path.resolve(__dirname, '../skills', name, 'SKILL.md'), 'utf8');
+  const workflow = (name) => fs.readFileSync(path.resolve(__dirname, '../.scaffold/skills', name, 'SKILL.md'), 'utf8');
   assert.match(workflow('learn-from-finding'), /## Entry Conditions\n\n- A relevant finding or observed problem exists\./);
   assert.match(workflow('migrate-project'), /## Entry Conditions\n\n- A Scaffold update requires deliberate project migration\./);
   assert.match(workflow('update-knowledge'), /- A sufficiently understood Project Knowledge delta is being reconciled\./);
@@ -329,8 +334,8 @@ test('workflow Skills have entry conditions that do not pre-require discovery wo
 });
 
 test('Project Knowledge reconciliation separates writer, reviewer, direct user input, and automatic acceptance', () => {
-  const reconciliation = fs.readFileSync(path.resolve(__dirname, '../skills/reconcile-project-change/SKILL.md'), 'utf8');
-  const workflow = fs.readFileSync(path.resolve(__dirname, '../skills/review-change/SKILL.md'), 'utf8');
+  const reconciliation = fs.readFileSync(path.resolve(__dirname, '../.scaffold/skills/reconcile-project-change/SKILL.md'), 'utf8');
+  const workflow = fs.readFileSync(path.resolve(__dirname, '../.scaffold/skills/review-change/SKILL.md'), 'utf8');
   assert.match(reconciliation, /Git baseline/);
   assert.match(reconciliation, /fresh writer subagent/);
   assert.match(reconciliation, /distinct fresh reviewer subagent/);
@@ -346,7 +351,7 @@ test('Project Knowledge reconciliation separates writer, reviewer, direct user i
 });
 
 test('reconstruction workflow preserves evidence confidence and uncertainty', () => {
-  const workflow = fs.readFileSync(path.resolve(__dirname, '../skills/reconstruct-project-knowledge/SKILL.md'), 'utf8');
+  const workflow = fs.readFileSync(path.resolve(__dirname, '../.scaffold/skills/reconstruct-project-knowledge/SKILL.md'), 'utf8');
   for (const phase of [
     'Establish Repository Context',
     'Identify Knowledge Subjects',
@@ -361,7 +366,7 @@ test('reconstruction workflow preserves evidence confidence and uncertainty', ()
 });
 
 test('agent guidance routes brownfield reconstruction requests to the reconstruction workflow', () => {
-  const guide = fs.readFileSync(path.resolve(__dirname, '../defaults/agent-guide.md'), 'utf8');
+  const guide = fs.readFileSync(path.resolve(__dirname, '../.scaffold/agent-guide.md'), 'utf8');
   assert.match(guide, /Reconstruct documentation or recover durable knowledge from an existing repository area \| `reconstruct-project-knowledge`/);
   assert.match(guide, /reconstruct project documentation/);
   assert.match(guide, /exceptional `Inferred` and `Unknown` states/);
@@ -369,7 +374,7 @@ test('agent guidance routes brownfield reconstruction requests to the reconstruc
 });
 
 test('default templates are the single source for default document structures', () => {
-  const schema = fs.readFileSync(path.resolve(__dirname, '../defaults/knowledge-schema.md'), 'utf8');
+  const schema = fs.readFileSync(path.resolve(__dirname, '../.scaffold/knowledge-schema.md'), 'utf8');
   assert.match(schema, /required structural section.*may remain empty/s);
   assert.match(schema, /project-local Schema replaces this default representation contract in full/);
   assert.match(schema, /structural heading names and order are defined once/);
@@ -384,7 +389,7 @@ test('default templates are the single source for default document structures', 
     governance: ['Purpose', 'Applies When', 'Does Not Normally Apply When', 'Records', 'Verification', 'Related Knowledge'],
   };
   for (const [type, sections] of Object.entries(expectedSections)) {
-    const template = fs.readFileSync(path.resolve(__dirname, `../defaults/templates/${type}/standard.md`), 'utf8');
+    const template = fs.readFileSync(path.resolve(__dirname, `../.scaffold/templates/${type}/standard.md`), 'utf8');
     const headings = [...template.matchAll(/^## (.+)$/gm)].map((match) => match[1]);
     assert.deepEqual(headings, sections, `${type} template sections`);
     assert.match(template, /Use this template only when selected by the active Knowledge Schema/, `${type} template lifecycle guidance`);
@@ -392,10 +397,10 @@ test('default templates are the single source for default document structures', 
 });
 
 test('default guidance keeps semantic meaning out of the Schema', () => {
-  const schema = fs.readFileSync(path.resolve(__dirname, '../defaults/knowledge-schema.md'), 'utf8');
-  const workflow = (name) => fs.readFileSync(path.resolve(__dirname, '../skills', name.replace(/\.md$/, ''), 'SKILL.md'), 'utf8');
-  const contextSkill = fs.readFileSync(path.resolve(__dirname, '../skills/collect-context/SKILL.md'), 'utf8');
-  const rules = path.resolve(__dirname, '../defaults/rules');
+  const schema = fs.readFileSync(path.resolve(__dirname, '../.scaffold/knowledge-schema.md'), 'utf8');
+  const workflow = (name) => fs.readFileSync(path.resolve(__dirname, '../.scaffold/skills', name.replace(/\.md$/, ''), 'SKILL.md'), 'utf8');
+  const contextSkill = fs.readFileSync(path.resolve(__dirname, '../.scaffold/skills/collect-context/SKILL.md'), 'utf8');
+  const rules = path.resolve(__dirname, '../.scaffold/rules');
 
   assert.match(schema, /## Structural Requirements/);
   assert.doesNotMatch(schema, /## Document Section Guidance/);
@@ -411,12 +416,12 @@ test('default guidance keeps semantic meaning out of the Schema', () => {
   assert.ok(fs.existsSync(path.join(rules, 'core/knowledge-discipline.md')));
   assert.ok(fs.existsSync(path.join(rules, 'core/knowledge-space-partition.md')));
   assert.ok(fs.existsSync(path.join(rules, 'verification/risk-proportionate.md')));
-  assert.equal(fs.existsSync(path.resolve(__dirname, '../defaults/project-rules.md')), false);
+  assert.equal(fs.existsSync(path.resolve(__dirname, '../.scaffold/project-rules.md')), false);
 });
 
 test('default workflows apply the active knowledge-space partition Rule', () => {
-  const rule = fs.readFileSync(path.resolve(__dirname, '../defaults/rules/core/knowledge-space-partition.md'), 'utf8');
-  const workflow = (name) => fs.readFileSync(path.resolve(__dirname, `../skills/${name}/SKILL.md`), 'utf8');
+  const rule = fs.readFileSync(path.resolve(__dirname, '../.scaffold/rules/core/knowledge-space-partition.md'), 'utf8');
+  const workflow = (name) => fs.readFileSync(path.resolve(__dirname, `../.scaffold/skills/${name}/SKILL.md`), 'utf8');
 
   assert.match(rule, /Project Context, Problem Space, Governance Space, or Solution Space/);
   assert.match(rule, /externally meaningful behavior with an implementation approach/);
@@ -428,7 +433,7 @@ test('default workflows apply the active knowledge-space partition Rule', () => 
 });
 
 test('initialization guidance establishes only the foundational project baseline', () => {
-  const workflow = fs.readFileSync(path.resolve(__dirname, '../skills/initialize-project/SKILL.md'), 'utf8');
+  const workflow = fs.readFileSync(path.resolve(__dirname, '../.scaffold/skills/initialize-project/SKILL.md'), 'utf8');
 
   assert.match(workflow, /Project Context/);
   assert.match(workflow, /Do not create a Problem document merely to record a project goal/);
@@ -445,8 +450,8 @@ test('initialization guidance establishes only the foundational project baseline
 });
 
 test('default guidance separates Project Context from coherent Problem-document subjects', () => {
-  const schema = fs.readFileSync(path.resolve(__dirname, '../defaults/knowledge-schema.md'), 'utf8');
-  const context = fs.readFileSync(path.resolve(__dirname, '../defaults/templates/project-context/standard.md'), 'utf8');
+  const schema = fs.readFileSync(path.resolve(__dirname, '../.scaffold/knowledge-schema.md'), 'utf8');
+  const context = fs.readFileSync(path.resolve(__dirname, '../.scaffold/templates/project-context/standard.md'), 'utf8');
 
   assert.match(schema, /Project Context record/);
   assert.match(schema, /CTX-<NUMBER>/);
@@ -458,11 +463,11 @@ test('default guidance separates Project Context from coherent Problem-document 
 });
 
 test('templates keep field completion guidance local to the selected template', () => {
-  const problem = fs.readFileSync(path.resolve(__dirname, '../defaults/templates/problem/standard.md'), 'utf8');
-  const governance = fs.readFileSync(path.resolve(__dirname, '../defaults/templates/governance/standard.md'), 'utf8');
-  const solution = fs.readFileSync(path.resolve(__dirname, '../defaults/templates/solution/standard.md'), 'utf8');
-  const crosswalk = fs.readFileSync(path.resolve(__dirname, '../defaults/templates/governance/model-migration-crosswalk.md'), 'utf8');
-  const workflow = fs.readFileSync(path.resolve(__dirname, '../skills/update-knowledge/SKILL.md'), 'utf8');
+  const problem = fs.readFileSync(path.resolve(__dirname, '../.scaffold/templates/problem/standard.md'), 'utf8');
+  const governance = fs.readFileSync(path.resolve(__dirname, '../.scaffold/templates/governance/standard.md'), 'utf8');
+  const solution = fs.readFileSync(path.resolve(__dirname, '../.scaffold/templates/solution/standard.md'), 'utf8');
+  const crosswalk = fs.readFileSync(path.resolve(__dirname, '../.scaffold/templates/governance/model-migration-crosswalk.md'), 'utf8');
+  const workflow = fs.readFileSync(path.resolve(__dirname, '../.scaffold/skills/update-knowledge/SKILL.md'), 'utf8');
 
   assert.match(problem, /Record the problem context, desired outcome, and relevant Motivation/);
   assert.match(governance, /Record applicable Governance objects and durable source context/);
@@ -472,11 +477,11 @@ test('templates keep field completion guidance local to the selected template', 
 });
 
 test('default knowledge representation demonstrates local IDs and qualified references', () => {
-  const schema = fs.readFileSync(path.resolve(__dirname, '../defaults/knowledge-schema.md'), 'utf8');
-  const guide = fs.readFileSync(path.resolve(__dirname, '../defaults/agent-guide.md'), 'utf8');
-  const problem = fs.readFileSync(path.resolve(__dirname, '../defaults/templates/problem/standard.md'), 'utf8');
-  const solution = fs.readFileSync(path.resolve(__dirname, '../defaults/templates/solution/standard.md'), 'utf8');
-  const governance = fs.readFileSync(path.resolve(__dirname, '../defaults/templates/governance/standard.md'), 'utf8');
+  const schema = fs.readFileSync(path.resolve(__dirname, '../.scaffold/knowledge-schema.md'), 'utf8');
+  const guide = fs.readFileSync(path.resolve(__dirname, '../.scaffold/agent-guide.md'), 'utf8');
+  const problem = fs.readFileSync(path.resolve(__dirname, '../.scaffold/templates/problem/standard.md'), 'utf8');
+  const solution = fs.readFileSync(path.resolve(__dirname, '../.scaffold/templates/solution/standard.md'), 'utf8');
+  const governance = fs.readFileSync(path.resolve(__dirname, '../.scaffold/templates/governance/standard.md'), 'utf8');
 
   assert.match(schema, /## Identifiers and References/);
   assert.match(schema, /<TYPE>-<LOCAL_NUMBER> — <DESCRIPTIVE_TITLE>/);
@@ -500,11 +505,11 @@ test('default knowledge representation demonstrates local IDs and qualified refe
 
 test('default guidance uses single-owner acceptance and bounded verification items', () => {
   const read = (relative) => fs.readFileSync(path.resolve(__dirname, '..', relative), 'utf8');
-  const model = read('defaults/knowledge-model.md');
-  const schema = read('defaults/knowledge-schema.md');
-  const problemTemplate = read('defaults/templates/problem/standard.md');
-  const solutionTemplate = read('defaults/templates/solution/standard.md');
-  const rule = read('defaults/rules/verification/dependency-isolation.md');
+  const model = read('.scaffold/knowledge-model.md');
+  const schema = read('.scaffold/knowledge-schema.md');
+  const problemTemplate = read('.scaffold/templates/problem/standard.md');
+  const solutionTemplate = read('.scaffold/templates/solution/standard.md');
+  const rule = read('.scaffold/rules/verification/dependency-isolation.md');
   const product = read('knowledge/problem/scaffold-product.md');
   const solutionRecords = [
     'knowledge/solution/cli-and-guidance.md',
@@ -546,15 +551,15 @@ test('default guidance uses single-owner acceptance and bounded verification ite
 
 test('default Harness guides explicit hybrid agent, Skill, tool, and integration boundaries', () => {
   const read = (relative) => fs.readFileSync(path.resolve(__dirname, '..', relative), 'utf8');
-  const model = read('defaults/knowledge-model.md');
-  const template = read('defaults/templates/solution/standard.md');
-  const rule = read('defaults/rules/architecture/hybrid-responsibility-allocation.md');
-  const guide = read('defaults/agent-guide.md');
-  const define = read('skills/define-change/SKILL.md');
-  const reconstruct = read('skills/reconstruct-project-knowledge/SKILL.md');
-  const impact = read('skills/analyze-impact/SKILL.md');
-  const review = read('skills/review-change/SKILL.md');
-  const verify = read('skills/verify-change/SKILL.md');
+  const model = read('.scaffold/knowledge-model.md');
+  const template = read('.scaffold/templates/solution/standard.md');
+  const rule = read('.scaffold/rules/architecture/hybrid-responsibility-allocation.md');
+  const guide = read('.scaffold/agent-guide.md');
+  const define = read('.scaffold/skills/define-change/SKILL.md');
+  const reconstruct = read('.scaffold/skills/reconstruct-project-knowledge/SKILL.md');
+  const impact = read('.scaffold/skills/analyze-impact/SKILL.md');
+  const review = read('.scaffold/skills/review-change/SKILL.md');
+  const verify = read('.scaffold/skills/verify-change/SKILL.md');
   const problem = read('knowledge/problem/hybrid-system-architecture.md');
 
   assert.match(model, /a non-executable Skill remains distinct from the agent host/);
@@ -574,7 +579,7 @@ test('default Harness guides explicit hybrid agent, Skill, tool, and integration
 });
 
 test("the package ships a complete default Knowledge Model", () => {
-  const model = fs.readFileSync(path.resolve(__dirname, "../defaults/knowledge-model.md"), "utf8");
+  const model = fs.readFileSync(path.resolve(__dirname, "../.scaffold/knowledge-model.md"), "utf8");
   for (const heading of [
     "## Problem Space",
     "## Governance Space",
@@ -614,11 +619,11 @@ test("the package ships a complete default Knowledge Model", () => {
 
 test('model migrations use explicit project-owned crosswalks without automatic semantic rewriting', () => {
   const read = (relative) => fs.readFileSync(path.resolve(__dirname, '..', relative), 'utf8');
-  const model = read('defaults/knowledge-model.md');
-  const schema = read('defaults/knowledge-schema.md');
-  const template = read('defaults/templates/governance/model-migration-crosswalk.md');
-  const migration = read('skills/migrate-project/SKILL.md');
-  const evolution = read('skills/evolve-project-artifact/SKILL.md');
+  const model = read('.scaffold/knowledge-model.md');
+  const schema = read('.scaffold/knowledge-schema.md');
+  const template = read('.scaffold/templates/governance/model-migration-crosswalk.md');
+  const migration = read('.scaffold/skills/migrate-project/SKILL.md');
+  const evolution = read('.scaffold/skills/evolve-project-artifact/SKILL.md');
 
   assert.match(model, /only one Knowledge Model is active at a time/);
   assert.match(model, /must not cause automatic semantic rewriting/);

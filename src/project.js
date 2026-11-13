@@ -69,15 +69,9 @@ function copyMissing(source, destination) {
 
 function materializeHarness(directory, packageRoot) {
   const root = scaffoldDirectory(directory);
-  const entries = [
-    ['defaults/agent-guide.md', 'agent-guide.md'],
-    ['defaults/knowledge-model.md', 'knowledge-model.md'],
-    ['defaults/knowledge-schema.md', 'knowledge-schema.md'],
-    ['defaults/rules', 'rules'],
-    ['defaults/templates', 'templates'],
-    ['skills', 'skills'],
-  ];
-  const created = entries.filter(([source, destination]) => copyMissing(path.join(packageRoot, source), path.join(root, destination)));
+  const source = scaffoldDirectory(packageRoot);
+  const entries = ['agent-guide.md', 'knowledge-model.md', 'knowledge-schema.md', 'rules', 'templates', 'skills'];
+  const created = entries.filter((name) => copyMissing(path.join(source, name), path.join(root, name)));
   return { created, preserved: entries.length - created.length };
 }
 
@@ -296,11 +290,7 @@ function resolvedArtifacts(directory) {
 }
 
 function candidateFiles(packageRoot) {
-  const files = new Map();
-  const add = (root, prefix = '') => filesAt(root).forEach((name) => files.set(path.join(prefix, name), path.join(root, name)));
-  add(path.join(packageRoot, 'defaults'), '');
-  add(path.join(packageRoot, 'skills'), 'skills');
-  return files;
+  return projectArtifactFiles(packageRoot);
 }
 
 function projectArtifactFiles(directory) {

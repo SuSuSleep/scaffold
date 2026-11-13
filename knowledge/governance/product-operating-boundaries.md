@@ -2,7 +2,7 @@
 
 Document ID: GOV-002
 
-> Evidence source: [`defaults/knowledge-model.md`](../../defaults/knowledge-model.md), [`defaults/knowledge-schema.md`](../../defaults/knowledge-schema.md), and [`defaults/rules/`](../../defaults/rules/), inspected 2026-08-21.
+> Evidence source: [`.scaffold/knowledge-model.md`](../../.scaffold/knowledge-model.md), [`.scaffold/knowledge-schema.md`](../../.scaffold/knowledge-schema.md), and [`.scaffold/rules/`](../../.scaffold/rules/), inspected 2026-08-21.
 
 ## Purpose
 

@@ -2,7 +2,7 @@
 
 Document ID: SOL-005
 
-> Evidence source: [`defaults/knowledge-schema.md`](../../defaults/knowledge-schema.md), [`defaults/rules/`](../../defaults/rules/), and [`skills/`](../../skills/), inspected 2026-08-30.
+> Evidence source: [`.scaffold/knowledge-schema.md`](../../.scaffold/knowledge-schema.md), [`.scaffold/rules/`](../../.scaffold/rules/), and [`.scaffold/skills/`](../../.scaffold/skills/), inspected 2026-08-30.
 
 ## Capabilities
 

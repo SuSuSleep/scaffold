@@ -96,15 +96,15 @@ A **Capability** is an ability the solution provides to satisfy one or more obli
 
 ### Responsibility
 
-A **Responsibility** defines what a solution element must own or be accountable for. Identify Responsibilities before unnecessary physical decomposition.
+A **Responsibility** defines what a solution element must own or be accountable for. Identify Responsibilities before unnecessary physical decomposition. In a hybrid solution, distinguish responsibility for adaptive behavior executed by an agent, instructions that guide that behavior, exact operations executed by deterministic programs, and integration that makes instructions or tools available to the agent when those distinctions affect future reasoning or safe modification.
 
 ### Component
 
-A **Component** is a concrete architectural unit assigned one or more Responsibilities. Do not invent a Component simply because a Requirement exists.
+A **Component** is a concrete architectural unit assigned one or more Responsibilities. A Component may be an executable program, an independently managed instruction artifact such as a Skill, or an integration unit; a non-executable Skill remains distinct from the agent host that interprets it and executes adaptive behavior. Do not invent a Component simply because a Requirement exists.
 
 ### Interface
 
-An **Interface** is an interaction boundary between Components, systems, external Actors, or external services. It may be an API, event, protocol, file contract, or internal component boundary, and may be constrained by External Contracts, Requirements, Controls, or Solution Responsibilities.
+An **Interface** is an interaction boundary between Components, systems, external Actors, or external services. It may be an API, event, protocol, file contract, agent-to-Skill guidance boundary, agent-tool contract, or internal component boundary, and may be constrained by External Contracts, Requirements, Controls, or Solution Responsibilities.
 
 ### Design
 
@@ -119,6 +119,8 @@ A **Decision** records an intentional choice between meaningful alternatives. Wh
 A **Verification Item** is a bounded durable Solution expectation describing evidence that contributes to demonstrating one Acceptance Criterion. One Acceptance Criterion may require multiple Verification Items; the existence or completion of one item does not alone demonstrate the whole criterion. It is not a project-wide verification strategy or completed verification evidence.
 
 Its verification boundary identifies the behavior being demonstrated. Dependencies outside that boundary may be substituted when doing so preserves meaningful evidence; an interaction that is itself the target must remain real enough to verify. Verification techniques, framework syntax, and temporary test setup are implementation or Project Rule concerns rather than default durable Solution knowledge.
+
+For a hybrid solution, deterministic component behavior, Skill-guided adaptive behavior, and the material agent-tool interaction may require separate Verification Items. Do not claim repeatability for adaptive behavior merely because a deterministic tool used by that behavior is repeatable.
 
 ## Relationship Semantics
 
@@ -148,6 +150,7 @@ Relationships are many-to-many. A Capability may satisfy multiple Requirements, 
 - A Finding must not automatically become a Control without root-cause analysis and justified generalization.
 - An internal Component must not be treated as an Actor solely because it communicates with another Component.
 - Responsibility describes ownership semantics; Component describes architectural assignment. They are not interchangeable.
+- A Skill that guides an agent must not be represented as independently executing the adaptive behavior; the executing agent host and the instruction artifact remain distinct solution elements or boundaries.
 - Verification Items are durable expectations; completed Verification Evidence must not be claimed before verification occurs and is not automatically durable knowledge.
 - Each Acceptance Criterion has exactly one primary Requirement owner; a Requirement may own many Acceptance Criteria.
 - Each normal Verification Item has exactly one primary Acceptance Criterion target; multiple Verification Items may collectively demonstrate that criterion.
@@ -161,6 +164,7 @@ Relationships are many-to-many. A Capability may satisfy multiple Requirements, 
 - Do not encode a Business Goal as a Capability.
 - Do not use a Decision to rewrite expected behavior represented by a Requirement.
 - Do not use a Component where ownership semantics require a Responsibility.
+- Do not collapse a hybrid workflow into one undifferentiated Component when its Skill-guided behavior, deterministic operations, or host integration have materially different responsibilities or failure boundaries.
 - Do not use `related-to` when a known, more precise relationship applies.
 - Do not use a multi-owner Acceptance Criterion merely because other Requirements are prerequisites.
 - Do not substitute an interaction while claiming to verify that interaction.

@@ -2,7 +2,7 @@
 
 Document ID: SOL-002
 
-> Evidence source: [`defaults/`](../../defaults/), [`skills/`](../../skills/), and [`test/cli.test.js`](../../test/cli.test.js), inspected 2026-08-30. These sources currently evidence the older shared-runtime bundle behavior; they do not establish the candidate-only package role proposed in this knowledge change.
+> Design basis: project-owner approval of the single-source Harness consolidation, 2026-11-13. [`.scaffold/`](../../.scaffold/) contains the active artifacts; [`src/project.js`](../../src/project.js), [`package.json`](../../package.json), and [`test/cli.test.js`](../../test/cli.test.js) are the affected distribution, lifecycle, and verification boundaries. The consolidation is implemented in these boundaries; package contents and extracted-package initialization were verified on 2026-11-13.
 
 ## Capabilities
 
@@ -44,10 +44,10 @@ Provide concise methods for collecting context, analyzing impact, implementing w
 
 ## Components and Boundaries
 
-- **`defaults/`** is assigned-to RESP-001. It contains the candidate Knowledge Model, Schema, categorized `rules/`, templates, and agent guide. Package-root **`skills/`** supplies the candidate workflow and model-invoked Skills. Together these locations form the starter bundle that `init` materializes into a project's active Harness and `update --diff` compares with it.
-- **User-invoked workflow Skills in `skills/`** are assigned-to RESP-002. Their `agents/openai.yaml` interfaces expose project-work lifecycle sequencing, including `reconstruct-project-knowledge` and `learn-from-finding`.
-- **Model-invoked Skills in `skills/`** are assigned-to RESP-003. They omit an interface and supply reusable methods in the candidate bundle; initialization materializes them locally for active use.
-- The installed package distributes these artifacts to projects. After initialization, `.scaffold/` is the source of active Harness guidance; the package bundle is only an initialization and update-review candidate.
+- **The Scaffold repository's `.scaffold/`** is assigned-to RESP-001. Its agent guide, Knowledge Model, Schema, categorized `rules/`, templates, and `skills/` are both the active Harness for developing Scaffold and the single maintained source of its distributed starter bundle. There are no separate root `defaults/` or `skills/` copies. The package includes these distributable artifacts and excludes this repository's local `metadata.md`.
+- **User-invoked workflow Skills in `.scaffold/skills/`** are assigned-to RESP-002. Their `agents/openai.yaml` interfaces expose project-work lifecycle sequencing, including `reconstruct-project-knowledge` and `learn-from-finding`.
+- **Model-invoked Skills in `.scaffold/skills/`** are assigned-to RESP-003. They omit an interface and supply reusable methods in the candidate bundle; initialization materializes them locally for active use.
+- The installed package distributes its bundled `.scaffold/` artifacts to other projects. Initialization copies them into the target project's own `.scaffold/` and creates target-specific metadata. That target-local Harness remains the sole active authority; the installed bundle remains only an initialization and update-review candidate for that project.
 
 ## Satisfies
 
@@ -72,9 +72,9 @@ The target Schema and Problem template must also make each Problem document a re
 
 User-invoked workflow Skills own ordered phases, phase intent, and required outcomes. Model-invoked Skills are reusable methods that a workflow Skill may use and Project Rules may require, but they do not replace workflow sequencing.
 
-### DEC-003 — Pending candidate-bundle materialization
+### DEC-003 — Superseded: pending candidate-bundle materialization
 
-CAP-004 is intentional target design. The current package layout remains evidence of its prior shared-runtime role until implementation copies the complete candidate bundle into a project's active Harness and compares that local set mechanically during update review. This Decision does not claim that those changes have already been implemented or verified.
+Superseded by DEC-006 — One source for active and distributed Harness artifacts. This historical implementation-stage note is no longer an active description of the package layout.
 
 ### DEC-004 — Project Context representation
 
@@ -85,6 +85,16 @@ The candidate Schema, Project Context template, Problem template guidance, and i
 Realizes: RESP-002 — Workflow-Skill sequencing.
 
 The reconstruction workflow is to apply the active `core.knowledge-space-partition` Rule to shared terminology and implementation evidence, using the classification design in SOL-003#DEC-006 — Policy-guided partitioning without a semantic CLI validator. Its evidence analysis must distinguish support for a stakeholder term, support for its domain meaning and intended behavior, and evidence of technical realization; these are not interchangeable. Established implementation-origin vocabulary can be retained without accepting the surrounding state machine as business intent. Unsupported meanings or obligations retain the existing Inferred or Unknown treatment and required owner review. This design requires subsequent guidance implementation and does not claim that it has been completed.
+
+### DEC-006 — One source for active and distributed Harness artifacts
+
+Realizes: RESP-001 — Candidate artifact stewardship.
+
+Maintain the distributable Harness directly in this repository's `.scaffold/`, replacing the separate root `defaults/` and `skills/` copies. Coding agents otherwise have to distinguish the guidance to edit from an identical copy they must follow, creating wrong-location edits and synchronization work. One maintained file per artifact removes that distinction here; the same Skill, Rule, Model, Schema, Template, or guide is followed locally and shipped.
+
+The trade-off is deliberate coupling: changing distributed guidance changes this repository's active guidance immediately. The shared source must therefore remain suitable for distribution. Practices specific to developing Scaffold belong in repository instructions outside the distributed artifact set. Local metadata is excluded from distribution and artifact comparison; each target project owns its reviewed-version and installation state.
+
+Initialization and update comparison read the package's `.scaffold/` artifact set. Other projects still receive independent local copies and retain deliberate customization and update adoption. Consolidation changes the source layout, not downstream runtime authority or update-merge behavior. Agent discovery continues linking workflow Skills from each project's `.scaffold/skills/`.
 
 ## Verification Items
 
@@ -131,6 +141,22 @@ Scope:
 Expected evidence:
 
 - learning guidance requires analysis before a finding becomes a Control, Constraint, or Requirement.
+
+### VER-004 — Packaged Harness initializes from the single maintained source
+
+Verifies:
+
+- PROB-002#AC-023 — Initialization materializes active guidance.
+
+Scope:
+
+- the boundary from this repository's maintained `.scaffold/` artifacts through the actual package archive to initialization in another repository.
+
+Expected evidence:
+
+- the archive contains the complete distributable Harness from `.scaffold/`, including workflow interfaces and model-invoked Skills, without root `defaults/` or `skills/` duplicates or this repository's `metadata.md`;
+- initialization using the extracted package materializes the same artifacts in the target project's `.scaffold/`, generates target-specific metadata, and links workflow discovery to the target-local Skills; and
+- artifact comparison excludes local metadata and reports changes against the bundled Harness without modifying the target's guidance.
 
 ## Related Knowledge
 

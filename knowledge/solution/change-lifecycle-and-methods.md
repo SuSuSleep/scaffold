@@ -2,7 +2,7 @@
 
 Document ID: SOL-004
 
-> Evidence source: [`skills/`](../../skills/) and [`defaults/agent-guide.md`](../../defaults/agent-guide.md), inspected 2026-08-30.
+> Evidence source: [`.scaffold/skills/`](../../.scaffold/skills/) and [`.scaffold/agent-guide.md`](../../.scaffold/agent-guide.md), inspected 2026-08-30.
 
 ## Capabilities
 

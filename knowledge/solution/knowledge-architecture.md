@@ -2,7 +2,7 @@
 
 Document ID: SOL-003
 
-> Evidence source: [`defaults/knowledge-model.md`](../../defaults/knowledge-model.md), [`defaults/knowledge-schema.md`](../../defaults/knowledge-schema.md), [`defaults/rules/`](../../defaults/rules/), and [`defaults/agent-guide.md`](../../defaults/agent-guide.md), inspected 2026-08-30. These sources evidence the current shared-runtime architecture; the project-local authority model below is intentional target design pending implementation.
+> Evidence source: [`.scaffold/knowledge-model.md`](../../.scaffold/knowledge-model.md), [`.scaffold/knowledge-schema.md`](../../.scaffold/knowledge-schema.md), [`.scaffold/rules/`](../../.scaffold/rules/), and [`.scaffold/agent-guide.md`](../../.scaffold/agent-guide.md), inspected 2026-11-13. These project-local files provide active semantic, representation, and policy guidance. Their additional role as the single maintained distribution source is defined by SOL-002#DEC-006; the package archive and extracted-package initialization were verified on 2026-11-13.
 
 ## Capabilities
 

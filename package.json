@@ -10,8 +10,12 @@
   "files": [
     "bin/",
     "src/",
-    "defaults/",
-    "skills/",
+    ".scaffold/agent-guide.md",
+    ".scaffold/knowledge-model.md",
+    ".scaffold/knowledge-schema.md",
+    ".scaffold/rules/",
+    ".scaffold/templates/",
+    ".scaffold/skills/",
     "README.md"
   ],
   "scripts": {

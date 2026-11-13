@@ -67,6 +67,8 @@ Relevant active-Model knowledge is reconstructed from existing documentation, so
 
 When implementation-origin vocabulary has established stakeholder use, preserve the term while distinguishing evidence for the term itself, its agreed domain meaning and intended behavior, and its technical representation. Under the default Schema, record the shared definition in Project Context's Domain Terms; record observable obligations and acceptance in Problem knowledge; retain a representation or mapping in Solution knowledge only when it has durable reasoning value. Do not infer that an enum, field, complete state set, or transition model is an intended lifecycle solely from code or shared naming. Record an exact externally mandated value through the applicable Governance source and its derived requirement or constrained interface. Unsupported meanings or obligations remain Inferred or Unknown.
 
+For a hybrid solution, reconstruct the material distinction among the existing agent host that executes adaptive behavior, Skills that guide it, deterministic tools or bridges, and integration components. Recover evidenced responsibility assignments, interfaces, dependencies, allocation rationale, and failure or authority boundaries without treating a Skill as an independent runtime or inferring intended ownership solely from repository layout.
+
 #### Relevant Rules
 
 - Engineering conventions may be reconstructed as Project Rules only when explicit knowledge or strong repository evidence supports them.
