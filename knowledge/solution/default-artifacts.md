@@ -84,7 +84,7 @@ The candidate Schema, Project Context template, Problem template guidance, and i
 
 Realizes: RESP-002 — Workflow-Skill sequencing.
 
-The reconstruction workflow is to apply the active `core.knowledge-space-partition` Rule to shared terminology and implementation evidence, using the classification design in SOL-003#DEC-006 — Policy-guided partitioning without a semantic CLI validator. Its evidence analysis must distinguish support for a stakeholder term, support for its domain meaning and intended behavior, and evidence of technical realization; these are not interchangeable. Established implementation-origin vocabulary can be retained without accepting the surrounding state machine as business intent. Unsupported meanings or obligations retain the existing Inferred or Unknown treatment and required owner review. This design requires subsequent guidance implementation and does not claim that it has been completed.
+The reconstruction workflow applies the active `core.knowledge-space-partition` Rule to shared terminology and implementation evidence, using the classification design in SOL-003#DEC-006 — Policy-guided partitioning without a semantic CLI validator. Its evidence analysis must distinguish support for a stakeholder term, support for its domain meaning and intended behavior, and evidence of technical realization; these are not interchangeable. Established implementation-origin vocabulary can be retained without accepting the surrounding state machine as business intent. Unsupported meanings or obligations retain the existing Inferred or Unknown treatment and required owner review. The partition Rule and reconstruction Skill carry this guidance; their presence does not by itself demonstrate a successful agent-run reconstruction scenario.
 
 ### DEC-006 — One source for active and distributed Harness artifacts
 
@@ -95,6 +95,8 @@ Maintain the distributable Harness directly in this repository's `.scaffold/`, r
 The trade-off is deliberate coupling: changing distributed guidance changes this repository's active guidance immediately. The shared source must therefore remain suitable for distribution. Practices specific to developing Scaffold belong in repository instructions outside the distributed artifact set. Local metadata is excluded from distribution and artifact comparison; each target project owns its reviewed-version and installation state.
 
 Initialization and update comparison read the package's `.scaffold/` artifact set. Other projects still receive independent local copies and retain deliberate customization and update adoption. Consolidation changes the source layout, not downstream runtime authority or update-merge behavior. Agent discovery continues linking workflow Skills from each project's `.scaffold/skills/`.
+
+The package contains its own CLI implementation and candidate Harness. It does not depend on another packaged copy of itself or a repository-local tarball to operate. The package manifest and lockfile describe the same package identity and dependency set; archived earlier versions remain historical snapshots rather than current artifact authorities.
 
 ## Verification Items
 
@@ -154,7 +156,7 @@ Scope:
 
 Expected evidence:
 
-- the archive contains the complete distributable Harness from `.scaffold/`, including workflow interfaces and model-invoked Skills, without root `defaults/` or `skills/` duplicates or this repository's `metadata.md`;
+- the archive contains the complete distributable Harness from `.scaffold/`, including workflow interfaces and model-invoked Skills, without root `defaults/` or `skills/` duplicates or this repository's `metadata.md`, and its manifest requires no self-dependency or repository-local archive;
 - initialization using the extracted package materializes the same artifacts in the target project's `.scaffold/`, generates target-specific metadata, and links workflow discovery to the target-local Skills; and
 - artifact comparison excludes local metadata and reports changes against the bundled Harness without modifying the target's guidance.
 

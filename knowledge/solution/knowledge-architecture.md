@@ -131,9 +131,9 @@ A Knowledge Model replacement may require a project-owned Crosswalk that maps co
 
 ### DEC-006 — Policy-guided partitioning without a semantic CLI validator
 
-The active Project Rules are the operating-policy authority for knowledge work, while the active Knowledge Model remains the authority for the meanings being partitioned. Default Rules and Skills will distribute this partitioning policy through the relevant workflows and their verification; the command-line interface remains limited to mechanical support and does not add a deterministic semantic-classification validator. Agents apply the policy and report material uncertainty rather than fabricate relationships.
+The active Project Rules are the operating-policy authority for knowledge work, while the active Knowledge Model remains the authority for the meanings being partitioned. Default Rules and Skills distribute this partitioning policy through the relevant workflows and their verification; the command-line interface remains limited to mechanical support and does not add a deterministic semantic-classification validator. Agents apply the policy and report material uncertainty rather than fabricate relationships.
 
-The existing `core.knowledge-space-partition` Rule is the designated authority for applying the terminology distinction and change-impact cases in PROB-002#REQ-019. Reconstruction guidance consumes that Rule as described by SOL-002#DEC-005 — Reconstruction separates domain evidence from representation; it must not become a second copy of the policy. This extends the existing partition design without adding a Model concept, Schema category, or separate terminology Rule. The Rule and workflow guidance changes remain to be implemented.
+The existing `core.knowledge-space-partition` Rule is the designated authority for applying the terminology distinction and change-impact cases in PROB-002#REQ-019. Reconstruction guidance consumes that Rule as described by SOL-002#DEC-005 — Reconstruction separates domain evidence from representation; it must not become a second copy of the policy. This extends the existing partition design without adding a Model concept, Schema category, or separate terminology Rule. The active Rule and reconstruction Skill contain the corresponding guidance. Presence of those instructions is distinct from completed verification of an agent applying them.
 
 ## Verification Items
 
@@ -220,6 +220,6 @@ Expected evidence:
 - PROB-002#REQ-015 — Deliberate Knowledge Model migration mapping.
 - SOL-002#CAP-004 — Package candidate and starter artifact provision.
 - SOL-002#DEC-001 — Schema-selected template applicability.
-- SOL-002#DEC-004 — Pending Project Context representation.
+- SOL-002#DEC-004 — Project Context representation.
 - GOV-002#CON-003 — Durable source-of-truth boundaries.
 - SOL-006#RESP-004 — Hybrid allocation guidance applies these knowledge authorities to hybrid Solution records.

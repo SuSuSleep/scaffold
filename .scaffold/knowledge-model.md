@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This model defines Scaffold's default meaning of durable project knowledge. It is authoritative when a project does not provide `.scaffold/knowledge-model.md`; that project-local Model fully replaces this default and is never implicitly merged with it.
+This model defines Scaffold's default meaning of durable project knowledge. Once materialized at `.scaffold/knowledge-model.md`, this project-local Model is the active semantic authority. A project may deliberately replace it in full; no installed-package Model is a runtime fallback or implicitly merged co-authority. The installed package supplies a candidate Model for initialization and update review only.
 
 > The active Knowledge Model defines semantic concepts and relationships. The active Knowledge Schema defines how those concepts are organized, represented, identified, and linked in project artifacts.
 

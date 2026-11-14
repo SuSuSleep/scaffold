@@ -5,3 +5,4 @@
 !.agents/skills/
 !.agents/skills/**
 node_modules/
+*.tgz

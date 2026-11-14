@@ -57,7 +57,7 @@ Search Markdown document declarations recursively and report namespace availabil
 Exposed by `bin/scaffold.js` through `src/cli.js`.
 
 - `scaffold init [directory]` initializes Harness infrastructure and materializes the required active artifacts for the target repository.
-- `scaffold status [directory]` reports the project-local active artifacts and update-review state.
+- `scaffold status [directory]` reports the project-local active artifacts, including the agent guide, structural completeness, and update-review state as distinct observations.
 - `scaffold update --diff [directory]` reports a two-way add/change/removal comparison between project-local active artifacts and the installed package candidate bundle, without edits or merge decisions.
 - `scaffold update [directory]` records completed owner-directed update review without changing project-local artifacts.
 - `scaffold id next PREFIX [directory]` returns the next unused document ID in a namespace.
@@ -70,6 +70,7 @@ Exposed by `bin/scaffold.js` through `src/cli.js`.
 
 - CAP-005 — Materialized Harness lifecycle management satisfies:
   - PROB-001#REQ-001 — Portable initialization
+  - PROB-001#REQ-005 — Review-aware updates
   - PROB-001#REQ-014 — Foundational Project Context baseline
   - PROB-001#REQ-015 — Confirmed foundational Project Context
   - PROB-001#REQ-016 — Rule-based engineering-practice baseline
@@ -107,6 +108,12 @@ The CLI scans Markdown `Document ID:` declarations and reports availability only
 ### DEC-006 — Superseded: pending local-only lifecycle implementation
 
 This historical implementation-stage note is superseded by DEC-001 — Project-local active Harness with package candidates. Source inspection shows complete local Harness materialization, project-local artifact resolution, and mechanical two-way update comparison. The implemented consolidation changes the package artifact source as defined by SOL-002#DEC-006; it does not restore shared-runtime resolution. Verification must still demonstrate the affected boundaries rather than infer success from source inspection.
+
+### DEC-007 — Separate Harness structure from update-review currency
+
+Realizes: RESP-002 — Project lifecycle service.
+
+Status inventories the active project-local agent guide, Knowledge Model, Knowledge Schema, Skills, Templates, and Rules. Its structural completeness check requires the root files `agent-guide.md`, `knowledge-model.md`, and `knowledge-schema.md`, and the `rules/`, `templates/`, and `skills/` directories. Missing or incorrectly typed entries are reported separately from the last-reviewed-version comparison. This mechanical check does not validate semantics, require candidate-named Skills or Templates, or introduce package fallback; projects retain deliberate local customization. A current review attestation alone does not establish structural completeness.
 
 ## Verification Items
 
@@ -222,6 +229,21 @@ Expected evidence:
 
 - evidence-backed practices are represented by applicable Project Rules; absent practices remain undefined rather than inferred; and Project Context is not used as an authoritative procedure or configuration record.
 
+### VER-009 — Harness inventory and structural completeness remain distinct from review currency
+
+Verifies:
+
+- PROB-001#AC-009 — Update review is visible and attested safely.
+
+Scope:
+
+- status reporting for intact, incomplete, and deliberately customized local Harness artifacts.
+
+Expected evidence:
+
+- status includes the local agent guide in its active artifact inventory;
+- absent or incorrectly typed required root files or artifact directories are reported as structural incompleteness even when the reviewed version is current; and
+- a structurally complete customized Harness is not reported incomplete merely because its Skill or Template names differ from the package candidate.
 
 ## Related Knowledge
 

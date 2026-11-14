@@ -142,6 +142,57 @@ test('init updates only an existing managed agent block and preserves surroundin
   assert.doesNotMatch(contents, /-->old<!--/);
 });
 
+test('status inventories the complete local Harness independently of review currency', (t) => {
+  const directory = temporaryDirectory();
+  t.after(() => fs.rmSync(directory, { recursive: true, force: true }));
+  assert.equal(run('init', directory).status, 0);
+  const intact = run('status', directory);
+  assert.equal(intact.status, 0, intact.stderr);
+  assert.match(intact.stdout, /Agent Guide:\n  source: project/);
+  assert.match(intact.stdout, /Harness Structure: complete/);
+  const inventory = intact.stdout.split('\n').find((line) => line.startsWith('Active Harness Artifacts:'));
+  for (const name of ['agent-guide.md', 'rules/core/knowledge-discipline.md', 'skills/define-change/agents/openai.yaml']) {
+    assert.ok(inventory.includes(name), name);
+  }
+
+  const root = path.join(directory, '.scaffold');
+  fs.rmSync(path.join(root, 'agent-guide.md'));
+  fs.rmSync(path.join(root, 'knowledge-model.md'));
+  fs.mkdirSync(path.join(root, 'knowledge-model.md'));
+  fs.rmSync(path.join(root, 'templates'), { recursive: true });
+  fs.writeFileSync(path.join(root, 'templates'), 'wrong type');
+  fs.rmSync(path.join(root, 'rules'), { recursive: true });
+  fs.writeFileSync(path.join(root, 'rules'), 'wrong type');
+  fs.rmSync(path.join(root, 'skills'), { recursive: true });
+  fs.writeFileSync(path.join(root, 'skills'), 'wrong type');
+  const incomplete = run('status', directory);
+  assert.equal(incomplete.status, 0, incomplete.stderr);
+  assert.match(incomplete.stdout, /Update Review Status: current/);
+  assert.match(incomplete.stdout, /Harness Structure: incomplete/);
+  assert.match(incomplete.stdout, /Missing or incorrectly typed Harness entries: agent-guide.md, knowledge-model.md, rules\/, templates\/, skills\//);
+  assert.doesNotMatch(incomplete.stdout, /Agent Guide:/);
+  assert.equal(fs.existsSync(path.join(root, 'agent-guide.md')), false);
+});
+
+test('status accepts customized Skill and Template collections without candidate fallback', (t) => {
+  const directory = temporaryDirectory();
+  t.after(() => fs.rmSync(directory, { recursive: true, force: true }));
+  assert.equal(run('init', directory).status, 0);
+  const root = path.join(directory, '.scaffold');
+  fs.rmSync(path.join(root, 'skills'), { recursive: true });
+  fs.mkdirSync(path.join(root, 'skills/custom'), { recursive: true });
+  fs.writeFileSync(path.join(root, 'skills/custom/SKILL.md'), '# Custom Skill\n');
+  fs.rmSync(path.join(root, 'templates'), { recursive: true });
+  fs.mkdirSync(path.join(root, 'templates'));
+  fs.writeFileSync(path.join(root, 'templates/custom.md'), '# Custom Template\n');
+  const result = run('status', directory);
+  assert.equal(result.status, 0, result.stderr);
+  assert.match(result.stdout, /Harness Structure: complete/);
+  assert.match(result.stdout, /Skill: custom/);
+  assert.match(result.stdout, /Template: custom/);
+  assert.doesNotMatch(result.stdout, /Workflow Skill: define-change/);
+});
+
 test('status reports the project-local Rule collection', () => {
   const directory = temporaryDirectory();
   run('init', directory);
@@ -376,7 +427,9 @@ test('agent guidance routes brownfield reconstruction requests to the reconstruc
 test('default templates are the single source for default document structures', () => {
   const schema = fs.readFileSync(path.resolve(__dirname, '../.scaffold/knowledge-schema.md'), 'utf8');
   assert.match(schema, /required structural section.*may remain empty/s);
-  assert.match(schema, /project-local Schema replaces this default representation contract in full/);
+  assert.match(schema, /project-local Schema is the active representation authority/);
+  assert.match(schema, /deliberately replace it in full/);
+  assert.match(schema, /no installed-package Schema is a runtime fallback/);
   assert.match(schema, /structural heading names and order are defined once/);
   assert.match(schema, /templates\/problem\/standard\.md/);
   assert.match(schema, /templates\/solution\/standard\.md/);
@@ -426,7 +479,7 @@ test('default workflows apply the active knowledge-space partition Rule', () => 
   assert.match(rule, /Project Context, Problem Space, Governance Space, or Solution Space/);
   assert.match(rule, /externally meaningful behavior with an implementation approach/);
   assert.match(rule, /Do not manufacture a Problem record/);
-  for (const name of ['define-change', 'reconcile-project-change', 'update-knowledge', 'review-change']) {
+  for (const name of ['define-change', 'reconcile-project-change', 'update-knowledge', 'review-change', 'reconstruct-project-knowledge']) {
     assert.match(workflow(name), /core\.knowledge-space-partition/, name);
   }
   assert.match(workflow('review-change'), /obligations hidden in Solution knowledge/);
@@ -615,6 +668,8 @@ test("the package ships a complete default Knowledge Model", () => {
   assert.match(model, /`maps-to`/);
   assert.match(model, /The active Knowledge Model defines semantic concepts and relationships/);
   assert.match(model, /\.scaffold\/knowledge-model\.md/);
+  assert.match(model, /project-local Model is the active semantic authority/);
+  assert.match(model, /no installed-package Model is a runtime fallback/);
 });
 
 test('model migrations use explicit project-owned crosswalks without automatic semantic rewriting', () => {
@@ -654,7 +709,7 @@ test("status resolves the materialized local Knowledge Model", () => {
   const local = run("status", directory);
   assert.equal(local.status, 0, local.stderr);
   assert.match(local.stdout, /Knowledge Model:\n  source: project/);
-  assert.match(local.stdout, /Active Harness Artifacts: knowledge-model\.md/);
+  assert.match(local.stdout, /Active Harness Artifacts: [^\n]*\bknowledge-model\.md/);
   assert.doesNotMatch(local.stdout, /Shadowed shared artifacts/);
   assert.ok(local.stdout.includes(localModel));
 });

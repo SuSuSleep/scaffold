@@ -7,6 +7,16 @@ const METADATA_FILE = 'metadata.md';
 const AGENT_FILES = ['AGENTS.md', 'CLAUDE.md'];
 const AGENT_SKILL_DIRECTORIES = ['.agents/skills', '.claude/skills'];
 const MANAGED_BLOCK = /<!-- scaffold:start -->[\s\S]*?<!-- scaffold:end -->/;
+const HARNESS_FILES = ['agent-guide.md', 'knowledge-model.md', 'knowledge-schema.md'];
+const HARNESS_DIRECTORIES = ['rules', 'templates', 'skills'];
+
+function isFile(file) {
+  return fs.existsSync(file) && fs.statSync(file).isFile();
+}
+
+function isDirectory(directory) {
+  return fs.existsSync(directory) && fs.statSync(directory).isDirectory();
+}
 
 function scaffoldDirectory(directory) {
   return path.join(directory, '.scaffold');
@@ -70,7 +80,7 @@ function copyMissing(source, destination) {
 function materializeHarness(directory, packageRoot) {
   const root = scaffoldDirectory(directory);
   const source = scaffoldDirectory(packageRoot);
-  const entries = ['agent-guide.md', 'knowledge-model.md', 'knowledge-schema.md', 'rules', 'templates', 'skills'];
+  const entries = [...HARNESS_FILES, ...HARNESS_DIRECTORIES];
   const created = entries.filter((name) => copyMissing(path.join(source, name), path.join(root, name)));
   return { created, preserved: entries.length - created.length };
 }
@@ -158,13 +168,13 @@ function initProject({ directory, version, packageRoot, decideHostIntegration })
 }
 
 function directoryEntries(root, predicate) {
-  if (!fs.existsSync(root)) return [];
+  if (!isDirectory(root)) return [];
   return fs.readdirSync(root, { withFileTypes: true }).filter(predicate).map((entry) => entry.name);
 }
 
 function templateNames(root, relative = '') {
   const directory = path.join(root, relative);
-  if (!fs.existsSync(directory)) return [];
+  if (!isDirectory(directory)) return [];
   return fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
     const name = path.join(relative, entry.name);
     if (entry.isDirectory()) return templateNames(root, name);
@@ -174,7 +184,7 @@ function templateNames(root, relative = '') {
 
 function markdownFiles(root, relative = '') {
   const directory = path.join(root, relative);
-  if (!fs.existsSync(directory)) return [];
+  if (!isDirectory(directory)) return [];
   return fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
     const name = path.join(relative, entry.name);
     if (entry.isDirectory()) return markdownFiles(root, name);
@@ -184,7 +194,7 @@ function markdownFiles(root, relative = '') {
 
 function filesAt(root, relative = '') {
   const directory = path.join(root, relative);
-  if (!fs.existsSync(directory)) return [];
+  if (!isDirectory(directory)) return [];
   return fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
     const name = path.join(relative, entry.name);
     if (entry.isDirectory()) return filesAt(root, name);
@@ -264,6 +274,7 @@ function resolvedRules(directory) {
 function resolvedArtifacts(directory) {
   const localRoot = scaffoldDirectory(directory);
   const artifacts = [
+    { label: 'Agent Guide:', name: 'agent-guide.md', path: path.join(localRoot, 'agent-guide.md') },
     { label: 'Knowledge Model:', name: 'knowledge-model.md', path: path.join(localRoot, 'knowledge-model.md') },
     { label: 'Knowledge Schema:', name: 'knowledge-schema.md', path: path.join(localRoot, 'knowledge-schema.md') },
   ];
@@ -278,7 +289,7 @@ function resolvedArtifacts(directory) {
   };
   addNamed('Skill', 'skills', (entry) => entry.isDirectory() && fs.existsSync(path.join(localRoot, 'skills', entry.name, 'SKILL.md')), (name) => path.join(name, 'SKILL.md'));
   addNamed('Template', 'templates', (entry) => entry.isFile() && entry.name.endsWith('.md'), (name) => name);
-  return artifacts.filter((artifact) => fs.existsSync(artifact.path)).map((artifact) => {
+  return artifacts.filter((artifact) => isFile(artifact.path)).map((artifact) => {
     const isSkill = artifact.name.startsWith('skills/');
     const isWorkflowSkill = isSkill && fs.existsSync(path.join(path.dirname(artifact.path), 'agents', 'openai.yaml'));
     return {
@@ -297,9 +308,9 @@ function projectArtifactFiles(directory) {
   const root = scaffoldDirectory(directory);
   const files = new Map();
   const add = (base, prefix = '') => filesAt(base).forEach((name) => files.set(path.join(prefix, name), path.join(base, name)));
-  for (const name of ['agent-guide.md', 'knowledge-model.md', 'knowledge-schema.md']) {
+  for (const name of HARNESS_FILES) {
     const file = path.join(root, name);
-    if (fs.existsSync(file)) files.set(name, file);
+    if (isFile(file)) files.set(name, file);
   }
   add(path.join(root, 'rules'), 'rules');
   add(path.join(root, 'templates'), 'templates');
@@ -326,6 +337,11 @@ function inspectProject({ directory, version, packageRoot }) {
   const artifacts = resolvedArtifacts(directory);
   const ruleSet = resolvedRules(directory);
   const reviewRequired = details.lastReviewedVersion !== version;
+  const root = scaffoldDirectory(directory);
+  const missingStructure = [
+    ...HARNESS_FILES.filter((name) => !isFile(path.join(root, name))),
+    ...HARNESS_DIRECTORIES.filter((name) => !isDirectory(path.join(root, name))).map((name) => `${name}/`),
+  ];
   const artifactLines = [
     ...artifacts.flatMap((artifact) => [artifact.label, `  source: ${artifact.source}`, `  path: ${artifact.path}`]),
     'Project Rules:',
@@ -340,11 +356,13 @@ function inspectProject({ directory, version, packageRoot }) {
     `Installed Scaffold Version: ${version}`,
     `Project Harness Version: ${details.lastReviewedVersion || 'unknown'}`,
     `Update Review Status: ${reviewRequired ? 'required' : 'current'}`,
+    `Harness Structure: ${missingStructure.length ? 'incomplete' : 'complete'}`,
+    ...(missingStructure.length ? [`Missing or incorrectly typed Harness entries: ${missingStructure.join(', ')}`] : []),
     `Package Candidate Root: ${packageRoot}`,
     ...artifactLines,
     'Agent Integration:',
     ...AGENT_FILES.map((filename) => `  ${filename}: ${fs.existsSync(path.join(directory, filename)) && MANAGED_BLOCK.test(fs.readFileSync(path.join(directory, filename), 'utf8')) ? 'configured' : 'integration required'}`),
-    `Active Harness Artifacts: ${artifacts.length ? artifacts.map((artifact) => path.relative(scaffoldDirectory(directory), artifact.path)).join(', ') : 'none'}`,
+    `Active Harness Artifacts: ${[...projectArtifactFiles(directory).keys()].sort().join(', ') || 'none'}`,
     `Project-local Rules: ${ruleSet.rules.length ? ruleSet.rules.map((rule) => path.relative(scaffoldDirectory(directory), rule.path)).join(', ') : 'none'}`,
     ...(fs.existsSync(ruleSet.legacy) ? [`Legacy monolithic Project Rules require deliberate migration and are ignored: ${ruleSet.legacy}`] : []),
     ...ruleSet.invalid.map((rule) => `Invalid Project Rule identity (expected a dotted identity in the H1 heading): ${rule.path}`),

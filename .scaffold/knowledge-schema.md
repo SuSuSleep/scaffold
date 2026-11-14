@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This schema defines the default Markdown representation of durable project knowledge. It is authoritative only when `.scaffold/knowledge-schema.md` does not exist. A project-local Schema replaces this default representation contract in full and is never implicitly merged with it. The active Knowledge Model defines the concepts and relationship semantics used here; this schema does not redefine them.
+This schema defines the default Markdown representation of durable project knowledge. Once materialized at `.scaffold/knowledge-schema.md`, this project-local Schema is the active representation authority. A project may deliberately replace it in full; no installed-package Schema is a runtime fallback or implicitly merged co-authority. The installed package supplies a candidate Schema for initialization and update review only. The active Knowledge Model defines the concepts and relationship semantics used here; this schema does not redefine them.
 
 ## Documents
 

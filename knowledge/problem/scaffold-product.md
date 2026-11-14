@@ -33,7 +33,7 @@ The CLI must initialize the Harness in a repository while preserving existing pr
 
 ### REQ-005 — Review-aware updates
 
-Status must expose update-review drift, and update must record review completion without silently overwriting project-local replacements.
+Status must expose update-review drift and the active Harness inventory, including its agent guide. It must distinguish recorded review currency from structural completeness and report missing required Harness structure without substituting package content. Update must record review completion without silently overwriting project-local replacements.
 
 ### REQ-013 — Diff-led, project-owned update adoption
 
@@ -113,7 +113,9 @@ When:
 
 Then:
 
-- review drift is visible and local replacements are not overwritten.
+- review drift is visible and local replacements are not overwritten;
+- status identifies active Harness artifacts, including the agent guide, and reports missing required structure separately from review currency; and
+- a recorded current review remains distinguishable from an incomplete Harness, including when the project has customized its local Skills or Templates.
 
 ### AC-016 — Update differences are visible and adopted deliberately
 
