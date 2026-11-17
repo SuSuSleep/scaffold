@@ -29,20 +29,30 @@ Identify the difference between the active project-local Harness and the install
 
 - collect-context
 
-### Phase — Review Impact
+### Phase — Trace Candidate Change Effects
 
 #### Goal
 
-Explain the candidate's behavioral and capability changes, then determine which changes the project actually needs.
+Identify the direct and consequential effects of adopting each material candidate difference.
 
 #### Required Outcome
 
-For each material difference, explain what it adds, changes, or retires; its effect on current project behavior; and relevant trade-offs. Discuss unresolved needs with the project owner. Project knowledge is not automatically rewritten; deliberate semantic migration follows the migration Workflow when needed.
+For each material difference, explain what it adds, changes, or retires; its effect on current project behavior; and affected artifacts, knowledge, verification, or migration work. Review overlapping changed Rules with `analyze-rule-conflicts` when applicable. Project knowledge is not automatically rewritten; deliberate semantic migration follows the migration Workflow when needed.
 
 #### Suggested Skills
 
-- analyze-impact
+- analyze-change-impact
 - analyze-rule-conflicts
+
+### Phase — Evaluate Adoption Choices
+
+#### Goal
+
+Determine which candidate changes serve the project's needs.
+
+#### Required Outcome
+
+The project owner can compare adopting or adapting each material difference with keeping current local behavior, retiring an artifact, or deferring a decision. Explain relevant trade-offs using the traced effects and project needs; discuss unresolved needs with the owner. Any speed or efficiency claim is supported by suitable measurements or explicitly identified as an estimate or unknown. Change-effect tracing alone does not determine which option is preferable.
 
 ### Phase — Apply Project-Owned Adjustments
 

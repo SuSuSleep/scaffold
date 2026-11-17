@@ -37,11 +37,7 @@ Identify the cause of the finding and whether it can be safely generalized.
 
 #### Required Outcome
 
-Root cause, affected scope, and safe generalization are identified.
-
-#### Suggested Skills
-
-- analyze-impact
+Root cause, affected scope, and safe generalization are identified from the finding's evidence and conditions. Distinguish observed symptoms from supported causal explanations, test those explanations against counterexamples or alternative causes where evidence permits, and retain uncertainty where generalization is not justified.
 
 ### Phase — Reconcile Reusable Knowledge
 

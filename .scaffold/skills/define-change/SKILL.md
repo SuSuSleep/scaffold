@@ -62,7 +62,7 @@ Affected durable knowledge, material relationships, and potentially stale record
 
 #### Suggested Skills
 
-- analyze-impact
+- analyze-change-impact
 
 ### Phase — Prepare Reconciliation Handoff
 

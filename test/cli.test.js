@@ -364,7 +364,7 @@ test('lifecycle Skills own explicit phase sequencing and only high-level workflo
     assert.match(contents, /^#### Required Outcome$/m, workflow + ' phases should state their outcome');
     assert.doesNotMatch(contents, /^## Suggested Skills$/m, workflow + ' must not use skills to define its process');
   }
-  for (const skill of ['collect-context', 'analyze-impact', 'analyze-rule-conflicts', 'implement-with-tdd', 'verify-change', 'review-change', 'update-knowledge']) {
+  for (const skill of ['collect-context', 'analyze-change-impact', 'analyze-rule-conflicts', 'implement-with-tdd', 'verify-change', 'review-change', 'update-knowledge']) {
     assert.equal(fs.existsSync(path.resolve(__dirname, '../.scaffold/skills', skill, 'agents/openai.yaml')), false, skill + ' must remain model-invoked');
   }
   for (const workflow of ['adopt-harness-update', 'define-change', 'evolve-project-artifact', 'evolve-project-rules', 'implement-change', 'initialize-project', 'learn-from-finding', 'migrate-project', 'reconcile-project-change', 'reconstruct-project-knowledge']) {
@@ -604,7 +604,7 @@ test('default Harness guides explicit hybrid agent, Skill, tool, and integration
   const guide = read('.scaffold/agent-guide.md');
   const define = read('.scaffold/skills/define-change/SKILL.md');
   const reconstruct = read('.scaffold/skills/reconstruct-project-knowledge/SKILL.md');
-  const impact = read('.scaffold/skills/analyze-impact/SKILL.md');
+  const impact = read('.scaffold/skills/analyze-change-impact/SKILL.md');
   const review = read('.scaffold/skills/review-change/SKILL.md');
   const verify = read('.scaffold/skills/verify-change/SKILL.md');
   const problem = read('knowledge/problem/hybrid-system-architecture.md');

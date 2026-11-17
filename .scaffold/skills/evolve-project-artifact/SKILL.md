@@ -61,7 +61,7 @@ Affected workflows, skills, templates, project knowledge, and package-candidate 
 
 #### Suggested Skills
 
-- analyze-impact
+- analyze-change-impact
 
 ### Phase — Apply Artifact Change
 

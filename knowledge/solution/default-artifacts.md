@@ -40,7 +40,7 @@ Provide user-invoked workflow Skills that define ordered phases and required out
 
 Realizes: CAP-002 and CAP-003
 
-Provide concise methods for collecting context, analyzing impact, implementing with TDD when applicable, and verifying completed work.
+Provide concise methods for collecting context, tracing change effects, implementing with TDD when applicable, and verifying completed work. The change impact method follows SOL-004#DEC-003 — Small, evidence-driven Skill set; finding root-cause and generalization analysis remain workflow outcomes rather than responsibilities of that method.
 
 ## Components and Boundaries
 

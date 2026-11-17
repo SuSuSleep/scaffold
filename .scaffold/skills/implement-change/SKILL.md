@@ -61,7 +61,7 @@ Relevant active-Model obligations or other durable expectations, constraints, im
 
 #### Suggested Skills
 
-- analyze-impact
+- analyze-change-impact
 
 ### Phase — Realize Change
 

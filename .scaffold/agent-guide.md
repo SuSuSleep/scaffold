@@ -15,15 +15,15 @@
 | --- | --- | --- |
 | Establish or adopt Scaffold in a repository | `initialize-project` | `collect-context` |
 | Reconstruct documentation or recover durable knowledge from an existing repository area | `reconstruct-project-knowledge` | `collect-context` |
-| Define an ambiguous request, problem, requirement, or discovered need | `define-change` | `collect-context`, `analyze-impact` |
-| Reconcile a proposed Project Knowledge change | `reconcile-project-change` | `collect-context`, `analyze-impact` |
-| Independently review a reconciliation candidate | `reconcile-project-change` (which delegates `review-change`) | `collect-context`, `analyze-impact`, `review-change` |
-| Implement an accepted change | `implement-change` | `collect-context`, `analyze-impact`, `verify-change` |
-| Mutate Project Knowledge during reconciliation | `reconcile-project-change` (which delegates `update-knowledge`) | `collect-context`, `analyze-impact`, `update-knowledge` |
+| Define an ambiguous request, problem, requirement, or discovered need | `define-change` | `collect-context`, `analyze-change-impact` |
+| Reconcile a proposed Project Knowledge change | `reconcile-project-change` | `collect-context`, `analyze-change-impact` |
+| Independently review a reconciliation candidate | `reconcile-project-change` (which delegates `review-change`) | `collect-context`, `review-change`; `analyze-change-impact` when tracing dependent change effects |
+| Implement an accepted change | `implement-change` | `collect-context`, `analyze-change-impact`, `verify-change` |
+| Mutate Project Knowledge during reconciliation | `reconcile-project-change` (which delegates `update-knowledge`) | `collect-context`, `analyze-change-impact`, `update-knowledge` |
 | Deliberately add, replace, or retire project-local Rules | `evolve-project-rules` | `analyze-rule-conflicts` |
-| Deliberately replace or add a Schema, Skill, or Template | `evolve-project-artifact` | `collect-context`, `analyze-impact` |
-| Turn a defect, incident, or security finding into reusable knowledge | `learn-from-finding` | `collect-context`, `analyze-impact`, `verify-change` |
-| Adapt to an incompatible Scaffold change | `migrate-project` | `collect-context`, `analyze-impact`, `verify-change` |
+| Deliberately replace or add a Schema, Skill, or Template | `evolve-project-artifact` | `collect-context`, `analyze-change-impact` |
+| Turn a defect, incident, or security finding into reusable knowledge | `learn-from-finding` | `collect-context`, `verify-change` |
+| Adapt to an incompatible Scaffold change | `migrate-project` | `collect-context`, `analyze-change-impact`, `verify-change` |
 
 Workflow Skills are the high-level user interface. They define ordered Phases and their required outcomes, and expose an `agents/openai.yaml` interface so a user can call them directly. Skills without an interface are model-invoked components: tactical methods such as `collect-context`, and internal lifecycle steps such as `update-knowledge` and `review-change`. A workflow Skill may use model-invoked Skills, never another workflow Skill. A project may replace a Skill as a local artifact.
 

@@ -16,7 +16,7 @@ Support reusable methods without allowing a model-invoked Skill to redefine a wo
 
 ### CAP-003 — Context and impact collection
 
-Provide reusable guidance for collecting evidence, deriving supported conclusions for a caller-defined decision or outcome, and analyzing impact, with the caller selecting relevant content and completion criteria.
+Provide reusable guidance for collecting evidence, deriving supported conclusions for a caller-defined decision or outcome, and tracing the direct and consequential effects of a specified change, with the caller selecting relevant content and completion criteria.
 
 ### CAP-004 — Project Knowledge reconciliation
 
@@ -46,12 +46,12 @@ Use a recorded Git baseline for accepted Project Knowledge and the current Proje
 
 Realizes: CAP-002 and CAP-003
 
-Provide concise Skills for methods such as context collection, impact analysis, optional TDD, and verification without embedding project policy or complete lifecycle logic in a Skill. Context collection takes its target, completion criteria, and applicable scope and authority constraints from its caller, and returns source-located observations, evidence-linked inferences with rationale and material conditions, limits, and a completion assessment. Supported conclusions are distinguished from unverified hypotheses, and insufficient evidence does not require an inference. The external agent host executes these adaptive methods; the Skill supplies guidance rather than an independent runtime.
+Provide concise Skills for methods such as context collection, change impact analysis, optional TDD, and verification without embedding project policy or complete lifecycle logic in a Skill. Context collection takes its target, completion criteria, and applicable scope and authority constraints from its caller, and returns source-located observations, evidence-linked inferences with rationale and material conditions, limits, and a completion assessment. Supported conclusions are distinguished from unverified hypotheses, and insufficient evidence does not require an inference. The external agent host executes these adaptive methods; the Skill supplies guidance rather than an independent runtime.
 
 ## Components and Boundaries
 
 - **Project-local workflow Skills in `.scaffold/skills/`** are assigned-to RESP-001, RESP-002, and RESP-004. Their user interfaces define the normal Project Knowledge path: define, reconcile candidate knowledge, immediately clarify unresolved conflicts with the user, automatically accept a clean candidate, and implement when needed, as well as specialized work categories. The update-review workflow examines the two-way package candidate diff, explains additions and behavioral changes, and discusses material adoption choices with the project owner.
-- **`.scaffold/skills/collect-context/`**, **`.scaffold/skills/analyze-impact/`**, **`.scaffold/skills/analyze-rule-conflicts/`**, **`.scaffold/skills/implement-with-tdd/`**, and **`.scaffold/skills/verify-change/`** are project-local model-invoked Skills assigned-to RESP-003. The installed package supplies corresponding candidate Skills only for initialization and update review.
+- **`.scaffold/skills/collect-context/`**, **`.scaffold/skills/analyze-change-impact/`**, **`.scaffold/skills/analyze-rule-conflicts/`**, **`.scaffold/skills/implement-with-tdd/`**, and **`.scaffold/skills/verify-change/`** are project-local model-invoked Skills assigned-to RESP-003. The installed package supplies corresponding candidate Skills only for initialization and update review.
 - **The project-local agent guide** owns the shared convention for loading named internal Skills and supplying Scaffold policy to their callers. Workflow and tactical Skills depend on that convention rather than maintaining separate copies.
 - A workflow Skill may use a model-invoked Skill, but a phase is complete when its required outcome is achieved. Project Rules may require a method, such as TDD, without changing the workflow Skill.
 
@@ -88,6 +88,10 @@ A substantially different work category receives an explicit additional workflow
 ### DEC-003 — Small, evidence-driven Skill set
 
 Model-invoked Skills remain concise, tactical, and reusable across workflow Skills. A new Skill is added only when an activity needs independent reusable guidance; candidate activities may remain represented by workflow phases or existing Skills rather than proliferating overlapping artifacts.
+
+`analyze-change-impact` traces the direct and consequential effects of a specified proposed change and identifies necessary implementation, verification, or knowledge follow-up. Its caller supplies the change, scope, impact question, and applicable evidence constraints. This boundary keeps dependency tracing distinct from methods for root-cause analysis, safe generalization, performance measurement, option or adoption evaluation, and conflict analysis. Those activities use their own applicable methods; different subjects or qualitative versus quantitative results do not by themselves require separate Skills.
+
+Change definition, candidate knowledge writing, implementation, artifact evolution, and migration use this method to identify affected elements and consistency work. Update adoption separates candidate-change effects from project-specific trade-offs and owner decisions; `analyze-rule-conflicts` retains Rule conflict analysis. Finding learning retains root-cause and generalization outcomes without assigning them to change impact analysis. Independent review may use change impact tracing to inspect dependent knowledge, while semantic and representation review remain the reviewer's responsibility.
 
 ## Verification Items
 

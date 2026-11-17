@@ -51,7 +51,7 @@ Project-local schemas, workflows, skills, and Rules are reviewed as active artif
 
 #### Suggested Skills
 
-- analyze-impact
+- analyze-change-impact
 
 ### Phase — Realize Migration
 

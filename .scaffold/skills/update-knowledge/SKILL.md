@@ -54,7 +54,7 @@ Dependent knowledge, material relationship effects, and required consistency upd
 
 #### Suggested Skills
 
-- analyze-impact
+- analyze-change-impact
 
 ### Phase — Reconcile Knowledge
 
