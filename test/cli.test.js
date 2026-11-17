@@ -369,9 +369,6 @@ test('lifecycle Skills own explicit phase sequencing and only high-level workflo
   }
   for (const workflow of ['adopt-harness-update', 'define-change', 'evolve-project-artifact', 'evolve-project-rules', 'implement-change', 'initialize-project', 'learn-from-finding', 'migrate-project', 'reconcile-project-change', 'reconstruct-project-knowledge']) {
     assert.equal(fs.existsSync(path.resolve(__dirname, '../.scaffold/skills', workflow, 'agents/openai.yaml')), true, workflow + ' must be user-invokable');
-    const contents = fs.readFileSync(path.resolve(__dirname, '../.scaffold/skills', workflow, 'SKILL.md'), 'utf8');
-    assert.match(contents, /^## Internal Skill Loading$/m, workflow + ' must explain how to load internal skills');
-    assert.match(contents, /\.scaffold\/skills\/<skill-name>\/SKILL\.md/, workflow + ' must use the project-local internal-skill path');
   }
 });
 
@@ -452,7 +449,6 @@ test('default templates are the single source for default document structures', 
 test('default guidance keeps semantic meaning out of the Schema', () => {
   const schema = fs.readFileSync(path.resolve(__dirname, '../.scaffold/knowledge-schema.md'), 'utf8');
   const workflow = (name) => fs.readFileSync(path.resolve(__dirname, '../.scaffold/skills', name.replace(/\.md$/, ''), 'SKILL.md'), 'utf8');
-  const contextSkill = fs.readFileSync(path.resolve(__dirname, '../.scaffold/skills/collect-context/SKILL.md'), 'utf8');
   const rules = path.resolve(__dirname, '../.scaffold/rules');
 
   assert.match(schema, /## Structural Requirements/);
@@ -464,8 +460,6 @@ test('default guidance keeps semantic meaning out of the Schema', () => {
   for (const name of ['initialize-project.md', 'implement-change.md', 'update-knowledge.md', 'reconstruct-project-knowledge.md']) {
     assert.match(workflow(name), /^#### Relevant Rules$/m, name);
   }
-  assert.match(contextSkill, /Do not load all project knowledge by default/);
-  assert.doesNotMatch(contextSkill, /knowledge\/governance\//);
   assert.ok(fs.existsSync(path.join(rules, 'core/knowledge-discipline.md')));
   assert.ok(fs.existsSync(path.join(rules, 'core/knowledge-space-partition.md')));
   assert.ok(fs.existsSync(path.join(rules, 'verification/risk-proportionate.md')));

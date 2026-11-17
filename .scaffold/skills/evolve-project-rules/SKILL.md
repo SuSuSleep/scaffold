@@ -5,10 +5,6 @@ description: Deliberately add, revise, or retire project-local Rules while revie
 
 # Evolve Project Rules
 
-## Internal Skill Loading
-
-When a phase names a Suggested Skill, read and apply its project-local instruction at `.scaffold/skills/<skill-name>/SKILL.md` before proceeding. Replace `<skill-name>` with the named skill. Suggested Skills are internal methods, not native user-invoked skills; do not rely on agent skill discovery to load them.
-
 ## Goal
 
 Deliberately add, replace, revise, or retire project-local Rules while preserving a coherent effective Rule set.

@@ -2,7 +2,7 @@
 
 Document ID: SOL-004
 
-> Evidence source: [`.scaffold/skills/`](../../.scaffold/skills/) and [`.scaffold/agent-guide.md`](../../.scaffold/agent-guide.md), inspected 2026-08-30.
+> Evidence source: [`.scaffold/skills/`](../../.scaffold/skills/) and [`.scaffold/agent-guide.md`](../../.scaffold/agent-guide.md), inspected 2026-11-17.
 
 ## Capabilities
 
@@ -16,7 +16,7 @@ Support reusable methods without allowing a model-invoked Skill to redefine a wo
 
 ### CAP-003 — Context and impact collection
 
-Provide reusable guidance for collecting sufficient project, implementation, verification, instruction, and external context before a meaningful decision or change.
+Provide reusable guidance for collecting sufficient evidence for a caller-defined decision or outcome and analyzing its impact, with the caller selecting relevant content and completion criteria.
 
 ### CAP-004 — Project Knowledge reconciliation
 
@@ -46,12 +46,13 @@ Use a recorded Git baseline for accepted Project Knowledge and the current Proje
 
 Realizes: CAP-002 and CAP-003
 
-Provide concise Skills for methods such as context collection, impact analysis, optional TDD, and verification without embedding project policy or complete lifecycle logic in a Skill. The external agent host executes these adaptive methods; the Skill supplies guidance rather than an independent runtime.
+Provide concise Skills for methods such as context collection, impact analysis, optional TDD, and verification without embedding project policy or complete lifecycle logic in a Skill. Context collection takes its target, completion criteria, and applicable scope and authority constraints from its caller, and returns findings and a completion assessment. The external agent host executes these adaptive methods; the Skill supplies guidance rather than an independent runtime.
 
 ## Components and Boundaries
 
 - **Project-local workflow Skills in `.scaffold/skills/`** are assigned-to RESP-001, RESP-002, and RESP-004. Their user interfaces define the normal Project Knowledge path: define, reconcile candidate knowledge, immediately clarify unresolved conflicts with the user, automatically accept a clean candidate, and implement when needed, as well as specialized work categories. The update-review workflow examines the two-way package candidate diff, explains additions and behavioral changes, and discusses material adoption choices with the project owner.
 - **`.scaffold/skills/collect-context/`**, **`.scaffold/skills/analyze-impact/`**, **`.scaffold/skills/analyze-rule-conflicts/`**, **`.scaffold/skills/implement-with-tdd/`**, and **`.scaffold/skills/verify-change/`** are project-local model-invoked Skills assigned-to RESP-003. The installed package supplies corresponding candidate Skills only for initialization and update review.
+- **The project-local agent guide** owns the shared convention for loading named internal Skills and supplying Scaffold policy to their callers. Workflow and tactical Skills depend on that convention rather than maintaining separate copies.
 - A workflow Skill may use a model-invoked Skill, but a phase is complete when its required outcome is achieved. Project Rules may require a method, such as TDD, without changing the workflow Skill.
 
 ## Satisfies
@@ -68,7 +69,7 @@ Provide concise Skills for methods such as context collection, impact analysis, 
 
 ### DEC-001 — Workflow Skill owns outcomes; model-invoked Skill owns method
 
-User-invoked workflow Skills own sequence, phase intent, entry conditions, and completion outcomes. Model-invoked Skills are tactical, reusable method guidance. This keeps a project free to require or replace an implementation method without creating hidden workflow branches or changing the intended work result. Project Knowledge review is read-only and feeds reconciliation; artifact and Rule evolution retain their own workflow Skills.
+User-invoked workflow Skills own sequence, phase intent, entry conditions, and completion outcomes. Model-invoked Skills are tactical, reusable method guidance. For context collection, the caller selects the search content and defines sufficient evidence; the reusable method does not select a Scaffold source inventory or redefine the caller's assignment. Scaffold-specific authority, applicability, classification, and invocation policy belongs to the agent guide rather than the search method. This keeps a project free to require or replace an implementation method without creating hidden workflow branches or changing the intended work result. Project Knowledge review is read-only and feeds reconciliation; artifact and Rule evolution retain their own workflow Skills.
 
 ### DEC-004 — Git-backed candidate knowledge and independent reconciliation
 
@@ -154,3 +155,4 @@ Expected evidence:
 - GOV-002#CON-002 — Agent-mediated semantic validation.
 - GOV-002#CON-006 — Git-backed candidate-state boundary.
 - SOL-006#RESP-001 — Adaptive behavior guidance.
+- SOL-005#RESP-001 — Phase-relevant guidance discovery.

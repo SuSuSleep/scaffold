@@ -5,10 +5,6 @@ description: Turn an ambiguous request, problem, requirement, or discovered need
 
 # Define Change
 
-## Internal Skill Loading
-
-When a phase names a Suggested Skill, read and apply its project-local instruction at `.scaffold/skills/<skill-name>/SKILL.md` before proceeding. Replace `<skill-name>` with the named skill. Suggested Skills are internal methods, not native user-invoked skills; do not rely on agent skill discovery to load them.
-
 ## Goal
 
 Turn an idea, request, problem, or discovered need into a sufficiently defined proposed knowledge change.
@@ -46,7 +42,7 @@ The intent is represented as a decision tree. The user and agent share a detaile
 
 #### Method
 
-- Research facts from the repository, active knowledge, rules, and available tools before asking the user. Do not ask the user for information that can be found reliably.
+- Use the collected evidence to establish settled decisions and prerequisites in the change-decision tree before eliciting the remaining choices.
 - Begin with decisions whose prerequisites are known. Ask the whole currently answerable frontier as one concise round, including a recommended answer and the trade-off when useful. Defer dependent questions until their prerequisites are settled.
 - Recompute the decision tree after each answer. Continue until every material branch is settled, explicitly unknown, or intentionally out of scope.
 - Explore the dimensions that apply: desired outcome and rationale; users or other affected parties; current and desired behavior; scope and non-goals; scenarios and observable acceptance conditions; constraints and dependencies; failure, boundary, and lifecycle cases; data, security, compatibility, operational, rollout, and migration implications; alternatives and their trade-offs.

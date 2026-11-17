@@ -8,5 +8,4 @@
 ## Guidance
 
 - Treat project knowledge as durable intent and code as its implementation.
-- Inspect relevant knowledge, applicable rules, and the active workflow before meaningful work.
 - Update durable knowledge when implementation reveals or changes important behavior, constraints, or reasoning.

@@ -5,10 +5,6 @@ description: Analyze a finding and turn it into appropriately scoped reusable Pr
 
 # Learn From Finding
 
-## Internal Skill Loading
-
-When a phase names a Suggested Skill, read and apply its project-local instruction at `.scaffold/skills/<skill-name>/SKILL.md` before proceeding. Replace `<skill-name>` with the named skill. Suggested Skills are internal methods, not native user-invoked skills; do not rely on agent skill discovery to load them.
-
 ## Goal
 
 Convert a discovered problem into durable reusable knowledge when appropriate.

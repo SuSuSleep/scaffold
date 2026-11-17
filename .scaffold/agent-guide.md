@@ -3,7 +3,7 @@
 ## Start Every Meaningful Request Here
 
 1. Read the current user request and inspect the repository context.
-2. Read `.scaffold/metadata.md` and run `scaffold status` when the installed candidate version or active project-local artifacts are needed.
+2. Use `scaffold status` when active artifact locations, Harness structure, or update-review state are needed. Read `.scaffold/metadata.md` only when the task needs recorded lifecycle information, such as installation or update timestamps, that is not already available in inspected evidence.
 3. Resolve the active Knowledge Model from `.scaffold/knowledge-model.md`. Read that active Model before materially interpreting, creating, updating, or reviewing Project Knowledge.
 4. Resolve every active Scaffold artifact from `.scaffold/`: Knowledge Model, Knowledge Schema, Skills, Templates, and Project Rules are project-local runtime authority. The installed package is a candidate bundle for initialization and deliberate update review, never a runtime fallback. Template availability does not make it applicable; the active Knowledge Schema selects applicable template types.
 5. Resolve the active Knowledge Schema before materially interpreting, creating, updating, or reviewing Project Knowledge. When creating or updating it, use this precedence: active Knowledge Model for semantic meaning, active Knowledge Schema for representation, applicable Template for starting structure, then existing Project Knowledge for local coherence. Do not infer semantic meaning solely from template headings. A purely mechanical repository operation need not load the Schema.
@@ -27,6 +27,10 @@
 
 Workflow Skills are the high-level user interface. They define ordered Phases and their required outcomes, and expose an `agents/openai.yaml` interface so a user can call them directly. Skills without an interface are model-invoked components: tactical methods such as `collect-context`, and internal lifecycle steps such as `update-knowledge` and `review-change`. A workflow Skill may use model-invoked Skills, never another workflow Skill. A project may replace a Skill as a local artifact.
 
+When a Phase names a Suggested Skill, read and apply its project-local instruction at `.scaffold/skills/<skill-name>/SKILL.md` before using it. Suggested Skills are internal methods; do not rely on native user-invoked skill discovery to load them. Their loading convention is defined here rather than repeated in each workflow.
+
+The caller defines `collect-context`'s search content. For a workflow Phase, derive the target and completion criteria from its Goal and Required Outcome, and the relevant knowledge categories and Project Rule identities or categories from its Relevant Knowledge and Relevant Rules where provided. Resolve these categories by active-Model meaning rather than hard-coded project knowledge paths. For work without a Phase, use the current request's decision or outcome. Supply the applicable authority and scope constraints from this guide and project guidance; the Skill owns the reusable search method, not these Scaffold policies or a fixed source inventory.
+
 Use `define-change` when the requested Project Knowledge semantics are not sufficiently defined. Its output is a sufficiently defined proposed Project Knowledge delta, not acceptance. Route it through `reconcile-project-change`: a fresh writer subagent runs `update-knowledge`, then a distinct fresh reviewer subagent runs read-only `review-change`. Use Git to identify the accepted baseline and the candidate Project-Knowledge diff. A finding that needs user direction immediately prompts the user with evidence, selectable alternatives, and effects; the answer begins a fresh iteration. A clean independent review automatically accepts the candidate and shows the changed Project Knowledge. Only accepted Project Knowledge enters `implement-change` when implementation is needed.
 
 Use `update-knowledge` only as the writer step in `reconcile-project-change`; it produces candidate state and cannot accept it.
@@ -42,8 +46,6 @@ When sources disagree, analyze the inconsistency. Do not automatically treat cod
 Classify durable knowledge according to the active Knowledge Model before recording it. Preserve that Model's distinctions, relationship semantics, ownership rules, evidence boundaries, and invariants. Do not infer concepts or constraints solely from a template heading or an implementation detail.
 
 For a proposed knowledge change, apply `core.knowledge-space-partition` when it is active. Partition material claims into Project Context, Problem, Governance, and Solution spaces before recording or reviewing them. Mixed externally meaningful behavior and technical realization require an established or reused Problem obligation and observable acceptance condition before linked Solution knowledge; Governance and purely technical changes follow the Rule's applicable paths. Workflows must read and apply the active Rule Markdown as operating policy rather than treating copied workflow prose as an independent policy authority.
-
-Begin each workflow Skill Phase from its Goal and Required Outcome, identify the active Model's relevant knowledge categories and Project Rule identities or categories, and read only the applicable records and rules. Resolve categories semantically rather than from hard-coded project file paths; expand context only when dependencies or uncertainty require it. Project Rules define how work should or must be performed; the active Model defines durable project knowledge.
 
 Templates provide starting structure only. Apply the active Schema when updating records and preserve existing project knowledge coherently rather than mechanically rewriting it for a Schema or Template change.
 

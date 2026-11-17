@@ -5,10 +5,6 @@ description: Recover durable Project Knowledge from repository evidence while pr
 
 # Reconstruct Project Knowledge
 
-## Internal Skill Loading
-
-When a phase names a Suggested Skill, read and apply its project-local instruction at `.scaffold/skills/<skill-name>/SKILL.md` before proceeding. Replace `<skill-name>` with the named skill. Suggested Skills are internal methods, not native user-invoked skills; do not rely on agent skill discovery to load them.
-
 ## Goal
 
 Recover durable project knowledge from an existing repository without treating implementation as unquestionable project intent.
