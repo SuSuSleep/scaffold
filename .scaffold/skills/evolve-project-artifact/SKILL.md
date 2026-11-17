@@ -86,5 +86,5 @@ Affected knowledge or guidance is deliberately reconciled, and any unresolved ow
 ## Required Outcomes
 
 - Each full-replacement artifact retains its defined resolution behavior.
-- Artifact authority does not override Knowledge Model semantics, Schema representation, workflow-Skill completion, or other artifact domains.
+- Affected authority-domain conflicts are resolved without changing unrelated workflow outcomes.
 - Project Rules remain governed by their dedicated evolution workflow Skill.

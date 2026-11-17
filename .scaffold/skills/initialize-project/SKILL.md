@@ -55,11 +55,15 @@ Establish the minimum external-facing Project Knowledge that lets people work us
 
 #### Required Outcome
 
-Project purpose, stakeholder or project goals, project-specific domain terms and glossary, scope or exclusions, and material unknowns are recorded from existing repository evidence or explicit project context in the Project Context representation selected by the active Knowledge Schema. Under the default Schema, use its Project Context record; a replacement Schema selects its equivalent representation. Do not create a Problem document merely to record a project goal. The CLI's Harness directories are not treated as semantic knowledge-layout requirements.
+Project purpose, stakeholder or project goals, project-specific domain terms and glossary, scope or exclusions, and material unknowns are recorded from existing repository evidence or explicit project context in the applicable foundational knowledge records.
 
-When repository evidence sufficiently establishes proposed Project Context content, present the evidence-derived content to the project maintainer and ask them to confirm or correct it before recording. When evidence is insufficient, including for a greenfield repository, ask the maintainer direct questions for the needed context without inventing or suggesting project-specific answers. Do not create a Project Context record until the maintainer has supplied, confirmed, or corrected its content. These are agent-run workflow responsibilities; they do not change CLI behavior.
+When repository evidence sufficiently establishes proposed foundational knowledge, present the evidence-derived content to the project maintainer and ask them to confirm or correct it before recording. When evidence is insufficient, including for a greenfield repository, ask the maintainer direct questions for the needed context without inventing or suggesting project-specific answers. Do not record foundational knowledge until the maintainer has supplied, confirmed, or corrected its content. These are agent-run workflow responsibilities; they do not change CLI behavior.
 
 Do not require requirements and acceptance scenarios, architecture, integrations and external contracts, security and operational constraints, or Harness customization for this baseline. Establish them later when discovery or a change workflow makes them relevant.
+
+#### Relevant Rules
+
+- core.*
 
 ### Phase — Establish Project Rule Baseline
 
@@ -69,12 +73,11 @@ Determine whether the materialized project-local Rule baseline needs project-spe
 
 #### Required Outcome
 
-Applicable code and style conventions, reusable testing practices and quality gates, and Git, pull-request, branching, and release conventions are compared with the materialized local Rule baseline and retained, revised, or deliberately left unresolved. Material Rule conflicts are reviewed. Selected starter templates may support these Rules only where the active Knowledge Schema makes them applicable.
-
-Classify evidence-backed code-style, build or compiler, formatting or linting, testing or quality-gate, and Git, pull-request, branching, or release practices as Project Rules; create or revise the applicable Rule. Leave a practice undefined when neither repository evidence nor maintainer input establishes it. Project Context may record the absence only when material to orientation and must not serve as the authoritative procedure or configuration record.
+Applicable code and style conventions, reusable testing practices and quality gates, and Git, pull-request, branching, and release conventions are compared with the materialized local Rule baseline and retained, revised, or deliberately left unresolved. Applicable local Rules are created or revised from evidence; unsupported practices remain undefined. Material Rule conflicts are reviewed.
 
 #### Relevant Rules
 
+- core.*
 - documentation.*
 - coding.*
 - verification.*

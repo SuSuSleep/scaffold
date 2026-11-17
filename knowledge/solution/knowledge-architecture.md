@@ -131,9 +131,9 @@ A Knowledge Model replacement may require a project-owned Crosswalk that maps co
 
 ### DEC-006 — Policy-guided partitioning without a semantic CLI validator
 
-The active Project Rules are the operating-policy authority for knowledge work, while the active Knowledge Model remains the authority for the meanings being partitioned. Default Rules and Skills distribute this partitioning policy through the relevant workflows and their verification; the command-line interface remains limited to mechanical support and does not add a deterministic semantic-classification validator. Agents apply the policy and report material uncertainty rather than fabricate relationships.
+The active Project Rules are the operating-policy authority for knowledge work, while the active Knowledge Model remains the authority for the meanings being partitioned. The agent guide owns shared authority resolution and applicable-policy discovery; Project Rules own operational classification guidance. Workflow and method Skills consume that guidance through the guide rather than restating Model/Schema authority, classification procedures, or a fixed default knowledge taxonomy. The command-line interface remains limited to mechanical support and does not add a deterministic semantic-classification validator. Agents apply the policy and report material uncertainty rather than fabricate relationships.
 
-The existing `core.knowledge-space-partition` Rule is the designated authority for applying the terminology distinction and change-impact cases in PROB-002#REQ-019. Reconstruction guidance consumes that Rule as described by SOL-002#DEC-005 — Reconstruction separates domain evidence from representation; it must not become a second copy of the policy. This extends the existing partition design without adding a Model concept, Schema category, or separate terminology Rule. The active Rule and reconstruction Skill contain the corresponding guidance. Presence of those instructions is distinct from completed verification of an agent applying them.
+The existing `core.knowledge-space-partition` Rule is the designated authority for applying the terminology distinction and change-impact cases in PROB-002#REQ-019. Reconstruction guidance consumes that Rule as described by SOL-002#DEC-005 — Reconstruction separates domain evidence from representation; it must not become a second copy of the policy. This extends the existing partition design without adding a Model concept, Schema category, or separate terminology Rule. The Rule contains the classification procedure; reconstruction declares the evidence-based result it must produce. Generic Skills retain task-specific outcomes, relevant-guidance declarations, and lifecycle boundaries. Compatible Model, Schema, and classification-Rule customization is resolved in those active authorities and through the guide without requiring copied policy edits across generic Skills; a change to a workflow-specific outcome still requires deliberate reconciliation. Presence of those instructions is distinct from completed verification of an agent applying them.
 
 ## Verification Items
 
@@ -150,6 +150,7 @@ Scope:
 Expected evidence:
 
 - runtime resolution uses only the materialized project-local Model, Schema, Rules, Templates, Skills, and agent guide, without package fallback or merging.
+- the agent guide supplies shared Model/Schema authority resolution to Skills; Skills preserve their task-specific outcomes without maintaining another authority or precedence definition.
 
 ### VER-002 — Policy-guided knowledge-space partitioning
 
@@ -165,6 +166,7 @@ Expected evidence:
 
 - guidance requires claim classification before recording, uses active Project Rules as policy authority, preserves the Problem-first treatment for mixed behavior-and-implementation claims, permits Governance-derived Problems and direct Solution constraints, and keeps pure technical decisions Solution-only when no external obligation or outcome changes.
 - the default guidance locates shared definitions in Project Context / Domain Terms, permits Problem obligations to use their domain meanings, and keeps durable technical representations or mappings in linked Solution knowledge without making shared naming an implementation mandate.
+- operational classification procedures remain in applicable Rules, reached through agent-guide policy resolution; generic Skills require the classification result and affected relationships without embedding the default taxonomy or repeating the procedure.
 
 Assumptions:
 

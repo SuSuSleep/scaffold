@@ -466,34 +466,50 @@ test('default guidance keeps semantic meaning out of the Schema', () => {
   assert.equal(fs.existsSync(path.resolve(__dirname, '../.scaffold/project-rules.md')), false);
 });
 
-test('default workflows apply the active knowledge-space partition Rule', () => {
+test('the guide resolves shared authority and classification policy for Skills', () => {
+  const guide = fs.readFileSync(path.resolve(__dirname, '../.scaffold/agent-guide.md'), 'utf8');
   const rule = fs.readFileSync(path.resolve(__dirname, '../.scaffold/rules/core/knowledge-space-partition.md'), 'utf8');
   const workflow = (name) => fs.readFileSync(path.resolve(__dirname, `../.scaffold/skills/${name}/SKILL.md`), 'utf8');
 
+  assert.match(guide, /authority and applicability conventions in this guide apply to every Workflow and model-invoked Skill/);
+  assert.match(guide, /resolve and read the applicable classification Rules/);
+  assert.match(guide, /including `core\.knowledge-space-partition` when active/);
+  assert.match(guide, /Generic Skills must not fix the default knowledge taxonomy or representation/);
+  assert.match(guide, /Compatible Model, Schema, and Rule customization/);
+  assert.match(guide, /reconcile a Skill only when its task-specific outcomes or methods also need to change/);
   assert.match(rule, /Project Context, Problem Space, Governance Space, or Solution Space/);
   assert.match(rule, /externally meaningful behavior with an implementation approach/);
   assert.match(rule, /Do not manufacture a Problem record/);
+  assert.match(rule, /Do not hide a Problem obligation in Solution knowledge/);
   for (const name of ['define-change', 'reconcile-project-change', 'update-knowledge', 'review-change', 'reconstruct-project-knowledge']) {
-    assert.match(workflow(name), /core\.knowledge-space-partition/, name);
+    const contents = workflow(name);
+    assert.match(contents, /^- core\.\*$/m, name);
+    assert.match(contents, /classification decisions/, name);
+    assert.doesNotMatch(contents, /Partition material claims into|obligations hidden in Solution knowledge|The active Knowledge Model defines meaning/, name);
   }
-  assert.match(workflow('review-change'), /obligations hidden in Solution knowledge/);
+  assert.match(workflow('review-change'), /Validate the proposal against the active Knowledge Schema/);
 });
 
 test('initialization guidance establishes only the foundational project baseline', () => {
   const workflow = fs.readFileSync(path.resolve(__dirname, '../.scaffold/skills/initialize-project/SKILL.md'), 'utf8');
+  const guide = fs.readFileSync(path.resolve(__dirname, '../.scaffold/agent-guide.md'), 'utf8');
+  const discipline = fs.readFileSync(path.resolve(__dirname, '../.scaffold/rules/core/knowledge-discipline.md'), 'utf8');
 
-  assert.match(workflow, /Project Context/);
-  assert.match(workflow, /Do not create a Problem document merely to record a project goal/);
+  assert.match(workflow, /applicable foundational knowledge records/);
+  assert.doesNotMatch(workflow, /Project Context|Problem document/);
+  assert.match(guide, /Do not create a Problem document merely to record a project goal/i);
   assert.match(workflow, /code and style conventions, reusable testing practices and quality gates, and Git, pull-request, branching, and release conventions/);
   assert.match(workflow, /requirements and acceptance scenarios, architecture, integrations and external contracts, security and operational constraints, or Harness customization/);
   assert.match(workflow, /Do not invent a project convention/);
   assert.match(workflow, /present the evidence-derived content to the project maintainer and ask them to confirm or correct it before recording/);
   assert.match(workflow, /including for a greenfield repository, ask the maintainer direct questions/);
-  assert.match(workflow, /Do not create a Project Context record until the maintainer has supplied, confirmed, or corrected its content/);
+  assert.match(workflow, /Do not record foundational knowledge until the maintainer has supplied, confirmed, or corrected its content/);
   assert.match(workflow, /they do not change CLI behavior/);
-  assert.match(workflow, /build or compiler, formatting or linting, testing or quality-gate/);
-  assert.match(workflow, /Leave a practice undefined when neither repository evidence nor maintainer input establishes it/);
-  assert.match(workflow, /must not serve as the authoritative procedure or configuration record/);
+  assert.match(workflow, /^- core\.\*$/m);
+  assert.match(workflow, /unsupported practices remain undefined/);
+  assert.match(discipline, /build or compiler, formatting or linting, testing or quality-gate/);
+  assert.match(discipline, /Leave a practice undefined when neither repository evidence nor maintainer input establishes it/);
+  assert.match(discipline, /must not serve as the authoritative procedure or configuration record/);
 });
 
 test('default guidance separates Project Context from coherent Problem-document subjects', () => {

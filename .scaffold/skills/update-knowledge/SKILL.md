@@ -23,7 +23,7 @@ Understand the accepted Git baseline, current candidate state, intended semantic
 
 #### Required Outcome
 
-The accepted baseline, candidate diff, intended semantic change, its explicit knowledge-space partition, active Knowledge Schema, selected Template, existing related project knowledge, and applicable rules are understood before material interpretation or change. Apply `core.knowledge-space-partition` when it is active. The active Knowledge Model defines meaning, the Schema defines representation, and the selected Template provides its local completion instructions and starting structure.
+The accepted baseline, candidate diff, intended semantic change, classification decisions, selected Template when applicable, existing related project knowledge, and applicable guidance are understood before editing.
 
 #### Relevant Knowledge
 
@@ -31,7 +31,7 @@ The accepted baseline, candidate diff, intended semantic change, its explicit kn
 
 #### Relevant Rules
 
-- core.knowledge-space-partition when active
+- core.*
 - documentation.*
 
 #### Suggested Skills
@@ -46,7 +46,7 @@ Identify knowledge that depends on or is contradicted by the intended change.
 
 #### Required Outcome
 
-Dependent knowledge, material relationship effects, and required consistency updates are identified according to the active Knowledge Model and Knowledge Schema.
+Dependent knowledge, material relationship effects, and required consistency updates are identified.
 
 #### Relevant Knowledge
 
@@ -64,7 +64,7 @@ Make the semantic change while restoring candidate knowledge consistency.
 
 #### Required Outcome
 
-Resolvable stale knowledge is corrected, removed, or explicitly superseded; each affected claim remains in its proper knowledge space; material cross-space relationships are explicit; each affected field is completed according to the selected Template's local instructions; the active Knowledge Schema is respected; and the candidate is ready for independent review. Schema or Template changes do not automatically rewrite project knowledge; use deliberate migration when semantic adaptation is required. This Workflow does not accept candidate knowledge.
+Resolvable stale knowledge is corrected, removed, or explicitly superseded; classification decisions and material relationships are represented; each affected field is completed according to the selected Template's local instructions when applicable; and the candidate is ready for independent review. Necessary semantic migration is identified for deliberate handling. This Workflow does not accept candidate knowledge.
 
 #### Relevant Knowledge
 

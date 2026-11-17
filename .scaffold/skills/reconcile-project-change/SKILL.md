@@ -24,7 +24,11 @@ Establish the intended delta, accepted baseline, candidate scope, and applicable
 
 #### Required Outcome
 
-The proposed semantic delta, its explicit knowledge-space partition, recorded Git baseline, materially affected Project Knowledge, applicable active-Model knowledge and Project Rules, and unresolved user intent are known. Apply `core.knowledge-space-partition` when it is active. The candidate state is the current Project-Knowledge diff from that baseline; unrelated repository changes are excluded from the review scope.
+The proposed semantic delta, its classification decisions and material relationships, recorded Git baseline, materially affected Project Knowledge, applicable guidance, and unresolved user intent are known. The candidate state is the current Project-Knowledge diff from that baseline; unrelated repository changes are excluded from the review scope.
+
+#### Relevant Rules
+
+- core.*
 
 ### Phase — Reconcile Candidate Knowledge
 
@@ -34,7 +38,7 @@ Update candidate Project Knowledge from the proposal and current resolvable find
 
 #### Required Outcome
 
-A fresh writer subagent executes `update-knowledge`, independently inspects the current repository, applies the active knowledge-space partition Rule, and updates the candidate state. The writer has no authority to accept the result.
+A fresh writer subagent executes `update-knowledge`, independently inspects the current repository, and updates the candidate state with the classification decisions and material relationships represented. The writer has no authority to accept the result.
 
 ### Phase — Independently Review Candidate
 
@@ -44,7 +48,7 @@ Determine whether the current candidate state is semantically acceptable.
 
 #### Required Outcome
 
-A distinct fresh reviewer subagent executes `review-change`. It independently inspects the Git baseline, candidate Project-Knowledge diff, current repository, proposed intent, materially affected knowledge, active Model and Schema, and applicable active-Model knowledge and Rules. The reviewer does not modify reviewed Project Knowledge.
+A distinct fresh reviewer subagent executes `review-change`. It independently inspects the Git baseline, candidate Project-Knowledge diff, current repository, proposed intent, materially affected knowledge, and applicable guidance. The reviewer does not modify reviewed Project Knowledge.
 
 ### Phase — Resolve Review Result
 

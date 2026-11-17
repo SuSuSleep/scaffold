@@ -59,9 +59,9 @@ Recover relevant durable knowledge from available evidence.
 
 #### Required Outcome
 
-Relevant active-Model knowledge is reconstructed from existing documentation, source code, tests, configuration, interfaces, deployment definitions, repository history, or user knowledge as appropriate. The active Model's ownership, evidence, and relationship rules are preserved. Normal accepted Project Knowledge needs no status marker; exceptional conclusions are explicitly marked Inferred or Unknown. Existing code is not converted directly into durable obligations or other intended knowledge without supporting evidence.
+Relevant durable knowledge is reconstructed from existing documentation, source code, tests, configuration, interfaces, deployment definitions, repository history, or user knowledge as appropriate. Exceptional conclusions are explicitly marked Inferred or Unknown. Existing code is not converted directly into durable obligations or other intended knowledge without supporting evidence.
 
-Read and apply the active `core.knowledge-space-partition` Rule when present; use its Markdown as the operating-policy authority for classification, shared terminology, technical representation, and externally mandated values. Do not treat this workflow as a second copy of that policy.
+The reconstruction retains the evidence for classification decisions and material relationships.
 
 When implementation-origin vocabulary has established stakeholder use, distinguish evidence for the term itself, its agreed domain meaning and intended behavior, and its technical representation. Shared naming or code alone does not establish an intended lifecycle. Preserve supported stakeholder meanings and keep unsupported meanings or obligations Inferred or Unknown.
 
@@ -69,8 +69,7 @@ For a hybrid solution, reconstruct the material distinction among the existing a
 
 #### Relevant Rules
 
-- core.knowledge-space-partition when active
-- Engineering conventions may be reconstructed as Project Rules only when explicit knowledge or strong repository evidence supports them.
+- core.*
 
 ### Phase — Resolve Material Uncertainty
 
@@ -90,7 +89,7 @@ Confirm the reconstruction is coherent and usable.
 
 #### Required Outcome
 
-Reconstructed knowledge is semantically consistent with the Knowledge Model, represented according to the active Knowledge Schema, compliant with Project Rules, internally consistent, and explicit about unresolved uncertainty. If it creates or changes normal Project Knowledge, it supplies a proposed delta to `reconcile-project-change`; reconstruction alone does not accept that knowledge.
+Reconstructed knowledge is internally consistent, supported by evidence, and explicit about classification decisions, material relationships, and unresolved uncertainty. If it creates or changes normal Project Knowledge, it supplies a proposed delta to `reconcile-project-change`; reconstruction alone does not accept that knowledge.
 
 ## Required Outcomes
 

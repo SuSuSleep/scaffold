@@ -24,7 +24,11 @@ Understand the change intent, relevant existing knowledge, and applicable rules 
 
 #### Required Outcome
 
-The change intent, active Knowledge Schema, applicable `core.knowledge-space-partition` Rule, relevant durable knowledge, and authoritative project records are identified.
+The change intent, applicable guidance, relevant durable knowledge, and authoritative project records are identified.
+
+#### Relevant Rules
+
+- core.*
 
 #### Suggested Skills
 
@@ -47,7 +51,7 @@ The intent is represented as a decision tree. The user and agent share a detaile
 - Recompute the decision tree after each answer. Continue until every material branch is settled, explicitly unknown, or intentionally out of scope.
 - Explore the dimensions that apply: desired outcome and rationale; users or other affected parties; current and desired behavior; scope and non-goals; scenarios and observable acceptance conditions; constraints and dependencies; failure, boundary, and lifecycle cases; data, security, compatibility, operational, rollout, and migration implications; alternatives and their trade-offs.
 - When a proposed solution combines agent-executed adaptive behavior with deterministic programs, elicit the material responsibility allocation, agent host and Skill distinction, tool and integration interfaces, dependencies, rationale, authority and failure concerns, and layered verification expectations. Do not assume the project must implement an agent runtime or move behavior into a program merely because it can be automated.
-- Apply `core.knowledge-space-partition` when it is active. Partition material claims into Project Context, Problem, Governance, and Solution spaces, and retain the resulting disposition in the shared picture. For mixed externally meaningful behavior and technical realization, establish or reuse the Problem obligation and observable acceptance condition before proposing linked Solution knowledge.
+- Retain the classification decisions and material relationships in the shared change picture.
 - Treat minor, reversible assumptions as assumptions. Treat an ambiguity as material when a reasonable answer would change durable knowledge, acceptance conditions, scope, or implementation direction.
 
 ### Phase — Determine Knowledge Impact
@@ -58,7 +62,7 @@ Determine the semantic impact and the knowledge relationships affected by the sh
 
 #### Required Outcome
 
-Affected durable knowledge, material relationships, and potentially stale records are identified according to the active Knowledge Model and Knowledge Schema. The active Model’s ownership, evidence, and relationship rules are applied. Existing authoritative records are considered before creating duplicates.
+Affected durable knowledge, material relationships, and potentially stale records are identified. Existing authoritative records are considered before creating duplicates.
 
 #### Suggested Skills
 
@@ -72,7 +76,7 @@ Provide `reconcile-project-change` with a sufficiently defined, non-mutating pro
 
 #### Required Outcome
 
-The handoff states the change intent and rationale; settled decisions, scenarios, and acceptance conditions; the explicit knowledge-space partition and resulting relationships; scope and non-goals; evidence and assumptions; unresolved material questions or conflicts; affected knowledge and relationships; potentially stale records; and the proposed semantic delta. It is sufficiently defined for `reconcile-project-change` and is not accepted Project Knowledge.
+The handoff states the change intent and rationale; settled decisions, scenarios, and acceptance conditions; classification decisions and resulting relationships; scope and non-goals; evidence and assumptions; unresolved material questions or conflicts; affected knowledge and relationships; potentially stale records; and the proposed semantic delta. It is sufficiently defined for `reconcile-project-change` and is not accepted Project Knowledge.
 
 Do not create, edit, or draft Project Knowledge documents in this Workflow. `reconcile-project-change` owns candidate-document editing through its fresh `update-knowledge` writer, followed by independent review and any required owner decision.
 

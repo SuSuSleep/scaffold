@@ -30,8 +30,8 @@ Keep test methodology and evidence-selection strategy in Project Rules while Sol
 
 ## Components and Boundaries
 
-- **The project-local agent guide** is assigned-to RESP-001 for Scaffold authority, applicability, classification, and invocation policy. It connects Workflow Phase intent and relevance declarations to the caller's context-collection assignment.
-- **Project-local workflow Skills in `.scaffold/skills/`** are assigned-to RESP-001 for declaring phase outcomes and relevant semantic knowledge and Rule categories, without naming project-specific knowledge paths.
+- **The project-local agent guide** is assigned-to RESP-001 for Scaffold authority resolution, applicable classification-policy discovery, and invocation policy. It connects Workflow Phase intent and relevance declarations to the caller's context-collection assignment.
+- **Project-local workflow Skills in `.scaffold/skills/`** are assigned-to RESP-001 for declaring phase outcomes and relevant semantic knowledge and Rule categories, without naming project-specific knowledge paths, fixing the default knowledge taxonomy, or duplicating shared authority and classification policy.
 - **The external agent host** is assigned-to RESP-001 for interpreting the current request or Phase, defining the collection assignment, and executing adaptive evidence selection and applicability judgment.
 - **The project-local `collect-context` Skill** is assigned-to RESP-001 for reusable search-method guidance. Its caller-to-method boundary carries a search target, completion criteria, and applicable scope and source-authority constraints. Its result distinguishes source-located observations from inferences answering the target; each inference links supporting evidence with concise rationale and material assumptions or conditions. Supported conclusions remain distinct from unverified hypotheses, and insufficient evidence may warrant no conclusion. The result also identifies material conflicts, gaps, or unknowns and assesses completion against the caller's criteria. It owns neither Scaffold policy nor a fixed source inventory. The installed package supplies candidate Skills only for initialization and update review.
 - **Solution documents** are assigned-to RESP-002 for Solution verification items.
@@ -48,7 +48,7 @@ Keep test methodology and evidence-selection strategy in Project Rules while Sol
 
 ### DEC-001 — Scope is distinct from context loading
 
-Governance and Project Rules may be project-wide in scope without being loaded for every activity. Workflow Phase intent determines relevant categories; agents resolve applicability semantically rather than through a deterministic routing engine. The agent guide owns Scaffold-specific interpretation and authority policy while `collect-context` owns reusable search guidance. This allocation avoids competing policy copies in workflows, tactical methods, and Rules.
+Governance and Project Rules may be project-wide in scope without being loaded for every activity. Workflow Phase intent determines relevant categories; agents resolve applicability semantically rather than through a deterministic routing engine. The agent guide owns shared authority resolution and applicability discovery, applicable Project Rules own operational classification guidance, and `collect-context` owns reusable search guidance. Workflow and method Skills consume these policies while defining their own task-specific results. This allocation avoids competing policy copies and lets changes to Model/Schema authority or classification policy remain in their owning artifacts rather than requiring parallel edits to generic Skills.
 
 Lifecycle metadata is conditional evidence, not a prerequisite of context collection. The guide makes its relevance depend on missing lifecycle facts needed by the current task. This preserves access when lifecycle evidence matters without imposing a metadata read on unrelated searches.
 

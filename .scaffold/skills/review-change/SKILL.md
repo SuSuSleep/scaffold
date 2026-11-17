@@ -23,7 +23,7 @@ Validate use of Knowledge Model concepts and their semantic boundaries.
 
 #### Required Outcome
 
-The candidate uses the active Knowledge Model's concepts, distinctions, ownership rules, evidence boundaries, invariants, and relationship semantics correctly. Apply `core.knowledge-space-partition` when it is active: verify the proposal's partition, reject externally meaningful obligations hidden in Solution knowledge, unmandated technical realization prescribed in Problem knowledge, and missing material cross-space relationships. When hybrid architecture is in scope, verify that the executing agent host remains distinct from its Skill guidance and that material deterministic-tool and integration responsibilities and boundaries are not collapsed or left ambiguous.
+The candidate is semantically correct, with classification decisions and material relationships justified by the applicable guidance and evidence. When hybrid architecture is in scope, verify that the executing agent host remains distinct from its Skill guidance and that material deterministic-tool and integration responsibilities and boundaries are not collapsed or left ambiguous.
 
 ### Phase — Review Representation
 
@@ -43,7 +43,7 @@ Validate important semantic relationships affected by the proposal.
 
 #### Required Outcome
 
-Affected relationships are valid and internally consistent according to the active Knowledge Model.
+Affected relationships are semantically valid and internally consistent.
 
 ### Phase — Review Project Constraints
 
@@ -62,7 +62,7 @@ Applicable constraints are satisfied and no unresolved material rule conflict re
 #### Relevant Rules
 
 - verification.* when Solution verification items are affected
-- core.knowledge-space-partition when active
+- core.*
 - Other Rules applicable to the proposed change
 
 ### Phase — Report Review Result

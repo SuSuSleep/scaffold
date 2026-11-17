@@ -69,7 +69,7 @@ Provide concise Skills for methods such as context collection, change impact ana
 
 ### DEC-001 — Workflow Skill owns outcomes; model-invoked Skill owns method
 
-User-invoked workflow Skills own sequence, phase intent, entry conditions, and completion outcomes. Model-invoked Skills are tactical, reusable method guidance. For context collection, the caller selects the search content and defines sufficient evidence; the reusable method does not select a Scaffold source inventory or redefine the caller's assignment. Scaffold-specific authority, applicability, classification, and invocation policy belongs to the agent guide rather than the search method. This keeps a project free to require or replace an implementation method without creating hidden workflow branches or changing the intended work result. Project Knowledge review is read-only and feeds reconciliation; artifact and Rule evolution retain their own workflow Skills.
+User-invoked workflow Skills own sequence, phase intent, entry conditions, and completion outcomes. Model-invoked Skills are tactical, reusable method guidance. For context collection, the caller selects the search content and defines sufficient evidence; the reusable method does not select a Scaffold source inventory or redefine the caller's assignment. The agent guide resolves Scaffold-specific authority, applicable guidance, and invocation policy; applicable Project Rules supply operational knowledge-classification policy. Workflow and method Skills retain task-specific outcomes and relevant-guidance declarations without restating Model/Schema authority, classification procedures, or the default knowledge taxonomy. This keeps a project free to require or replace an implementation method without creating hidden workflow branches or changing the intended work result. Project Knowledge review is read-only and feeds reconciliation; artifact and Rule evolution retain their own workflow Skills.
 
 Returning an inference from context collection does not accept it as Project Knowledge. A proposed durable knowledge change still follows reconciliation and independent review; the lookup result supplies evidence and reasoning to its caller rather than acceptance authority.
 
@@ -122,6 +122,7 @@ Scope:
 Expected evidence:
 
 - A Project Rule can require a method without changing a Workflow's required outcome.
+- Changes confined to Model/Schema authority resolution or classification policy are made in the guide and applicable Rules without copying those policies into Workflow or method Skills. Task-specific review, representation, migration, and lifecycle outcomes remain explicit.
 
 ### VER-003 — Definition-to-reconciliation mutation boundary
 

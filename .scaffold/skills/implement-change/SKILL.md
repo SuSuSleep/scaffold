@@ -48,7 +48,7 @@ Determine the change's effects on behavior, interfaces, tests, and durable knowl
 
 #### Required Outcome
 
-Relevant active-Model obligations or other durable expectations, constraints, implementation areas, evidence boundaries, and durable knowledge updates are identified according to the active Knowledge Model and Knowledge Schema.
+Relevant obligations or other durable expectations, constraints, implementation areas, evidence boundaries, and durable knowledge updates are identified.
 
 #### Relevant Knowledge
 
@@ -71,7 +71,7 @@ Make the accepted change while preserving applicable constraints.
 
 #### Required Outcome
 
-The implementation satisfies the accepted change, applicable constraints are preserved, and required durable knowledge is updated according to the active Knowledge Model and Knowledge Schema. Evidence and dependency handling follow the active Model and applicable Project Rules.
+The implementation satisfies the accepted change, applicable constraints are preserved, and required durable knowledge is kept current.
 
 #### Relevant Knowledge
 
@@ -118,7 +118,7 @@ Ensure durable project knowledge reflects discoveries made while realizing and v
 
 #### Required Outcome
 
-Mechanical durable synchronization is completed where needed, with evidence and relationships represented according to the active Knowledge Model and Knowledge Schema. A discovery that materially changes Project Knowledge semantics returns through `reconcile-project-change`; the implementation agent must not silently accept it.
+Mechanical durable synchronization is completed where needed, with affected evidence and relationships kept current. A discovery that materially changes Project Knowledge semantics returns through `reconcile-project-change`; the implementation agent must not silently accept it.
 
 #### Relevant Knowledge
 

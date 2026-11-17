@@ -43,11 +43,11 @@ Root cause, affected scope, and safe generalization are identified from the find
 
 #### Goal
 
-Preserve the learning in the active Model's appropriate durable knowledge category when appropriate.
+Preserve justified learning as durable knowledge when appropriate.
 
 #### Required Outcome
 
-The proposed durable knowledge is defined with its evidence and justified scope according to the active Model, then supplied to `reconcile-project-change`. This Workflow does not directly accept the resulting Project Knowledge.
+The proposed durable knowledge is defined with its evidence, justified scope, classification decisions, and material relationships, then supplied to `reconcile-project-change`. This Workflow does not directly accept the resulting Project Knowledge.
 
 ### Phase — Link Resolution and Evidence
 
