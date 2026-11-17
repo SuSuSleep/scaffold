@@ -16,7 +16,7 @@ Support reusable methods without allowing a model-invoked Skill to redefine a wo
 
 ### CAP-003 — Context and impact collection
 
-Provide reusable guidance for collecting sufficient evidence for a caller-defined decision or outcome and analyzing its impact, with the caller selecting relevant content and completion criteria.
+Provide reusable guidance for collecting evidence, deriving supported conclusions for a caller-defined decision or outcome, and analyzing impact, with the caller selecting relevant content and completion criteria.
 
 ### CAP-004 — Project Knowledge reconciliation
 
@@ -46,7 +46,7 @@ Use a recorded Git baseline for accepted Project Knowledge and the current Proje
 
 Realizes: CAP-002 and CAP-003
 
-Provide concise Skills for methods such as context collection, impact analysis, optional TDD, and verification without embedding project policy or complete lifecycle logic in a Skill. Context collection takes its target, completion criteria, and applicable scope and authority constraints from its caller, and returns findings and a completion assessment. The external agent host executes these adaptive methods; the Skill supplies guidance rather than an independent runtime.
+Provide concise Skills for methods such as context collection, impact analysis, optional TDD, and verification without embedding project policy or complete lifecycle logic in a Skill. Context collection takes its target, completion criteria, and applicable scope and authority constraints from its caller, and returns source-located observations, evidence-linked inferences with rationale and material conditions, limits, and a completion assessment. Supported conclusions are distinguished from unverified hypotheses, and insufficient evidence does not require an inference. The external agent host executes these adaptive methods; the Skill supplies guidance rather than an independent runtime.
 
 ## Components and Boundaries
 
@@ -70,6 +70,8 @@ Provide concise Skills for methods such as context collection, impact analysis, 
 ### DEC-001 — Workflow Skill owns outcomes; model-invoked Skill owns method
 
 User-invoked workflow Skills own sequence, phase intent, entry conditions, and completion outcomes. Model-invoked Skills are tactical, reusable method guidance. For context collection, the caller selects the search content and defines sufficient evidence; the reusable method does not select a Scaffold source inventory or redefine the caller's assignment. Scaffold-specific authority, applicability, classification, and invocation policy belongs to the agent guide rather than the search method. This keeps a project free to require or replace an implementation method without creating hidden workflow branches or changing the intended work result. Project Knowledge review is read-only and feeds reconciliation; artifact and Rule evolution retain their own workflow Skills.
+
+Returning an inference from context collection does not accept it as Project Knowledge. A proposed durable knowledge change still follows reconciliation and independent review; the lookup result supplies evidence and reasoning to its caller rather than acceptance authority.
 
 ### DEC-004 — Git-backed candidate knowledge and independent reconciliation
 
