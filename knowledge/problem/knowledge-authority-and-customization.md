@@ -18,78 +18,78 @@ Interaction context:
 
 ## Requirements
 
-<a id="req-002"></a>
+<a id="superseded-explicit-artifact-resolution"></a>
 
-### REQ-002 — Superseded: explicit artifact resolution
+### Superseded: explicit artifact resolution
 
-Superseded by REQ-016 — Project-local active Harness authority. This historical requirement described local replacement of a shared runtime artifact. The materialized-local Harness has no shared runtime artifact to replace, so REQ-002 is not an active runtime obligation.
+Superseded by [Project-local active Harness authority](#project-local-active-harness-authority). This historical requirement described local replacement of a shared runtime artifact. The materialized-local Harness has no shared runtime artifact to replace, so [Superseded: explicit artifact resolution](#superseded-explicit-artifact-resolution) is not an active runtime obligation.
 
-<a id="req-003"></a>
+<a id="superseded-replaceable-knowledge-model"></a>
 
-### REQ-003 — Superseded: replaceable knowledge model
+### Superseded: replaceable knowledge model
 
-Superseded by REQ-016 — Project-local active Harness authority. This historical requirement described the former installed-default fallback and shared-plus-local Rule behavior. It is not an active runtime obligation.
+Superseded by [Project-local active Harness authority](#project-local-active-harness-authority). This historical requirement described the former installed-default fallback and shared-plus-local Rule behavior. It is not an active runtime obligation.
 
-<a id="req-011"></a>
+<a id="superseded-extensible-project-rule-collection"></a>
 
-### REQ-011 — Superseded: extensible Project Rule collection
+### Superseded: extensible Project Rule collection
 
-Superseded by REQ-018 — Project-local Project Rule collection. This historical requirement described the former shared-plus-local Rule collection. It is not an active runtime obligation.
+Superseded by [Project-local Project Rule collection](#project-local-project-rule-collection). This historical requirement described the former shared-plus-local Rule collection. It is not an active runtime obligation.
 
-<a id="req-013"></a>
+<a id="authority-safe-artifact-evolution"></a>
 
-### REQ-013 — Authority-safe artifact evolution
+### Authority-safe artifact evolution
 
 The Harness must support deliberate evolution of full-replacement artifacts and route accepted changes to the appropriate downstream Workflow without allowing an artifact to override a different authority domain.
 
-<a id="req-016"></a>
+<a id="project-local-active-harness-authority"></a>
 
-### REQ-016 — Project-local active Harness authority
+### Project-local active Harness authority
 
 The active Harness is a complete project-local artifact set. Its Knowledge Model, Knowledge Schema, Skills, Templates, Project Rules, and agent guide are authoritative at runtime; shared package content is never a runtime fallback or co-authority. The active Model is the sole authority for concept and relationship meaning; the active Schema defines only representation.
 
 Relationships:
 
-- Satisfied-by: [CAP-002 — Deliberate guidance authority](../solution/knowledge-architecture.md#cap-002).
-- Related-to: [CON-003 — Durable source-of-truth boundaries](../governance/product-operating-boundaries.md#con-003).
-- REQ-016 supersedes REQ-002; AC-022 supersedes AC-010.
-- REQ-016 supersedes REQ-003; AC-022 supersedes AC-011.
-- The superseded records remain only as historical traceability. Active design, implementation, and verification target REQ-016 through REQ-019 and their current Acceptance Criteria.
+- Satisfied-by: [Deliberate guidance authority](../solution/knowledge-architecture.md#deliberate-guidance-authority).
+- Related-to: [Durable source-of-truth boundaries](../governance/product-operating-boundaries.md#durable-source-of-truth-boundaries).
+- [Project-local active Harness authority](#project-local-active-harness-authority) supersedes [Superseded: explicit artifact resolution](#superseded-explicit-artifact-resolution); [Active artifacts resolve project-locally](#active-artifacts-resolve-project-locally) supersedes [Superseded: full-replacement artifacts resolve explicitly](#superseded-full-replacement-artifacts-resolve-explicitly).
+- [Project-local active Harness authority](#project-local-active-harness-authority) supersedes [Superseded: replaceable knowledge model](#superseded-replaceable-knowledge-model); [Active artifacts resolve project-locally](#active-artifacts-resolve-project-locally) supersedes [Superseded: the active Knowledge Model resolves explicitly](#superseded-the-active-knowledge-model-resolves-explicitly).
+- The superseded records remain only as historical traceability. Active design, implementation, and verification target [Project-local active Harness authority](#project-local-active-harness-authority), [Materialized Harness initialization](#materialized-harness-initialization), [Project-local Project Rule collection](#project-local-project-rule-collection), and [Operational knowledge-space partitioning](#operational-knowledge-space-partitioning) and their current Acceptance Criteria.
 
-<a id="req-017"></a>
+<a id="materialized-harness-initialization"></a>
 
-### REQ-017 — Materialized Harness initialization
+### Materialized Harness initialization
 
 Initialization must materialize all necessary active Harness guidance into `.scaffold/`: Knowledge Model, Knowledge Schema, Skills, Templates, Project Rules, and agent guide. The installed package distributes a candidate starter bundle for initialization and update comparison but does not supply active guidance after initialization.
 
 Relationships:
 
-- Satisfied-by: [CAP-005 — Materialized Harness lifecycle management](../solution/cli-and-guidance.md#cap-005).
-- Satisfied-by: [CAP-004 — Package candidate and starter artifact provision](../solution/default-artifacts.md#cap-004).
+- Satisfied-by: [Materialized Harness lifecycle management](../solution/cli-and-guidance.md#materialized-harness-lifecycle-management).
+- Satisfied-by: [Package candidate and starter artifact provision](../solution/default-artifacts.md#package-candidate-and-starter-artifact-provision).
 
-<a id="req-018"></a>
+<a id="project-local-project-rule-collection"></a>
 
-### REQ-018 — Project-local Project Rule collection
+### Project-local Project Rule collection
 
 The Harness must represent Project Rules as the project's categorized local collection. Rules retain stable identities and applicability, but no shared-plus-local collection, shadowing, or same-identity replacement behavior applies at runtime.
 
 Relationships:
 
-- REQ-018 supersedes REQ-011; AC-024 supersedes AC-012.
+- [Project-local Project Rule collection](#project-local-project-rule-collection) supersedes [Superseded: extensible Project Rule collection](#superseded-extensible-project-rule-collection); [Project Rules are locally authoritative](#project-rules-are-locally-authoritative) supersedes [Superseded: Project Rules form an effective collection](#superseded-project-rules-form-an-effective-collection).
 
-<a id="req-015"></a>
+<a id="deliberate-knowledge-model-migration-mapping"></a>
 
-### REQ-015 — Deliberate Knowledge Model migration mapping
+### Deliberate Knowledge Model migration mapping
 
 When a project replaces its Knowledge Model, the Harness must support a project-owned, reviewable crosswalk between source and target concepts or relationships. When a Schema replacement requires represented-field migration, the crosswalk must identify the source and target Schemas that own those fields. Every entry must state mapping kind, cardinality, identity and reference treatment, migration disposition, and unresolved ambiguity without making both Models active or automating semantic migration.
 
 Relationships:
 
-- Satisfied-by: [CAP-003 — Deliberate model migration mapping](../solution/knowledge-architecture.md#cap-003).
+- Satisfied-by: [Deliberate model migration mapping](../solution/knowledge-architecture.md#deliberate-model-migration-mapping).
 
-<a id="req-019"></a>
+<a id="operational-knowledge-space-partitioning"></a>
 
-### REQ-019 — Operational knowledge-space partitioning
+### Operational knowledge-space partitioning
 
 When creating or changing Project Knowledge, the Harness must make agents treat the active Knowledge Model's knowledge-space partitioning as operating policy: classify each claim as Project Context, Problem, Governance, or Solution before recording it; use the active Project Rules as the authority for how that work is performed; and retain explicit relationships between the resulting records. A claim that combines an externally meaningful behavior with an implementation consequence must establish or reuse the Problem obligation and observable acceptance first, then link the Solution knowledge that realizes it. Governance may derive a Problem obligation or constrain Solution knowledge directly according to applicability. A pure technical decision remains Solution-only unless it changes an external obligation or outcome, and classification must not manufacture Problem records solely to complete a partition.
 
@@ -97,37 +97,37 @@ The Harness must distinguish shared domain terminology and observable meaning fr
 
 Relationships:
 
-- Satisfied-by: [CAP-001 — Durable knowledge separation](../solution/knowledge-architecture.md#cap-001).
-- REQ-019 constrains [REQ-006 — Incremental brownfield reconstruction](knowledge-reconstruction-and-learning.md#req-006).
-- REQ-019 is constrained by [CON-005 — Durable knowledge update threshold](../governance/product-operating-boundaries.md#con-005).
+- Satisfied-by: [Durable knowledge separation](../solution/knowledge-architecture.md#durable-knowledge-separation).
+- [Operational knowledge-space partitioning](#operational-knowledge-space-partitioning) constrains [Incremental brownfield reconstruction](knowledge-reconstruction-and-learning.md#incremental-brownfield-reconstruction).
+- [Operational knowledge-space partitioning](#operational-knowledge-space-partitioning) is constrained by [Durable knowledge update threshold](../governance/product-operating-boundaries.md#durable-knowledge-update-threshold).
 
 ## Acceptance Criteria
 
-<a id="ac-010"></a>
+<a id="superseded-full-replacement-artifacts-resolve-explicitly"></a>
 
-### AC-010 — Superseded: full-replacement artifacts resolve explicitly
+### Superseded: full-replacement artifacts resolve explicitly
 
-Historical acceptance criterion for superseded REQ-002. Superseded by AC-022 — Active artifacts resolve project-locally; it is not an active acceptance target.
+Historical acceptance criterion for superseded [Superseded: explicit artifact resolution](#superseded-explicit-artifact-resolution). Superseded by [Active artifacts resolve project-locally](#active-artifacts-resolve-project-locally); it is not an active acceptance target.
 
-<a id="ac-011"></a>
+<a id="superseded-the-active-knowledge-model-resolves-explicitly"></a>
 
-### AC-011 — Superseded: the active Knowledge Model resolves explicitly
+### Superseded: the active Knowledge Model resolves explicitly
 
-Historical acceptance criterion for superseded REQ-003. Superseded by AC-022 — Active artifacts resolve project-locally; it is not an active acceptance target.
+Historical acceptance criterion for superseded [Superseded: replaceable knowledge model](#superseded-replaceable-knowledge-model). Superseded by [Active artifacts resolve project-locally](#active-artifacts-resolve-project-locally); it is not an active acceptance target.
 
-<a id="ac-012"></a>
+<a id="superseded-project-rules-form-an-effective-collection"></a>
 
-### AC-012 — Superseded: Project Rules form an effective collection
+### Superseded: Project Rules form an effective collection
 
-Historical acceptance criterion for superseded REQ-011. Superseded by AC-024 — Project Rules are locally authoritative; it is not an active acceptance target.
+Historical acceptance criterion for superseded [Superseded: extensible Project Rule collection](#superseded-extensible-project-rule-collection). Superseded by [Project Rules are locally authoritative](#project-rules-are-locally-authoritative); it is not an active acceptance target.
 
-<a id="ac-017"></a>
+<a id="artifact-evolution-preserves-authority-boundaries"></a>
 
-### AC-017 — Artifact evolution preserves authority boundaries
+### Artifact evolution preserves authority boundaries
 
 For:
 
-- REQ-013 — Authority-safe artifact evolution
+- [Authority-safe artifact evolution](#authority-safe-artifact-evolution)
 
 Given:
 
@@ -141,13 +141,13 @@ Then:
 
 - it uses the appropriate evolution path without allowing an artifact to override another authority domain.
 
-<a id="ac-022"></a>
+<a id="active-artifacts-resolve-project-locally"></a>
 
-### AC-022 — Active artifacts resolve project-locally
+### Active artifacts resolve project-locally
 
 For:
 
-- REQ-016 — Project-local active Harness authority
+- [Project-local active Harness authority](#project-local-active-harness-authority)
 
 Given:
 
@@ -161,13 +161,13 @@ Then:
 
 - Scaffold resolves the project-local artifact as active and does not use package content as an implicit fallback or merge source.
 
-<a id="ac-023"></a>
+<a id="initialization-materializes-active-guidance"></a>
 
-### AC-023 — Initialization materializes active guidance
+### Initialization materializes active guidance
 
 For:
 
-- REQ-017 — Materialized Harness initialization
+- [Materialized Harness initialization](#materialized-harness-initialization)
 
 Given:
 
@@ -181,13 +181,13 @@ Then:
 
 - the local Harness includes the Knowledge Model, Schema, Skills, Templates, Rules, and agent guide required for normal operation.
 
-<a id="ac-024"></a>
+<a id="project-rules-are-locally-authoritative"></a>
 
-### AC-024 — Project Rules are locally authoritative
+### Project Rules are locally authoritative
 
 For:
 
-- REQ-018 — Project-local Project Rule collection
+- [Project-local Project Rule collection](#project-local-project-rule-collection)
 
 Given:
 
@@ -201,13 +201,13 @@ Then:
 
 - the project resolves its local Rule collection without combining it with installed package Rules.
 
-<a id="ac-021"></a>
+<a id="knowledge-model-migration-is-mapped-deliberately"></a>
 
-### AC-021 — Knowledge Model migration is mapped deliberately
+### Knowledge Model migration is mapped deliberately
 
 For:
 
-- REQ-015 — Deliberate Knowledge Model migration mapping
+- [Deliberate Knowledge Model migration mapping](#deliberate-knowledge-model-migration-mapping)
 
 Given:
 
@@ -221,13 +221,13 @@ Then:
 
 - it records a reviewable crosswalk with source and target Models for semantic mappings and source and target Schemas for represented-field mappings, plus mapping kinds and cardinalities, identity and reference treatment, migration disposition, and unresolved ambiguity; no automatic semantic rewrite occurs.
 
-<a id="ac-025"></a>
+<a id="knowledge-claims-are-partitioned-before-recording"></a>
 
-### AC-025 — Knowledge claims are partitioned before recording
+### Knowledge claims are partitioned before recording
 
 For:
 
-- REQ-019 — Operational knowledge-space partitioning
+- [Operational knowledge-space partitioning](#operational-knowledge-space-partitioning)
 
 Given:
 
@@ -245,13 +245,13 @@ Then:
 - it leaves a pure technical decision in Solution unless an external obligation or outcome changes, without creating an artificial Problem record; and
 - when claims use established shared terms, it keeps their shared definitions in the default Schema's Project Context / Domain Terms, uses the terms in Problem obligations according to their domain meanings, and links any durable technical representation or mapping in Solution without making that representation a business obligation solely through shared naming.
 
-<a id="ac-026"></a>
+<a id="internal-representation-changes-preserve-domain-obligations"></a>
 
-### AC-026 — Internal representation changes preserve domain obligations
+### Internal representation changes preserve domain obligations
 
 For:
 
-- REQ-019 — Operational knowledge-space partitioning
+- [Operational knowledge-space partitioning](#operational-knowledge-space-partitioning)
 
 Given:
 
@@ -267,13 +267,13 @@ Then:
 - any affected durable Solution representation or mapping is reconciled; and
 - a mechanical change that makes no durable knowledge stale requires no knowledge update.
 
-<a id="ac-027"></a>
+<a id="domain-changes-and-vocabulary-changes-have-distinct-impact"></a>
 
-### AC-027 — Domain changes and vocabulary changes have distinct impact
+### Domain changes and vocabulary changes have distinct impact
 
 For:
 
-- REQ-019 — Operational knowledge-space partitioning
+- [Operational knowledge-space partitioning](#operational-knowledge-space-partitioning)
 
 Given:
 
@@ -288,13 +288,13 @@ Then:
 - a domain-meaning or observable-lifecycle change reconciles the affected requirements and acceptance criteria, together with dependent knowledge; and
 - a vocabulary-only change updates the shared definition and affected references as appropriate without changing behavioral obligations solely because the name changed.
 
-<a id="ac-028"></a>
+<a id="mandated-exact-values-remain-traceable-obligations"></a>
 
-### AC-028 — Mandated exact values remain traceable obligations
+### Mandated exact values remain traceable obligations
 
 For:
 
-- REQ-019 — Operational knowledge-space partitioning
+- [Operational knowledge-space partitioning](#operational-knowledge-space-partitioning)
 
 Given:
 

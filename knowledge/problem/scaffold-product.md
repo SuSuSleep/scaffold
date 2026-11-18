@@ -20,48 +20,48 @@ Interaction context:
 
 ## Requirements
 
-<a id="req-001"></a>
+<a id="portable-initialization"></a>
 
-### REQ-001 — Portable initialization
+### Portable initialization
 
 The CLI must initialize the Harness in a repository while preserving existing project structure.
 
 Relationships:
 
-- Satisfied-by: [CAP-005 — Materialized Harness lifecycle management](../solution/cli-and-guidance.md#cap-005).
-- [CON-001 — Supported Node.js runtime](../governance/runtime-and-distribution.md#con-001).
+- Satisfied-by: [Materialized Harness lifecycle management](../solution/cli-and-guidance.md#materialized-harness-lifecycle-management).
+- [Supported Node.js runtime](../governance/runtime-and-distribution.md#supported-nodejs-runtime).
 
-<a id="req-004"></a>
+<a id="safe-agent-integration"></a>
 
-### REQ-004 — Safe agent integration
+### Safe agent integration
 
 `AGENTS.md` and `CLAUDE.md` remain host-owned; Scaffold must preserve surrounding content.
 
 Relationships:
 
-- Satisfied-by: [CAP-003 — Agent guidance integration](../solution/cli-and-guidance.md#cap-003).
+- Satisfied-by: [Agent guidance integration](../solution/cli-and-guidance.md#agent-guidance-integration).
 
-<a id="req-005"></a>
+<a id="review-aware-updates"></a>
 
-### REQ-005 — Review-aware updates
+### Review-aware updates
 
 Status must expose update-review drift and the active Harness inventory, including its agent guide. It must distinguish recorded review currency from structural completeness and report missing required Harness structure without substituting package content. Update must record review completion without silently overwriting project-local replacements.
 
-<a id="req-013"></a>
+<a id="diff-led-project-owned-update-adoption"></a>
 
-### REQ-013 — Diff-led, project-owned update adoption
+### Diff-led, project-owned update adoption
 
 The CLI must expose update-review drift and mechanically compare the complete project-local Harness with the installed package candidate bundle. It must report additions, changes, and package removals without editing either artifact set or attempting a merge. An update-review workflow must analyze the behavioral implications and discuss material choices with the project owner; only after that review may `update` record the reviewed version. No update action may silently overwrite project-local artifacts.
 
-<a id="req-012"></a>
+<a id="retired-mechanical-document-id-support"></a>
 
-### REQ-012 — Retired: mechanical document-ID support
+### Retired: mechanical document-ID support
 
-Retired by the path-based reference design in [DEC-001](../solution/knowledge-reference-lifecycle.md#dec-001). Repository-level document-ID allocation and availability inspection are no longer product obligations. This historical object is not an active requirement; its ID is not reused.
+Retired by the path-based reference design in [Superseded: paths with stable numeric object anchors](../solution/knowledge-reference-lifecycle.md#superseded-paths-with-stable-numeric-object-anchors). Repository-level document-ID allocation and availability inspection are no longer product obligations. This historical object is not an active requirement; its ID is not reused.
 
-<a id="req-014"></a>
+<a id="foundational-project-context-baseline"></a>
 
-### REQ-014 — Foundational Project Context baseline
+### Foundational Project Context baseline
 
 Initialization must guide the project to establish a lightweight, external-facing Project Context baseline for useful work. The context records the project's top-level purpose, stakeholder or project goals, project-specific domain terms and glossary, scope and exclusions, and material unknowns. The Project Context is an orientation representation selected by the active Knowledge Schema, not a Problem document or a fourth Knowledge Model space. It must not introduce Actors, Use Cases, Requirements, or Acceptance Criteria; Goals retain their Problem-space meaning.
 
@@ -69,27 +69,27 @@ Initialization records the initial terms and goals in Project Context and must n
 
 Requirements and their acceptance scenarios, architecture, integrations and external contracts, security and operational constraints, and Harness customization are not required for this initial baseline. They are established later when discovery or a change workflow makes them relevant.
 
-<a id="req-015"></a>
+<a id="confirmed-foundational-project-context"></a>
 
-### REQ-015 — Confirmed foundational Project Context
+### Confirmed foundational Project Context
 
 The agent-run initialization workflow must validate the proposed Project Context with the project maintainer before recording it. When repository evidence sufficiently establishes proposed Project Context content—purpose, goals, terms, scope, exclusions, or material unknowns—the workflow must present that evidence-derived context and ask the maintainer to confirm or correct it. When the repository does not supply sufficient context, including a greenfield repository, the workflow must ask the maintainer directly for the needed context without inventing or suggesting project-specific answers. It must not create a Project Context record until the maintainer has supplied, confirmed, or corrected its content.
 
-<a id="req-016"></a>
+<a id="rule-based-engineering-practice-baseline"></a>
 
-### REQ-016 — Rule-based engineering-practice baseline
+### Rule-based engineering-practice baseline
 
 The agent-run initialization workflow must classify reusable engineering and delivery practices as Project Rules rather than Project Context content. When repository evidence or maintainer input establishes a code-style, build or compiler, formatting or linting, testing or quality-gate, or Git, pull-request, branching, or release practice, the workflow must create or revise the applicable Project Rule. When no reliable evidence or maintainer input establishes such a practice, the workflow must leave the corresponding Rule undefined rather than infer it. Project Context may identify the absence only when it is a material project-level unknown; it must not become the authoritative procedure or configuration record for an engineering or delivery practice.
 
 ## Acceptance Criteria
 
-<a id="ac-007"></a>
+<a id="a-repository-initializes-without-restructuring"></a>
 
-### AC-007 — A repository initializes without restructuring
+### A repository initializes without restructuring
 
 For:
 
-- REQ-001 — Portable initialization
+- [Portable initialization](#portable-initialization)
 
 Given:
 
@@ -103,13 +103,13 @@ Then:
 
 - Scaffold infrastructure is initialized without restructuring the repository.
 
-<a id="ac-008"></a>
+<a id="host-owned-agent-instructions-are-preserved"></a>
 
-### AC-008 — Host-owned agent instructions are preserved
+### Host-owned agent instructions are preserved
 
 For:
 
-- REQ-004 — Safe agent integration
+- [Safe agent integration](#safe-agent-integration)
 
 Given:
 
@@ -123,13 +123,13 @@ Then:
 
 - surrounding host-owned content remains preserved.
 
-<a id="ac-009"></a>
+<a id="update-review-is-visible-and-attested-safely"></a>
 
-### AC-009 — Update review is visible and attested safely
+### Update review is visible and attested safely
 
 For:
 
-- REQ-005 — Review-aware updates
+- [Review-aware updates](#review-aware-updates)
 
 Given:
 
@@ -145,13 +145,13 @@ Then:
 - status identifies active Harness artifacts, including the agent guide, and reports missing required structure separately from review currency; and
 - a recorded current review remains distinguishable from an incomplete Harness, including when the project has customized its local Skills or Templates.
 
-<a id="ac-016"></a>
+<a id="update-differences-are-visible-and-adopted-deliberately"></a>
 
-### AC-016 — Update differences are visible and adopted deliberately
+### Update differences are visible and adopted deliberately
 
 For:
 
-- REQ-013 — Diff-led, project-owned update adoption
+- [Diff-led, project-owned update adoption](#diff-led-project-owned-update-adoption)
 
 Given:
 
@@ -167,19 +167,19 @@ Then:
 - `scaffold update --diff` reports the mechanical two-way add/change/package-removal differences between project-local active artifacts and the installed package candidate bundle, and changes no artifact.
 - After owner-directed decisions to adopt, adapt, keep, retire, or defer candidate content, `scaffold update` records the reviewed version without changing project-local artifacts.
 
-<a id="ac-015"></a>
+<a id="retired-document-ids-are-inspected-mechanically"></a>
 
-### AC-015 — Retired: document IDs are inspected mechanically
+### Retired: document IDs are inspected mechanically
 
-Historical acceptance condition of retired REQ-012. It no longer defines required CLI behavior or an active verification target; see [DEC-008 — Retire document-ID CLI commands](../solution/cli-and-guidance.md#dec-008).
+Historical acceptance condition of retired [Retired: mechanical document-ID support](#retired-mechanical-document-id-support). It no longer defines required CLI behavior or an active verification target; see [Retire document-ID CLI commands](../solution/cli-and-guidance.md#retire-document-id-cli-commands).
 
-<a id="ac-017"></a>
+<a id="initialization-establishes-the-foundational-project-context-baseline"></a>
 
-### AC-017 — Initialization establishes the foundational Project Context baseline
+### Initialization establishes the foundational Project Context baseline
 
 For:
 
-- REQ-014 — Foundational Project Context baseline
+- [Foundational Project Context baseline](#foundational-project-context-baseline)
 
 Given:
 
@@ -197,13 +197,13 @@ Then:
 - code and style, reusable testing and quality-gate, and Git, pull-request, branching, and release practices are captured or explicitly left unresolved as Project Rules, without inventing them.
 - requirements, acceptance scenarios, architecture, integrations or external contracts, security or operational constraints, and Harness customization remain discovery- or change-driven unless already needed by available evidence.
 
-<a id="ac-018"></a>
+<a id="initialization-confirms-project-context-before-recording-it"></a>
 
-### AC-018 — Initialization confirms Project Context before recording it
+### Initialization confirms Project Context before recording it
 
 For:
 
-- REQ-015 — Confirmed foundational Project Context
+- [Confirmed foundational Project Context](#confirmed-foundational-project-context)
 
 Given:
 
@@ -230,13 +230,13 @@ Then:
 - it asks the maintainer directly for the required context without proposing invented project-specific answers.
 - it creates no Project Context record before the maintainer supplies, confirms, or corrects the content.
 
-<a id="ac-019"></a>
+<a id="initialization-separates-project-context-from-project-rules"></a>
 
-### AC-019 — Initialization separates Project Context from Project Rules
+### Initialization separates Project Context from Project Rules
 
 For:
 
-- REQ-016 — Rule-based engineering-practice baseline
+- [Rule-based engineering-practice baseline](#rule-based-engineering-practice-baseline)
 
 Given:
 

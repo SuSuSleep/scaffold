@@ -16,16 +16,18 @@ Documenting Problem-space intent that has no runtime or package-distribution con
 
 ## Records
 
-<a id="con-001"></a>
+<a id="supported-nodejs-runtime"></a>
 
-### CON-001 — Supported Node.js runtime
+### Supported Node.js runtime
+
+Concept: Constraint
 
 Scaffold must support execution on Node.js 20 or later. Changes to package behavior, dependencies, or verification must preserve compatibility with that supported runtime range.
 
 Constrains:
 
-- [IFC-001 — Scaffold command-line interface](../solution/cli-and-guidance.md#ifc-001).
-- [CAP-004 — Package candidate and starter artifact provision](../solution/default-artifacts.md#cap-004).
+- [Scaffold command-line interface](../solution/cli-and-guidance.md#scaffold-command-line-interface).
+- [Package candidate and starter artifact provision](../solution/default-artifacts.md#package-candidate-and-starter-artifact-provision).
 
 ## Verification
 
@@ -34,5 +36,5 @@ Constrains:
 
 ## Related Knowledge
 
-- [IFC-001 — Scaffold command-line interface](../solution/cli-and-guidance.md#ifc-001).
-- [CAP-004 — Package candidate and starter artifact provision](../solution/default-artifacts.md#cap-004).
+- [Scaffold command-line interface](../solution/cli-and-guidance.md#scaffold-command-line-interface).
+- [Package candidate and starter artifact provision](../solution/default-artifacts.md#package-candidate-and-starter-artifact-provision).

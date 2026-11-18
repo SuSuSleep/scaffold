@@ -18,11 +18,11 @@
 
 ## Records
 
-<!-- Record one or more independently reviewable MAP mappings. Complete every shown mapping field; a represented-field mapping must identify both source and target Schemas. -->
+<!-- Record one or more independently reviewable descriptively titled mappings. Complete every shown mapping field; a represented-field mapping must identify both source and target Schemas. -->
 
-<a id="map-001"></a>
+<a id="source-subject-to-target-subject"></a>
 
-### MAP-001 — <Source subject> to <target subject>
+### <Source subject> to <target subject>
 
 Source Model:
 
@@ -58,7 +58,7 @@ Cardinality:
 
 Identity and references:
 
-- <Deliberate ID and reference treatment.>
+- <Deliberate semantic-identity, locator, and reference treatment.>
 
 Migration disposition:
 

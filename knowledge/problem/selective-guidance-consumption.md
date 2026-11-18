@@ -16,27 +16,27 @@ Interaction context:
 
 ## Requirements
 
-<a id="req-010"></a>
+<a id="phase-relevant-guidance-consumption"></a>
 
-### REQ-010 — Selective guidance consumption
+### Phase-relevant guidance consumption
 
 The Harness must keep durable Governance separate from Project Rules and enable agents to consume only the Governance and Rules relevant to the current Workflow Phase.
 
 Relationships:
 
-- Satisfied-by: [CAP-001 — Selective guidance context resolution](../solution/governance-context-resolution.md#cap-001).
-- Satisfied-by: [CAP-002 — Rule-guided verification approach](../solution/governance-context-resolution.md#cap-002).
-- Related-to: [CAP-002 — Deliberate guidance authority](../solution/knowledge-architecture.md#cap-002).
+- Satisfied-by: [Selective guidance context resolution](../solution/governance-context-resolution.md#selective-guidance-context-resolution).
+- Satisfied-by: [Rule-guided verification approach](../solution/governance-context-resolution.md#rule-guided-verification-approach).
+- Related-to: [Deliberate guidance authority](../solution/knowledge-architecture.md#deliberate-guidance-authority).
 
 ## Acceptance Criteria
 
-<a id="ac-014"></a>
+<a id="agents-consume-only-relevant-durable-guidance"></a>
 
-### AC-014 — Agents consume only relevant durable guidance
+### Agents consume only relevant durable guidance
 
 For:
 
-- REQ-010 — Selective guidance consumption
+- [Phase-relevant guidance consumption](#phase-relevant-guidance-consumption)
 
 Given:
 

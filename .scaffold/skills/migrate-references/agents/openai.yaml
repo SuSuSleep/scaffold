@@ -1,4 +1,4 @@
 interface:
   display_name: "Migrate References"
-  short_description: "Repair references when knowledge files change"
-  default_prompt: "Use $migrate-references to prepare and verify this repository reference migration."
+  short_description: "Repair references and document or object conflicts"
+  default_prompt: "Use $migrate-references to assess document and object conflicts and prepare a meaning-preserving reference migration."

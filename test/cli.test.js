@@ -311,7 +311,7 @@ test('commands requiring initialization fail clearly', () => {
 test('retired document ID commands fail without changing repository content', () => {
   const directory = temporaryDirectory();
   const file = path.join(directory, 'subject.md');
-  const content = '# Subject\n\n<a id="req-001"></a>\n\n### REQ-001 — Preserve work\n';
+  const content = '# Subject\n\n<a id="preserve-work"></a>\n\n### Preserve work\n';
   fs.writeFileSync(file, content);
   for (const args of [['id', 'next', 'PROB'], ['id', 'check', 'PROB-001']]) {
     const result = run(...args, directory);
@@ -540,30 +540,29 @@ test('templates keep field completion guidance local to the selected template', 
   assert.match(problem, /Record the problem context, desired outcome, and relevant Motivation/);
   assert.match(governance, /Record applicable Governance objects and durable source context/);
   assert.match(solution, /Record Solution Capabilities that provide abilities intended to satisfy obligations/);
-  assert.match(crosswalk, /Record one or more independently reviewable MAP mappings/);
+  assert.match(crosswalk, /Record one or more independently reviewable descriptively titled mappings/);
   assert.match(workflow, /selected Template's local instructions/);
 });
 
-test('default representation uses relative paths and explicit local object anchors', () => {
+test('default representation uses descriptive titles and title-derived anchors', () => {
   const read = (relative) => fs.readFileSync(path.resolve(__dirname, '..', relative), 'utf8');
   const schema = read('.scaffold/knowledge-schema.md');
-  assert.match(schema, /<TYPE>-<LOCAL_NUMBER> — <DESCRIPTIVE_TITLE>/);
-  assert.match(schema, /Identifier = stable identity/);
-  assert.match(schema, /Title      = mutable semantic context/);
+  assert.match(schema, /## Titles and References/);
   assert.match(schema, /Semantic validation remains agent-only/);
-  assert.match(schema, /\.\.\/problem\/task-recovery\.md#req-001/);
+  assert.match(schema, /\.\.\/problem\/task-recovery\.md#preserve-accepted-work/);
+  assert.doesNotMatch(schema, /<TYPE>-<LOCAL_NUMBER>|MAP-<NUMBER>/);
   const guide = read('.scaffold/agent-guide.md');
   assert.doesNotMatch(guide, /scaffold id next|<DOCUMENT_ID>#<OBJECT_ID>/);
   assert.match(guide, /relative Markdown links/);
   for (const type of ['problem', 'solution', 'project-context', 'governance']) {
     const template = read(`.scaffold/templates/${type}/standard.md`);
-    assert.doesNotMatch(template, /^Document ID:|scaffold id/m);
-    for (const heading of template.matchAll(/^#{3,6} ([A-Z]+-\d+) — /gm)) {
-      const preceding = template.slice(0, heading.index);
-      assert.ok(preceding.endsWith(`<a id="${heading[1].toLowerCase()}"></a>\n\n`), `${type}: ${heading[1]}`);
-    }
+    assert.doesNotMatch(template, /^Document ID:|scaffold id|^#{3,6} [A-Z]+-\d+ — /m);
+    assert.doesNotMatch(template, /id="[a-z]+-\d+"/);
   }
-  assert.match(read('.scaffold/templates/solution/standard.md'), /\.\.\/problem\/<subject>\.md#ac-001/);
+  assert.match(read('.scaffold/templates/problem/standard.md'),
+    /<a id="observable-obligation"><\/a>\n\n### <Observable obligation>/);
+  assert.match(read('.scaffold/templates/solution/standard.md'),
+    /\.\.\/problem\/<subject>\.md#observable-acceptance-condition/);
 });
 
 test('default guidance uses single-owner acceptance and bounded verification items', () => {
@@ -573,16 +572,6 @@ test('default guidance uses single-owner acceptance and bounded verification ite
   const problemTemplate = read('.scaffold/templates/problem/standard.md');
   const solutionTemplate = read('.scaffold/templates/solution/standard.md');
   const rule = read('.scaffold/rules/verification/dependency-isolation.md');
-  const product = read('knowledge/problem/scaffold-product.md');
-  const solutionDocuments = [
-    'knowledge/solution/cli-and-guidance.md',
-    'knowledge/solution/change-lifecycle-and-methods.md',
-    'knowledge/solution/governance-context-resolution.md',
-    'knowledge/solution/knowledge-architecture.md',
-    'knowledge/solution/default-artifacts.md',
-    'knowledge/solution/hybrid-agent-tool-architecture.md',
-  ].map(read);
-  const solutionRecords = solutionDocuments.join('\n');
 
   assert.match(model, /one primary parent Requirement/);
   assert.match(model, /one Acceptance Criterion/);
@@ -590,35 +579,14 @@ test('default guidance uses single-owner acceptance and bounded verification ite
   assert.doesNotMatch(model, /may cover multiple Requirements/);
   assert.match(schema, /default Knowledge Model defines their ownership, semantics, and dependency rules/);
   assert.doesNotMatch(schema, /may cover one or more Requirements/);
-  assert.match(problemTemplate, /^For:$/m);
-  assert.match(problemTemplate, /^Given:$/m);
-  assert.match(problemTemplate, /^When:$/m);
-  assert.match(problemTemplate, /^Then:$/m);
-  assert.match(solutionTemplate, /\.\.\/problem\/<subject>\.md#ac-001/);
+  assert.match(problemTemplate, /^For:\n\n- \[<Observable obligation>\]\(#observable-obligation\)/m);
+  for (const field of ['Given', 'When', 'Then']) {
+    assert.match(problemTemplate, new RegExp(`^${field}:$`, 'm'));
+  }
+  assert.match(solutionTemplate, /^Verifies:\n\n- \[<Observable acceptance condition>\]\([^\n]+#observable-acceptance-condition\)/m);
   assert.match(solutionTemplate, /^Scope:$/m);
   assert.match(solutionTemplate, /^Assumptions:$/m);
   assert.match(rule, /Do not substitute an interaction when that interaction itself is the verification target/);
-  assert.doesNotMatch(product, /^Covers:$/m);
-  assert.doesNotMatch(solutionRecords, /scaffold-product\.md#ac-00[1-6]/);
-
-  const activeProduct = product.replace(/^### AC-\d+ — Retired:[\s\S]*?(?=^### |$(?![\s\S]))/gm, '');
-  const criteria = [...activeProduct.matchAll(/^### AC-[^\n]+\n\n([\s\S]*?)(?=^#{1,3} |$(?![\s\S]))/gm)];
-  assert.equal(criteria.length, [...activeProduct.matchAll(/^### AC-/gm)].length);
-  assert.ok(criteria.length > 0);
-  for (const criterion of criteria) {
-    assert.match(criterion[1], /^For:\n\n- REQ-\d+/m, criterion[0]);
-    assert.match(criterion[1], /^Given:$/m, criterion[0]);
-    assert.match(criterion[1], /^When:$/m, criterion[0]);
-    assert.match(criterion[1], /^Then:$/m, criterion[0]);
-  }
-  const activeSolutions = solutionDocuments.map((document) => document.replace(/^### VER-\d+ — Retired:[\s\S]*?(?=^### |$(?![\s\S]))/gm, ''));
-  const items = activeSolutions.flatMap((document) => [...document.matchAll(/^### VER-[^\n]+\n\n([\s\S]*?)(?=^#{1,3} |$(?![\s\S]))/gm)]);
-  assert.equal(items.length, [...activeSolutions.join('\n').matchAll(/^### VER-/gm)].length);
-  assert.ok(items.length > 0);
-  for (const item of items) {
-    assert.match(item[1], /^Verifies:\n\n- \[AC-\d+[^\n]*\]\([^\n]+#ac-\d+\)/m, item[0]);
-    assert.match(item[1], /^Scope:$/m, item[0]);
-  }
 });
 
 test('default Harness guides explicit hybrid agent, Skill, tool, and integration boundaries', () => {
@@ -646,8 +614,8 @@ test('default Harness guides explicit hybrid agent, Skill, tool, and integration
   assert.match(impact, /moves or alters responsibility/);
   assert.match(review, /executing agent host remains distinct from its Skill guidance/);
   assert.match(verify, /keep the real agent-tool interaction in scope/);
-  assert.match(problem, /^### AC-001 — Hybrid responsibilities are distinguishable$/m);
-  assert.match(problem, /^### AC-003 — Hybrid evidence covers components and interaction$/m);
+  assert.match(problem, /^### Hybrid responsibilities are distinguishable$/m);
+  assert.match(problem, /^### Hybrid evidence covers components and interaction$/m);
 });
 
 test("the package ships a complete default Knowledge Model", () => {
@@ -703,10 +671,10 @@ test('model migrations use explicit project-owned crosswalks without automatic s
   assert.match(model, /must not cause automatic semantic rewriting/);
   assert.match(schema, /## Model Migration Crosswalk Representation/);
   assert.match(schema, /field names and order are defined once/);
-  assert.match(schema, /MAP-<NUMBER>/);
+  assert.match(schema, /descriptively titled mapping entry/);
   assert.match(schema, /source and target Schemas/);
   assert.doesNotMatch(schema, /^### MAP-001 — /m);
-  assert.match(template, /^### MAP-001 — /m);
+  assert.match(template, /^### <Source subject> to <target subject>$/m);
   assert.match(template, /Identity and references:/);
   assert.match(template, /Source Schema:/);
   assert.match(template, /many-to-many/);

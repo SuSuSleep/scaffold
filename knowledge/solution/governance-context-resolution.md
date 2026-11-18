@@ -4,91 +4,93 @@
 
 ## Capabilities and Architecture
 
-<a id="cap-001"></a>
+<a id="selective-guidance-context-resolution"></a>
 
-### CAP-001 — Selective guidance context resolution
+### Selective guidance context resolution
 
 Enable agents to identify and consume only the Governance and Project Rules relevant to a Workflow Phase while retaining Governance as durable, independently evolvable project knowledge.
 
 Relationships:
 
-- Satisfies: [REQ-010 — Selective guidance consumption](../problem/selective-guidance-consumption.md#req-010).
+- Satisfies: [Phase-relevant guidance consumption](../problem/selective-guidance-consumption.md#phase-relevant-guidance-consumption).
 
 #### Responsibilities
 
-<a id="resp-001"></a>
+<a id="phase-relevant-guidance-discovery"></a>
 
-##### RESP-001 — Phase-relevant guidance discovery
+##### Phase-relevant guidance discovery
 
-Realizes: CAP-001
+Realizes: [Selective guidance context resolution](#selective-guidance-context-resolution)
 
 Define the guidance evidence needed for the current work outcome and resolve applicable Governance and Project Rules by active-Model meaning. The caller owns the search target and sufficiency judgment; the executing agent uses reusable context-collection guidance within the supplied scope and authority constraints.
 
 Relationships:
 
-- Related-to: [CAP-002 — Deliberate guidance authority](knowledge-architecture.md#cap-002).
-- Related-to: [RESP-003 — Reusable method guidance](change-lifecycle-and-methods.md#resp-003).
+- Related-to: [Deliberate guidance authority](knowledge-architecture.md#deliberate-guidance-authority).
+- Related-to: [Reusable method guidance](change-lifecycle-and-methods.md#reusable-method-guidance).
 
 #### Components and Boundaries
 
-- **The project-local agent guide** is assigned-to RESP-001 for Scaffold authority resolution, applicable classification-policy discovery, and invocation policy. It connects Workflow Phase intent and relevance declarations to the caller's context-collection assignment.
-- **Project-local workflow Skills in `.scaffold/skills/`** are assigned-to RESP-001 for declaring phase outcomes and relevant semantic knowledge and Rule categories, without naming project-specific knowledge paths, fixing the default knowledge taxonomy, or duplicating shared authority and classification policy.
-- **The external agent host** is assigned-to RESP-001 for interpreting the current request or Phase, defining the collection assignment, and executing adaptive evidence selection and applicability judgment.
-- **The project-local `collect-context` Skill** is assigned-to RESP-001 for reusable search-method guidance. Its caller-to-method boundary carries a search target, completion criteria, and applicable scope and source-authority constraints. Its result distinguishes source-located observations from inferences answering the target; each inference links supporting evidence with concise rationale and material assumptions or conditions. Supported conclusions remain distinct from unverified hypotheses, and insufficient evidence may warrant no conclusion. The result also identifies material conflicts, gaps, or unknowns and assesses completion against the caller's criteria. It owns neither Scaffold policy nor a fixed source inventory. The installed package supplies candidate Skills only for initialization and update review.
+- **The project-local agent guide** is assigned-to [Phase-relevant guidance discovery](#phase-relevant-guidance-discovery) for Scaffold authority resolution, applicable classification-policy discovery, and invocation policy. It connects Workflow Phase intent and relevance declarations to the caller's context-collection assignment.
+- **Project-local workflow Skills in `.scaffold/skills/`** are assigned-to [Phase-relevant guidance discovery](#phase-relevant-guidance-discovery) for declaring phase outcomes and relevant semantic knowledge and Rule categories, without naming project-specific knowledge paths, fixing the default knowledge taxonomy, or duplicating shared authority and classification policy.
+- **The external agent host** is assigned-to [Phase-relevant guidance discovery](#phase-relevant-guidance-discovery) for interpreting the current request or Phase, defining the collection assignment, and executing adaptive evidence selection and applicability judgment.
+- **The project-local `collect-context` Skill** is assigned-to [Phase-relevant guidance discovery](#phase-relevant-guidance-discovery) for reusable search-method guidance. Its caller-to-method boundary carries a search target, completion criteria, and applicable scope and source-authority constraints. Its result distinguishes source-located observations from inferences answering the target; each inference links supporting evidence with concise rationale and material assumptions or conditions. Supported conclusions remain distinct from unverified hypotheses, and insufficient evidence may warrant no conclusion. The result also identifies material conflicts, gaps, or unknowns and assesses completion against the caller's criteria. It owns neither Scaffold policy nor a fixed source inventory. The installed package supplies candidate Skills only for initialization and update review.
 
-<a id="cap-002"></a>
+<a id="rule-guided-verification-approach"></a>
 
-### CAP-002 — Rule-guided verification approach
+### Rule-guided verification approach
 
 Separate Rule-guided project-wide verification approach from the solution-specific expectations that must be demonstrated.
 
 #### Responsibilities
 
-<a id="resp-002"></a>
+<a id="verification-responsibility-separation"></a>
 
-##### RESP-002 — Verification responsibility separation
+##### Verification responsibility separation
 
-Realizes: CAP-002
+Realizes: [Rule-guided verification approach](#rule-guided-verification-approach)
 
 Keep test methodology and evidence-selection strategy in Project Rules while Solution documents retain the specific verification items they must demonstrate.
 
 #### Components and Boundaries
 
-- **Solution documents** are assigned-to RESP-002 for Solution verification items.
-- **Project Rules** are assigned-to RESP-002 for project-wide verification approach and applicability guidance.
+- **Solution documents** are assigned-to [Verification responsibility separation](#verification-responsibility-separation) for Solution verification items.
+- **Project Rules** are assigned-to [Verification responsibility separation](#verification-responsibility-separation) for project-wide verification approach and applicability guidance.
 
 ## Satisfies
 
-- CAP-001 — Selective guidance context resolution satisfies:
-  - [REQ-010 — Selective guidance consumption](../problem/selective-guidance-consumption.md#req-010)
-- CAP-002 — Rule-guided verification approach satisfies:
-  - [REQ-010 — Selective guidance consumption](../problem/selective-guidance-consumption.md#req-010)
+- [Selective guidance context resolution](#selective-guidance-context-resolution) satisfies:
+  - [Phase-relevant guidance consumption](../problem/selective-guidance-consumption.md#phase-relevant-guidance-consumption)
+- [Rule-guided verification approach](#rule-guided-verification-approach) satisfies:
+  - [Phase-relevant guidance consumption](../problem/selective-guidance-consumption.md#phase-relevant-guidance-consumption)
 
 ## Design and Decisions
 
-<a id="dec-001"></a>
+The entries in this section are Decisions; explicitly superseded entries remain historical.
 
-### DEC-001 — Scope is distinct from context loading
+<a id="scope-is-distinct-from-context-loading"></a>
+
+### Scope is distinct from context loading
 
 Governance and Project Rules may be project-wide in scope without being loaded for every activity. Workflow Phase intent determines relevant categories; agents resolve applicability semantically rather than through a deterministic routing engine. The agent guide owns shared authority resolution and applicability discovery, applicable Project Rules own operational classification guidance, and `collect-context` owns reusable search guidance. Workflow and method Skills consume these policies while defining their own task-specific results. This allocation avoids competing policy copies and lets changes to Model/Schema authority or classification policy remain in their owning artifacts rather than requiring parallel edits to generic Skills.
 
 Lifecycle metadata is conditional evidence, not a prerequisite of context collection. The guide makes its relevance depend on missing lifecycle facts needed by the current task. This preserves access when lifecycle evidence matters without imposing a metadata read on unrelated searches.
 
-<a id="dec-002"></a>
+<a id="verification-approach-and-item-separation"></a>
 
-### DEC-002 — Verification approach and item separation
+### Verification approach and item separation
 
 Project Rules define how the project generally approaches verification. A Solution defines what it must demonstrate through Verification Items, which normally verify Acceptance Criteria and may directly verify technical expectations when needed. Execution results are not automatically durable knowledge. A Solution may specify a verification method only when an exceptional solution-specific constraint requires it.
 
 ## Verification Items
 
-<a id="ver-001"></a>
+<a id="selective-guidance-consumption"></a>
 
-### VER-001 — Selective guidance consumption
+### Selective guidance consumption
 
 Verifies:
 
-- [AC-014 — Agents consume only relevant durable guidance](../problem/selective-guidance-consumption.md#ac-014).
+- [Agents consume only relevant durable guidance](../problem/selective-guidance-consumption.md#agents-consume-only-relevant-durable-guidance).
 
 Scope:
 

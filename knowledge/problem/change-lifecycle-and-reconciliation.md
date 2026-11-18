@@ -17,39 +17,39 @@ Interaction context:
 
 ## Requirements
 
-<a id="req-009"></a>
+<a id="accepted-change-lifecycle"></a>
 
-### REQ-009 — Accepted-change lifecycle
+### Accepted-change lifecycle
 
 The Harness must support a lifecycle in which a meaningful change is defined and reviewed for acceptance before downstream work, while allowing project-specific methods to satisfy the lifecycle outcomes.
 
 Relationships:
 
-- Satisfied-by: [CAP-001 — Accepted-change lifecycle management](../solution/change-lifecycle-and-methods.md#cap-001).
-- Satisfied-by: [CAP-002 — Method-flexible work guidance](../solution/change-lifecycle-and-methods.md#cap-002).
-- Related-to: [CON-004 — Initial product scope boundaries](../governance/product-operating-boundaries.md#con-004).
+- Satisfied-by: [Accepted-change lifecycle management](../solution/change-lifecycle-and-methods.md#accepted-change-lifecycle-management).
+- Satisfied-by: [Method-flexible work guidance](../solution/change-lifecycle-and-methods.md#method-flexible-work-guidance).
+- Related-to: [Initial product scope boundaries](../governance/product-operating-boundaries.md#initial-product-scope-boundaries).
 
-<a id="req-014"></a>
+<a id="independently-reconciled-project-knowledge"></a>
 
-### REQ-014 — Independently reconciled Project Knowledge
+### Independently reconciled Project Knowledge
 
 The Harness must support Git-backed, iterative reconciliation of a Project Knowledge change. A fresh writer execution may update candidate knowledge, and a distinct fresh reviewer execution must inspect the resulting repository state before reconciliation can complete. When a reviewer reports a conflict or material ambiguity that authoritative evidence cannot resolve, the Harness must immediately ask the user to choose how to resolve it, with evidence, viable selectable alternatives and effects, and the affected candidate knowledge. Candidate knowledge becomes accepted automatically after a clean independent review.
 
 Relationships:
 
-- Satisfied-by: [CAP-004 — Project Knowledge reconciliation](../solution/change-lifecycle-and-methods.md#cap-004).
-- Related-to: [CON-005 — Durable knowledge update threshold](../governance/product-operating-boundaries.md#con-005).
-- Related-to: [CON-006 — Git-backed candidate-state boundary](../governance/product-operating-boundaries.md#con-006).
+- Satisfied-by: [Project Knowledge reconciliation](../solution/change-lifecycle-and-methods.md#project-knowledge-reconciliation).
+- Related-to: [Durable knowledge update threshold](../governance/product-operating-boundaries.md#durable-knowledge-update-threshold).
+- Related-to: [Git-backed candidate-state boundary](../governance/product-operating-boundaries.md#git-backed-candidate-state-boundary).
 
 ## Acceptance Criteria
 
-<a id="ac-016"></a>
+<a id="accepted-changes-are-reviewed-before-downstream-work"></a>
 
-### AC-016 — Accepted changes are reviewed before downstream work
+### Accepted changes are reviewed before downstream work
 
 For:
 
-- REQ-009 — Accepted-change lifecycle
+- [Accepted-change lifecycle](#accepted-change-lifecycle)
 
 Given:
 
@@ -63,13 +63,13 @@ Then:
 
 - review establishes acceptance before its selected downstream Workflow begins.
 
-<a id="ac-020"></a>
+<a id="project-knowledge-is-independently-reconciled"></a>
 
-### AC-020 — Project Knowledge is independently reconciled
+### Project Knowledge is independently reconciled
 
 For:
 
-- REQ-014 — Independently reconciled Project Knowledge
+- [Independently reconciled Project Knowledge](#independently-reconciled-project-knowledge)
 
 Given:
 

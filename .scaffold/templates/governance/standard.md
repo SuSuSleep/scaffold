@@ -1,6 +1,6 @@
 # <Governance Topic>
 
-> Follow the active Knowledge Schema for section guidance. Choose a descriptive file path after checking for existing knowledge on the same subject.
+> Follow the active Knowledge Schema for section guidance. Choose a descriptive file path after checking for existing knowledge on the same subject. Derive each object anchor from its actual descriptive title.
 
 <!-- Use this template only when selected by the active Knowledge Schema. When creating or updating, retain applicable existing knowledge, correct stale knowledge, and use these instructions only for this template. -->
 
@@ -28,4 +28,4 @@
 
 <!-- Record precise relationships to affected Problem, Solution, or Governance knowledge, such as derived Requirements, constrained Interfaces, or superseded records. -->
 
-- [CAP-001 — <Affected capability>](../solution/<subject>.md#cap-001)
+- [<Affected capability>](../solution/<subject>.md#solution-ability)

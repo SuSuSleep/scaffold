@@ -16,69 +16,81 @@ A record is purely temporary work history and has no durable project consequence
 
 ## Records
 
-<a id="con-001"></a>
+<a id="markdown-first-core-operation"></a>
 
-### CON-001 — Markdown-first core operation
+### Markdown-first core operation
+
+Concept: Constraint
 
 Core Harness guidance and project knowledge representation must be usable as human-readable Markdown. Core operation must not require structured configuration; structured metadata may be introduced only when a concrete requirement justifies it.
 
 Constrains:
 
-- [CAP-004 — Package candidate and starter artifact provision](../solution/default-artifacts.md#cap-004).
+- [Package candidate and starter artifact provision](../solution/default-artifacts.md#package-candidate-and-starter-artifact-provision).
 
-<a id="con-002"></a>
+<a id="agent-mediated-semantic-validation"></a>
 
-### CON-002 — Agent-mediated semantic validation
+### Agent-mediated semantic validation
+
+Concept: Constraint
 
 The initial product must rely on agent reasoning for semantic validation, including Schema interpretation, Project Rule enforcement, documentation consistency, traceability, relationships, and Workflow outcomes. It must not claim or depend on deterministic semantic validation; agents must report material uncertainty rather than fabricate relationships.
 
 Constrains:
 
-- [CAP-001 — Accepted-change lifecycle management](../solution/change-lifecycle-and-methods.md#cap-001).
-- [CAP-003 — Context and impact collection](../solution/change-lifecycle-and-methods.md#cap-003).
+- [Accepted-change lifecycle management](../solution/change-lifecycle-and-methods.md#accepted-change-lifecycle-management).
+- [Context and impact collection](../solution/change-lifecycle-and-methods.md#context-and-impact-collection).
 
-<a id="con-003"></a>
+<a id="durable-source-of-truth-boundaries"></a>
 
-### CON-003 — Durable source-of-truth boundaries
+### Durable source-of-truth boundaries
+
+Concept: Constraint
 
 Project Knowledge is durable truth for intent, obligations, constraints, and reasoning; code is implementation; tests are executable verification mechanisms; and execution artifacts are temporary work history. Verification Items are durable expectations, while completed verification evidence is not automatically durable knowledge. When these sources disagree, the inconsistency must be analyzed rather than automatically resolved in favor of one source. Durable reasoning must not depend exclusively on execution artifacts.
 
 Constrains:
 
-- [CAP-001 — Durable knowledge separation](../solution/knowledge-architecture.md#cap-001).
-- [CAP-003 — Context and impact collection](../solution/change-lifecycle-and-methods.md#cap-003).
+- [Durable knowledge separation](../solution/knowledge-architecture.md#durable-knowledge-separation).
+- [Context and impact collection](../solution/change-lifecycle-and-methods.md#context-and-impact-collection).
 
-<a id="con-004"></a>
+<a id="initial-product-scope-boundaries"></a>
 
-### CON-004 — Initial product scope boundaries
+### Initial product scope boundaries
+
+Concept: Constraint
 
 The initial product does not replace Git, issue tracking, CI/CD, or project-management systems; require Scrum, TDD, a knowledge graph, or a vector database; automatically reconcile conflicting documentation; preserve every temporary execution artifact as durable knowledge; or maintain compatibility through configuration inheritance. Model Migration Crosswalks record project-owned decisions but do not automate semantic migration. Migration and conflict resolution remain deliberate, project-owned work.
 
 Constrains:
 
-- [CAP-005 — Materialized Harness lifecycle management](../solution/cli-and-guidance.md#cap-005).
-- [CAP-001 — Accepted-change lifecycle management](../solution/change-lifecycle-and-methods.md#cap-001).
+- [Materialized Harness lifecycle management](../solution/cli-and-guidance.md#materialized-harness-lifecycle-management).
+- [Accepted-change lifecycle management](../solution/change-lifecycle-and-methods.md#accepted-change-lifecycle-management).
 
-<a id="con-005"></a>
+<a id="durable-knowledge-update-threshold"></a>
 
-### CON-005 — Durable knowledge update threshold
+### Durable knowledge update threshold
+
+Concept: Constraint
 
 Durable knowledge must be updated when a change affects externally observable behavior, requirements, interfaces, responsibilities, architectural boundaries, state or important data semantics, security assumptions, reusable engineering constraints, or meaningful design decisions. Purely mechanical changes, such as formatting, local renaming, equivalent refactoring, or implementation details with no durable reasoning value, do not by themselves require a knowledge update.
 
 Constrains:
 
-- [CAP-001 — Accepted-change lifecycle management](../solution/change-lifecycle-and-methods.md#cap-001).
-- [CAP-003 — Context and impact collection](../solution/change-lifecycle-and-methods.md#cap-003).
+- [Accepted-change lifecycle management](../solution/change-lifecycle-and-methods.md#accepted-change-lifecycle-management).
+- [Context and impact collection](../solution/change-lifecycle-and-methods.md#context-and-impact-collection).
 
-<a id="con-006"></a>
+<a id="git-backed-candidate-state-boundary"></a>
 
-### CON-006 — Git-backed candidate-state boundary
+### Git-backed candidate-state boundary
+
+Concept: Constraint
 
 When reconciling a Project Knowledge change, Git must distinguish the accepted baseline from candidate Project Knowledge. A writer’s repository edits are candidate state, not accepted truth, until a distinct fresh reviewer completes a clean review, which automatically accepts the candidate. A reviewer-reported conflict or material ambiguity remains non-accepted and is immediately put to the user for resolution when authoritative evidence cannot resolve it. This integration does not replace Git’s normal branching, commit, or review practices.
 
 Constrains:
 
-- [CAP-004 — Project Knowledge reconciliation](../solution/change-lifecycle-and-methods.md#cap-004).
+- [Project Knowledge reconciliation](../solution/change-lifecycle-and-methods.md#project-knowledge-reconciliation).
 
 ## Verification
 
@@ -89,10 +101,10 @@ Constrains:
 
 ## Related Knowledge
 
-- [REQ-016 — Project-local active Harness authority](../problem/knowledge-authority-and-customization.md#req-016).
-- [REQ-008 — Usable Markdown-first guidance](../problem/knowledge-reconstruction-and-learning.md#req-008).
-- [REQ-009 — Accepted-change lifecycle](../problem/change-lifecycle-and-reconciliation.md#req-009).
-- [CAP-004 — Package candidate and starter artifact provision](../solution/default-artifacts.md#cap-004).
-- [CAP-001 — Durable knowledge separation](../solution/knowledge-architecture.md#cap-001).
-- [CAP-001 — Accepted-change lifecycle management](../solution/change-lifecycle-and-methods.md#cap-001).
-- [CAP-004 — Project Knowledge reconciliation](../solution/change-lifecycle-and-methods.md#cap-004).
+- [Project-local active Harness authority](../problem/knowledge-authority-and-customization.md#project-local-active-harness-authority).
+- [Usable Markdown-first guidance](../problem/knowledge-reconstruction-and-learning.md#usable-markdown-first-guidance).
+- [Accepted-change lifecycle](../problem/change-lifecycle-and-reconciliation.md#accepted-change-lifecycle).
+- [Package candidate and starter artifact provision](../solution/default-artifacts.md#package-candidate-and-starter-artifact-provision).
+- [Durable knowledge separation](../solution/knowledge-architecture.md#durable-knowledge-separation).
+- [Accepted-change lifecycle management](../solution/change-lifecycle-and-methods.md#accepted-change-lifecycle-management).
+- [Project Knowledge reconciliation](../solution/change-lifecycle-and-methods.md#project-knowledge-reconciliation).

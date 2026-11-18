@@ -18,51 +18,51 @@ Interaction context:
 
 ## Requirements
 
-<a id="req-006"></a>
+<a id="incremental-brownfield-reconstruction"></a>
 
-### REQ-006 — Incremental brownfield reconstruction
+### Incremental brownfield reconstruction
 
 The Harness must support incremental reconstruction of durable project knowledge from an existing repository without treating implementation as unquestionable project intent.
 
-Reconstruction must preserve established stakeholder terminology, including terms that originated in implementation, while distinguishing its agreed domain meaning from internal identifiers and representations. Shared usage alone must not make the current enum, field, complete state set, or transitions an intended business obligation. Where domain meaning or intended behavior lacks sufficient evidence, that uncertainty remains Inferred or Unknown; retaining or renaming a term does not resolve it. Classification follows [REQ-019 — Operational knowledge-space partitioning](knowledge-authority-and-customization.md#req-019).
+Reconstruction must preserve established stakeholder terminology, including terms that originated in implementation, while distinguishing its agreed domain meaning from internal identifiers and representations. Shared usage alone must not make the current enum, field, complete state set, or transitions an intended business obligation. Where domain meaning or intended behavior lacks sufficient evidence, that uncertainty remains Inferred or Unknown; retaining or renaming a term does not resolve it. Classification follows [Operational knowledge-space partitioning](knowledge-authority-and-customization.md#operational-knowledge-space-partitioning).
 
 Relationships:
 
-- REQ-006 is constrained by [REQ-019 — Operational knowledge-space partitioning](knowledge-authority-and-customization.md#req-019).
-- Satisfied-by: [CAP-002 — Evidence-based knowledge reconstruction](../solution/default-artifacts.md#cap-002).
-- Related-to: [CON-002 — Agent-mediated semantic validation](../governance/product-operating-boundaries.md#con-002).
-- Related-to: [CON-003 — Durable source-of-truth boundaries](../governance/product-operating-boundaries.md#con-003).
+- [Incremental brownfield reconstruction](#incremental-brownfield-reconstruction) is constrained by [Operational knowledge-space partitioning](knowledge-authority-and-customization.md#operational-knowledge-space-partitioning).
+- Satisfied-by: [Evidence-based knowledge reconstruction](../solution/default-artifacts.md#evidence-based-knowledge-reconstruction).
+- Related-to: [Agent-mediated semantic validation](../governance/product-operating-boundaries.md#agent-mediated-semantic-validation).
+- Related-to: [Durable source-of-truth boundaries](../governance/product-operating-boundaries.md#durable-source-of-truth-boundaries).
 
-<a id="req-007"></a>
+<a id="evidence-based-durable-learning"></a>
 
-### REQ-007 — Evidence-based durable learning
+### Evidence-based durable learning
 
 The Harness must guide a project to convert relevant security, operational, and engineering findings into appropriately scoped durable knowledge when analysis justifies doing so.
 
 Relationships:
 
-- Satisfied-by: [CAP-003 — Finding-to-knowledge learning](../solution/default-artifacts.md#cap-003).
+- Satisfied-by: [Finding-to-knowledge learning](../solution/default-artifacts.md#finding-to-knowledge-learning).
 
-<a id="req-008"></a>
+<a id="usable-markdown-first-guidance"></a>
 
-### REQ-008 — Usable Markdown-first guidance
+### Usable Markdown-first guidance
 
 The Harness must provide usable project-local guidance and project knowledge representation in human-readable Markdown without requiring structured configuration for core operation.
 
 Relationships:
 
-- Related-to: [CAP-004 — Package candidate and starter artifact provision](../solution/default-artifacts.md#cap-004).
-- Related-to: [CON-001 — Markdown-first core operation](../governance/product-operating-boundaries.md#con-001).
+- Related-to: [Package candidate and starter artifact provision](../solution/default-artifacts.md#package-candidate-and-starter-artifact-provision).
+- Related-to: [Markdown-first core operation](../governance/product-operating-boundaries.md#markdown-first-core-operation).
 
 ## Acceptance Criteria
 
-<a id="ac-013"></a>
+<a id="brownfield-knowledge-is-reconstructed-with-warranted-confidence"></a>
 
-### AC-013 — Brownfield knowledge is reconstructed with warranted confidence
+### Brownfield knowledge is reconstructed with warranted confidence
 
 For:
 
-- REQ-006 — Incremental brownfield reconstruction
+- [Incremental brownfield reconstruction](#incremental-brownfield-reconstruction)
 
 Given:
 
@@ -79,13 +79,13 @@ Then:
 - it retains established stakeholder terms and their agreed meanings without requiring the current internal spelling, representation, complete enum, or transitions solely because code or shared usage contains them; and
 - it leaves unsupported domain meanings or lifecycle obligations Inferred or Unknown instead of treating familiar names as evidence of accepted intent.
 
-<a id="ac-018"></a>
+<a id="findings-become-durable-knowledge-only-with-justified-scope"></a>
 
-### AC-018 — Findings become durable knowledge only with justified scope
+### Findings become durable knowledge only with justified scope
 
 For:
 
-- REQ-007 — Evidence-based durable learning
+- [Evidence-based durable learning](#evidence-based-durable-learning)
 
 Given:
 
@@ -99,13 +99,13 @@ Then:
 
 - any resulting durable knowledge has justified scope and semantic classification.
 
-<a id="ac-019"></a>
+<a id="materialized-guidance-remains-usable-as-markdown"></a>
 
-### AC-019 — Materialized guidance remains usable as Markdown
+### Materialized guidance remains usable as Markdown
 
 For:
 
-- REQ-008 — Usable Markdown-first guidance
+- [Usable Markdown-first guidance](#usable-markdown-first-guidance)
 
 Given:
 

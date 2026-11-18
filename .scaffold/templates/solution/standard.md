@@ -1,30 +1,30 @@
 # <Solution Name>
 
-> Follow the active Knowledge Schema for section guidance. Choose a descriptive file path after checking for existing knowledge on the same subject.
+> Follow the active Knowledge Schema for section guidance. Choose a descriptive file path after checking for existing knowledge on the same subject. Derive each object anchor from its actual descriptive title.
 
 <!-- Use this template only when selected by the active Knowledge Schema. When creating or updating, retain applicable existing knowledge, correct stale knowledge, and use these instructions only for this template. -->
 
 ## Capabilities and Architecture
 
-<!-- Record Solution Capabilities that provide abilities intended to satisfy obligations. Use CAP identifiers for independently managed Capabilities; do not encode a Business Goal as a Capability. -->
+<!-- Record Solution Capabilities that provide abilities intended to satisfy obligations. Use descriptive headings for independently managed Capabilities; do not encode a Business Goal as a Capability. -->
 
-<a id="cap-001"></a>
+<a id="solution-ability"></a>
 
-### CAP-001 — <Solution ability>
+### <Solution ability>
 
 <Authoritative capability meaning.>
 
-<!-- Place precise material relationships beside their relevant objects. Define shared objects once and reference them from other Capabilities; CAP nesting does not imply exclusive ownership. Preserve explicit many-to-many relationships and stable IDs. -->
+<!-- Place precise material relationships beside their relevant objects. Define shared objects once and reference them from other Capabilities; CAP nesting does not imply exclusive ownership. Preserve explicit many-to-many relationships and unambiguous descriptive locators. -->
 
 #### Responsibilities
 
-<!-- Record owned Responsibilities that realize Capabilities. Use RESP identifiers when independently managed; establish ownership before unnecessary Component decomposition. For a hybrid solution, distinguish adaptive agent execution, Skill guidance, deterministic operations, and host integration when those ownership boundaries are material. -->
+<!-- Record owned Responsibilities that realize Capabilities. Use descriptive headings when independently managed; establish ownership before unnecessary Component decomposition. For a hybrid solution, distinguish adaptive agent execution, Skill guidance, deterministic operations, and host integration when those ownership boundaries are material. -->
 
-<a id="resp-001"></a>
+<a id="owned-responsibility"></a>
 
-##### RESP-001 — <Owned responsibility>
+##### <Owned responsibility>
 
-Realizes: CAP-001
+Realizes: [<Solution ability>](#solution-ability)
 
 #### Components and Boundaries
 
@@ -38,15 +38,15 @@ Realizes: CAP-001
 
 <!-- Record explicit many-to-many satisfies relationships from Solution knowledge to Problem or Governance obligations. -->
 
-- [REQ-001 — <Observable obligation>](../problem/<subject>.md#req-001)
+- [<Observable obligation>](../problem/<subject>.md#observable-obligation)
 
 ## Design and Decisions
 
 <!-- Record durable Designs and intentional Decisions. Capture meaningful alternatives, rationale, trade-offs, and consequences when relevant; do not redefine Requirements. For hybrid allocation, retain why behavior is adaptive, deterministic, or integration-owned when that choice matters to future reasoning. -->
 
-<a id="dec-001"></a>
+<a id="intentional-technical-choice"></a>
 
-### DEC-001 — <Intentional technical choice>
+### <Intentional technical choice>
 
 <Decision rationale and consequences.>
 
@@ -54,13 +54,13 @@ Realizes: CAP-001
 
 <!-- Record bounded Verification Items. Complete Verifies, Scope, and Expected evidence; use Assumptions only when relevant. Each normal item has one primary Acceptance Criterion target and does not claim completed verification. For a hybrid solution, distinguish deterministic component evidence, Skill-guided scenario evidence, and end-to-end evidence that keeps a targeted agent-tool interaction real. -->
 
-<a id="ver-001"></a>
+<a id="specific-expectation-to-demonstrate"></a>
 
-### VER-001 — <Specific expectation to demonstrate>
+### <Specific expectation to demonstrate>
 
 Verifies:
 
-- [AC-001 — <Observable acceptance condition>](../problem/<subject>.md#ac-001)
+- [<Observable acceptance condition>](../problem/<subject>.md#observable-acceptance-condition)
 
 Scope:
 

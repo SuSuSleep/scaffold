@@ -15,51 +15,51 @@ Interaction context:
 - **Project maintainer**: wants a durable, reviewable allocation of hybrid-system behavior so implementation does not overfit either deterministic programs or AI-guided work.
 - **Solution contributor**: wants enough responsibility, dependency, authority, failure, and verification context to implement or change a hybrid solution safely.
 - **Existing general-purpose agent host**: an external system that consumes project guidance and tools while executing adaptive behavior.
-- [GOAL-003 — Support explicit hybrid solution architecture](../project-context.md#goal-003) motivates this subject.
+- [Support explicit hybrid solution architecture](../project-context.md#support-explicit-hybrid-solution-architecture) motivates this subject.
 
 ## Requirements
 
-<a id="req-001"></a>
+<a id="explicit-hybrid-responsibility-allocation"></a>
 
-### REQ-001 — Explicit hybrid responsibility allocation
+### Explicit hybrid responsibility allocation
 
 For a hybrid solution, the project must make the ownership of each material adaptive, deterministic, and integration responsibility explicit, together with material interfaces and dependencies, allocation rationale, and applicable authority and failure concerns.
 
 Relationships:
 
-- [CAP-001 — Hybrid responsibility architecture](../solution/hybrid-agent-tool-architecture.md#cap-001) satisfies REQ-001.
-- [CON-002 — Agent-mediated semantic validation](../governance/product-operating-boundaries.md#con-002) constrains how hybrid responsibility allocation is interpreted.
+- [Hybrid responsibility architecture](../solution/hybrid-agent-tool-architecture.md#hybrid-responsibility-architecture) satisfies [Explicit hybrid responsibility allocation](#explicit-hybrid-responsibility-allocation).
+- [Agent-mediated semantic validation](../governance/product-operating-boundaries.md#agent-mediated-semantic-validation) constrains how hybrid responsibility allocation is interpreted.
 
-<a id="req-002"></a>
+<a id="existing-agent-portability"></a>
 
-### REQ-002 — Existing-agent portability
+### Existing-agent portability
 
 Hybrid architecture support must remain usable with existing general-purpose agent hosts without requiring the project to implement a new AI agent or inference runtime, adopt a new vendor adapter, or introduce mandatory machine-readable configuration.
 
 Relationships:
 
-- [CAP-002 — Existing-agent tool integration](../solution/hybrid-agent-tool-architecture.md#cap-002) satisfies REQ-002.
-- [CON-001 — Markdown-first core operation](../governance/product-operating-boundaries.md#con-001) constrains the representation of this subject.
+- [Existing-agent tool integration](../solution/hybrid-agent-tool-architecture.md#existing-agent-tool-integration) satisfies [Existing-agent portability](#existing-agent-portability).
+- [Markdown-first core operation](../governance/product-operating-boundaries.md#markdown-first-core-operation) constrains the representation of this subject.
 
-<a id="req-003"></a>
+<a id="hybrid-boundary-verification"></a>
 
-### REQ-003 — Hybrid-boundary verification
+### Hybrid-boundary verification
 
 The project must define observable verification expectations for deterministic behavior, Skill-guided adaptive behavior, and material end-to-end agent/tool interactions without substituting the interaction when that boundary is the verification target.
 
 Relationships:
 
-- [CAP-003 — Layered hybrid verification](../solution/hybrid-agent-tool-architecture.md#cap-003) satisfies REQ-003.
+- [Layered hybrid verification](../solution/hybrid-agent-tool-architecture.md#layered-hybrid-verification) satisfies [Hybrid-boundary verification](#hybrid-boundary-verification).
 
 ## Acceptance Criteria
 
-<a id="ac-001"></a>
+<a id="hybrid-responsibilities-are-distinguishable"></a>
 
-### AC-001 — Hybrid responsibilities are distinguishable
+### Hybrid responsibilities are distinguishable
 
 For:
 
-- REQ-001 — Explicit hybrid responsibility allocation.
+- [Explicit hybrid responsibility allocation](#explicit-hybrid-responsibility-allocation).
 
 Given:
 
@@ -75,13 +75,13 @@ Then:
 - material interfaces, tool dependencies, and allocation rationale are visible; and
 - permissions or authority, configuration ownership, and failure handling are recorded when they affect safe operation.
 
-<a id="ac-002"></a>
+<a id="existing-hosts-remain-sufficient"></a>
 
-### AC-002 — Existing hosts remain sufficient
+### Existing hosts remain sufficient
 
 For:
 
-- REQ-002 — Existing-agent portability.
+- [Existing-agent portability](#existing-agent-portability).
 
 Given:
 
@@ -95,13 +95,13 @@ Then:
 
 - the architecture can be represented in human-readable Markdown and implemented through Skills, deterministic programs, and necessary integrations without a Scaffold-owned agent runtime, a new vendor adapter, or a mandatory machine-readable tool manifest.
 
-<a id="ac-003"></a>
+<a id="hybrid-evidence-covers-components-and-interaction"></a>
 
-### AC-003 — Hybrid evidence covers components and interaction
+### Hybrid evidence covers components and interaction
 
 For:
 
-- REQ-003 — Hybrid-boundary verification.
+- [Hybrid-boundary verification](#hybrid-boundary-verification).
 
 Given:
 

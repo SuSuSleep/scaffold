@@ -36,105 +36,83 @@ The default representation uses one Project Context record for project-wide orie
 
 Each Problem document represents one coherent subject. Extend a Problem document when added knowledge concerns that same subject; create a new Problem document when it concerns a different subject. Shared project purpose, Goals, Actors, dependencies, implementation areas, or repository layout do not by themselves establish document containment. Record material connections between documents explicitly using the relationship representation below.
 
-Use stable identifiers for important knowledge objects when durable traceability is useful. Apply the identifier and reference conventions below; explicit relationship labels, Markdown links, and short relationship statements may supplement them.
+Use descriptive titles to locate independently referenced knowledge objects. Apply the title and reference conventions below; explicit relationship labels and short relationship statements retain their Model-defined meaning.
 
-## Identifiers and References
+## Titles and References
 
-Identifiers, titles, and bodies have distinct roles:
+A descriptive title makes an object readable and searchable. Its containing path and title-derived fragment provide its current locator; its body carries authoritative meaning. The default Schema allocates no numeric or opaque document or object IDs. A title or path change is a locator change and requires reference maintenance, even when the underlying meaning is unchanged.
 
-```text
-Identifier = stable identity
-Title      = mutable semantic context
-Body       = mutable authoritative meaning
-```
+### Descriptive Objects
 
-### Identified Objects
-
-An object that needs stable identity uses this format:
-
-```text
-<TYPE>-<LOCAL_NUMBER> — <DESCRIPTIVE_TITLE>
-```
-
-For example:
+Use a concise descriptive heading for each independently referenced object, without a type-number prefix. Keep its Knowledge Model concept clear from its section or an explicit concept label where necessary. Removing IDs does not remove Requirement/Acceptance-Criterion ownership, Capability/Responsibility distinctions, or any other Model relationship.
 
 ```markdown
-<a id="req-001"></a>
+<a id="preserve-accepted-work"></a>
 
-### REQ-001 — Preserve queued tasks after restart
+### Preserve accepted work
 ```
 
-Do not define an identified object as only `REQ-001`; every identified object has a concise descriptive title. The type is a meaningful abbreviation for the represented Knowledge Model concept, such as `REQ` for Requirement, `CAP` for Capability, `RESP` for Responsibility, `DEC` for Decision, or `CTRL` for Control.
+Ordinary explanatory bullets do not need object locators. Referenceable Acceptance Criteria and Verification Items use descriptive headings and links just like other objects; they retain the active Model's ownership semantics.
 
-### Document Paths and Local Object Identity
+### Document Paths and Title-Derived Fragments
 
-A document is located by its descriptive repository file path; the default Schema has no `Document ID:` declaration or project-level document-number namespace. Search existing subjects before creating a file and choose a coherent descriptive filename. Distinct files do not require a shared counter. A path is a locator, not an immutable identity or a reservation.
+Locate a document by its descriptive repository file path. Search existing subjects before creation and reconcile competing path claims or duplicate subjects before acceptance. Different paths do not prove different meaning; neither a path nor a title reserves knowledge identity.
 
-Object identifiers are local to their containing document, not repository-global. Both `problem/task-recovery.md` and `problem/task-submission.md` may contain `REQ-001`. Use one writer at a time for a shared document, or reconcile local-ID allocations against its latest content before acceptance. Resolve conflicting paths, duplicate local IDs, and semantic duplication during reconciliation; different filenames alone do not prove distinct knowledge.
+For each referenceable object, derive its fragment from the plain-text title:
 
-Every identified object has an explicit lowercase HTML anchor immediately before its heading:
+1. Normalize Unicode to NFC and lowercase.
+2. Retain Unicode letters, combining marks, numbers, whitespace, hyphens and underscores; remove other punctuation and symbols.
+3. Trim surrounding whitespace, then replace each remaining whitespace run with one hyphen.
 
-```markdown
-<a id="req-001"></a>
+The result must be nonempty. Put an explicit HTML anchor with that derived value immediately before the heading. For example, `Preserve accepted work` derives `preserve-accepted-work`, while `保留已接受的工作` remains descriptive Unicode text. The explicit anchor avoids reliance on a renderer's implicit slug rules; it is derived from the title and is not a separately allocated stable identity. Recompute template anchors when substituting actual titles.
 
-### REQ-001 — Preserve accepted queued work
-```
-
-The anchor is the lowercase form of the complete local ID. It remains unchanged during a title-only edit and does not depend on a renderer's generated heading slug. Give every identified object a concise descriptive title.
+Referenceable titles and fragments must unambiguously locate their objects within the document, accounting for other explicit or rendered section targets. Different titles can normalize to the same fragment, such as `Retry work!` and `Retry work?`. Reconcile these collisions by meaning: choose more specific descriptive titles for distinct objects or consolidate equivalent knowledge with preserved relationships. Do not use order-dependent numeric suffixes as a resolution. The same title in different files is allowed because the file path distinguishes the objects.
 
 ### References
 
-Use relative Markdown links resolved from the referring file. An object reference uses the target file path plus its explicit local-ID anchor; a whole-document reference omits the fragment:
+Use relative Markdown links resolved from the referring file. An object link uses its target file and descriptive title-derived fragment; a whole-document link omits the fragment:
 
 ```markdown
-- [REQ-003 — Queue work when resources are unavailable](../problem/task-recovery.md#req-003)
-- [CAP-001 — Durable task scheduling](task-scheduling.md#cap-001)
+- [Preserve accepted work](../problem/task-recovery.md#preserve-accepted-work)
+- [Durable task scheduling](task-scheduling.md#durable-task-scheduling)
 - [Task lifecycle](../problem/task-recovery.md)
 ```
 
-Include the local ID and a descriptive title in an object link's label when practical. The copied title supplies semantic context, not identity. Within the containing document, a local ID is sufficient when unambiguous; a fragment link such as `[REQ-003](#req-003)` may provide navigation.
+Use descriptive title labels rather than copied IDs. Within the same document, use a local fragment link when precise location is needed, such as `[Preserve accepted work](#preserve-accepted-work)`. Ordinary prose may name a title when the intended object is already unambiguous.
 
-Moving a document changes its path. Moving an object changes its full locator even if its local ID is preserved. Before removing a former location, account for incoming references and outgoing relative links whose base changes. Use contextual reference migration to repair affected repository references; keep no superseded files or redirect stubs. A split or merge may require different targets for different referring statements, multiple targets, or deliberate relationship retirement. Resolve unsupported mappings through evidence or owner direction rather than guessing. External references are outside repository repair and must be reported as a scope limit.
-
-### Stability, Replacement, and Titles
-
-An identifier remains unchanged when wording changes without changing the underlying object. For example, `REQ-003 — Preserve queued tasks after restart` may become `REQ-003 — Preserve accepted work across service recovery`.
-
-A semantically different obligation, decision, capability, or other object receives a new identifier. Do not reuse the old ID; retain it as deprecated or superseded when that history is useful. The `supersedes` relationship may express that connection, but is not required solely for this purpose.
-
-When an identified object's title changes, update copied titles in cross-document references when practical. An object link such as `task-recovery.md#req-003` remains valid after a title-only edit even until its copied title is synchronized. A merge with colliding local IDs requires deliberate reassignment and repair of affected references.
-
-### When to Assign an Identifier
-
-Assign an ID only when the object needs independent cross-reference, traceability, verification, lifecycle management, modification, deprecation or replacement, or durable relationship tracking. Ordinary explanatory bullets remain ordinary bullets. Independently referenceable Acceptance Criteria use stable local `AC-<NUMBER>` identifiers; Verification Items use stable local `VER-<NUMBER>` identifiers.
-
-Default Acceptance-Criterion records use the following fields. The default Knowledge Model defines their ownership, semantics, and dependency rules.
+Default Acceptance-Criterion records use these fields. The default Knowledge Model defines their ownership, semantics, and dependency rules.
 
 ```markdown
-<a id="ac-001"></a>
+<a id="accepted-work-survives-recovery"></a>
 
-### AC-001 — Accepted work survives recovery
+### Accepted work survives recovery
 
 For:
 
-- REQ-001 — Accept queued work.
+- [Preserve accepted work](#preserve-accepted-work)
 
 Given:
 
-- a valid work request is available.
+- an accepted work request is queued.
 
 When:
 
-- the request is accepted.
+- the service restarts.
 
 Then:
 
-- the work is accepted for processing.
+- the accepted request remains available for processing.
 ```
+
+### Rename and Conflict Maintenance
+
+Title changes regenerate the derived fragment and repair affected same-document and cross-document references and copied labels. Document or object moves also change locators and may change outgoing relative bases. Do not retain old numeric anchors, old-title aliases, superseded files, or redirect stubs. External consumers are outside repository repair and must be reported as a scope limit.
+
+Use `migrate-references` for affected reference repair and document or object conflicts. Distinguish locator collisions, duplicate meaning, and contradictory claims. Inspect competing source versions or occurrences and each referring context before selecting targets; the same old locator can have different meanings. Do not overwrite a version, prefer the newest version by default, or merge solely by name. Consolidate only evidence-supported equivalent meaning; retain distinct meanings with descriptive disambiguation. Unsupported or material ambiguous decisions require authoritative evidence or owner direction through independent reconciliation. Recheck source and target contents before application so parallel edits cannot silently invalidate the assessment.
 
 ### Agent Review Guidance
 
-Semantic validation remains agent-only. When reviewing knowledge, agents should detect and report duplicate object IDs in one document, missing or mismatched explicit anchors, broken or misbased relative paths, cross-document local-only references, identified objects without titles, conflicting copied titles, semantic ID reuse, and unnecessary IDs on explanatory bullets. Do not add a deterministic validator for these checks.
+Semantic validation remains agent-only. Review descriptive titles, nonempty and unambiguous derived fragments, matching anchors, relative bases, copied labels, preserved object meaning and ownership, semantic duplication, contradictions, and source provenance when locators collide. A resolving link or a clean Git merge does not establish semantic correctness. Do not add a deterministic semantic validator for these checks.
 
 ### Brownfield Trust States
 
@@ -147,9 +125,9 @@ Normal Project Knowledge is accepted project truth and has no status marker. Dur
 
 ## Requirements
 
-<a id="req-001"></a>
+<a id="preserve-accepted-work"></a>
 
-### REQ-001 — Preserve accepted queued work
+### Preserve accepted work
 
 The system must preserve accepted queued work across service recovery.
 ```
@@ -159,20 +137,20 @@ The system must preserve accepted queued work across service recovery.
 
 ## Capabilities and Architecture
 
-<a id="cap-001"></a>
+<a id="durable-task-scheduling"></a>
 
-### CAP-001 — Durable task scheduling
+### Durable task scheduling
 
 Satisfies:
 
-- [REQ-001 — Preserve accepted queued work](../problem/task-recovery.md#req-001)
+- [Preserve accepted work](../problem/task-recovery.md#preserve-accepted-work)
 ```
 
 ## Relationship Representation
 
-Represent relationships with stable identifiers, explicit labels, Markdown links, or short relationship statements as appropriate. The default Knowledge Model defines which relationships exist and what they mean; this Schema only defines permitted representation forms. For example, use `Satisfies: [REQ-021 — Submit an inference task](../problem/task-submission.md#req-021)` and place it beside the relevant object rather than relying on a generic relationship list. Problem and Solution documents do not use a `Related Knowledge` section; preserve material relationships beside their relevant objects, or in the existing `Satisfies` section where appropriate. Governance templates retain their relationship section.
+Represent relationships with descriptive Markdown links, explicit relationship labels, or short relationship statements as appropriate. The default Knowledge Model defines which relationships exist and what they mean; this Schema only defines permitted representation forms. For example, use `Satisfies: [Submit an inference task](../problem/task-submission.md#submit-an-inference-task)` and place it beside the relevant object rather than relying on a generic relationship list. Problem and Solution documents do not use a `Related Knowledge` section; preserve material relationships beside their relevant objects, or in the existing `Satisfies` section where appropriate. Governance templates retain their relationship section.
 
-When reorganizing existing records, preserve stable IDs, meaningful interaction context, and material relationships. Removing a fixed section does not retire its Knowledge Model concepts. Preserve useful Use Case context in Problem Intent or beside the relevant Requirements when the fixed Use Cases section is removed.
+When reorganizing existing records, preserve supported object meaning, meaningful interaction context, and material relationships while repairing changed locators. Removing a fixed section does not retire its Knowledge Model concepts. Preserve useful Use Case context in Problem Intent or beside the relevant Requirements when the fixed Use Cases section is removed.
 
 Solution documents organize architecture under Capabilities without implying exclusive ownership. Define a shared Responsibility, Component, or Interface once and reference it from other Capabilities; use `Shared Architecture` within `Capabilities and Architecture` when useful. Nesting is a reading arrangement and must preserve explicit many-to-many relationships.
 
@@ -180,6 +158,6 @@ Solution documents organize architecture under Capabilities without implying exc
 
 Record a Model Migration Crosswalk as a Governance record when a Knowledge Model or Knowledge Schema replacement requires deliberate migration. It is an optional `Records` entry, not a required document section.
 
-The default Crosswalk field names and order are defined once in `templates/governance/model-migration-crosswalk.md` and incorporated here by reference. Use its `MAP-<NUMBER>` entry when a Crosswalk mapping must be independently reviewed or referenced.
+The default Crosswalk field names and order are defined once in `templates/governance/model-migration-crosswalk.md` and incorporated here by reference. Use a descriptively titled mapping entry when a Crosswalk mapping must be independently reviewed or referenced.
 
 The active Knowledge Model defines the mapping semantics. Under the default Model, a concept or relationship mapping identifies the source and target Models; a represented-field mapping also identifies the source and target Schemas. Use `maps-to` for a reviewed correspondence when a relationship is useful; use `supersedes` only when an older durable knowledge object is intentionally replaced. A Crosswalk never activates two Models, supplies an implicit fallback, or authorizes automatic semantic rewrites.

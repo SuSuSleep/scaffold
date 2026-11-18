@@ -6,21 +6,21 @@ Scaffold is a portable, knowledge-first software development harness. It materia
 
 ## Project Goals
 
-<a id="goal-001"></a>
+<a id="enable-safe-project-local-harness-adoption"></a>
 
-### GOAL-001 — Enable safe project-local Harness adoption
+### Enable safe project-local Harness adoption
 
 Enable project maintainers to initialize and maintain Scaffold in new or existing repositories while preserving the repository's structure and host-owned agent instructions.
 
-<a id="goal-002"></a>
+<a id="support-evidence-based-deliberate-project-evolution"></a>
 
-### GOAL-002 — Support evidence-based, deliberate project evolution
+### Support evidence-based, deliberate project evolution
 
 Enable maintainers and coding agents to use a visible, project-local Knowledge Model, Schema, Skills, Templates, and Rules to make and review knowledge-driven changes deliberately.
 
-<a id="goal-003"></a>
+<a id="support-explicit-hybrid-solution-architecture"></a>
 
-### GOAL-003 — Support explicit hybrid solution architecture
+### Support explicit hybrid solution architecture
 
 Enable projects to define and verify intentional responsibility boundaries among existing general-purpose AI agent hosts, Skills, deterministic programs, and the integrations that connect them.
 
@@ -43,7 +43,7 @@ Enable projects to define and verify intentional responsibility boundaries among
 ## Scope, Exclusions, and Unknowns
 
 - Scaffold is distributed as a Node.js command-line package and supports Node.js 20 or later.
-- The current product scope includes portable Harness initialization, project-local guidance resolution, deliberate update review, and precise knowledge-reference maintenance. The selected path-based reference design retires document-ID inspection; its realization and migration sequence are recorded in [DEC-003](solution/knowledge-reference-lifecycle.md#dec-003).
+- The current product scope includes portable Harness initialization, project-local guidance resolution, deliberate update review, and precise knowledge-reference maintenance. The selected path-based reference design retires document-ID inspection; its realization and migration sequence are recorded in [Design, implementation, then representation migration](solution/knowledge-reference-lifecycle.md#design-implementation-then-representation-migration).
 - The default Harness supports vendor-neutral definition of non-AI and hybrid solutions that use existing general-purpose agent hosts. Scaffold's current host-integration scope includes Codex and Claude Code.
 - Scaffold does not implement an AI agent, model runtime, or inference system. Hybrid-architecture support does not by itself add another vendor adapter or require a machine-readable tool manifest.
 - Scaffold does not replace Git, issue tracking, CI/CD, or project-management systems; it does not require Scrum, TDD, a knowledge graph, or a vector database.

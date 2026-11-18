@@ -1,6 +1,6 @@
 # <Problem Name>
 
-> Follow the active Knowledge Schema for section guidance. Choose a descriptive file path after checking for existing knowledge on the same subject.
+> Follow the active Knowledge Schema for section guidance. Choose a descriptive file path after checking for existing knowledge on the same subject. Derive each object anchor from its actual descriptive title.
 
 <!-- Use this template only when selected by the active Knowledge Schema. When creating or updating, retain applicable existing knowledge, correct stale knowledge, and use these instructions only for this template. -->
 
@@ -18,11 +18,11 @@
 
 ## Requirements
 
-<!-- Record durable Requirements and their origins. Place material relationships beside the relevant object with precise labels and relative cross-document links with explicit local-ID anchors; preserve constraints, sources, and useful connections when migrating existing content. Give each independently managed Requirement a REQ identifier; state an obligation without unmandated implementation. -->
+<!-- Record durable Requirements and their origins. Place material relationships beside the relevant object with precise labels and relative cross-document links with descriptive title-derived anchors; preserve constraints, sources, and useful connections when migrating existing content. Give each independently managed Requirement a descriptive heading; state an obligation without unmandated implementation. -->
 
-<a id="req-001"></a>
+<a id="observable-obligation"></a>
 
-### REQ-001 — <Observable obligation>
+### <Observable obligation>
 
 <Authoritative requirement meaning.>
 
@@ -30,13 +30,13 @@
 
 <!-- Record observable Acceptance Criteria for one primary Requirement owner. Use the For, Given, When, and Then fields for each independently referenceable criterion. -->
 
-<a id="ac-001"></a>
+<a id="observable-acceptance-condition"></a>
 
-### AC-001 — <Observable acceptance condition>
+### <Observable acceptance condition>
 
 For:
 
-- REQ-001 — <Observable obligation>
+- [<Observable obligation>](#observable-obligation)
 
 Given:
 
