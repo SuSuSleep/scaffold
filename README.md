@@ -17,8 +17,6 @@ npm install --global @sususleep/scaffold
 scaffold init /path/to/project
 scaffold status /path/to/project
 scaffold update /path/to/project
-scaffold id next PROB /path/to/project
-scaffold id check PROB-007 /path/to/project
 ```
 
 `init` creates `.scaffold/metadata.md` and materializes the complete Harness bundle. Templates are organized under `.scaffold/templates/`; Rules under `.scaffold/rules/`; and all active Skills under `.scaffold/skills/`. It does not impose a `knowledge/` layout: the active Knowledge Model, Knowledge Schema, and `initialize-project` workflow Skill establish project knowledge semantics and representation.
@@ -35,7 +33,9 @@ For agent discovery, `init` copies the bundled agent guide into `.scaffold/agent
 
 `status` inventories all active project-local artifact files, including the agent guide and Skill support files, and reports Rules and package-version drift. It reports `Harness Structure` separately from `Update Review Status`: the structural check requires the agent guide, Model, and Schema files plus the Rules, Templates, and Skills directories. It reports missing or incorrectly typed entries without package fallback. This checks structure only; it does not validate semantics or require package-candidate Skill or Template names. `scaffold update --diff` compares active artifacts with the installed candidate bundle and reports additions, changes, and package removals without editing files. After `adopt-harness-update` has discussed and applied owner-approved decisions, `update` records the installed Scaffold version as reviewed; it never copies, merges, or deletes Harness artifacts.
 
-`scaffold id next <PREFIX>` returns the next unused document ID in a namespace such as `PROB`, `SOL`, or `GOV`; `scaffold id check <PREFIX-NUMBER>` reports whether a document ID is available. These commands search Markdown document declarations recursively without interpreting the Knowledge Model or assuming a project’s knowledge directory layout. Resolve the active Knowledge Schema first to choose the correct prefix.
+The default knowledge representation locates documents by descriptive relative file paths and objects by stable document-local IDs with explicit anchors. For example, `[REQ-001 — Preserve accepted work](../problem/task-recovery.md#req-001)` resolves from the referring file and survives a title-only edit. Document IDs and the former `id next` / `id check` commands are retired; `id` now reports an unknown command.
+
+Use `migrate-references` when a move, split, merge, removal, or representation change requires reference repair. It uses read-only subagents to assess each referring context, prepares a proposal for independent knowledge reconciliation, and checks the realized migration. Update repository references and remove obsolete files without leaving redirect stubs. External references are outside that repair boundary; search exclusions and unresolved mappings must be reported.
 
 When a new Scaffold version cannot be adopted through ordinary replacement, use the `migrate-project` workflow Skill. Migration remains an explicit, project-owned activity; Scaffold does not perform automatic semantic migrations.
 

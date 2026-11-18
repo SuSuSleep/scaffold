@@ -1,8 +1,6 @@
 # <Governance Topic>
 
-Document ID: GOV-<ALLOCATED_ID>
-
-> Follow the active Knowledge Schema for section guidance. Before creating this document, obtain its ID with `scaffold id next GOV`.
+> Follow the active Knowledge Schema for section guidance. Choose a descriptive file path after checking for existing knowledge on the same subject.
 
 <!-- Use this template only when selected by the active Knowledge Schema. When creating or updating, retain applicable existing knowledge, correct stale knowledge, and use these instructions only for this template. -->
 
@@ -30,4 +28,4 @@ Document ID: GOV-<ALLOCATED_ID>
 
 <!-- Record precise relationships to affected Problem, Solution, or Governance knowledge, such as derived Requirements, constrained Interfaces, or superseded records. -->
 
-- SOL-001#CAP-001 — <Affected capability>
+- [CAP-001 — <Affected capability>](../solution/<subject>.md#cap-001)

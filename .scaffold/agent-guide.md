@@ -20,6 +20,7 @@
 | Independently review a reconciliation candidate | `reconcile-project-change` (which delegates `review-change`) | `collect-context`, `review-change`; `analyze-change-impact` when tracing dependent change effects |
 | Implement an accepted change | `implement-change` | `collect-context`, `analyze-change-impact`, `verify-change` |
 | Mutate Project Knowledge during reconciliation | `reconcile-project-change` (which delegates `update-knowledge`) | `collect-context`, `analyze-change-impact`, `update-knowledge` |
+| Repair references after moving, splitting, merging, or removing files or knowledge objects | `migrate-references` | `collect-context`, `analyze-change-impact`, `verify-change` |
 | Deliberately add, replace, or retire project-local Rules | `evolve-project-rules` | `analyze-rule-conflicts` |
 | Deliberately replace or add a Schema, Skill, or Template | `evolve-project-artifact` | `collect-context`, `analyze-change-impact` |
 | Turn a defect, incident, or security finding into reusable knowledge | `learn-from-finding` | `collect-context`, `verify-change` |
@@ -57,8 +58,10 @@ Under the default Schema, record project-wide purpose, top-level Goals, terms, s
 
 ## Identifier and Reference Discipline
 
-Use the active Knowledge Schema as the authority for identifier and reference representation. Under the default Schema, determine the containing document first, then use `scaffold id next <CTX|PROB|SOL|GOV>` or `scaffold id check <DOCUMENT_ID>` before creating a document; document IDs are unique within their type namespace. Object IDs remain document-local. A replacement Schema defines its own identifier conventions. Give every identified object a concise descriptive title when its Schema requires one.
+Use the active Knowledge Schema as the authority for identifier and reference representation. Under the default Schema, locate documents by descriptive file paths without document IDs or a shared document-number allocator. Object IDs remain document-local; every identified object has a descriptive title and an explicit lowercase local-ID HTML anchor immediately before its heading. A replacement Schema defines its own conventions.
 
-Use local IDs for same-document references and qualified `<DOCUMENT_ID>#<OBJECT_ID>` references for cross-document relationships. Include the copied title when practical, recognizing that it is a semantic hint rather than identity.
+Use local IDs for same-document relationships and relative Markdown links from the referring file for cross-document relationships. Link to the explicit local-ID anchor for an object, or omit the fragment for the whole document. Include the copied title when practical; it supplies semantic context rather than identity.
 
-Preserve an ID when ordinary wording changes retain the same knowledge object. Allocate a new ID when the semantic identity changes, and do not assign IDs merely because content appears in a list. Review identifier consistency semantically; the default representation deliberately has no deterministic semantic validator.
+Preserve an ID and anchor when ordinary wording changes retain the same object. Allocate a new local ID when semantic identity changes; do not assign IDs merely because content appears in a list. Search for existing subjects before creating files. Concurrent writers of one document must serialize edits or reconcile local allocations against the latest content; neither an available number nor a path reserves identity.
+
+Use `migrate-references` to prepare contextual reference repair after a move, split, merge, removal, or representation migration. It delegates read-only referring-context assessment to subagents and returns a proposal for independent knowledge reconciliation; a workflow does not invoke another workflow. Repair incoming and outgoing relative links, retain no superseded files or redirect stubs, and report external-reference and search limits. Review semantic consistency with agents; the default representation deliberately has no deterministic semantic validator.

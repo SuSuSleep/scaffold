@@ -24,9 +24,9 @@ The default structural heading names and order are defined once, in the applicab
 - Solution documents: `templates/solution/standard.md`.
 - Governance documents: `templates/governance/standard.md`.
 
-Every `##` heading in an applicable standard template is a **required structural section**, in the order shown. A required section may remain empty when no applicable knowledge exists; its heading still provides deterministic document structure. The default Schema defines no optional or conditional sections.
+Every `##` heading in an applicable standard template is a **required structural section**, in the order shown, unless the heading is followed by the standalone comment `<!-- Optional section -->` (ignoring blank lines). A required section may remain empty when no applicable knowledge exists; its heading still provides deterministic document structure. An optional section may be omitted entirely when it adds no useful local context; when present, it retains its position in the template sequence. Optionality applies to the section, not to the preservation of material knowledge.
 
-The standard templates are canonical structural manifests, not a second source of semantic meaning. They may provide template-local completion instructions that point to active-Model concepts; those instructions apply only to that template and must not redefine the concepts. Templates must retain the required heading sequence and must not introduce another required semantic section. Use this Schema for representation guidance and the active Knowledge Model for concept meaning.
+The standard templates are canonical structural manifests, not a second source of semantic meaning. They may provide template-local completion instructions that point to active-Model concepts; those instructions apply only to that template and must not redefine the concepts. Templates must retain the required heading sequence and the relative order of any included optional headings and must not introduce another required semantic section. Use this Schema for representation guidance and the active Knowledge Model for concept meaning.
 
 Shared and project-local templates are organized by the knowledge space they start: `templates/problem/`, `templates/solution/`, and `templates/governance/`. `templates/project-context/` starts the project-wide orientation record; it does not introduce a fourth Knowledge Model space. This organization is a default representation choice; the active Knowledge Schema selects these standard templates as applicable and remains the authority for template applicability.
 
@@ -59,40 +59,42 @@ An object that needs stable identity uses this format:
 For example:
 
 ```markdown
+<a id="req-001"></a>
+
 ### REQ-001 — Preserve queued tasks after restart
 ```
 
 Do not define an identified object as only `REQ-001`; every identified object has a concise descriptive title. The type is a meaningful abbreviation for the represented Knowledge Model concept, such as `REQ` for Requirement, `CAP` for Capability, `RESP` for Responsibility, `DEC` for Decision, or `CTRL` for Control.
 
-### Scope and Document Identity
+### Document Paths and Local Object Identity
 
-Object identifiers are local to their containing document, not repository-global. Each document that exposes externally referenceable objects has a stable typed document identifier near its title:
+A document is located by its descriptive repository file path; the default Schema has no `Document ID:` declaration or project-level document-number namespace. Search existing subjects before creating a file and choose a coherent descriptive filename. Distinct files do not require a shared counter. A path is a locator, not an immutable identity or a reservation.
 
-```text
-Document ID: PROB-001
+Object identifiers are local to their containing document, not repository-global. Both `problem/task-recovery.md` and `problem/task-submission.md` may contain `REQ-001`. Use one writer at a time for a shared document, or reconcile local-ID allocations against its latest content before acceptance. Resolve conflicting paths, duplicate local IDs, and semantic duplication during reconciliation; different filenames alone do not prove distinct knowledge.
+
+Every identified object has an explicit lowercase HTML anchor immediately before its heading:
+
+```markdown
+<a id="req-001"></a>
+
+### REQ-001 — Preserve accepted queued work
 ```
 
-The default document identifiers are `CTX-<NUMBER>` for Project Context records, `PROB-<NUMBER>` for Problem documents, `SOL-<NUMBER>` for Solution documents, and `GOV-<NUMBER>` for Governance documents. A document ID is unique within its project-level type namespace: no two project documents may declare the same `CTX-*`, `PROB-*`, `SOL-*`, or `GOV-*` ID. Before creating a new default-Schema document, determine the prefix from this Schema and use `scaffold id next <PREFIX>` or `scaffold id check <DOCUMENT_ID>` to inspect availability. Do not encode mutable semantic classifications in an ID: prefer `PROB-001` over `PROBLEM-GPU-SCHEDULING-001`.
-
-Local numbering may therefore repeat across documents. For example, both `PROB-001` and `PROB-002` may contain `REQ-001`. Do not invent a repository-wide counter.
+The anchor is the lowercase form of the complete local ID. It remains unchanged during a title-only edit and does not depend on a renderer's generated heading slug. Give every identified object a concise descriptive title.
 
 ### References
 
-The canonical cross-document identity is:
-
-```text
-<DOCUMENT_ID>#<OBJECT_ID>
-```
-
-Use a qualified reference whenever a relationship crosses document boundaries, for example:
+Use relative Markdown links resolved from the referring file. An object reference uses the target file path plus its explicit local-ID anchor; a whole-document reference omits the fragment:
 
 ```markdown
-- PROB-001#REQ-003 — Queue work when resources are unavailable
-- SOL-002#CAP-001 — Durable task scheduling
-- SOL-002#DEC-004 — Persist accepted pending work
+- [REQ-003 — Queue work when resources are unavailable](../problem/task-recovery.md#req-003)
+- [CAP-001 — Durable task scheduling](task-scheduling.md#cap-001)
+- [Task lifecycle](../problem/task-recovery.md)
 ```
 
-Include the copied descriptive title when practical. It is intentionally denormalized semantic context, not part of identity. Within the containing document, a local identifier is sufficient when its namespace is already unambiguous: `REQ-003 is constrained by REQ-005.`
+Include the local ID and a descriptive title in an object link's label when practical. The copied title supplies semantic context, not identity. Within the containing document, a local ID is sufficient when unambiguous; a fragment link such as `[REQ-003](#req-003)` may provide navigation.
+
+Moving a document changes its path. Moving an object changes its full locator even if its local ID is preserved. Before removing a former location, account for incoming references and outgoing relative links whose base changes. Use contextual reference migration to repair affected repository references; keep no superseded files or redirect stubs. A split or merge may require different targets for different referring statements, multiple targets, or deliberate relationship retirement. Resolve unsupported mappings through evidence or owner direction rather than guessing. External references are outside repository repair and must be reported as a scope limit.
 
 ### Stability, Replacement, and Titles
 
@@ -100,7 +102,7 @@ An identifier remains unchanged when wording changes without changing the underl
 
 A semantically different obligation, decision, capability, or other object receives a new identifier. Do not reuse the old ID; retain it as deprecated or superseded when that history is useful. The `supersedes` relationship may express that connection, but is not required solely for this purpose.
 
-When an identified object's title changes, update copied titles in cross-document references when practical. A reference such as `PROB-001#REQ-003` remains valid even until its copied title is synchronized.
+When an identified object's title changes, update copied titles in cross-document references when practical. An object link such as `task-recovery.md#req-003` remains valid after a title-only edit even until its copied title is synchronized. A merge with colliding local IDs requires deliberate reassignment and repair of affected references.
 
 ### When to Assign an Identifier
 
@@ -109,6 +111,8 @@ Assign an ID only when the object needs independent cross-reference, traceabilit
 Default Acceptance-Criterion records use the following fields. The default Knowledge Model defines their ownership, semantics, and dependency rules.
 
 ```markdown
+<a id="ac-001"></a>
+
 ### AC-001 — Accepted work survives recovery
 
 For:
@@ -130,7 +134,7 @@ Then:
 
 ### Agent Review Guidance
 
-Semantic validation remains agent-only. When reviewing knowledge, agents should detect and report duplicate object IDs in one document, missing document IDs for externally referenced objects, cross-document local-only references, identified objects without titles, conflicting copied titles, semantic ID reuse, and unnecessary IDs on explanatory bullets. Do not add a deterministic validator for these checks.
+Semantic validation remains agent-only. When reviewing knowledge, agents should detect and report duplicate object IDs in one document, missing or mismatched explicit anchors, broken or misbased relative paths, cross-document local-only references, identified objects without titles, conflicting copied titles, semantic ID reuse, and unnecessary IDs on explanatory bullets. Do not add a deterministic validator for these checks.
 
 ### Brownfield Trust States
 
@@ -141,9 +145,9 @@ Normal Project Knowledge is accepted project truth and has no status marker. Dur
 ```markdown
 # Task Lifecycle
 
-Document ID: PROB-001
-
 ## Requirements
+
+<a id="req-001"></a>
 
 ### REQ-001 — Preserve accepted queued work
 
@@ -153,20 +157,24 @@ The system must preserve accepted queued work across service recovery.
 ```markdown
 # Task Scheduling
 
-Document ID: SOL-001
+## Capabilities and Architecture
 
-## Capabilities
+<a id="cap-001"></a>
 
 ### CAP-001 — Durable task scheduling
 
 Satisfies:
 
-- PROB-001#REQ-001 — Preserve accepted queued work
+- [REQ-001 — Preserve accepted queued work](../problem/task-recovery.md#req-001)
 ```
 
 ## Relationship Representation
 
-Represent relationships with stable identifiers, explicit labels, Markdown links, or short relationship statements as appropriate. The default Knowledge Model defines which relationships exist and what they mean; this Schema only defines permitted representation forms. For example, use `Satisfies: PROB-001#REQ-021 — Submit an inference task` rather than placing a relationship only under `Related Knowledge`.
+Represent relationships with stable identifiers, explicit labels, Markdown links, or short relationship statements as appropriate. The default Knowledge Model defines which relationships exist and what they mean; this Schema only defines permitted representation forms. For example, use `Satisfies: [REQ-021 — Submit an inference task](../problem/task-submission.md#req-021)` and place it beside the relevant object rather than relying on a generic relationship list. Problem and Solution documents do not use a `Related Knowledge` section; preserve material relationships beside their relevant objects, or in the existing `Satisfies` section where appropriate. Governance templates retain their relationship section.
+
+When reorganizing existing records, preserve stable IDs, meaningful interaction context, and material relationships. Removing a fixed section does not retire its Knowledge Model concepts. Preserve useful Use Case context in Problem Intent or beside the relevant Requirements when the fixed Use Cases section is removed.
+
+Solution documents organize architecture under Capabilities without implying exclusive ownership. Define a shared Responsibility, Component, or Interface once and reference it from other Capabilities; use `Shared Architecture` within `Capabilities and Architecture` when useful. Nesting is a reading arrangement and must preserve explicit many-to-many relationships.
 
 ## Model Migration Crosswalk Representation
 

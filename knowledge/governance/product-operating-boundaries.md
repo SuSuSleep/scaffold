@@ -1,7 +1,5 @@
 # Product Operating Boundaries
 
-Document ID: GOV-002
-
 > Evidence source: [`.scaffold/knowledge-model.md`](../../.scaffold/knowledge-model.md), [`.scaffold/knowledge-schema.md`](../../.scaffold/knowledge-schema.md), and [`.scaffold/rules/`](../../.scaffold/rules/), inspected 2026-08-21.
 
 ## Purpose
@@ -18,13 +16,17 @@ A record is purely temporary work history and has no durable project consequence
 
 ## Records
 
+<a id="con-001"></a>
+
 ### CON-001 — Markdown-first core operation
 
 Core Harness guidance and project knowledge representation must be usable as human-readable Markdown. Core operation must not require structured configuration; structured metadata may be introduced only when a concrete requirement justifies it.
 
 Constrains:
 
-- SOL-002#CAP-004 — Package candidate and starter artifact provision.
+- [CAP-004 — Package candidate and starter artifact provision](../solution/default-artifacts.md#cap-004).
+
+<a id="con-002"></a>
 
 ### CON-002 — Agent-mediated semantic validation
 
@@ -32,8 +34,10 @@ The initial product must rely on agent reasoning for semantic validation, includ
 
 Constrains:
 
-- SOL-004#CAP-001 — Accepted-change lifecycle management.
-- SOL-004#CAP-003 — Context and impact collection.
+- [CAP-001 — Accepted-change lifecycle management](../solution/change-lifecycle-and-methods.md#cap-001).
+- [CAP-003 — Context and impact collection](../solution/change-lifecycle-and-methods.md#cap-003).
+
+<a id="con-003"></a>
 
 ### CON-003 — Durable source-of-truth boundaries
 
@@ -41,8 +45,10 @@ Project Knowledge is durable truth for intent, obligations, constraints, and rea
 
 Constrains:
 
-- SOL-003#CAP-001 — Durable knowledge separation.
-- SOL-004#CAP-003 — Context and impact collection.
+- [CAP-001 — Durable knowledge separation](../solution/knowledge-architecture.md#cap-001).
+- [CAP-003 — Context and impact collection](../solution/change-lifecycle-and-methods.md#cap-003).
+
+<a id="con-004"></a>
 
 ### CON-004 — Initial product scope boundaries
 
@@ -50,8 +56,10 @@ The initial product does not replace Git, issue tracking, CI/CD, or project-mana
 
 Constrains:
 
-- SOL-001#CAP-005 — Materialized Harness lifecycle management.
-- SOL-004#CAP-001 — Accepted-change lifecycle management.
+- [CAP-005 — Materialized Harness lifecycle management](../solution/cli-and-guidance.md#cap-005).
+- [CAP-001 — Accepted-change lifecycle management](../solution/change-lifecycle-and-methods.md#cap-001).
+
+<a id="con-005"></a>
 
 ### CON-005 — Durable knowledge update threshold
 
@@ -59,8 +67,10 @@ Durable knowledge must be updated when a change affects externally observable be
 
 Constrains:
 
-- SOL-004#CAP-001 — Accepted-change lifecycle management.
-- SOL-004#CAP-003 — Context and impact collection.
+- [CAP-001 — Accepted-change lifecycle management](../solution/change-lifecycle-and-methods.md#cap-001).
+- [CAP-003 — Context and impact collection](../solution/change-lifecycle-and-methods.md#cap-003).
+
+<a id="con-006"></a>
 
 ### CON-006 — Git-backed candidate-state boundary
 
@@ -68,7 +78,7 @@ When reconciling a Project Knowledge change, Git must distinguish the accepted b
 
 Constrains:
 
-- SOL-004#CAP-004 — Project Knowledge reconciliation.
+- [CAP-004 — Project Knowledge reconciliation](../solution/change-lifecycle-and-methods.md#cap-004).
 
 ## Verification
 
@@ -79,10 +89,10 @@ Constrains:
 
 ## Related Knowledge
 
-- PROB-002#REQ-016 — Project-local active Harness authority.
-- PROB-003#REQ-008 — Usable Markdown-first guidance.
-- PROB-004#REQ-009 — Accepted-change lifecycle.
-- SOL-002#CAP-004 — Package candidate and starter artifact provision.
-- SOL-003#CAP-001 — Durable knowledge separation.
-- SOL-004#CAP-001 — Accepted-change lifecycle management.
-- SOL-004#CAP-004 — Project Knowledge reconciliation.
+- [REQ-016 — Project-local active Harness authority](../problem/knowledge-authority-and-customization.md#req-016).
+- [REQ-008 — Usable Markdown-first guidance](../problem/knowledge-reconstruction-and-learning.md#req-008).
+- [REQ-009 — Accepted-change lifecycle](../problem/change-lifecycle-and-reconciliation.md#req-009).
+- [CAP-004 — Package candidate and starter artifact provision](../solution/default-artifacts.md#cap-004).
+- [CAP-001 — Durable knowledge separation](../solution/knowledge-architecture.md#cap-001).
+- [CAP-001 — Accepted-change lifecycle management](../solution/change-lifecycle-and-methods.md#cap-001).
+- [CAP-004 — Project Knowledge reconciliation](../solution/change-lifecycle-and-methods.md#cap-004).

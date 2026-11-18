@@ -1,8 +1,6 @@
 # <Model Migration Crosswalk>
 
-Document ID: GOV-<ALLOCATED_ID>
-
-> Follow the active Knowledge Schema for the Model Migration Crosswalk representation. Before creating this document, obtain its ID with `scaffold id next GOV`.
+> Follow the active Knowledge Schema for the Model Migration Crosswalk representation. Choose a descriptive file path after checking for an existing mapping.
 
 <!-- Use this template only when selected by the active Knowledge Schema. When creating or updating, retain applicable existing mappings, correct stale mappings, and use these instructions only for this template. -->
 
@@ -21,6 +19,8 @@ Document ID: GOV-<ALLOCATED_ID>
 ## Records
 
 <!-- Record one or more independently reviewable MAP mappings. Complete every shown mapping field; a represented-field mapping must identify both source and target Schemas. -->
+
+<a id="map-001"></a>
 
 ### MAP-001 — <Source subject> to <target subject>
 

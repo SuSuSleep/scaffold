@@ -308,36 +308,21 @@ test('commands requiring initialization fail clearly', () => {
   assert.match(result.stdout, /not initialized/);
 });
 
-test('document ID commands allocate and inspect IDs without requiring a fixed knowledge layout', () => {
+test('retired document ID commands fail without changing repository content', () => {
   const directory = temporaryDirectory();
-  const customKnowledge = path.join(directory, 'docs', 'domain');
-  fs.mkdirSync(customKnowledge, { recursive: true });
-  fs.writeFileSync(path.join(customKnowledge, 'first.md'), '# First\n\nDocument ID: PROB-001\n');
-  fs.writeFileSync(path.join(customKnowledge, 'third.md'), '# Third\n\nDocument ID: PROB-003\n');
-  fs.writeFileSync(path.join(customKnowledge, 'solution.md'), '# Solution\n\nDocument ID: SOL-001\n');
-
-  const nextProblem = run('id', 'next', 'PROB', directory);
-  assert.equal(nextProblem.status, 0, nextProblem.stderr);
-  assert.equal(nextProblem.stdout.trim(), 'PROB-002');
-  const nextGovernance = run('id', 'next', 'GOV', directory);
-  assert.equal(nextGovernance.status, 0, nextGovernance.stderr);
-  assert.equal(nextGovernance.stdout.trim(), 'GOV-001');
-  const used = run('id', 'check', 'PROB-001', directory);
-  assert.equal(used.status, 1);
-  assert.match(used.stdout, /already used:[\s\S]*docs[\\/]domain[\\/]first\.md/);
-  const available = run('id', 'check', 'PROB-002', directory);
-  assert.equal(available.status, 0, available.stderr);
-  assert.equal(available.stdout.trim(), 'available');
-});
-
-test('document ID inspection reports duplicate declarations', () => {
-  const directory = temporaryDirectory();
-  fs.writeFileSync(path.join(directory, 'one.md'), 'Document ID: GOV-001\n');
-  fs.writeFileSync(path.join(directory, 'two.md'), 'Document ID: GOV-001\n');
-  const result = run('id', 'check', 'GOV-001', directory);
-  assert.equal(result.status, 1);
-  assert.match(result.stdout, /one\.md/);
-  assert.match(result.stdout, /two\.md/);
+  const file = path.join(directory, 'subject.md');
+  const content = '# Subject\n\n<a id="req-001"></a>\n\n### REQ-001 — Preserve work\n';
+  fs.writeFileSync(file, content);
+  for (const args of [['id', 'next', 'PROB'], ['id', 'check', 'PROB-001']]) {
+    const result = run(...args, directory);
+    assert.equal(result.status, 1);
+    assert.match(result.stderr, /Unknown command: id/);
+    assert.deepEqual(fs.readdirSync(directory), ['subject.md']);
+    assert.equal(fs.readFileSync(file, 'utf8'), content);
+  }
+  const help = run('--help');
+  assert.equal(help.status, 0, help.stderr);
+  assert.doesNotMatch(help.stdout, /scaffold id/);
 });
 
 test('the package provides an explicit migration workflow Skill without a migrate command', () => {
@@ -352,7 +337,7 @@ test('the package provides an explicit migration workflow Skill without a migrat
 test('lifecycle Skills own explicit phase sequencing and only high-level workflows are user-invokable', () => {
   const workflows = [
     'define-change', 'evolve-project-artifact', 'evolve-project-rules', 'implement-change',
-    'initialize-project', 'learn-from-finding', 'migrate-project', 'reconcile-project-change',
+    'initialize-project', 'learn-from-finding', 'migrate-project', 'migrate-references', 'reconcile-project-change',
     'reconstruct-project-knowledge', 'review-change', 'update-knowledge',
   ];
 
@@ -367,7 +352,7 @@ test('lifecycle Skills own explicit phase sequencing and only high-level workflo
   for (const skill of ['collect-context', 'analyze-change-impact', 'analyze-rule-conflicts', 'implement-with-tdd', 'verify-change', 'review-change', 'update-knowledge']) {
     assert.equal(fs.existsSync(path.resolve(__dirname, '../.scaffold/skills', skill, 'agents/openai.yaml')), false, skill + ' must remain model-invoked');
   }
-  for (const workflow of ['adopt-harness-update', 'define-change', 'evolve-project-artifact', 'evolve-project-rules', 'implement-change', 'initialize-project', 'learn-from-finding', 'migrate-project', 'reconcile-project-change', 'reconstruct-project-knowledge']) {
+  for (const workflow of ['adopt-harness-update', 'define-change', 'evolve-project-artifact', 'evolve-project-rules', 'implement-change', 'initialize-project', 'learn-from-finding', 'migrate-project', 'migrate-references', 'reconcile-project-change', 'reconstruct-project-knowledge']) {
     assert.equal(fs.existsSync(path.resolve(__dirname, '../.scaffold/skills', workflow, 'agents/openai.yaml')), true, workflow + ' must be user-invokable');
   }
 });
@@ -433,9 +418,9 @@ test('default templates are the single source for default document structures', 
   assert.match(schema, /templates\/governance\/standard\.md/);
   assert.doesNotMatch(schema, /## Default Document Structures/);
   const expectedSections = {
-    problem: ['Intent', 'Actors and Goals', 'Use Cases', 'Requirements', 'Acceptance Criteria', 'Related Knowledge'],
+    problem: ['Intent', 'Actors and Goals', 'Requirements', 'Acceptance Criteria'],
     'project-context': ['Project Purpose', 'Project Goals', 'Domain Terms', 'Scope, Exclusions, and Unknowns'],
-    solution: ['Capabilities', 'Responsibilities', 'Components and Boundaries', 'Satisfies', 'Design and Decisions', 'Verification Items', 'Related Knowledge'],
+    solution: ['Capabilities and Architecture', 'Satisfies', 'Design and Decisions', 'Verification Items'],
     governance: ['Purpose', 'Applies When', 'Does Not Normally Apply When', 'Records', 'Verification', 'Related Knowledge'],
   };
   for (const [type, sections] of Object.entries(expectedSections)) {
@@ -444,6 +429,26 @@ test('default templates are the single source for default document structures', 
     assert.deepEqual(headings, sections, `${type} template sections`);
     assert.match(template, /Use this template only when selected by the active Knowledge Schema/, `${type} template lifecycle guidance`);
   }
+});
+
+test('default templates mark optional context and preserve shared architecture relationships', () => {
+  const read = (relative) => fs.readFileSync(path.resolve(__dirname, '..', relative), 'utf8');
+  const schema = read('.scaffold/knowledge-schema.md');
+  const problem = read('.scaffold/templates/problem/standard.md');
+  const solution = read('.scaffold/templates/solution/standard.md');
+  const optionalSections = [...problem.matchAll(/^## (.+)\n\n<!-- Optional section -->/gm)].map((match) => match[1]);
+  assert.deepEqual(optionalSections, ['Intent', 'Actors and Goals']);
+  assert.match(schema, /optional section may be omitted entirely/);
+  assert.match(schema, /retains its position in the template sequence/);
+  assert.match(problem, /Preserve meaningful interaction context/);
+  assert.match(solution, /^#### Responsibilities$/m);
+  assert.match(solution, /^#### Components and Boundaries$/m);
+  assert.match(solution, /^### Shared Architecture$/m);
+  assert.match(solution, /Define shared objects once/);
+  assert.match(solution, /explicit many-to-many relationships/);
+  assert.match(schema, /preserve material relationships beside their relevant objects/);
+  assert.doesNotMatch(solution, /^## Related Knowledge$/m);
+  assert.doesNotMatch(problem, /^## (Use Cases|Related Knowledge)$/m);
 });
 
 test('default guidance keeps semantic meaning out of the Schema', () => {
@@ -517,10 +522,10 @@ test('default guidance separates Project Context from coherent Problem-document 
   const context = fs.readFileSync(path.resolve(__dirname, '../.scaffold/templates/project-context/standard.md'), 'utf8');
 
   assert.match(schema, /Project Context record/);
-  assert.match(schema, /CTX-<NUMBER>/);
+  assert.match(schema, /descriptive repository file path/);
   assert.match(schema, /one coherent subject/);
   assert.match(schema, /do not by themselves establish document containment/);
-  assert.match(context, /Document ID: CTX-<ALLOCATED_ID>/);
+  assert.doesNotMatch(context, /^Document ID:/m);
   assert.match(context, /^## Project Goals$/m);
   assert.doesNotMatch(context, /^## (Actors and Goals|Use Cases|Requirements|Acceptance Criteria)$/m);
 });
@@ -539,31 +544,26 @@ test('templates keep field completion guidance local to the selected template', 
   assert.match(workflow, /selected Template's local instructions/);
 });
 
-test('default knowledge representation demonstrates local IDs and qualified references', () => {
-  const schema = fs.readFileSync(path.resolve(__dirname, '../.scaffold/knowledge-schema.md'), 'utf8');
-  const guide = fs.readFileSync(path.resolve(__dirname, '../.scaffold/agent-guide.md'), 'utf8');
-  const problem = fs.readFileSync(path.resolve(__dirname, '../.scaffold/templates/problem/standard.md'), 'utf8');
-  const solution = fs.readFileSync(path.resolve(__dirname, '../.scaffold/templates/solution/standard.md'), 'utf8');
-  const governance = fs.readFileSync(path.resolve(__dirname, '../.scaffold/templates/governance/standard.md'), 'utf8');
-
-  assert.match(schema, /## Identifiers and References/);
+test('default representation uses relative paths and explicit local object anchors', () => {
+  const read = (relative) => fs.readFileSync(path.resolve(__dirname, '..', relative), 'utf8');
+  const schema = read('.scaffold/knowledge-schema.md');
   assert.match(schema, /<TYPE>-<LOCAL_NUMBER> — <DESCRIPTIVE_TITLE>/);
-  assert.match(schema, /<DOCUMENT_ID>#<OBJECT_ID>/);
   assert.match(schema, /Identifier = stable identity/);
   assert.match(schema, /Title      = mutable semantic context/);
-  assert.match(schema, /Document ID: PROB-001/);
-  assert.match(schema, /PROB-001#REQ-001 — Preserve accepted queued work/);
   assert.match(schema, /Semantic validation remains agent-only/);
-  assert.match(guide, /scaffold id next/);
-  assert.match(guide, /qualified `<DOCUMENT_ID>#<OBJECT_ID>` references/);
-  assert.match(problem, /Document ID: PROB-<ALLOCATED_ID>/);
-  assert.match(problem, /REQ-001 — <Observable obligation>/);
-  assert.match(problem, /AC-001 — <Observable acceptance condition>/);
-  assert.match(solution, /Document ID: SOL-<ALLOCATED_ID>/);
-  assert.match(solution, /PROB-<ID>#AC-001 — <Observable acceptance condition>/);
-  assert.match(governance, /Document ID: GOV-<ALLOCATED_ID>/);
-  assert.match(governance, /^## Records$/m);
-  assert.doesNotMatch(governance, /CTRL-001/);
+  assert.match(schema, /\.\.\/problem\/task-recovery\.md#req-001/);
+  const guide = read('.scaffold/agent-guide.md');
+  assert.doesNotMatch(guide, /scaffold id next|<DOCUMENT_ID>#<OBJECT_ID>/);
+  assert.match(guide, /relative Markdown links/);
+  for (const type of ['problem', 'solution', 'project-context', 'governance']) {
+    const template = read(`.scaffold/templates/${type}/standard.md`);
+    assert.doesNotMatch(template, /^Document ID:|scaffold id/m);
+    for (const heading of template.matchAll(/^#{3,6} ([A-Z]+-\d+) — /gm)) {
+      const preceding = template.slice(0, heading.index);
+      assert.ok(preceding.endsWith(`<a id="${heading[1].toLowerCase()}"></a>\n\n`), `${type}: ${heading[1]}`);
+    }
+  }
+  assert.match(read('.scaffold/templates/solution/standard.md'), /\.\.\/problem\/<subject>\.md#ac-001/);
 });
 
 test('default guidance uses single-owner acceptance and bounded verification items', () => {
@@ -574,14 +574,15 @@ test('default guidance uses single-owner acceptance and bounded verification ite
   const solutionTemplate = read('.scaffold/templates/solution/standard.md');
   const rule = read('.scaffold/rules/verification/dependency-isolation.md');
   const product = read('knowledge/problem/scaffold-product.md');
-  const solutionRecords = [
+  const solutionDocuments = [
     'knowledge/solution/cli-and-guidance.md',
     'knowledge/solution/change-lifecycle-and-methods.md',
     'knowledge/solution/governance-context-resolution.md',
     'knowledge/solution/knowledge-architecture.md',
     'knowledge/solution/default-artifacts.md',
     'knowledge/solution/hybrid-agent-tool-architecture.md',
-  ].map(read).join('\n');
+  ].map(read);
+  const solutionRecords = solutionDocuments.join('\n');
 
   assert.match(model, /one primary parent Requirement/);
   assert.match(model, /one Acceptance Criterion/);
@@ -593,21 +594,29 @@ test('default guidance uses single-owner acceptance and bounded verification ite
   assert.match(problemTemplate, /^Given:$/m);
   assert.match(problemTemplate, /^When:$/m);
   assert.match(problemTemplate, /^Then:$/m);
-  assert.match(solutionTemplate, /PROB-001#AC-001/);
+  assert.match(solutionTemplate, /\.\.\/problem\/<subject>\.md#ac-001/);
   assert.match(solutionTemplate, /^Scope:$/m);
   assert.match(solutionTemplate, /^Assumptions:$/m);
   assert.match(rule, /Do not substitute an interaction when that interaction itself is the verification target/);
   assert.doesNotMatch(product, /^Covers:$/m);
-  assert.doesNotMatch(solutionRecords, /PROB-001#AC-00[1-6]/);
+  assert.doesNotMatch(solutionRecords, /scaffold-product\.md#ac-00[1-6]/);
 
-  for (const criterion of product.matchAll(/^### AC-[^\n]+\n\n([\s\S]*?)(?=^### AC-|^## Related Knowledge)/gm)) {
+  const activeProduct = product.replace(/^### AC-\d+ — Retired:[\s\S]*?(?=^### |$(?![\s\S]))/gm, '');
+  const criteria = [...activeProduct.matchAll(/^### AC-[^\n]+\n\n([\s\S]*?)(?=^#{1,3} |$(?![\s\S]))/gm)];
+  assert.equal(criteria.length, [...activeProduct.matchAll(/^### AC-/gm)].length);
+  assert.ok(criteria.length > 0);
+  for (const criterion of criteria) {
     assert.match(criterion[1], /^For:\n\n- REQ-\d+/m, criterion[0]);
     assert.match(criterion[1], /^Given:$/m, criterion[0]);
     assert.match(criterion[1], /^When:$/m, criterion[0]);
     assert.match(criterion[1], /^Then:$/m, criterion[0]);
   }
-  for (const item of solutionRecords.matchAll(/^### VER-[^\n]+\n\n([\s\S]*?)(?=^### VER-|^## Related Knowledge)/gm)) {
-    assert.match(item[1], /^Verifies:\n\n- PROB-\d+#AC-\d+/m, item[0]);
+  const activeSolutions = solutionDocuments.map((document) => document.replace(/^### VER-\d+ — Retired:[\s\S]*?(?=^### |$(?![\s\S]))/gm, ''));
+  const items = activeSolutions.flatMap((document) => [...document.matchAll(/^### VER-[^\n]+\n\n([\s\S]*?)(?=^#{1,3} |$(?![\s\S]))/gm)]);
+  assert.equal(items.length, [...activeSolutions.join('\n').matchAll(/^### VER-/gm)].length);
+  assert.ok(items.length > 0);
+  for (const item of items) {
+    assert.match(item[1], /^Verifies:\n\n- \[AC-\d+[^\n]*\]\([^\n]+#ac-\d+\)/m, item[0]);
     assert.match(item[1], /^Scope:$/m, item[0]);
   }
 });

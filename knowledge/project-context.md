@@ -1,20 +1,24 @@
 # Scaffold Project Context
 
-Document ID: CTX-001
-
 ## Project Purpose
 
 Scaffold is a portable, knowledge-first software development harness. It materializes a project's complete active guidance locally so people and coding agents can establish, interpret, and evolve durable project knowledge without treating the installed package as runtime authority.
 
 ## Project Goals
 
+<a id="goal-001"></a>
+
 ### GOAL-001 — Enable safe project-local Harness adoption
 
 Enable project maintainers to initialize and maintain Scaffold in new or existing repositories while preserving the repository's structure and host-owned agent instructions.
 
+<a id="goal-002"></a>
+
 ### GOAL-002 — Support evidence-based, deliberate project evolution
 
 Enable maintainers and coding agents to use a visible, project-local Knowledge Model, Schema, Skills, Templates, and Rules to make and review knowledge-driven changes deliberately.
+
+<a id="goal-003"></a>
 
 ### GOAL-003 — Support explicit hybrid solution architecture
 
@@ -39,7 +43,7 @@ Enable projects to define and verify intentional responsibility boundaries among
 ## Scope, Exclusions, and Unknowns
 
 - Scaffold is distributed as a Node.js command-line package and supports Node.js 20 or later.
-- The current product scope includes portable Harness initialization, project-local guidance resolution, document-ID inspection, and deliberate update review.
+- The current product scope includes portable Harness initialization, project-local guidance resolution, deliberate update review, and precise knowledge-reference maintenance. The selected path-based reference design retires document-ID inspection; its realization and migration sequence are recorded in [DEC-003](solution/knowledge-reference-lifecycle.md#dec-003).
 - The default Harness supports vendor-neutral definition of non-AI and hybrid solutions that use existing general-purpose agent hosts. Scaffold's current host-integration scope includes Codex and Claude Code.
 - Scaffold does not implement an AI agent, model runtime, or inference system. Hybrid-architecture support does not by itself add another vendor adapter or require a machine-readable tool manifest.
 - Scaffold does not replace Git, issue tracking, CI/CD, or project-management systems; it does not require Scrum, TDD, a knowledge graph, or a vector database.

@@ -1,10 +1,13 @@
 # Change Lifecycle and Reconciliation
 
-Document ID: PROB-004
-
 ## Intent
 
 Scaffold must establish an acceptance-first lifecycle for meaningful changes and ensure Project Knowledge candidates are independently reconciled before a clean review automatically accepts them as project truth.
+
+Interaction context:
+
+- A meaningful change is defined, reviewed for acceptance, and routed to downstream work.
+- A proposed Project Knowledge delta is reconciled against its accepted Git baseline through distinct writer/reviewer iterations, with immediate user clarification of unresolved conflicts or material ambiguities.
 
 ## Actors and Goals
 
@@ -12,22 +15,35 @@ Scaffold must establish an acceptance-first lifecycle for meaningful changes and
 - **Developer or coding agent**: define and route meaningful changes through the appropriate downstream work.
 - **Fresh writer and reviewer subagents**: update and independently inspect candidate Project Knowledge without either role accepting it.
 
-## Use Cases
-
-- A meaningful change is defined, reviewed for acceptance, and routed to downstream work.
-- A proposed Project Knowledge delta is reconciled against its accepted Git baseline through distinct writer/reviewer iterations, with immediate user clarification of unresolved conflicts or material ambiguities.
-
 ## Requirements
+
+<a id="req-009"></a>
 
 ### REQ-009 — Accepted-change lifecycle
 
 The Harness must support a lifecycle in which a meaningful change is defined and reviewed for acceptance before downstream work, while allowing project-specific methods to satisfy the lifecycle outcomes.
 
+Relationships:
+
+- Satisfied-by: [CAP-001 — Accepted-change lifecycle management](../solution/change-lifecycle-and-methods.md#cap-001).
+- Satisfied-by: [CAP-002 — Method-flexible work guidance](../solution/change-lifecycle-and-methods.md#cap-002).
+- Related-to: [CON-004 — Initial product scope boundaries](../governance/product-operating-boundaries.md#con-004).
+
+<a id="req-014"></a>
+
 ### REQ-014 — Independently reconciled Project Knowledge
 
 The Harness must support Git-backed, iterative reconciliation of a Project Knowledge change. A fresh writer execution may update candidate knowledge, and a distinct fresh reviewer execution must inspect the resulting repository state before reconciliation can complete. When a reviewer reports a conflict or material ambiguity that authoritative evidence cannot resolve, the Harness must immediately ask the user to choose how to resolve it, with evidence, viable selectable alternatives and effects, and the affected candidate knowledge. Candidate knowledge becomes accepted automatically after a clean independent review.
 
+Relationships:
+
+- Satisfied-by: [CAP-004 — Project Knowledge reconciliation](../solution/change-lifecycle-and-methods.md#cap-004).
+- Related-to: [CON-005 — Durable knowledge update threshold](../governance/product-operating-boundaries.md#con-005).
+- Related-to: [CON-006 — Git-backed candidate-state boundary](../governance/product-operating-boundaries.md#con-006).
+
 ## Acceptance Criteria
+
+<a id="ac-016"></a>
 
 ### AC-016 — Accepted changes are reviewed before downstream work
 
@@ -46,6 +62,8 @@ When:
 Then:
 
 - review establishes acceptance before its selected downstream Workflow begins.
+
+<a id="ac-020"></a>
 
 ### AC-020 — Project Knowledge is independently reconciled
 
@@ -69,12 +87,3 @@ Then:
 - a user clarification refreshes context and repeats the loop with fresh writer and reviewer contexts;
 - a clean review automatically accepts the candidate; and
 - completion shows the changed Project Knowledge records and a concise semantic delta.
-
-## Related Knowledge
-
-- SOL-004#CAP-001 — Accepted-change lifecycle management.
-- SOL-004#CAP-002 — Method-flexible work guidance.
-- SOL-004#CAP-004 — Project Knowledge reconciliation.
-- GOV-002#CON-004 — Initial product scope boundaries.
-- GOV-002#CON-005 — Durable knowledge update threshold.
-- GOV-002#CON-006 — Git-backed candidate-state boundary.

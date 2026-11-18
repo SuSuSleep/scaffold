@@ -1,7 +1,5 @@
 # Runtime and Package Distribution
 
-Document ID: GOV-001
-
 > Evidence source: [`package.json`](../../package.json) and [`README.md`](../../README.md), inspected 2026-08-20.
 
 ## Purpose
@@ -18,14 +16,16 @@ Documenting Problem-space intent that has no runtime or package-distribution con
 
 ## Records
 
+<a id="con-001"></a>
+
 ### CON-001 — Supported Node.js runtime
 
 Scaffold must support execution on Node.js 20 or later. Changes to package behavior, dependencies, or verification must preserve compatibility with that supported runtime range.
 
 Constrains:
 
-- SOL-001#IFC-001 — Scaffold command-line interface.
-- SOL-002#CAP-004 — Package candidate and starter artifact provision.
+- [IFC-001 — Scaffold command-line interface](../solution/cli-and-guidance.md#ifc-001).
+- [CAP-004 — Package candidate and starter artifact provision](../solution/default-artifacts.md#cap-004).
 
 ## Verification
 
@@ -34,5 +34,5 @@ Constrains:
 
 ## Related Knowledge
 
-- SOL-001#IFC-001 — Scaffold command-line interface.
-- SOL-002#CAP-004 — Package candidate and starter artifact provision.
+- [IFC-001 — Scaffold command-line interface](../solution/cli-and-guidance.md#ifc-001).
+- [CAP-004 — Package candidate and starter artifact provision](../solution/default-artifacts.md#cap-004).

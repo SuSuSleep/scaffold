@@ -71,6 +71,8 @@ test('the actual package contains the current Harness and initializes independen
   for (const host of ['.agents', '.claude']) {
     assert.equal(fs.realpathSync(path.join(target, host, 'skills/define-change')),
       path.join(target, '.scaffold/skills/define-change'));
+    assert.equal(fs.realpathSync(path.join(target, host, 'skills/migrate-references')),
+      path.join(target, '.scaffold/skills/migrate-references'));
   }
   assert.match(run('status', target), /Harness Structure: complete/);
   assert.equal(run('update', '--diff', target).trim(), 'No Harness artifact differences.');
